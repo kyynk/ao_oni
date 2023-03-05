@@ -31,13 +31,13 @@ namespace game_framework {
 		return _x;
 	}
 	int Entity::getX2() {
-		return _x + _animation.GetWidth();
+		return _x + _bitmap.GetWidth();
 	}
 	int Entity::getY1() {
 		return _y;
 	}
 	int Entity::getY2() {
-		return _y + _animation.GetHeight();
+		return _y + _bitmap.GetHeight();
 	}
 	int Entity::getDirection() {
 		return _direction;
@@ -83,48 +83,48 @@ namespace game_framework {
 
 	}
 	void Entity::OnShow() {
-		_animation.SetTopLeft(_x, _y);
+		_bitmap.SetTopLeft(_x, _y);
 		switch (_state) {
 		case movingup:
 			if (_bstate == s1) {
-				_walkiter ? _animation.SetFrameIndexOfBitmap(HERO_UP_WALK_1) : _animation.SetFrameIndexOfBitmap(HERO_UP_WALK_2);
+				_walkiter ? _bitmap.SetFrameIndexOfBitmap(HERO_UP_WALK_1) : _bitmap.SetFrameIndexOfBitmap(HERO_UP_WALK_2);
 			}
 			else {
-				_animation.SetFrameIndexOfBitmap(HERO_UP);
+				_bitmap.SetFrameIndexOfBitmap(HERO_UP);
 			}
 			break;
 
 
 		case movingdown:
 			if (_bstate == s1) {
-				_walkiter ? _animation.SetFrameIndexOfBitmap(HERO_DOWN_WALK_1) : _animation.SetFrameIndexOfBitmap(HERO_DOWN_WALK_2);
+				_walkiter ? _bitmap.SetFrameIndexOfBitmap(HERO_DOWN_WALK_1) : _bitmap.SetFrameIndexOfBitmap(HERO_DOWN_WALK_2);
 			}
 			else {
-				_animation.SetFrameIndexOfBitmap(HERO_DOWN);
+				_bitmap.SetFrameIndexOfBitmap(HERO_DOWN);
 			}
 			break;
 
 		case movingleft:
 			if (_bstate == s1) {
-				_walkiter ? _animation.SetFrameIndexOfBitmap(HERO_LEFT_WALK_1) : _animation.SetFrameIndexOfBitmap(HERO_LEFT_WALK_2);
+				_walkiter ? _bitmap.SetFrameIndexOfBitmap(HERO_LEFT_WALK_1) : _bitmap.SetFrameIndexOfBitmap(HERO_LEFT_WALK_2);
 			}
 			else {
-				_animation.SetFrameIndexOfBitmap(HERO_LEFT);
+				_bitmap.SetFrameIndexOfBitmap(HERO_LEFT);
 			}
 			break;
 
 		case movingright:
 			if (_bstate == s1) {
-				_walkiter ? _animation.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_1) : _animation.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_2);
+				_walkiter ? _bitmap.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_1) : _bitmap.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_2);
 			}
 			else {
-				_animation.SetFrameIndexOfBitmap(HERO_RIGHT);
+				_bitmap.SetFrameIndexOfBitmap(HERO_RIGHT);
 			}
 			break;
 		default:
 			__asm {nop}
 		}
-		_animation.ShowBitmap();
+		_bitmap.ShowBitmap();
 	}
 
 	void Entity::PressKeyDown(bool flag) {
@@ -149,7 +149,7 @@ namespace game_framework {
 		for (int i = 1; i < 37; i++) {
 			tmp.push_back("res/player_" + to_string(i) + ".bmp");
 		}
-		_animation.LoadBitmapByString(tmp, RGB(255, 0, 228));
+		_bitmap.LoadBitmapByString(tmp, RGB(255, 0, 228));
 	}
 	void Entity::TimerReset() {
 		_counter = 0;
@@ -161,10 +161,10 @@ namespace game_framework {
 		return _counter;
 	}
 	void Entity::SelectShowBitmap(int index) {
-		_animation.SetFrameIndexOfBitmap(index);
+		_bitmap.SetFrameIndexOfBitmap(index);
 	}
-	void Entity::SetDirection(Direction direction) {
-		_direction = direction;
+	void Entity::SetDirection(Direction d) {
+		_direction = d;
 	}
 
 
