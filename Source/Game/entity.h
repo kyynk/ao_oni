@@ -23,30 +23,29 @@ namespace game_framework {
 			movingright
 		};
 		Entity();
+		//getter
 		int getX1();
 		int getX2();
 		int getY1();
 		int getY2();
 		int getDirection();
-		void SetDirection(Direction d);
 		int getState();
+		void SetDirection(Direction d);
 		void SetState(FSM state);
 		void OnMove();
 		void OnShow();
-		void SetDirection(Direction direction);
 		void PressKeyUp(bool flag);
 		void PressKeyDown(bool flag);
 		void PressKeyLeft(bool flag);
 		void PressKeyRight(bool flag);
 		void SetXY(int, int);
-		//bool IsMoving();
 		void SelectShowBitmap(int index);
 		void LoadBitmap();
 		void TimerUpdate();
 		void TimerReset();
 		int TimerGetCount();
 	private:
-		CMovingBitmap _animation;
+		CMovingBitmap _bitmap;
 		Direction _direction;
 		FSM _state;
 		BitmapState _bstate;
