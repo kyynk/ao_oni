@@ -5,6 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include "config.h"
 #include "mygame.h"
 
 using namespace game_framework;
@@ -18,7 +19,7 @@ CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 
 void CGameStateInit::OnInit()
 {
-	//
+	logo.LoadBitmapByString({ "img/item/Hiroshi_head.bmp" }, RGB(204, 255, 0));
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
@@ -38,14 +39,17 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
+	if (nChar == VK_SPACE) {
+		GotoGameState(GAME_STATE_RUN);
+	}
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
-}
 
+}
 void CGameStateInit::OnShow()
-{
+{	
+	logo.SetTopLeft(SIZE_X/2  - logo.GetWidth()/2,SIZE_Y/2 - logo.GetHeight());
+	logo.ShowBitmap();
 }
