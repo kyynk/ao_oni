@@ -36,7 +36,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"img/hiroshi_move/Hiroshi_10.bmp", "img/hiroshi_move/Hiroshi_11.bmp", "img/hiroshi_move/Hiroshi_12.bmp", 
 		"img/hiroshi_move/Hiroshi_20.bmp", "img/hiroshi_move/Hiroshi_21.bmp", "img/hiroshi_move/Hiroshi_22.bmp", 
 		"img/hiroshi_move/Hiroshi_30.bmp", "img/hiroshi_move/Hiroshi_31.bmp", "img/hiroshi_move/Hiroshi_32.bmp", 
-		}, RGB(255, 255, 255));
+		}, RGB(204, 255, 0));
 	try0.SetTopLeft(150, 265);
 	
 }
