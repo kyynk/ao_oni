@@ -5,7 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
+#include "Human.h"
 #include "mygame.h"
 #include <filesystem>
 
@@ -43,8 +43,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	}
 	player.Load(tmp,RGB(204,255,0));
-	
-	//player.Load({ "img/hiroshi_move/Hiroshi_00.bmp" }, RGB(204, 255, 0));
+
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -79,6 +78,4 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	player.SetXY(10, 10);
-	player.OnShow();
 }

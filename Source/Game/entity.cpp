@@ -8,9 +8,7 @@
 #include <bitset>
 #include "Entity.h"
 namespace game_framework {
-	Entity::Entity() {
 
-	}
 
 	Entity::Entity(int x, int y) {
 		SetXY(x, y);
@@ -41,19 +39,9 @@ namespace game_framework {
 	int Entity::TimerGetCount() {
 		return _counter;
 	}
-	void Entity::OnMove()
-	{
-	}
-	void Entity::OnShow()
-	{
-	}
-	void Entity::Load()
-	{
-	}
 	void Entity::SelectShowBitmap(int index) {
 		bitmap.SetFrameIndexOfBitmap(index);
 	}
-	
 
 }
 
