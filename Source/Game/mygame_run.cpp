@@ -5,7 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "Human.h"
+#include <bitset>
 #include "mygame.h"
 #include <filesystem>
 
@@ -34,8 +34,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	vector<string> tmp;
+	for (int i = 0; i < 4;i++) {
+		for (int j = 0; j < 3; j++) {
+			tmp.push_back("img/hiroshi_move/Hiroshi_"+to_string(i)+to_string(j)+".bmp");
+			TRACE("img/hiroshi_move/Hiroshi_%d%d.bmp\n", to_string(i) , to_string(j));
+		}
+	}
+	player.Load(tmp,RGB(204,255,0));
 	
-	player.Load();
+	//player.Load({ "img/hiroshi_move/Hiroshi_00.bmp" }, RGB(204, 255, 0));
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -70,4 +78,6 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
+	player.SetXY(10, 10);
+	player.OnShow();
 }
