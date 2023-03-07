@@ -22,6 +22,7 @@ namespace game_framework{
 			movingleft,
 			movingright
 		};
+		Human():Entity(){}
 		Human(int x, int y);
 		
 		

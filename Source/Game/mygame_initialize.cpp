@@ -19,10 +19,11 @@ CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 
 void CGameStateInit::OnInit()
 {
-	logo.LoadBitmapByString({ "img/item/Hiroshi_head.bmp" }, RGB(204, 255, 0));
+	logo.LoadBitmapByString({ "img/ao oni_action/oni_00.bmp" }, RGB(204, 255, 0));
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
+	TRACE("ok\n");
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	//
 	// 開始載入資料
