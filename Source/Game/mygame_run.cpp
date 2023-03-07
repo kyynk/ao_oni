@@ -5,9 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
 #include "mygame.h"
-#include <filesystem>
 
 using namespace game_framework;
 
@@ -34,21 +32,37 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	vector<string> tmp;
-	for (int i = 0; i < 4;i++) {
-		for (int j = 0; j < 3; j++) {
-			tmp.push_back("img/hiroshi_move/Hiroshi_"+to_string(i)+to_string(j)+".bmp");
-			TRACE("img/hiroshi_move/Hiroshi_%d%d.bmp\n", to_string(i) , to_string(j));
-		}
-	}
-	player.Load(tmp,RGB(204,255,0));
+	try0.LoadBitmapByString({"img/hiroshi_move/Hiroshi_00.bmp", "img/hiroshi_move/Hiroshi_01.bmp", "img/hiroshi_move/Hiroshi_02.bmp", 
+		"img/hiroshi_move/Hiroshi_10.bmp", "img/hiroshi_move/Hiroshi_11.bmp", "img/hiroshi_move/Hiroshi_12.bmp", 
+		"img/hiroshi_move/Hiroshi_20.bmp", "img/hiroshi_move/Hiroshi_21.bmp", "img/hiroshi_move/Hiroshi_22.bmp", 
+		"img/hiroshi_move/Hiroshi_30.bmp", "img/hiroshi_move/Hiroshi_31.bmp", "img/hiroshi_move/Hiroshi_32.bmp", 
+		}, RGB(204, 255, 0));
+	try0.SetTopLeft(150, 265);
 	
-	//player.Load({ "img/hiroshi_move/Hiroshi_00.bmp" }, RGB(204, 255, 0));
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	TRACE("nChar : %d, nRepCnt : %d, nFlags : %d\n", nChar, nRepCnt, nFlags);
+	// position
+	int hiroshi_x = try0.GetLeft();
+	int hiroshi_y = try0.GetTop();
+	int hiroshi_h = try0.GetHeight();
+	int hiroshi_w = try0.GetWidth();
 	
+	if (nChar == VK_LEFT) {
+		hiroshi_x -= hiroshi_w;
+	}
+	else if (nChar == VK_RIGHT) {
+		hiroshi_x += hiroshi_w;
+	}
+	else if (nChar == VK_UP) {
+		hiroshi_y -= hiroshi_w;
+	}
+	else if (nChar == VK_DOWN) {
+		hiroshi_y += hiroshi_w;
+	}
+	try0.SetTopLeft(hiroshi_x, hiroshi_y);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -58,6 +72,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	TRACE("nFlags : %d, point : %d\n", nFlags, point);
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -66,6 +81,7 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
+	TRACE("nFlags : %d, point : %d\n", nFlags, point);
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -78,6 +94,10 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-	player.SetXY(10, 10);
-	player.OnShow();
+	show_image_by_phase();
+}
+
+void CGameStateRun::show_image_by_phase()
+{
+	try0.ShowBitmap();
 }
