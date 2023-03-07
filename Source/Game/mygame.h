@@ -37,8 +37,7 @@
  *      2. Replace the demonstration of animation as a new bouncing ball.
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
-#include "Entity.h"
-#include "Human.h"
+
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
