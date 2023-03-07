@@ -8,22 +8,7 @@
 #include <bitset>
 #include "config.h"
 #include "Entity.h"
-#include "Human.h"
-
-
-#define HUMAN_DOWN 0
-#define HUMAN_DOWN_1 1
-#define HUMAN_DOWN_2 2
-#define HUMAN_UP 3
-#define HUMAN_UP_1 4
-#define HUMAN_UP_2 5
-#define HUMAN_LEFT 6
-#define HUMAN_LEFT_1 7
-#define HUMAN_LEFT_2 8
-#define HUMAN_RIGHT 9
-#define HUMAN_RIGHT_1 10
-#define HUMAN_RIGHT_2 11
-
+#include "human.h"
 namespace game_framework{
 
 	Human::Human(int x, int y) :Entity(x, y) {
@@ -48,6 +33,7 @@ namespace game_framework{
 				TimerReset();
 				_walkiter = !_walkiter;
 				_state = still;
+				//_MovingUp = _MovingDown = _MovingLeft = _MovingRight = false;
 			}
 		}
 		
@@ -85,43 +71,43 @@ namespace game_framework{
 		switch (_state) {
 		case movingup:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HERO_UP_WALK_1) : bitmap.SetFrameIndexOfBitmap(HERO_UP_WALK_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
+				bitmap.SetFrameIndexOfBitmap(HERO_UP);
 			}
 			break;
+
+
 		case movingdown:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HERO_DOWN_WALK_1) : bitmap.SetFrameIndexOfBitmap(HERO_DOWN_WALK_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN);
+				bitmap.SetFrameIndexOfBitmap(HERO_DOWN);
 			}
 			break;
 
 		case movingleft:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HERO_LEFT_WALK_1) : bitmap.SetFrameIndexOfBitmap(HERO_LEFT_WALK_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT);
+				bitmap.SetFrameIndexOfBitmap(HERO_LEFT);
 			}
 			break;
 
 		case movingright:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_1) : bitmap.SetFrameIndexOfBitmap(HERO_RIGHT_WALK_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
+				bitmap.SetFrameIndexOfBitmap(HERO_RIGHT);
 			}
 			break;
 		default:
 			__asm {nop}
 		}
-
-		bitmap.ShowBitmap();
 
 	}
 	void Human::Load(vector<string> filenames, COLORREF color) {

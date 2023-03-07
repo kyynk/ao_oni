@@ -4,7 +4,6 @@ namespace game_framework {
 
 	class Entity {
 	public:
-		Entity();
 		Entity(int x, int y);
 		//getter
 		int getX1();
@@ -18,10 +17,10 @@ namespace game_framework {
 		void TimerReset();
 		int TimerGetCount();
 		// every entity must implement these three function 
-		virtual void OnMove();
-		virtual void OnShow();
-		virtual void Load();
-
+		virtual void OnMove() = 0;
+		virtual void OnShow() = 0;
+		virtual void Load() = 0;
+	protected:
 		CMovingBitmap bitmap;
 		int pos_x, pos_y;
 
