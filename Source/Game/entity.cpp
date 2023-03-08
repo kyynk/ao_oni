@@ -9,13 +9,9 @@
 #include "Entity.h"
 namespace game_framework {
 	Entity::Entity() {
-
+		_counter;
 	}
 
-	Entity::Entity(int x, int y) {
-		SetXY(x, y);
-		_counter = 0;
-	}
 	int Entity::getX1() {
 		return pos_x;
 	}
