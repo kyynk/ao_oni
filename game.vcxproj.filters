@@ -54,10 +54,10 @@
     <ClCompile Include="Source\Game\mygame_run.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\human.cpp">
+    <ClCompile Include="Source\Game\Entity.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Entity.cpp">
+    <ClCompile Include="Source\Game\Human.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,10 +95,10 @@
     <ClInclude Include="Source\Game\config.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\human.h">
+    <ClInclude Include="Source\Game\Entity.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Entity.h">
+    <ClInclude Include="Source\Game\Human.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
