@@ -10,7 +10,6 @@
 #include "Entity.h"
 #include "Human.h"
 
-
 #define HUMAN_DOWN 0
 #define HUMAN_DOWN_1 1
 #define HUMAN_DOWN_2 2
@@ -26,7 +25,7 @@
 
 namespace game_framework{
 
-	Human::Human(int x, int y) :Entity(x, y) {
+	Human::Human(int x, int y) :Entity() {
 		pos_x = -59 + 64 * 7;
 		pos_y = -33 + 64 * 4;
 		_walkiter = true;

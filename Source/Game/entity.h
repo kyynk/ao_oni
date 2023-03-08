@@ -5,7 +5,6 @@ namespace game_framework {
 	class Entity {
 	public:
 		Entity();
-		Entity(int x, int y);
 		//getter
 		int getX1();
 		int getX2();
