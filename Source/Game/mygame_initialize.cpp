@@ -19,15 +19,14 @@ CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 
 void CGameStateInit::OnInit()
 {
-	logo.LoadBitmapByString({ "img/ao oni_action/oni_00.bmp" }, RGB(204, 255, 0));
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	TRACE("ok\n");
+	startmenu.Load({ "Resources/bee_1.bmp" }, {"img/ao oni_action/oni_00.bmp"
+}, RGB(255, 255, 255), RGB(204, 255, 0));
+	startmenu.SetParam(SIZE_X / 2-75, SIZE_Y / 2-75, 0, 0, SIZE_X / 2 - 150, SIZE_Y / 2-95, 50 , { "Start","Load","Close" });
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
-	//
-	// 開始載入資料
-	//
+	
 	Sleep(1000);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
@@ -40,9 +39,12 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_SPACE) {
+	if (nChar == VK_RETURN) {
 		GotoGameState(GAME_STATE_RUN);
 	}
+}
+void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	startmenu.OnMovingCursor(nChar);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
@@ -51,6 +53,14 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 }
 void CGameStateInit::OnShow()
 {	
-	logo.SetTopLeft(SIZE_X/2  - logo.GetWidth()/2,SIZE_Y/2 - logo.GetHeight());
-	logo.ShowBitmap();
+	CDC *pDC = CDDraw::GetBackCDC();
+	CFont *fp;
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetTextColor(RGB(255, 255, 255));
+	CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC",RGB(255,255,255));
+
+	startmenu.ShowText(pDC, fp);
+	CDDraw::ReleaseBackCDC();
+	startmenu.ShowBitmap();
+	startmenu.ShowCursor();
 }
