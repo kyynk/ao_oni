@@ -9,7 +9,7 @@
 #include "Entity.h"
 namespace game_framework {
 	Entity::Entity() {
-		_counter;
+		_counter = 0;		//initialize
 	}
 
 	int Entity::getX1() {

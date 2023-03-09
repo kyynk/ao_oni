@@ -13,30 +13,50 @@
 #define HUMAN_DOWN 0
 #define HUMAN_DOWN_1 1
 #define HUMAN_DOWN_2 2
-#define HUMAN_UP 3
-#define HUMAN_UP_1 4
-#define HUMAN_UP_2 5
-#define HUMAN_LEFT 6
-#define HUMAN_LEFT_1 7
-#define HUMAN_LEFT_2 8
-#define HUMAN_RIGHT 9
-#define HUMAN_RIGHT_1 10
-#define HUMAN_RIGHT_2 11
+#define HUMAN_UP 9
+#define HUMAN_UP_1 10
+#define HUMAN_UP_2 11
+#define HUMAN_LEFT 3
+#define HUMAN_LEFT_1 4
+#define HUMAN_LEFT_2 5
+#define HUMAN_RIGHT 6
+#define HUMAN_RIGHT_1 7
+#define HUMAN_RIGHT_2 8
 
 namespace game_framework{
 
-	Human::Human(int x, int y) :Entity() {
+	Human::Human() :Entity() {
 		pos_x = -59 + 64 * 7;
 		pos_y = -33 + 64 * 4;
+		_step = 2;
 		_walkiter = true;
-		_direction = down;
 		_state = still;
 		_bstate = s1;
 		_blocked = false;
 		TimerReset();
+		_pressed = false;
 	}
-	void Human::OnMove(bool pressed) {
+	Human::Human(int x, int y) :Entity() {
+		pos_x = -59 + 64 * 7;
+		pos_y = -33 + 64 * 4;
+		_step = 2;
+		_walkiter = true;
+		_state = still;
+		_bstate = s1;
+		_blocked = false;
+		TimerReset();
+		_pressed = false;
+	}
+	void Human::CheckPressed() {
+		_pressed ? TRACE("true\n") : TRACE("false\n");
+		_pressed = !_pressed;
+		_pressed ? TRACE("true\n") : TRACE("false\n");
+	}
+	void Human::OnMove() {
+		//TRACE("%d\n", TimerGetCount());
+		TRACE("%d\n", TimerGetCount());
 		if (_blocked) {
+			TRACE("not move\n");
 			if (TimerGetCount() < 16) {
 				_bstate = s1;
 			}
@@ -49,8 +69,9 @@ namespace game_framework{
 				_state = still;
 			}
 		}
-		
+
 		else if (_state > 0 && _state < 5) {
+			TRACE("move\n");
 			if (TimerGetCount() < 8) {
 				_bstate = s1;
 			}
@@ -63,28 +84,42 @@ namespace game_framework{
 				_state = still;
 			}
 			else if (_state == movingup) {
-				pos_y -= step;
+				pos_y -= _step;
 			}
 			else if (_state == movingdown) {
-				pos_y += step;
+				pos_y += _step;
 			}
 			else if (_state == movingleft) {
-				pos_x -= step;
+				pos_x -= _step;
 			}
 			else if (_state == movingright) {
-				pos_x += step;
+				pos_x += _step;
 			}
 		}
 		if (_state != 0)
 			TimerUpdate();
-
+		bitmap.SetTopLeft(pos_x, pos_y);
+	}
+	void Human::SelectState(UINT nChar) {
+		if (nChar == VK_LEFT) {
+			_state = movingleft;
+		}
+		else if (nChar == VK_UP) {
+			_state = movingup;
+		}
+		else if (nChar == VK_RIGHT) {
+			_state = movingright;
+		}
+		else if (nChar == VK_DOWN) {
+			_state = movingdown;
+		}
 	}
 	void Human::OnShow() {
-		bitmap.SetTopLeft(pos_x, pos_y);
+		
 		switch (_state) {
 		case movingup:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
