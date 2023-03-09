@@ -26,10 +26,10 @@ namespace game_framework{
 		Human(int x, int y);
 		
 		
-		void OnMove(bool pressed);
+		void OnMove();
+		void SelectState(UINT nChar);
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
-
 
 		void SetDirection(Direction d) {
 			_direction = d;
@@ -37,13 +37,14 @@ namespace game_framework{
 		int GetDirection() {
 			return _direction;
 		}
+		
 	private:
 		bool _walkiter;
 		bool _blocked;
 		Direction _direction;
 		bstate _bstate;
 		state _state;
-		int step;
+		int _step;
 
 
 	};

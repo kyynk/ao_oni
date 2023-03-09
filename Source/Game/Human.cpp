@@ -28,14 +28,14 @@ namespace game_framework{
 	Human::Human(int x, int y) :Entity() {
 		pos_x = -59 + 64 * 7;
 		pos_y = -33 + 64 * 4;
+		_step = 2;
 		_walkiter = true;
-		_direction = down;
 		_state = still;
 		_bstate = s1;
 		_blocked = false;
 		TimerReset();
 	}
-	void Human::OnMove(bool pressed) {
+	void Human::OnMove() {
 		if (_blocked) {
 			if (TimerGetCount() < 16) {
 				_bstate = s1;
@@ -63,28 +63,42 @@ namespace game_framework{
 				_state = still;
 			}
 			else if (_state == movingup) {
-				pos_y -= step;
+				pos_y -= _step;
 			}
 			else if (_state == movingdown) {
-				pos_y += step;
+				pos_y += _step;
 			}
 			else if (_state == movingleft) {
-				pos_x -= step;
+				pos_x -= _step;
 			}
 			else if (_state == movingright) {
-				pos_x += step;
+				pos_x += _step;
 			}
 		}
 		if (_state != 0)
 			TimerUpdate();
 
 	}
+	void Human::SelectState(UINT nChar) {
+		if (nChar == 38) {
+			_state = movingleft;
+		}
+		else if (nChar == 39) {
+			_state = movingup;
+		}
+		else if (nChar == 37) {
+			_state = movingright;
+		}
+		else if (nChar == 40) {
+			_state = movingdown;
+		}
+	}
 	void Human::OnShow() {
 		bitmap.SetTopLeft(pos_x, pos_y);
 		switch (_state) {
 		case movingup:
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
