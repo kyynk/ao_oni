@@ -43,14 +43,19 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+	
 	startmenu.OnMovingCursor(nChar);
+
 	if (nChar == VK_RETURN) {
 		switch (startmenu.GetSelection()) {
 		case 0:
+			GotoGameState(GAME_STATE_RUN);
 			break;
 		case 1:
+
 			break;
 		case 2:
+
 			break;
 		}
 	}
