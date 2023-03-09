@@ -5,8 +5,8 @@ namespace game_framework {
 	public:
 		ChoiceMenu();
 		void ShowText(CDC * pDC, CFont *& fp);
-		int GetFocus() {
-			return _focus;
+		int GetSelection() {
+			return _selection;
 		}
 		void SetParam(int tx, int ty, int bx, int by,int curx,int cury,int linespacing,vector<string> ch) {
 			_bitmapX = bx;
@@ -24,7 +24,6 @@ namespace game_framework {
 		void Load(vector<string> cfn, vector<string> fn, COLORREF color1, COLORREF color2);
 	private:
 		vector<string> _choices;
-		int _focus;
 		int _selection;
 		CMovingBitmap _bitmap, _cursor;
 		int _bitmapX, _bitmapY, _textX, _textY, _lineSpacing;
