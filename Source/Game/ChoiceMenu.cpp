@@ -9,7 +9,6 @@
 #include "ChoiceMenu.h"
 namespace game_framework {
 	ChoiceMenu::ChoiceMenu()	{
-		_focus = 0;
 		_selection = 0;
 	}
 	void ChoiceMenu::ShowText(CDC *pDC, CFont* &fp)	{
@@ -19,24 +18,25 @@ namespace game_framework {
 	}
 	
 	void ChoiceMenu::ShowBitmap(){
-		TRACE("%d\n", _focus);
+		//TRACE("%d\n", _focus);
 		_bitmap.ShowBitmap();
 	}
 	void ChoiceMenu::ShowCursor()
 	{
-		_cursor.SetTopLeft(_cursorX, _cursorY + _focus * _lineSpacing);
+		_cursor.SetTopLeft(_cursorX, _cursorY + _selection * _lineSpacing);
 		_cursor.ShowBitmap();
 	}
 	void ChoiceMenu::OnMovingCursor(UINT nChar)	{
-		TRACE("%x\n", nChar);
+		//TRACE("%x\n", nChar);
 	
-		if (nChar == VK_UP && _focus != 0) {
-			_focus -= 1;
+		if (nChar == VK_UP ) {
+			_selection -= 1;
+			if (_selection == -1)_selection = (int)_choices.size() - 1;
 		}
-		else if (nChar == VK_DOWN && _focus != (int)_choices.size()-1) {
-			_focus += 1;
+		else if (nChar == VK_DOWN ) {
+			_selection += 1;
+			if (_selection ==(int) _choices.size() )_selection = 0;
 		}
-
 			
 	}
 	
