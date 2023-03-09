@@ -25,6 +25,17 @@
 
 namespace game_framework{
 
+	Human::Human() :Entity() {
+		pos_x = -59 + 64 * 7;
+		pos_y = -33 + 64 * 4;
+		_step = 2;
+		_walkiter = true;
+		_state = still;
+		_bstate = s1;
+		_blocked = false;
+		TimerReset();
+		_pressed = false;
+	}
 	Human::Human(int x, int y) :Entity() {
 		pos_x = -59 + 64 * 7;
 		pos_y = -33 + 64 * 4;
@@ -87,7 +98,7 @@ namespace game_framework{
 		}
 		if (_state != 0)
 			TimerUpdate();
-		//bitmap.SetTopLeft(pos_x, pos_y);
+		bitmap.SetTopLeft(pos_x, pos_y);
 	}
 	void Human::SelectState(UINT nChar) {
 		if (nChar == VK_LEFT) {
@@ -104,7 +115,7 @@ namespace game_framework{
 		}
 	}
 	void Human::OnShow() {
-		bitmap.SetTopLeft(pos_x, pos_y);
+		
 		switch (_state) {
 		case movingup:
 			if (_bstate == s1) {

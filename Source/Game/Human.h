@@ -22,7 +22,7 @@ namespace game_framework{
 			movingleft,
 			movingright
 		};
-		Human():Entity(){}
+		Human();
 		Human(int x, int y);
 		
 		void CheckPressed();
