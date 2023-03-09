@@ -25,7 +25,7 @@ namespace game_framework{
 		Human():Entity(){}
 		Human(int x, int y);
 		
-		
+		void CheckPressed();
 		void OnMove();
 		void SelectState(UINT nChar);
 		void OnShow();
@@ -39,6 +39,7 @@ namespace game_framework{
 		}
 		
 	private:
+		bool _pressed;
 		bool _walkiter;
 		bool _blocked;
 		Direction _direction;

@@ -34,9 +34,18 @@ namespace game_framework{
 		_bstate = s1;
 		_blocked = false;
 		TimerReset();
+		_pressed = false;
+	}
+	void Human::CheckPressed() {
+		_pressed ? TRACE("true\n") : TRACE("false\n");
+		_pressed = !_pressed;
+		_pressed ? TRACE("true\n") : TRACE("false\n");
 	}
 	void Human::OnMove() {
+		//TRACE("%d\n", TimerGetCount());
+		TRACE("%d\n", TimerGetCount());
 		if (_blocked) {
+			TRACE("not move\n");
 			if (TimerGetCount() < 16) {
 				_bstate = s1;
 			}
@@ -49,8 +58,9 @@ namespace game_framework{
 				_state = still;
 			}
 		}
-		
+
 		else if (_state > 0 && _state < 5) {
+			TRACE("move\n");
 			if (TimerGetCount() < 8) {
 				_bstate = s1;
 			}
@@ -77,7 +87,7 @@ namespace game_framework{
 		}
 		if (_state != 0)
 			TimerUpdate();
-
+		//bitmap.SetTopLeft(pos_x, pos_y);
 	}
 	void Human::SelectState(UINT nChar) {
 		if (nChar == VK_LEFT) {
