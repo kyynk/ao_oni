@@ -23,11 +23,10 @@ namespace game_framework{
 			movingright
 		};
 		Human();
-		Human(int x, int y);
 		
-		void CheckPressed();
 		void OnMove();
 		void SelectState(UINT nChar);
+		int GetState();
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
 
