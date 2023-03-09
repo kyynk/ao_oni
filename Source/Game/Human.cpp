@@ -26,36 +26,18 @@
 namespace game_framework{
 
 	Human::Human() :Entity() {
-		pos_x = -59 + 64 * 7;
-		pos_y = -33 + 64 * 4;
-		_step = 2;
+		SetXY(12 * TILE, 11 * TILE + TILE / 2);
+		_step = 4;
 		_walkiter = true;
 		_state = still;
 		_bstate = s1;
 		_blocked = false;
 		TimerReset();
-		_pressed = false;
-	}
-	Human::Human(int x, int y) :Entity() {
-		pos_x = -59 + 64 * 7;
-		pos_y = -33 + 64 * 4;
-		_step = 2;
-		_walkiter = true;
-		_state = still;
-		_bstate = s1;
-		_blocked = false;
-		TimerReset();
-		_pressed = false;
 	}
 
-	void Human::CheckPressed() {
-		_pressed ? TRACE("true\n") : TRACE("false\n");
-		_pressed = !_pressed;
-		_pressed ? TRACE("true\n") : TRACE("false\n");
-	}
 	void Human::OnMove() {
 		//TRACE("%d\n", TimerGetCount());
-		TRACE("%d\n", TimerGetCount());
+		//TRACE("%d\n", TimerGetCount());
 		if (_blocked) {
 			TRACE("not move\n");
 			if (TimerGetCount() < 16) {
@@ -72,14 +54,14 @@ namespace game_framework{
 		}
 
 		else if (_state > 0 && _state < 5) {
-			TRACE("move\n");
-			if (TimerGetCount() < 8) {
+			//TRACE("move\n");
+			if (TimerGetCount() < 4) {
 				_bstate = s1;
 			}
 			else {
 				_bstate = s2;
 			}
-			if (TimerGetCount() == 16) {
+			if (TimerGetCount() == 8) {
 				TimerReset();
 				_walkiter = !_walkiter;
 				_state = still;
@@ -114,6 +96,10 @@ namespace game_framework{
 		else if (nChar == VK_DOWN) {
 			_state = movingdown;
 		}
+	}
+	int Human::GetState()
+	{
+		return _state;
 	}
 	void Human::OnShow() {
 		
