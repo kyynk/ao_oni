@@ -13,15 +13,15 @@
 #define HUMAN_DOWN 0
 #define HUMAN_DOWN_1 1
 #define HUMAN_DOWN_2 2
-#define HUMAN_UP 3
-#define HUMAN_UP_1 4
-#define HUMAN_UP_2 5
-#define HUMAN_LEFT 6
-#define HUMAN_LEFT_1 7
-#define HUMAN_LEFT_2 8
-#define HUMAN_RIGHT 9
-#define HUMAN_RIGHT_1 10
-#define HUMAN_RIGHT_2 11
+#define HUMAN_UP 9
+#define HUMAN_UP_1 10
+#define HUMAN_UP_2 11
+#define HUMAN_LEFT 3
+#define HUMAN_LEFT_1 4
+#define HUMAN_LEFT_2 5
+#define HUMAN_RIGHT 6
+#define HUMAN_RIGHT_1 7
+#define HUMAN_RIGHT_2 8
 
 namespace game_framework{
 
@@ -80,16 +80,16 @@ namespace game_framework{
 
 	}
 	void Human::SelectState(UINT nChar) {
-		if (nChar == 38) {
+		if (nChar == VK_LEFT) {
 			_state = movingleft;
 		}
-		else if (nChar == 39) {
+		else if (nChar == VK_UP) {
 			_state = movingup;
 		}
-		else if (nChar == 37) {
+		else if (nChar == VK_RIGHT) {
 			_state = movingright;
 		}
-		else if (nChar == 40) {
+		else if (nChar == VK_DOWN) {
 			_state = movingdown;
 		}
 	}
