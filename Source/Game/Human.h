@@ -37,6 +37,7 @@ namespace game_framework{
 		int GetDirection() {
 			return _direction;
 		}
+
 	private:
 		bool _walkiter;
 		bool _blocked;

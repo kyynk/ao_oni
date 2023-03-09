@@ -35,7 +35,7 @@ namespace game_framework{
 		_blocked = false;
 		TimerReset();
 	}
-	void Human::OnMove(bool pressed) {
+	void Human::OnMove(bool press) {
 		if (_blocked) {
 			if (TimerGetCount() < 16) {
 				_bstate = s1;
