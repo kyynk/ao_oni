@@ -29,7 +29,6 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -48,12 +47,17 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	TRACE("keydown\n");
+	player.CheckPressed();
+	player.SelectState(nChar);
+	player.OnMove();
+	player.OnShow();
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	TRACE("keyup\n");
+	player.CheckPressed();
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

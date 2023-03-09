@@ -22,7 +22,7 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	startmenu.Load({ "img/tri.bmp" }, {"img/ao oni_action/oni_00.bmp"
+	startmenu.Load({ "img/cursor/tri.bmp" }, {"img/ao oni_action/oni_00.bmp"
 }, RGB(0, 0, 0), RGB(204, 255, 0));
 	startmenu.SetParam(SIZE_X / 2-75, SIZE_Y / 2-75, 0, 0, SIZE_X / 2-75-5, SIZE_Y / 2-75, 50 , { "Start","Load","Close" });
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
@@ -47,6 +47,7 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == VK_RETURN) {
 		switch (startmenu.GetSelection()) {
 		case 0:
+			GotoGameState(GAME_STATE_RUN);
 			break;
 		case 1:
 			break;
