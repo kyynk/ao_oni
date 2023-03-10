@@ -16,6 +16,8 @@ namespace game_framework {
 		void TimerUpdate();
 		void TimerReset();
 		int TimerGetCount();
+		void SetTimer(bool b); // set true to start timer , false to stop timer
+		bool IsTimerStart(); 
 		// every entity must implement these three function 
 		virtual void OnMove();
 		virtual void OnShow();
@@ -26,5 +28,6 @@ namespace game_framework {
 
 	private:
 		int _counter;
+		bool _istimerstart;
 	};
 }
