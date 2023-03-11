@@ -39,7 +39,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	for (int i = 0; i < 4;i++) {
 		for (int j = 0; j < 3; j++) {
 			tmp.push_back("img/hiroshi_move/Hiroshi_"+to_string(i)+to_string(j)+".bmp");
-			//TRACE("img/hiroshi_move/Hiroshi_%d%d.bmp\n", to_string(i) , to_string(j));
 		}
 	}
 	player.Load(tmp,RGB(204,255,0));
@@ -48,12 +47,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(player.GetState()==Human::state::still)
-		player.SelectState(nChar);
+	player.OnKeyDown(nChar);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	player.OnKeyUp(nChar);
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

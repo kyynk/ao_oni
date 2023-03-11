@@ -10,6 +10,7 @@
 namespace game_framework {
 	Entity::Entity() {
 		_counter = 0;		//initialize
+		_istimerstart = false;
 	}
 
 	int Entity::getX1() {
@@ -32,10 +33,20 @@ namespace game_framework {
 		_counter = 0;
 	}
 	void Entity::TimerUpdate() {
-		_counter++;
+		if(_istimerstart)_counter++;
 	}
 	int Entity::TimerGetCount() {
 		return _counter;
+	}
+	void Entity::SetTimer(bool b) {
+		_istimerstart = b;
+		if (!b) {
+			TimerReset();
+		}
+	}
+	bool Entity::IsTimerStart()
+	{
+		return _istimerstart;
 	}
 	void Entity::OnMove()
 	{
