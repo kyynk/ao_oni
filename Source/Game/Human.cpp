@@ -29,118 +29,148 @@ namespace game_framework{
 		SetXY(12 * TILE, 11 * TILE + TILE / 2);
 		_step = 4;
 		_walkiter = true;
-		_state = still;
 		_bstate = s1;
 		_blocked = false;
+		_isup = false ;
+		_isdown = false;
+		_isleft = false;
+		_isright = false;
 		TimerReset();
+		_premove = none;
 	}
 
 	void Human::OnMove() {
 		//TRACE("%d\n", TimerGetCount());
-		//TRACE("%d\n", TimerGetCount());
-		if (_blocked) {
+		/*if (_blocked) {
 			TRACE("not move\n");
-			if (TimerGetCount() < 16) {
+			if (TimerGetCount() < 8) {
 				_bstate = s1;
 			}
 			else {
 				_bstate = s2;
 			}
-			if (TimerGetCount() == 32) {
+			if (TimerGetCount() == 16) {
 				TimerReset();
 				_walkiter = !_walkiter;
-				_state = still;
+			}
+		}*/
+		//TRACE("move\n");
+
+		if (_isup || _isdown || _isleft || _isright) {
+			SetTimer(true);
+		}
+		else {
+			if (TimerGetCount() == 8) {
+				SetTimer(false);
+				_walkiter = !_walkiter;
 			}
 		}
 
-		else if (_state > 0 && _state < 5) {
-			//TRACE("move\n");
+		if (IsTimerStart()) {
+			if (TimerGetCount() == 8) {
+				TimerReset();
+				_walkiter = !_walkiter;
+			}
 			if (TimerGetCount() < 4) {
 				_bstate = s1;
 			}
 			else {
 				_bstate = s2;
 			}
-			if (TimerGetCount() == 8) {
-				TimerReset();
-				_walkiter = !_walkiter;
-				_state = still;
-			}
-			else if (_state == movingup) {
+			if (_premove == isup) {
 				pos_y -= _step;
 			}
-			else if (_state == movingdown) {
+			else if (_premove == isdown) {
 				pos_y += _step;
 			}
-			else if (_state == movingleft) {
+			else if (_premove == isleft) {
 				pos_x -= _step;
 			}
-			else if (_state == movingright) {
+			else if (_premove == isright) {
 				pos_x += _step;
 			}
-		}
-		if (_state != 0)
 			TimerUpdate();
+
+		}
 		bitmap.SetTopLeft(pos_x, pos_y);
+		TRACE("%d\n", TimerGetCount());
 	}
-	void Human::SelectState(UINT nChar) {
+	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
-			_state = movingleft;
+			_premove = isleft; 
+			_isleft = true;
 		}
 		else if (nChar == VK_UP) {
-			_state = movingup;
+			_premove = isup;
+			_isup = true;
 		}
 		else if (nChar == VK_RIGHT) {
-			_state = movingright;
+			_premove = isright;
+			_isright = true;
 		}
 		else if (nChar == VK_DOWN) {
-			_state = movingdown;
+			_premove = isdown;
+			_isdown = true;
 		}
 	}
-	int Human::GetState()
-	{
-		return _state;
+
+	void Human::OnKeyUp(UINT nChar){
+		if (nChar == VK_LEFT) {
+			_premove = isleft;
+			_isleft = false;
+		}
+		else if (nChar == VK_UP) {
+			_premove = isup;
+			_isup = false;
+		}
+		else if (nChar == VK_RIGHT) {
+			_premove = isright;
+			_isright = false;
+		}
+		else if (nChar == VK_DOWN) {
+			_premove = isdown;
+			_isdown = false;
+		}
 	}
+
 	void Human::OnShow() {
 		
-		switch (_state) {
-		case movingup:
+
+		if (_premove == isup) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
 			}
-			break;
-		case movingdown:
+		}
+		else if (_premove == isdown) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN);
 			}
-			break;
+		}
 
-		case movingleft:
+		else if (_premove == isleft) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT);
 			}
-			break;
+		}
 
-		case movingright:
+		else if (_premove == isright) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_2);
 			}
 			else {
 				bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
 			}
-			break;
-		default:
-			__asm {nop}
 		}
+
 
 		bitmap.ShowBitmap();
 

@@ -244,6 +244,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Game\ChoiceMenu.cpp" />
+    <ClCompile Include="Source\Game\Cmap.cpp" />
     <ClCompile Include="Source\Game\Entity.cpp" />
     <ClCompile Include="Source\Game\Event.cpp" />
     <ClCompile Include="Source\Game\Human.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
     <ClInclude Include="Source\Game\ChoiceMenu.h" />
+    <ClInclude Include="Source\Game\Cmap.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Entity.h" />
     <ClInclude Include="Source\Game\Event.h" />

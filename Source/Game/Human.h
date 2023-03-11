@@ -15,18 +15,19 @@ namespace game_framework{
 			s3,
 			s4
 		};
-		enum state {
-			still,
-			movingup,
-			movingdown,
-			movingleft,
-			movingright
+		
+		enum premove {
+			none,
+			isup,
+			isdown,
+			isleft,
+			isright
 		};
 		Human();
 		
 		void OnMove();
-		void SelectState(UINT nChar);
-		int GetState();
+		void OnKeyDown(UINT nChar);
+		void OnKeyUp(UINT nChar);
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
 
@@ -36,6 +37,9 @@ namespace game_framework{
 		int GetDirection() {
 			return _direction;
 		}
+		int GetPremove(){
+			return _premove;
+		}
 
 	private:
 		bool _pressed;
@@ -43,9 +47,12 @@ namespace game_framework{
 		bool _blocked;
 		Direction _direction;
 		bstate _bstate;
-		state _state;
+		premove _premove;
 		int _step;
-
+		bool _isup;
+		bool _isdown;
+		bool _isleft;
+		bool _isright;
 
 	};
 }
