@@ -1,0 +1,124 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "house1_lobby.tmx",
+    "expandedProjectPaths": [
+        "res",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "全部檔案 (*)",
+    "fileStates": {
+        "house1_lobby.tmx": {
+            "scale": 0.7233854166666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 305.5079559363525,
+                "y": 297.9048167614659
+            }
+        },
+        "res/003-Forest01.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/Forest01.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/add_more.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/puzzle.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/puzzle_e.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-ud.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udw.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udw2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udw2a.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udw3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udx.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udy.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-01-udz.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-03-ud.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/room-wasitu1-ud.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/test.tmx": {
+            "scale": 0.7233854166666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 475.5417956656346,
+                "y": 409.8783209734322
+            }
+        },
+        "res/z_add_more.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "res/未命名.tmx": {
+            "scale": 0.7233854166666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 476.92418460652317,
+                "y": 315.875872993016
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "house1_lobby.tmx",
+        "res/room-01-udy.tsx"
+    ],
+    "project": "map.tiled-project",
+    "recentFiles": [
+        "res/room-01-udy.tsx",
+        "house1_lobby.tmx",
+        "res/room-01-udz.tsx",
+        "res/room-01-udx.tsx",
+        "res/room-01-udw2a.tsx",
+        "res/room-01-udw2.tsx",
+        "res/room-01-udw.tsx",
+        "res/room-01-ud.tsx",
+        "res/add_more.tsx",
+        "res/room-wasitu1-ud.tsx",
+        "res/room-03-ud.tsx",
+        "res/room-01-udw3.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
