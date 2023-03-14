@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "config.h"
+#include <bitset>
 #include "mygame.h"
 
 using namespace game_framework;
@@ -22,12 +23,18 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
+	flag = 0;
 	startmenu.Load({ "img/cursor/tri.bmp" }, {"img/animation/big_face.bmp"
 }, RGB(0, 0, 0), RGB(204, 255, 0));
 	startmenu.SetParam(SIZE_X / 2-75, SIZE_Y / 2-75, 0, 0, SIZE_X / 2-75-5, SIZE_Y / 2-75, 50 , { "Start","Load","Close" });
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
-	
-	Sleep(1000);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	vector<string> tmp;
+	for (int i = 0; i < 33; i++) {
+		tmp.push_back("img/Graphics/Start_animation/image" + to_string(i) + ".bmp");
+	}
+	start_animation.LoadBitmapByString(tmp);
+	start_animation.ToggleAnimation();
+	Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -52,7 +59,7 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			GotoGameState(GAME_STATE_RUN);
 			break;
 		case 1:
-
+			flag = 1;
 			break;
 		case 2:
 
@@ -67,14 +74,16 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 }
 void CGameStateInit::OnShow()
 {	
-	startmenu.ShowBitmap();
-	startmenu.ShowCursor();
-	CDC *pDC = CDDraw::GetBackCDC();
-	CFont *fp;
-	pDC->SetBkMode(TRANSPARENT);
-	pDC->SetTextColor(RGB(255, 255, 255));
-	CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC",RGB(255,255,255));
-
-	startmenu.ShowText(pDC, fp);
-	CDDraw::ReleaseBackCDC();
+		startmenu.ShowBitmap();
+		startmenu.ShowCursor();
+		CDC *pDC = CDDraw::GetBackCDC();
+		CFont *fp;
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->SetTextColor(RGB(255, 255, 255));
+		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC",RGB(255,255,255));
+		startmenu.ShowText(pDC, fp);
+		CDDraw::ReleaseBackCDC();
+		if (flag) {
+			start_animation.ShowBitmap();
+		}
 }
