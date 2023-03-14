@@ -12,7 +12,8 @@
  <tileset firstgid="4129" source="../map/room-01-ud.tsx"/>
  <tileset firstgid="4497" source="../map/space.tsx"/>
  <tileset firstgid="4501" source="../map/door.tsx"/>
- <tileset firstgid="4507" source="../map/space2.tsx"/>
+ <tileset firstgid="4511" source="../map/space2.tsx"/>
+ <tileset firstgid="4515" source="../map/003-Forest01.tsx"/>
  <layer id="3" name="layer1" width="10" height="5" locked="1">
   <data encoding="csv">
 4497,4497,4497,4497,4497,4497,4497,4497,4497,4499,
@@ -24,11 +25,11 @@
  </layer>
  <layer id="1" name="layer2" width="10" height="5" locked="1">
   <data encoding="csv">
-1153,1153,1153,1153,1153,1153,1153,1153,1153,4510,
+1153,1153,1153,1153,1153,1153,1153,1153,1153,4514,
 1161,1161,1161,1161,1161,1161,1161,1161,1161,1153,
-4510,4510,4510,4510,4510,4510,4510,4510,4510,1161,
-4510,4510,4510,4510,4510,4510,4510,4510,4510,4510,
-4510,4510,4510,4510,4510,4510,4510,4510,4510,4510
+4514,4514,4514,4514,4514,4514,4514,4514,4514,1161,
+4514,4514,4514,4514,4514,4514,4514,4514,4514,4514,
+4514,4514,4514,4514,4514,4514,4514,4514,4514,4514
 </data>
  </layer>
  <layer id="6" name="layer3" width="10" height="5" locked="1">

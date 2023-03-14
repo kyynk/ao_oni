@@ -1,0 +1,91 @@
+{
+    "activeFile": "house1_hallway.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "C:/Users/user/Desktop/game_framework/img/map/003-Forest01.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/door.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/kitchen.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-01-ud.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-01-udw.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-01-udx.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-01-udy.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-01-udz.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-03-ud.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/room-wasitu1-ud.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/space.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/user/Desktop/game_framework/img/map/space2.tsx": {
+            "scaleInDock": 1
+        },
+        "house1_hallway.tmx": {
+            "scale": 2.17015625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.3571171430629,
+                "y": 80.40895672834617
+            }
+        },
+        "house1_hallway2.tmx": {
+            "scale": 1.972869318181818,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 176.39282885736915,
+                "y": 80.33983728130178
+            }
+        },
+        "house1_hallway3.tmx": {
+            "scale": 1.6540178571428572,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.2159244264507,
+                "y": 224
+            }
+        },
+        "house1_kitchen.tmx": {
+            "scale": 1.54375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 144.45344129554658,
+                "y": 239.99999999999997
+            }
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/user/Desktop/game_framework/img/map",
+    "openFiles": [
+        "house1_hallway.tmx",
+        "house1_hallway2.tmx",
+        "house1_kitchen.tmx",
+        "house1_hallway3.tmx"
+    ],
+    "project": "map.tiled-project",
+    "recentFiles": [
+        "house1_hallway3.tmx",
+        "house1_kitchen.tmx",
+        "house1_hallway2.tmx",
+        "house1_hallway.tmx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)"
+}
