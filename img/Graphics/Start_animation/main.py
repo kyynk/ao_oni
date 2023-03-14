@@ -1,10 +1,11 @@
 
-# import OS module
 import os
 from PIL import Image
-# Get the list of all files and directories
-for f in  os.listdir("C:\\Users\\Vincent\\Desktop\\game_framework\\img\\Graphics\\Start_animation"):
+for f in  os.listdir("."):
     if f.endswith(".png"):
+        # print(f)
         img = Image.open(f)
         img.save(f[:-4] + ".bmp")
-        
+# Dependencies: Pillow
+# pip install Pillow
+# and u r good to go
