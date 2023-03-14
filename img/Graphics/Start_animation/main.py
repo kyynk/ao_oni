@@ -6,5 +6,5 @@ from PIL import Image
 for f in  os.listdir("C:\\Users\\Vincent\\Desktop\\game_framework\\img\\Graphics\\Start_animation"):
     if f.endswith(".png"):
         img = Image.open(f)
-        img.save(f[:-4] + ".png", ".bmp")
+        img.save(f[:-4] + ".bmp")
         

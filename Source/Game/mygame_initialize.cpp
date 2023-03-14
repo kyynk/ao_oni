@@ -33,6 +33,7 @@ void CGameStateInit::OnInit()
 		tmp.push_back("img/Graphics/Start_animation/image" + to_string(i) + ".bmp");
 	}
 	start_animation.LoadBitmapByString(tmp);
+	start_animation.SetTopLeft(SIZE_X/2 - start_animation.GetWidth()/2,SIZE_Y/2 - start_animation.GetHeight()/2);
 	start_animation.ToggleAnimation();
 	Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
@@ -56,10 +57,12 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == VK_RETURN) {
 		switch (startmenu.GetSelection()) {
 		case 0:
-			GotoGameState(GAME_STATE_RUN);
+			flag = 1;
+			
+			
 			break;
 		case 1:
-			flag = 1;
+			
 			break;
 		case 2:
 
@@ -74,16 +77,23 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 }
 void CGameStateInit::OnShow()
 {	
-		startmenu.ShowBitmap();
-		startmenu.ShowCursor();
-		CDC *pDC = CDDraw::GetBackCDC();
-		CFont *fp;
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(255, 255, 255));
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC",RGB(255,255,255));
-		startmenu.ShowText(pDC, fp);
-		CDDraw::ReleaseBackCDC();
 		if (flag) {
+			start_animation.SetAnimation(50, true);
 			start_animation.ShowBitmap();
+			if (start_animation.IsAnimationDone()) {
+				GotoGameState(GAME_STATE_RUN);
+			}
+		}
+		else {
+
+			startmenu.ShowBitmap();
+			startmenu.ShowCursor();
+			CDC *pDC = CDDraw::GetBackCDC();
+			CFont *fp;
+			pDC->SetBkMode(TRANSPARENT);
+			pDC->SetTextColor(RGB(255, 255, 255));
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC",RGB(255,255,255));
+			startmenu.ShowText(pDC, fp);
+			CDDraw::ReleaseBackCDC();
 		}
 }
