@@ -16,7 +16,7 @@ namespace game_framework{
 			s4
 		};
 		
-		enum premove {
+		enum move {
 			none,
 			isup,
 			isdown,
@@ -47,7 +47,8 @@ namespace game_framework{
 		bool _blocked;
 		Direction _direction;
 		bstate _bstate;
-		premove _premove;
+		move _premove;
+		move _nowmove;
 		int _step;
 		bool _isup;
 		bool _isdown;

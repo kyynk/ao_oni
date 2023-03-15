@@ -77,16 +77,16 @@ namespace game_framework{
 			else {
 				_bstate = s2;
 			}
-			if (_premove == isup) {
+			if (_nowmove == isup) {
 				pos_y -= _step;
 			}
-			else if (_premove == isdown) {
+			else if (_nowmove == isdown) {
 				pos_y += _step;
 			}
-			else if (_premove == isleft) {
+			else if (_nowmove == isleft) {
 				pos_x -= _step;
 			}
-			else if (_premove == isright) {
+			else if (_nowmove == isright) {
 				pos_x += _step;
 			}
 			TimerUpdate();
@@ -97,19 +97,23 @@ namespace game_framework{
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
-			_premove = isleft; 
+			_premove = _nowmove;
+			_nowmove = isleft;
 			_isleft = true;
 		}
 		else if (nChar == VK_UP) {
-			_premove = isup;
+			_premove = _nowmove;
+			_nowmove = isup;
 			_isup = true;
 		}
 		else if (nChar == VK_RIGHT) {
-			_premove = isright;
+			_premove = _nowmove;
+			_nowmove = isright;
 			_isright = true;
 		}
 		else if (nChar == VK_DOWN) {
-			_premove = isdown;
+			_premove = _nowmove;
+			_nowmove = isdown;
 			_isdown = true;
 		}
 	}
@@ -136,7 +140,7 @@ namespace game_framework{
 	void Human::OnShow() {
 		
 
-		if (_premove == isup) {
+		if (_nowmove == isup) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
 			}
@@ -144,7 +148,7 @@ namespace game_framework{
 				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
 			}
 		}
-		else if (_premove == isdown) {
+		else if (_nowmove == isdown) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_2);
 			}
@@ -153,7 +157,7 @@ namespace game_framework{
 			}
 		}
 
-		else if (_premove == isleft) {
+		else if (_nowmove == isleft) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_2);
 			}
@@ -162,7 +166,7 @@ namespace game_framework{
 			}
 		}
 
-		else if (_premove == isright) {
+		else if (_nowmove == isright) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_2);
 			}
