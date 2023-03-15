@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway3.tmx",
+    "activeFile": "house1_library.tmx",
     "expandedProjectPaths": [
         ".",
         "res"
@@ -86,12 +86,68 @@
                 "y": 236.24466571834992
             }
         },
+        "house1_hallway1.tmx": {
+            "scale": 1.42796875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.36765510449723,
+                "y": 80.1838275522486
+            }
+        },
+        "house1_hallway2.tmx": {
+            "scale": 1.298153409090909,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 176.4044206149469,
+                "y": 80.49896049896046
+            }
+        },
+        "house1_hallway3.tmx": {
+            "scale": 1.42796875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 161.06795054163473,
+                "y": 224.44468760258232
+            }
+        },
+        "house1_hallway4.tmx": {
+            "scale": 1.8830357142857144,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 46.733048838312,
+                "y": 224.37174016121384
+            }
+        },
+        "house1_kitchen.tmx": {
+            "scale": 1.5866319444444443,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 144.33088959404753,
+                "y": 240.44643834117525
+            }
+        },
+        "house1_library.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 323,
+                "y": 315.5
+            }
+        },
         "house1_lobby.tmx": {
             "scale": 1,
-            "selectedLayer": 4,
+            "selectedLayer": 0,
             "viewCenter": {
                 "x": 226,
                 "y": 190.5
+            }
+        },
+        "house1_room1.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 144,
+                "y": 204.33333333333337
             }
         },
         "res/003-Forest01.tsx": {
@@ -116,15 +172,15 @@
         },
         "res/room-01-ud.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "res/room-01-udw.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "res/room-01-udw2.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "res/room-01-udw2a.tsx": {
             "scaleInDock": 1,
@@ -140,7 +196,7 @@
         },
         "res/room-01-udy.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 3
         },
         "res/room-01-udz.tsx": {
             "scaleInDock": 1,
@@ -176,30 +232,30 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 14,
+    "map.height": 22,
     "map.lastUsedFormat": "tmx",
-    "map.width": 10,
+    "map.width": 16,
     "openFiles": [
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_lobby.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_kitchen.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway2.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway3.tmx"
+        "res/add_more.tsx",
+        "res/room-01-udy.tsx",
+        "house1_room1.tmx",
+        "house1_library.tmx",
+        "res/room-01-ud.tsx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_lobby.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_kitchen.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway2.tmx",
-        "C:/Users/user/Desktop/game_framework/img/map_tmp/house1_hallway3.tmx",
-        "house1_lobby.tmx",
-        "res/room-01-udz.tsx",
         "res/add_more.tsx",
-        "res/room-01-ud.tsx",
-        "res/003-Forest01.tsx",
         "res/room-01-udy.tsx",
-        "res/room-01-udx.tsx"
+        "house1_room1.tmx",
+        "res/room-01-ud.tsx",
+        "house1_library.tmx",
+        "res/room-wasitu1-ud.tsx",
+        "res/room-03-ud.tsx",
+        "res/room-01-udz.tsx",
+        "res/room-01-udx.tsx",
+        "res/room-01-udw3.tsx",
+        "res/room-01-udw2a.tsx",
+        "res/room-01-udw2.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
