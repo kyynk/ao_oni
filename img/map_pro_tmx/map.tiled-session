@@ -255,7 +255,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "res/puzzle.tsx": {
@@ -336,6 +336,7 @@
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "res/add_more.tsx",
         "res/room-01-udw.tsx",
         "house1_basement2.tmx",
         "res/room-01-udz.tsx",
@@ -346,8 +347,7 @@
         "res/room-01-ud.tsx",
         "house1_basement1.tmx",
         "house1_room9.tmx",
-        "house1_room8.tmx",
-        "res/003-Forest01.tsx"
+        "house1_room8.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
