@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="4" height="8" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="res/add_more.tsx"/>
+ <tileset firstgid="513" source="res/room-01-udy.tsx"/>
+ <tileset firstgid="929" source="res/room-01-ud.tsx"/>
+ <layer id="1" name="layer1" width="4" height="8" locked="1">
+  <data encoding="csv">
+12,12,12,12,
+12,12,12,12,
+31,31,31,31,
+31,28,28,28,
+31,12,12,28,
+31,12,12,28,
+65,66,67,28,
+81,82,83,28
+</data>
+ </layer>
+ <layer id="2" name="layer2" width="4" height="8" locked="1">
+  <data encoding="csv">
+521,521,521,521,
+529,529,529,529,
+0,0,0,0,
+0,0,0,0,
+0,521,521,0,
+0,529,529,0,
+0,0,0,0,
+0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="layer3" width="4" height="8" locked="1">
+  <data encoding="csv">
+1100,1101,0,0,
+1108,1109,0,0,
+1116,1117,0,0,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0
+</data>
+ </layer>
+</map>
