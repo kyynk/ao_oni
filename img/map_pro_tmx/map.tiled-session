@@ -86,6 +86,22 @@
                 "y": 236.24466571834992
             }
         },
+        "house1_basement1.tmx": {
+            "scale": 1.371986607142857,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 224.85642235418533,
+                "y": 294.0990807776784
+            }
+        },
+        "house1_basement2.tmx": {
+            "scale": 2.3972656249999997,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 125.7682906957797,
+                "y": 121.17972950953234
+            }
+        },
         "house1_hallway1.tmx": {
             "scale": 1.42796875,
             "selectedLayer": 0,
@@ -222,6 +238,14 @@
                 "y": -1.2243856814896787
             }
         },
+        "house1_room9.tmx": {
+            "scale": 2.743973214285714,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 111.8815586105914,
+                "y": 143.76962498983164
+            }
+        },
         "res/003-Forest01.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -304,26 +328,26 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 9,
+    "map.height": 8,
     "map.lastUsedFormat": "tmx",
-    "map.width": 7,
+    "map.width": 8,
     "openFiles": [
         "res/add_more.tsx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "res/room-01-udy.tsx",
+        "res/room-01-udw.tsx",
+        "house1_basement2.tmx",
         "res/room-01-udz.tsx",
-        "house1_room8.tmx",
-        "res/003-Forest01.tsx",
-        "res/room-wasitu1-ud.tsx",
+        "res/room-01-udw2.tsx",
+        "res/room-01-udy.tsx",
         "res/room-01-udx.tsx",
         "res/room-01-udw3.tsx",
-        "res/room-01-udw2.tsx",
-        "res/room-01-udw2a.tsx",
-        "res/room-01-udw.tsx",
         "res/room-01-ud.tsx",
-        "res/room-03-ud.tsx"
+        "house1_basement1.tmx",
+        "house1_room9.tmx",
+        "house1_room8.tmx",
+        "res/003-Forest01.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
