@@ -41,6 +41,8 @@
 #include "Entity.h"
 #include "Human.h"
 #include "ChoiceMenu.h"
+#include "Cmap.h"
+#include <filesystem>
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -97,6 +99,8 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		Human player;
+		Cmap test;
+		vector<CMovingBitmap> res;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
