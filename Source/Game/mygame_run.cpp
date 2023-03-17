@@ -8,6 +8,7 @@
 #include <bitset>
 #include "mygame.h"
 #include <filesystem>
+#define _SILENCE_TR2_SYS_NAMESPACE_DEPRECATION_WARNING 
 
 using namespace game_framework;
 
@@ -42,6 +43,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}
 	}
 	player.Load(tmp,RGB(204,255,0));
+	test.Load("map_bmp/house1_hallway1.txt", RGB(0, 0, 0));
 	
 }
 
