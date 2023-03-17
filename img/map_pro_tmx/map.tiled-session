@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house1_basement4.tmx",
+    "activeFile": "house1_basement5.tmx",
     "expandedProjectPaths": [
         ".",
         "res"
@@ -90,8 +90,8 @@
             "scale": 1.371986607142857,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 207.72797527047913,
-                "y": 294.82795086634667
+                "x": 223.7631172211828,
+                "y": 304.30326201903523
             }
         },
         "house1_basement2.tmx": {
@@ -116,6 +116,14 @@
             "viewCenter": {
                 "x": 143.7603993344426,
                 "y": 159.64970662930205
+            }
+        },
+        "house1_basement5.tmx": {
+            "scale": 2.396590909090909,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 48.40208629682313,
+                "y": 122.46562351825509
             }
         },
         "house1_hallway1.tmx": {
@@ -344,17 +352,18 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 10,
+    "map.height": 11,
     "map.lastUsedFormat": "tmx",
-    "map.width": 9,
+    "map.width": 3,
     "openFiles": [
         "res/add_more.tsx",
-        "house1_basement4.tmx",
-        "res/room-01-udz.tsx"
+        "house1_basement5.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
         "res/add_more.tsx",
+        "house1_basement5.tmx",
+        "house1_basement1.tmx",
         "res/room-01-udz.tsx",
         "house1_basement4.tmx",
         "house1_room7.tmx",
@@ -362,10 +371,8 @@
         "house1_basement3.tmx",
         "res/room-01-udx.tsx",
         "house1_basement2.tmx",
-        "house1_basement1.tmx",
         "house1_hallway2.tmx",
-        "house1_room2.tmx",
-        "house1_room8.tmx"
+        "house1_room2.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
