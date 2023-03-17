@@ -1,0 +1,12 @@
+003-Forest01 408
+add_more 512
+room-01-ud 368
+room-01-udw 1112
+room-01-udw2 1056
+room-01-udw2a 168
+room-01-udw3 184
+room-01-udx 1216
+room-01-udy 416
+room-01-udz 896
+room-03-ud 240
+room-wasitu1-ud 248
