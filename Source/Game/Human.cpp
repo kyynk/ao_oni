@@ -40,21 +40,6 @@ namespace game_framework{
 	}
 
 	void Human::OnMove() {
-		//TRACE("%d\n", TimerGetCount());
-		/*if (_blocked) {
-			TRACE("not move\n");
-			if (TimerGetCount() < 8) {
-				_bstate = s1;
-			}
-			else {
-				_bstate = s2;
-			}
-			if (TimerGetCount() == 16) {
-				TimerReset();
-				_walkiter = !_walkiter;
-			}
-		}*/
-		//TRACE("move\n");
 
 		if (_isup || _isdown || _isleft || _isright) {
 			SetTimer(true);
