@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "res/add_more.tsx",
+    "activeFile": "house1_basement4.tmx",
     "expandedProjectPaths": [
         ".",
         "res"
@@ -90,39 +90,55 @@
             "scale": 1.371986607142857,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 224.85642235418533,
-                "y": 294.0990807776784
+                "x": 207.72797527047913,
+                "y": 294.82795086634667
             }
         },
         "house1_basement2.tmx": {
             "scale": 2.3972656249999997,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 125.7682906957797,
+                "x": 125.14257780674599,
                 "y": 121.17972950953234
+            }
+        },
+        "house1_basement3.tmx": {
+            "scale": 1.6220170454545453,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 175.70715474209655,
+                "y": 159.98598826517213
+            }
+        },
+        "house1_basement4.tmx": {
+            "scale": 1.9824652777777776,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 143.7603993344426,
+                "y": 159.64970662930205
             }
         },
         "house1_hallway1.tmx": {
             "scale": 1.42796875,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 160.36765510449723,
-                "y": 80.1838275522486
+                "x": 161.76824597877228,
+                "y": 79.48353211511105
             }
         },
         "house1_hallway2.tmx": {
             "scale": 1.298153409090909,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 176.4044206149469,
-                "y": 80.49896049896046
+                "x": 177.1747455957982,
+                "y": 279.24280555859497
             }
         },
         "house1_hallway3.tmx": {
             "scale": 1.42796875,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 161.06795054163473,
+                "x": 161.76824597877228,
                 "y": 224.44468760258232
             }
         },
@@ -130,7 +146,7 @@
             "scale": 1.8830357142857144,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 46.733048838312,
+                "x": 47.26410621147464,
                 "y": 224.37174016121384
             }
         },
@@ -138,7 +154,7 @@
             "scale": 1.5194602272727271,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 174.40403851547165,
+                "x": 174.73310273908572,
                 "y": 94.44143217724596
             }
         },
@@ -146,7 +162,7 @@
             "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 238,
+                "x": 238.5,
                 "y": 244.5
             }
         },
@@ -154,15 +170,15 @@
             "scale": 1.5866319444444443,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 144.33088959404753,
-                "y": 240.44643834117525
+                "x": 144.6460225407594,
+                "y": 241.076704234599
             }
         },
         "house1_library.tmx": {
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 231,
+                "x": 231.5,
                 "y": 315.5
             }
         },
@@ -170,7 +186,7 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 225,
+                "x": 225.5,
                 "y": 189.5
             }
         },
@@ -178,15 +194,15 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 142.66666666666663,
-                "y": 204.33333333333337
+                "x": 143,
+                "y": 204.99999999999997
             }
         },
         "house1_room2.tmx": {
             "scale": 1.5866319444444443,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 143.7006237006237,
+                "x": 144.96115548747127,
                 "y": 191.9159645475435
             }
         },
@@ -194,7 +210,7 @@
             "scale": 1.42796875,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 160.36765510449723,
+                "x": 161.06795054163473,
                 "y": 160.01750738592844
             }
         },
@@ -202,23 +218,23 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 174.66666666666669,
-                "y": 187.66666666666663
+                "x": 175,
+                "y": 273.66666666666663
             }
         },
         "house1_room5.tmx": {
-            "scale": 2.3877232142857143,
+            "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111.4031971580817,
-                "y": 79.3643077498364
+                "x": 151.33333333333331,
+                "y": 98.49999999999999
             }
         },
         "house1_room6.tmx": {
             "scale": 3.2953124999999996,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 62.81650071123756,
+                "x": 63.11996206733049,
                 "y": 126.99857752489334
             }
         },
@@ -226,7 +242,7 @@
             "scale": 1.8571180555555555,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 142.6942133308404,
+                "x": 143.23268206039077,
                 "y": 174.19463400953538
             }
         },
@@ -234,8 +250,8 @@
             "scale": 2.0418402777777773,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 142.02873905280165,
-                "y": -1.2243856814896787
+                "x": 141.53898478020577,
+                "y": 171.16911827225582
             }
         },
         "house1_room9.tmx": {
@@ -243,7 +259,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 111.8815586105914,
-                "y": 143.76962498983164
+                "y": 144.13406003416577
             }
         },
         "res/003-Forest01.tsx": {
@@ -328,26 +344,28 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 8,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
-    "map.width": 8,
+    "map.width": 9,
     "openFiles": [
-        "res/add_more.tsx"
+        "res/add_more.tsx",
+        "house1_basement4.tmx",
+        "res/room-01-udz.tsx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "res/room-01-udw.tsx",
-        "house1_basement2.tmx",
+        "res/add_more.tsx",
         "res/room-01-udz.tsx",
-        "res/room-01-udw2.tsx",
-        "res/room-01-udy.tsx",
+        "house1_basement4.tmx",
+        "house1_room7.tmx",
+        "house1_room5.tmx",
+        "house1_basement3.tmx",
         "res/room-01-udx.tsx",
-        "res/room-01-udw3.tsx",
-        "res/room-01-ud.tsx",
+        "house1_basement2.tmx",
         "house1_basement1.tmx",
-        "house1_room9.tmx",
-        "house1_room8.tmx",
-        "res/003-Forest01.tsx"
+        "house1_hallway2.tmx",
+        "house1_room2.tmx",
+        "house1_room8.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
