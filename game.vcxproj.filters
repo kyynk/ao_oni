@@ -67,7 +67,7 @@
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Cmap.cpp">
-      <Filter>MFC</Filter>
+      <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

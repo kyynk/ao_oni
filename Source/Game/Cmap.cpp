@@ -7,7 +7,9 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include "config.h"
+#include <fstream>
 #include "Cmap.h"
+
 namespace game_framework {
 	Cmap::Cmap(){
 	}
@@ -17,11 +19,36 @@ namespace game_framework {
 		_pos_x = px;
 		_pos_y = py;
 	}
-	void Cmap::ShowMap(int layer)	{
+	void Cmap::ShowMap(int layer, vector<CMovingBitmap> a)	{
 		for (int i = 0; i < _width; i++) {
 			for (int j = 0; j < _height; j++) {
-				_cmap.at(i).at(j).at(layer).ShowBitmap();
+				a.at(_map.at(i).at(j).at(layer)).ShowBitmap();
 			}
 		}
+	}
+
+	void Cmap::Load(string files, COLORREF color)
+	{
+		std::ifstream in("map_bmp" + files);
+		in >> _width >> _height;
+		int n;
+		in >> n;
+		for (int i = 0; i < n; i++) {
+			string str;
+			int f_g;
+			in >> f_g >> str;
+			_resource_list.insert({str,f_g});
+		}
+
+		in >> n ;
+		_map = vector<vector<vector<int>>>(n, vector<vector<int>>(_height, vector<int>(_width)));
+		for (int k = 0; k < n; k++) {
+			for (int i = 0; i < _height; i++) {
+				for (int j = 0; j < _width; j++) {
+					in >> _map[k][i][j];
+				}
+			}
+		}
+
 	}
 }
