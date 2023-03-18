@@ -1,0 +1,76 @@
+4 8
+46
+1 add_more
+513 room-01-udw
+1625 room-01-ud
+1 add_more
+513 room-01-udw
+1 add_more
+513 room-01-udx
+1 add_more
+513 room-01-udz
+1 add_more
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udz
+1409 room-03-ud
+1 add_more
+513 room-01-udy
+929 room-01-ud
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+929 room-01-udx
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udw3
+697 room-01-udx
+1 add_more
+513 room-01-udy
+929 room-01-ud
+1 add_more
+513 room-01-udy
+929 room-01-ud
+3
+12 12 12 12
+12 12 12 12
+31 31 31 31
+31 28 28 28
+31 12 12 28
+31 12 12 28
+65 66 67 28
+81 82 83 28
+
+521 521 521 521
+529 529 529 529
+0 0 0 0
+0 0 0 0
+0 521 521 0
+0 529 529 0
+0 0 0 0
+0 0 0 0
+
+1100 1101 0 0
+1108 1109 0 0
+1116 1117 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+

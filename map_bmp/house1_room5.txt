@@ -1,0 +1,64 @@
+7 5
+43
+1 add_more
+513 room-01-udw
+1625 room-01-ud
+1 add_more
+513 room-01-udw
+1 add_more
+513 room-01-udx
+1 add_more
+513 room-01-udz
+1 add_more
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udz
+1409 room-03-ud
+1 add_more
+513 room-01-udy
+929 room-01-ud
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
+929 room-01-udx
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udw3
+697 room-01-udx
+1 add_more
+513 room-01-udy
+929 room-01-ud
+3
+74 75 76 28 12 12 12
+90 91 92 12 12 12 12
+28 107 108 12 31 31 31
+28 123 124 31 31 31 31
+28 28 28 28 28 31 28
+
+0 0 0 0 521 521 521
+0 0 0 521 529 529 529
+0 0 0 529 0 0 0
+0 0 0 0 0 0 0
+0 0 0 0 0 0 0
+
+0 0 0 0 0 0 1100
+0 0 0 0 0 1144 1108
+0 0 0 0 0 1152 1116
+0 0 0 0 0 0 0
+0 0 0 0 0 0 0
+
