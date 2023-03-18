@@ -30,13 +30,15 @@ void CGameStateInit::OnInit()
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	vector<string> tmp;
 	for (int i = 0; i < 33; i++) {
-		tmp.push_back("img/Graphics/Start_animation/image" + to_string(i) + ".bmp");
+		tmp.push_back("img/Start_animation/image" + to_string(i) + ".bmp");
+		ShowInitProgress(i/10, "img/Start_animation/image" + to_string(i) + ".bmp");
 	}
 	start_animation.LoadBitmapByString(tmp);
 	start_animation.SetTopLeft(SIZE_X/2 - start_animation.GetWidth()/2,SIZE_Y/2 - start_animation.GetHeight()/2);
 	start_animation.ToggleAnimation();
-	Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-	//
+	//Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	
+
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
 }

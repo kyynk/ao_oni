@@ -7,6 +7,8 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
+#include "vector3d.h"
+#include "GameMap.h"
 #include "mygame.h"
 
 
@@ -23,6 +25,7 @@ CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 
 CGameStateRun::~CGameStateRun()
 {
+	MapRes::GetInstance()->Cleanup();
 }
 
 void CGameStateRun::OnBeginState()
@@ -37,6 +40,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	ShowInitProgress(33, "loading game mid");
 	vector<string> tmp;
 	for (int i = 0; i < 4;i++) {
 		for (int j = 0; j < 3; j++) {
@@ -44,13 +48,22 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}
 	}
 	player.Load(tmp,RGB(204,255,0));
-	test.Load("map_bmp/house1_hallway1.txt", RGB(0, 0, 0));
+	std::ifstream mapres_in("map_bmp/mapsize.txt");
+	string name;
+	int count;
+	for (int i = 0; i < 12; i++) {
+		mapres_in >> name >> count;
+		ShowInitProgress(33 + i, name);
+		MapRes::GetInstance()->Load(name, count);
+	}
+	test.Load("house1_hallway1.txt", RGB(0, 0, 0));
 	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	player.OnKeyDown(nChar);
+	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -81,21 +94,6 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	player.OnShow();
-}
-void CGameStateRun::LoadTiles() {
-
-	std::ifstream in("map_bmp/mapsize.txt");
-	string name;
-	int count;
-	vector<string> tmp;
-	int total = 0;
-	for (int i = 0; i < 12; i++) {
-		in >> name >> count;
-		CMovingBitmap tm;
-		for (auto f : tmp) {
-			//tm.LoadBitmapByString({ f });
-			TRACE("%s\n", f.c_str());
-			_tiles.push_back(tm);
-		}
-	}
+	test.ShowMap(1,MapRes::GetInstance()->GetData());
+	//MapRes::GetInstance()->checkres();
 }

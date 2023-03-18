@@ -1,51 +1,8 @@
 4 8
-46
+3
 1 add_more
 513 room-01-udw
 1625 room-01-ud
-1 add_more
-513 room-01-udw
-1 add_more
-513 room-01-udx
-1 add_more
-513 room-01-udz
-1 add_more
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udz
-1409 room-03-ud
-1 add_more
-513 room-01-udy
-929 room-01-ud
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-929 room-01-udx
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udw3
-697 room-01-udx
-1 add_more
-513 room-01-udy
-929 room-01-ud
-1 add_more
-513 room-01-udy
-929 room-01-ud
 3
 12 12 12 12
 12 12 12 12
