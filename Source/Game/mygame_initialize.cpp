@@ -59,7 +59,6 @@ void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		case 0:
 			flag = 1;
 			
-			
 			break;
 		case 1:
 			

@@ -1,5 +1,15 @@
 10 14
-6
+16
+1 add_more
+513 room-01-udw
+1625 room-01-ud
+1 add_more
+513 room-01-udw
+1 add_more
+513 room-01-udx
+1 add_more
+513 room-01-udz
+1 add_more
 1 add_more
 513 room-01-udy
 1 add_more
@@ -37,8 +47,8 @@
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
 
-0 9 0 0 0 0 0 0 9 0
-0 25 0 0 0 0 0 0 25 0
+0 9 0 0 79 0 0 0 9 0
+0 25 0 0 95 0 0 0 25 0
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0

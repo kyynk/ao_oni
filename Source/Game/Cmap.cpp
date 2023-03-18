@@ -41,9 +41,13 @@ namespace game_framework {
 		}
 
 		in >> n ;
-		_map = vector<vector<vector<int>>>(n, vector<vector<int>>(_height, vector<int>(_width)));
+		//_map = vector<vector<vector<int>>>(n, vector<vector<int>>(_height, vector<int>(_width)));
 		for (int k = 0; k < n; k++) {
+			vector<vector<int >> a;
+			_map.push_back(a);
 			for (int i = 0; i < _height; i++) {
+				vector<int> b;
+				_map.at(k).push_back(b);
 				for (int j = 0; j < _width; j++) {
 					in >> _map[k][i][j];
 				}

@@ -1,5 +1,19 @@
 13 13
-16
+30
+1 add_more
+513 room-01-udw
+1625 room-01-ud
+1 add_more
+513 room-01-udw
+1 add_more
+513 room-01-udx
+1 add_more
+513 room-01-udz
+1 add_more
+1 add_more
+513 room-01-udy
+1 add_more
+513 room-01-udy
 1 add_more
 513 room-01-udy
 1 add_more

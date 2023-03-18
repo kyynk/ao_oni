@@ -6,9 +6,10 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include <fstream>
 #include "mygame.h"
-#include <filesystem>
-#define _SILENCE_TR2_SYS_NAMESPACE_DEPRECATION_WARNING 
+
+
 
 using namespace game_framework;
 
@@ -80,4 +81,21 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 void CGameStateRun::OnShow()
 {
 	player.OnShow();
+}
+void CGameStateRun::LoadTiles() {
+
+	std::ifstream in("map_bmp/mapsize.txt");
+	string name;
+	int count;
+	vector<string> tmp;
+	int total = 0;
+	for (int i = 0; i < 12; i++) {
+		in >> name >> count;
+		CMovingBitmap tm;
+		for (auto f : tmp) {
+			//tm.LoadBitmapByString({ f });
+			TRACE("%s\n", f.c_str());
+			_tiles.push_back(tm);
+		}
+	}
 }
