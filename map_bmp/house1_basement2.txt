@@ -1,8 +1,5 @@
 8 8
-5
-1 add_more
-513 room-01-udw
-1625 room-01-ud
+2
 1 add_more
 513 room-01-udw
 3
