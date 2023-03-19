@@ -24,6 +24,8 @@ namespace game_framework{
 			isright
 		};
 		Human();
+
+		void init(int step);
 		
 		void OnMove();
 		void OnKeyDown(UINT nChar);
