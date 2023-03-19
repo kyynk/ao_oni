@@ -16,7 +16,7 @@ namespace game_framework {
 		vector<CMovingBitmap> bmps;
 		bmps.resize(count);
 		for (int j = 0; j < count; j++) {
-			bmps.at(j).LoadBitmapByString({ "map_bmp/" + name + "/image" + to_string(j) + ".bmp" },RGB(0,0,0));
+			bmps.at(j).LoadBitmapByString({ "map_bmp/" + name + "/image" + to_string(j) + ".bmp" },RGB(204,255,0));
 		}
 		_data.insert({name,bmps});
 	}
