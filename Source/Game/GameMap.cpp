@@ -9,6 +9,7 @@
 #include "config.h"
 #include <fstream>
 #include "vector3d.h"
+#include "MapRes.h"
 #include "GameMap.h"
 
 namespace game_framework {
@@ -19,40 +20,39 @@ namespace game_framework {
 		_pos_x = px;
 		_pos_y = py;
 	}
-	void GameMap::ShowMap(int layer, map<string, vector<CMovingBitmap> >& resource)	{
+	void GameMap::ShowMap(int layer)	{
 		if (layer-1 >= _layer) {
 			throw std::invalid_argument("layer out of range");
 		}
-		/*for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 8; j++) {
-				resource["003-Forest01"][i * 8 + j].SetTopLeft(j*TILE, i*TILE);
-				resource["003-Forest01"][i * 8 + j].ShowBitmap();
-
-
-			}
-		}*/
 		for (int i = 0; i < _height; i++) {
 			for (int j = 0; j < _width; j++) {
-		TRACE("noo");
-				int val = _gmap.GetValue(layer-1, i, j);
+				int val = _gamemap.GetValue(layer-1, i, j);
+				if (val == 0)continue;
 				int tmp = selTileset(val);
-				TRACE("val:%d tmp:%d \n", val, tmp);
-				resource[_resource_list[tmp]][val - tmp].SetTopLeft(j * TILE,i*TILE);
-				resource[_resource_list[tmp]][val - tmp].ShowBitmap();
+				TRACE("val:%d tmp:%d  %s\n", val, tmp,_resource_list[tmp].c_str());
+
+				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].SetTopLeft(j * TILE,i*TILE);
+				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].ShowBitmap();
 			}
 		}
 	}
+	void GameMap::ShowMap() {
+		for (int i = 1; i < _layer+1; i++) {
+			ShowMap(i);
+		}
+	}
 	void GameMap::debug() {
-		TRACE("%d%d%d", _layer,_height,_width);
+		/*TRACE("%d%d%d", _layer,_height,_width);
 		for (int i = 0; i < _layer; i++) {
 			for (int j = 0; j < _height; j++) {
 				for (int k = 0; k < _width; k++) {
-					TRACE("%d ", _gmap.GetValue(i,j,k));
+					TRACE("%d ", _gamemap.GetValue(i,j,k));
 				}
 				TRACE("\n");
 			}
 			TRACE("\n");
-		}
+		}*/
+
 	}
 	void GameMap::Load(string files, COLORREF color)
 	{
@@ -67,13 +67,13 @@ namespace game_framework {
 			_resource_list.insert({first_grid_ID,str });
 		}
 		in >> _layer;
-		_gmap.SetDimension(_layer,_height,_width);
+		_gamemap.SetDimension(_layer,_height,_width);
 		for (int i = 0; i < _layer; i++) {
 			for (int j = 0; j < _height; j++) {
 				for (int k = 0; k < _width; k++) {
 					int tmp;
 					in >> tmp;
-					_gmap.AssignValue(i,j,k,tmp);
+					_gamemap.AssignValue(i,j,k,tmp);
 				}
 			}
 		}

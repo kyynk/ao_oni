@@ -5,12 +5,10 @@ namespace game_framework {
 	public:
 		static MapRes* GetInstance() { return _Instance = (_Instance != nullptr) ? _Instance : new MapRes(); }
 		void Load(const string ,const int);
-		vector<CMovingBitmap>& operator[](string name);
 		map<string, vector<CMovingBitmap> >& GetData() { return _data; };
 		~MapRes();
 
-		void checkres();
-		
+		void check();
 		void Cleanup();
 	private:
 		MapRes() {}

@@ -93,7 +93,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
+
+	test.ShowMap();
+
 	player.OnShow();
-	test.ShowMap(1,MapRes::GetInstance()->GetData());
-	//MapRes::GetInstance()->checkres();
+	//MapRes::GetInstance()->check();
 }
