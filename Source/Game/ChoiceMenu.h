@@ -4,11 +4,10 @@ namespace game_framework {
 	class ChoiceMenu {
 	public:
 		ChoiceMenu();
-		void ShowText(CDC * pDC, CFont *& fp);
 		int GetSelection() {
 			return _selection;
 		}
-		void SetParam(int tx, int ty, int bx, int by,int curx,int cury,int linespacing,vector<string> ch) {
+		void SetParam(int tx, int ty, int bx, int by,int curx,int cury,int linespacing,vector<string>  ch) {
 			_bitmapX = bx;
 			_bitmapY = by;
 			_textX = tx;
@@ -19,6 +18,7 @@ namespace game_framework {
 			_cursorY = cury;
 		}
 		void ShowBitmap();
+		void ShowText(CDC * pDC, CFont *& fp);
 		void ShowCursor();
 		void OnMovingCursor(UINT nChar);
 		void Load(vector<string> cfn, vector<string> fn, COLORREF color1, COLORREF color2);

@@ -13,7 +13,7 @@ namespace game_framework {
 	}
 	void ChoiceMenu::ShowText(CDC *pDC, CFont* &fp)	{
 		for (int i = 0; i < int(_choices.size()); i++) {
-			CTextDraw::Print(pDC, _textX,_textY + i*_lineSpacing,_choices.at(i).c_str());
+			CTextDraw::Print(pDC, _textX,_textY + i*_lineSpacing,_choices.at(i));
 		}
 	}
 	
@@ -24,6 +24,7 @@ namespace game_framework {
 	void ChoiceMenu::ShowCursor()
 	{
 		_cursor.SetTopLeft(_cursorX, _cursorY + _selection * _lineSpacing);
+		_cursor.SetAnimation(200,false);
 		_cursor.ShowBitmap();
 	}
 	void ChoiceMenu::OnMovingCursor(UINT nChar)	{
