@@ -49,6 +49,7 @@ namespace game_framework{
 		bstate _bstate;
 		move _premove;
 		move _nowmove;
+		move _pressing;
 		int _step;
 		bool _isup;
 		bool _isdown;
