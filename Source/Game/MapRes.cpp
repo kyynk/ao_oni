@@ -20,21 +20,16 @@ namespace game_framework {
 		}
 		_data.insert({name,bmps});
 	}
-	vector<CMovingBitmap> & MapRes::operator[](const string name)
-	{
-		return _data[name];
-	}
+	
 	MapRes::~MapRes()
 	{
 		_data.clear();
 	}
-	void MapRes::checkres() {
-		for (int i = 0; i < 50; i++) {
+	void MapRes::check() {
+		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 8; j++) {
-				_data["003-Forest01"][i*8+j].SetTopLeft(j*TILE,i*TILE);
-				_data["003-Forest01"][i*8+j].ShowBitmap();
-				
-
+				_data["room-01-udy"][i*8+j].SetTopLeft(j*TILE,i*TILE);
+				_data["room-01-udy"][i*8+j].ShowBitmap();
 			}
 		}
 	}
