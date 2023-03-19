@@ -27,7 +27,7 @@ namespace game_framework{
 
 	Human::Human() :Entity() {
 		SetXY(12 * TILE, 11 * TILE + TILE / 2);
-		_step = 4;
+		_step = 0;
 		_walkiter = true;
 		_bstate = s1;
 		_blocked = false;
@@ -39,6 +39,9 @@ namespace game_framework{
 		_premove = none;
 		_nowmove = none;
 		_pressing = none;
+	}
+	void Human::init(int step) {
+		_step = step;
 	}
 
 	void Human::OnMove() {

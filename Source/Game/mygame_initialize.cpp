@@ -29,9 +29,9 @@ void CGameStateInit::OnInit()
 	startmenu.SetParam(SIZE_X / 2-75, SIZE_Y / 2-75, 0, 0, SIZE_X / 2-75-5, SIZE_Y / 2-75, 50 , { "Start","Load","Close" });
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	vector<string> tmp;
-	for (int i = 0; i < 33; i++) {
-		tmp.push_back("img/Start_animation/image" + to_string(i) + ".bmp");
-		ShowInitProgress(i/10, "img/Start_animation/image" + to_string(i) + ".bmp");
+	for (int i = 0; i < 59; i++) {
+		tmp.push_back("img/Start_animation/" + to_string(i) + ".bmp");
+		ShowInitProgress(i/10, "img/Start_animation/" + to_string(i));
 	}
 	start_animation.LoadBitmapByString(tmp);
 	start_animation.SetTopLeft(SIZE_X/2 - start_animation.GetWidth()/2,SIZE_Y/2 - start_animation.GetHeight()/2);
@@ -79,8 +79,8 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 void CGameStateInit::OnShow()
 {	
 		if (flag) {
-			start_animation.SetAnimation(50, true);
-			start_animation.ShowBitmap();
+			start_animation.SetAnimation(100, true);
+			start_animation.ShowBitmap(1.5);
 			if (start_animation.IsAnimationDone()) {
 				GotoGameState(GAME_STATE_RUN);
 			}
