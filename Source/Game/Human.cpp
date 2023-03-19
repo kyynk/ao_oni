@@ -37,6 +37,8 @@ namespace game_framework{
 		_isright = false;
 		TimerReset();
 		_premove = none;
+		_nowmove = none;
+		_pressing = none;
 	}
 
 	void Human::OnMove() {
@@ -52,6 +54,9 @@ namespace game_framework{
 		}
 
 		if (IsTimerStart()) {
+			if (TimerGetCount() % 8 == 0) {
+				_nowmove = _pressing;
+			}
 			if (TimerGetCount() == 8) {
 				TimerReset();
 				_walkiter = !_walkiter;
@@ -82,23 +87,23 @@ namespace game_framework{
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
-			_premove = _nowmove;
-			_nowmove = isleft;
+			_premove = _pressing;
+			_pressing = isleft;
 			_isleft = true;
 		}
 		else if (nChar == VK_UP) {
-			_premove = _nowmove;
-			_nowmove = isup;
+			_premove = _pressing;
+			_pressing = isup;
 			_isup = true;
 		}
 		else if (nChar == VK_RIGHT) {
-			_premove = _nowmove;
-			_nowmove = isright;
+			_premove = _pressing;
+			_pressing = isright;
 			_isright = true;
 		}
 		else if (nChar == VK_DOWN) {
-			_premove = _nowmove;
-			_nowmove = isdown;
+			_premove = _pressing;
+			_pressing = isdown;
 			_isdown = true;
 		}
 	}
