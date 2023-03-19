@@ -66,7 +66,13 @@
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Cmap.cpp">
+    <ClCompile Include="Source\Game\vector3d.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameMap.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapRes.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,7 +122,13 @@
     <ClInclude Include="Source\Game\Event.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Cmap.h">
+    <ClInclude Include="Source\Game\vector3d.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameMap.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapRes.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

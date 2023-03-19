@@ -1,11 +1,5 @@
 3 14
-8
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
-1 add_more
-513 room-01-udy
+2
 1 add_more
 513 room-01-udy
 3
