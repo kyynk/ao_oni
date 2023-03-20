@@ -274,7 +274,7 @@
             "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 190,
+                "x": 189,
                 "y": 253.5
             }
         },
@@ -287,7 +287,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 3,
+            "scaleInDock": 1,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -369,9 +369,9 @@
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "house1_hallway2.tmx",
         "res/add_more.tsx",
         "house2_lobby.tmx",
+        "house1_hallway2.tmx",
         "res/room-01-udx.tsx",
         "res/room-01-udw3.tsx",
         "res/room-01-udw2a.tsx",
