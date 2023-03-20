@@ -270,12 +270,20 @@
                 "y": 144.13406003416577
             }
         },
+        "house2_hallway1.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 191,
+                "y": 89.75
+            }
+        },
         "house2_lobby.tmx": {
             "scale": 1,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 189,
-                "y": 253.5
+                "x": 234,
+                "y": 252.5
             }
         },
         "res/003-Forest01.tsx": {
@@ -300,7 +308,7 @@
         },
         "res/room-01-ud.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 4
+            "scaleInEditor": 3
         },
         "res/room-01-udw.tsx": {
             "scaleInDock": 1,
@@ -336,7 +344,7 @@
         },
         "res/room-wasitu1-ud.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1.5
+            "scaleInEditor": 8
         },
         "res/test.tmx": {
             "scale": 0.7233854166666667,
@@ -360,27 +368,27 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 11,
+    "map.height": 6,
     "map.lastUsedFormat": "tmx",
-    "map.width": 13,
+    "map.width": 14,
     "openFiles": [
         "res/add_more.tsx",
         "house2_lobby.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "res/add_more.tsx",
+        "res/room-wasitu1-ud.tsx",
         "house2_lobby.tmx",
-        "house1_hallway2.tmx",
+        "res/room-03-ud.tsx",
+        "res/room-01-udz.tsx",
+        "res/room-01-udy.tsx",
         "res/room-01-udx.tsx",
         "res/room-01-udw3.tsx",
         "res/room-01-udw2a.tsx",
         "res/room-01-udw2.tsx",
         "res/room-01-udw.tsx",
         "res/room-01-ud.tsx",
-        "res/003-Forest01.tsx",
-        "house1_hallway4.tmx",
-        "house1_lobby.tmx"
+        "res/003-Forest01.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
