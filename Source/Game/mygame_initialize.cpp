@@ -24,14 +24,13 @@ void CGameStateInit::OnInit()
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
 	flag = 0;
-	startmenu.Load({ "img/cursor/tri.bmp" }, {"img/animation/big_face.bmp"
-}, RGB(0, 0, 0), RGB(204, 255, 0));
+	startmenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp","img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, {"img/animation/big_face.bmp"}, RGB(0, 0, 0), RGB(204, 255, 0));
 	startmenu.SetParam(SIZE_X / 2-75, SIZE_Y / 2-75, 0, 0, SIZE_X / 2-75-5, SIZE_Y / 2-75, 50 , { "Start","Load","Close" });
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	vector<string> tmp;
-	for (int i = 0; i < 33; i++) {
-		tmp.push_back("img/Start_animation/image" + to_string(i) + ".bmp");
-		ShowInitProgress(i/10, "img/Start_animation/image" + to_string(i) + ".bmp");
+	for (int i = 0; i < 59; i++) {
+		tmp.push_back("img/Start_animation/" + to_string(i) + ".bmp");
+		ShowInitProgress(i/10, "img/Start_animation/" + to_string(i));
 	}
 	start_animation.LoadBitmapByString(tmp);
 	start_animation.SetTopLeft(SIZE_X/2 - start_animation.GetWidth()/2,SIZE_Y/2 - start_animation.GetHeight()/2);
@@ -87,7 +86,7 @@ void CGameStateInit::OnShow()
 		}
 		else {
 
-			startmenu.ShowBitmap();
+			//startmenu.ShowBitmap();
 			startmenu.ShowCursor();
 			CDC *pDC = CDDraw::GetBackCDC();
 			CFont *fp;
