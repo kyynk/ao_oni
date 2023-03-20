@@ -279,11 +279,19 @@
             }
         },
         "house2_hallway2.tmx": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 55.333333333333314,
-                "y": 183.66666666666663
+                "x": 137,
+                "y": 205.75
+            }
+        },
+        "house2_hallway3.tmx": {
+            "scale": 2.9291666666666667,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 96.27311522048363,
+                "y": 64.69416785206259
             }
         },
         "house2_lobby.tmx": {
@@ -376,15 +384,16 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 13,
+    "map.height": 9,
     "map.lastUsedFormat": "tmx",
-    "map.width": 9,
+    "map.width": 6,
     "openFiles": [
         "res/add_more.tsx",
         "house2_lobby.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "house2_hallway3.tmx",
         "house2_hallway2.tmx",
         "res/room-01-udx.tsx",
         "res/room-01-udw3.tsx",
@@ -395,8 +404,7 @@
         "house2_hallway1.tmx",
         "house2_lobby.tmx",
         "res/room-01-udw2a.tsx",
-        "res/room-01-udw2.tsx",
-        "res/room-01-udw.tsx"
+        "res/room-01-udw2.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
