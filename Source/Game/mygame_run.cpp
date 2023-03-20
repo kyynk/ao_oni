@@ -48,6 +48,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}
 	}
 	player.Load(tmp,RGB(204,255,0));
+	player.init(4);
 	std::ifstream mapres_in("map_bmp/mapsize.txt");
 	string name;
 	int count;
@@ -57,13 +58,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		MapRes::GetInstance()->Load(name, count);
 	}
 	test.Load("house1_hallway1.txt", RGB(0, 0, 0));
-	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	player.OnKeyDown(nChar);
-	
+	player.OnKeyDown(nChar);	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -95,7 +94,5 @@ void CGameStateRun::OnShow()
 {
 
 	test.ShowMap();
-
 	player.OnShow();
-	//MapRes::GetInstance()->check();
 }
