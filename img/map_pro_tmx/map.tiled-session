@@ -5,8 +5,8 @@
     },
     "activeFile": "res/add_more.tsx",
     "expandedProjectPaths": [
-        ".",
-        "res"
+        "res",
+        "."
     ],
     "file.lastUsedOpenFilter": "全部檔案 (*)",
     "fileStates": {
@@ -354,7 +354,7 @@
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
     "map.height": 11,
     "map.lastUsedFormat": "tmx",
-    "map.width": 3,
+    "map.width": 13,
     "openFiles": [
         "res/add_more.tsx"
     ],
