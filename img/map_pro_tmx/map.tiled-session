@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house2_lobby.tmx",
+    "activeFile": "res/add_more.tsx",
     "expandedProjectPaths": [
         "res",
         "."
@@ -311,7 +311,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -388,11 +388,11 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 6,
     "openFiles": [
-        "res/add_more.tsx",
-        "house2_lobby.tmx"
+        "res/add_more.tsx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "res/add_more.tsx",
         "house2_hallway3.tmx",
         "house2_hallway2.tmx",
         "res/room-01-udx.tsx",
@@ -403,8 +403,7 @@
         "res/room-wasitu1-ud.tsx",
         "house2_hallway1.tmx",
         "house2_lobby.tmx",
-        "res/room-01-udw2a.tsx",
-        "res/room-01-udw2.tsx"
+        "res/room-01-udw2a.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
