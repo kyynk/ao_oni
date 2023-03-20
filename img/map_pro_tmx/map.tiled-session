@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "res/add_more.tsx",
+    "activeFile": "house2_lobby.tmx",
     "expandedProjectPaths": [
         "res",
         "."
@@ -270,6 +270,14 @@
                 "y": 144.13406003416577
             }
         },
+        "house2_lobby.tmx": {
+            "scale": 1.3724759615384616,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 207.6539101497504,
+                "y": 176.6879761800508
+            }
+        },
         "res/003-Forest01.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 2
@@ -279,7 +287,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 5.5,
+            "scaleInDock": 3,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -356,11 +364,13 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 13,
     "openFiles": [
-        "res/add_more.tsx"
+        "res/add_more.tsx",
+        "house2_lobby.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
         "res/add_more.tsx",
+        "house2_lobby.tmx",
         "res/room-01-udx.tsx",
         "res/room-01-udw3.tsx",
         "res/room-01-udw2a.tsx",
@@ -370,8 +380,7 @@
         "res/003-Forest01.tsx",
         "house1_hallway2.tmx",
         "house1_hallway4.tmx",
-        "house1_lobby.tmx",
-        "house1_room3.tmx"
+        "house1_lobby.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
