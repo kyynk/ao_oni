@@ -135,11 +135,11 @@
             }
         },
         "house1_hallway2.tmx": {
-            "scale": 8,
+            "scale": 4,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 146.75,
-                "y": 53.4375
+                "x": 145.25,
+                "y": 69.125
             }
         },
         "house1_hallway3.tmx": {
@@ -271,11 +271,11 @@
             }
         },
         "house2_lobby.tmx": {
-            "scale": 1.3724759615384616,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 207.6539101497504,
-                "y": 176.6879761800508
+                "x": 190,
+                "y": 253.5
             }
         },
         "res/003-Forest01.tsx": {
@@ -369,6 +369,7 @@
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "house1_hallway2.tmx",
         "res/add_more.tsx",
         "house2_lobby.tmx",
         "res/room-01-udx.tsx",
@@ -378,7 +379,6 @@
         "res/room-01-udw.tsx",
         "res/room-01-ud.tsx",
         "res/003-Forest01.tsx",
-        "house1_hallway2.tmx",
         "house1_hallway4.tmx",
         "house1_lobby.tmx"
     ],
