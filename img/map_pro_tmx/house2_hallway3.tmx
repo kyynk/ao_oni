@@ -40,7 +40,7 @@
 152,152,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="layer4" width="6" height="9">
+ <layer id="4" name="layer4" width="6" height="9" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,
 0,0,0,0,0,0,
