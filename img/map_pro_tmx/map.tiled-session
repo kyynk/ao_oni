@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house2_room2.tmx",
+    "activeFile": "house2_room3.tmx",
     "expandedProjectPaths": [
         ".",
         "res"
@@ -314,8 +314,8 @@
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 120.5,
-                "y": 72.75
+                "x": 128,
+                "y": 207.75
             }
         },
         "house2_room3.tmx": {
@@ -414,10 +414,15 @@
     "openFiles": [
         "res/add_more.tsx",
         "res/room-01-udy.tsx",
-        "house2_room2.tmx"
+        "house2_room2.tmx",
+        "house2_room3.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "res/add_more.tsx",
+        "res/room-01-udy.tsx",
+        "house2_room2.tmx",
+        "house2_room3.tmx",
         "house1_basement2.tmx",
         "house1_basement3.tmx",
         "house1_room2.tmx",
@@ -425,11 +430,7 @@
         "house1_kitchen.tmx",
         "house1_room9.tmx",
         "house1_room8.tmx",
-        "house1_room6.tmx",
-        "house1_room5.tmx",
-        "house1_room7.tmx",
-        "house2_room3.tmx",
-        "house2_room2.tmx"
+        "house1_room6.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
