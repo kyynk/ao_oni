@@ -86,7 +86,7 @@ namespace game_framework{
 
 		}
 		bitmap.SetTopLeft(pos_x, pos_y);
-		TRACE("%d\n", TimerGetCount());
+		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {

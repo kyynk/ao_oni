@@ -43,6 +43,7 @@
 #include "ChoiceMenu.h"
 #include "GameMap.h"
 #include "MapRes.h"
+#include "item.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -100,7 +101,11 @@ namespace game_framework {
 	private:
 		Human player;
 		GameMap test;
-
+		map<string,GameMap> gamemaps;
+		Item t2;
+		int mousex, mousey;
+		CMovingBitmap grid;
+		bool isgrid;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
