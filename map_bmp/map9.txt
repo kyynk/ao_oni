@@ -1,3 +1,4 @@
+house1_hallway5
 11 6
 2
 1 add_more

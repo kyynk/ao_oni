@@ -248,6 +248,8 @@
     <ClCompile Include="Source\Game\Entity.cpp" />
     <ClCompile Include="Source\Game\Event.cpp" />
     <ClCompile Include="Source\Game\Human.cpp" />
+    <ClCompile Include="Source\Game\InputBox.cpp" />
+    <ClCompile Include="Source\Game\Item.cpp" />
     <ClCompile Include="Source\Game\MapRes.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
@@ -272,6 +274,8 @@
     <ClInclude Include="Source\Game\Entity.h" />
     <ClInclude Include="Source\Game\Event.h" />
     <ClInclude Include="Source\Game\Human.h" />
+    <ClInclude Include="Source\Game\InputBox.h" />
+    <ClInclude Include="Source\Game\Item.h" />
     <ClInclude Include="Source\Game\MapRes.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\vector3d.h" />

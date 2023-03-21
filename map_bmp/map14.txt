@@ -1,3 +1,4 @@
+house1_room1
 9 11
 2
 1 add_more
