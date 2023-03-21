@@ -3,7 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house1_lobby.tmx",
+
+    "activeFile": "house2_room2.tmx",
+
     "expandedProjectPaths": [
         ".",
         "res"
@@ -90,8 +92,9 @@
             "scale": 1.371986607142857,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 223.39868217684864,
-                "y": 303.93882697470104
+
+                "x": 223.03424713251445,
+                "y": 304.30326201903523
             }
         },
         "house1_basement2.tmx": {
@@ -106,24 +109,24 @@
             "scale": 1.6220170454545453,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 175.70715474209655,
-                "y": 159.98598826517213
+                "x": 176.94018740695336,
+                "y": 160.6025045976005
             }
         },
         "house1_basement4.tmx": {
-            "scale": 1.9824652777777776,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 143.25597688063752,
-                "y": 159.14528417549698
+                "x": 156,
+                "y": 42.75
             }
         },
         "house1_basement5.tmx": {
-            "scale": 8,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 58.5,
-                "y": 164.4375
+                "x": 68,
+                "y": 173.75
             }
         },
         "house1_hallway1.tmx": {
@@ -135,11 +138,11 @@
             }
         },
         "house1_hallway2.tmx": {
-            "scale": 8,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 146.75,
-                "y": 53.4375
+                "x": 164.66666666666669,
+                "y": 108.99999999999997
             }
         },
         "house1_hallway3.tmx": {
@@ -154,7 +157,7 @@
             "scale": 1.8830357142857144,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 47.26410621147464,
+                "x": 47.264106211474626,
                 "y": 224.37174016121384
             }
         },
@@ -162,7 +165,7 @@
             "scale": 1.5194602272727271,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 174.73310273908572,
+                "x": 175.06216696269982,
                 "y": 94.44143217724596
             }
         },
@@ -178,7 +181,7 @@
             "scale": 1.5866319444444443,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 144.6460225407594,
+                "x": 145.59142138089507,
                 "y": 241.076704234599
             }
         },
@@ -202,7 +205,7 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 143,
+                "x": 143.33333333333331,
                 "y": 204.99999999999997
             }
         },
@@ -210,23 +213,23 @@
             "scale": 1.5866319444444443,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 144.33088959404753,
+                "x": 145.59142138089507,
                 "y": 191.9159645475435
             }
         },
         "house1_room3.tmx": {
-            "scale": 4,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 230.5,
-                "y": 136.125
+                "x": 159,
+                "y": 165.25
             }
         },
         "house1_room4.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 175,
+                "x": 175.33333333333331,
                 "y": 273.66666666666663
             }
         },
@@ -234,7 +237,7 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 151,
+                "x": 115.66666666666666,
                 "y": 98.49999999999999
             }
         },
@@ -247,27 +250,83 @@
             }
         },
         "house1_room7.tmx": {
-            "scale": 1.8571180555555555,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 143.23268206039077,
-                "y": 174.19463400953538
+                "x": 150.5,
+                "y": 181.25
             }
         },
         "house1_room8.tmx": {
             "scale": 2.0418402777777773,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 141.53898478020577,
-                "y": 171.16911827225582
+                "x": 141.5389847802058,
+                "y": 171.65887254485165
             }
         },
         "house1_room9.tmx": {
             "scale": 2.743973214285714,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111.8815586105914,
-                "y": 144.13406003416577
+                "x": 111.51712356625723,
+                "y": 190.78174570894006
+            }
+        },
+        "house2_hallway1.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 225.99999999999997,
+                "y": 180.99999999999997
+            }
+        },
+        "house2_hallway2.tmx": {
+            "scale": 2,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 137,
+                "y": 205.75
+            }
+        },
+        "house2_hallway3.tmx": {
+            "scale": 2.9291666666666667,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 95.93172119487909,
+                "y": 144.9217638691323
+            }
+        },
+        "house2_lobby.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 234,
+                "y": 252.5
+            }
+        },
+        "house2_room1.tmx": {
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 97.5,
+                "y": 188.25
+            }
+        },
+        "house2_room2.tmx": {
+            "scale": 2,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 120.5,
+                "y": 72.75
+            }
+        },
+        "house2_room3.tmx": {
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 147.5,
+                "y": 161.25
             }
         },
         "res/003-Forest01.tsx": {
@@ -279,7 +338,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 5.5,
+            "scaleInDock": 3,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -292,7 +351,7 @@
         },
         "res/room-01-ud.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 4
+            "scaleInEditor": 3
         },
         "res/room-01-udw.tsx": {
             "scaleInDock": 1,
@@ -311,8 +370,8 @@
             "scaleInEditor": 1.5
         },
         "res/room-01-udx.tsx": {
-            "scaleInDock": 1,
-            "scaleInEditor": 2
+            "scaleInDock": 1.5,
+            "scaleInEditor": 3
         },
         "res/room-01-udy.tsx": {
             "scaleInDock": 1,
@@ -328,7 +387,7 @@
         },
         "res/room-wasitu1-ud.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1.5
+            "scaleInEditor": 3
         },
         "res/test.tmx": {
             "scale": 0.7233854166666667,
@@ -352,9 +411,9 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 11,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
-    "map.width": 3,
+    "map.width": 9,
     "openFiles": [
         "house1_basement1.tmx",
         "house1_lobby.tmx"
@@ -373,6 +432,7 @@
         "res/003-Forest01.tsx",
         "house1_hallway2.tmx",
         "house1_hallway4.tmx"
+
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
