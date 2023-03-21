@@ -34,12 +34,14 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
+
 	player.OnMove();
 
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	isgrid = false;
 	ShowInitProgress(33, "loading game mid");
 	vector<string> tmp;
 	for (int i = 0; i < 4;i++) {
@@ -57,21 +59,39 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		ShowInitProgress(33 + i, name);
 		MapRes::GetInstance()->Load(name, count);
 	}
-	test.Load("house1_hallway1.txt", RGB(0, 0, 0));
+
+	for (int i = 0; i < 23; i++) {
+		GameMap tmp;
+		tmp.Load("map" + to_string(i) + ".txt");
+		tmp.Init(5 * TILE, 5 * TILE);
+		gamemaps.insert({ tmp.GetName(),tmp });
+	}
+	
+	t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+	t2.init(true,false,Item::itemtype::once,1000);
+	grid.LoadBitmapByString({ "img/aa.bmp" }, RGB(0, 0, 0));
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	if (nChar == 0x47) {
+		isgrid = !isgrid;
+	}
+	if (nChar == VK_RETURN) {
+		t2.SetTriggered(true);
+	}
 	player.OnKeyDown(nChar);	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+
 	player.OnKeyUp(nChar);
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -80,6 +100,8 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
+	mousex = point.x/32;
+	mousey = point.y/32;
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -92,7 +114,15 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 
 void CGameStateRun::OnShow()
 {
-
-	test.ShowMap();
+	gamemaps["house1_lobby"].ShowMap();
 	player.OnShow();
+	t2.OnShow();
+	if(isgrid)grid.ShowBitmap();
+	CDC *pDC = CDDraw::GetBackCDC();
+	//CFont *fp;
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetTextColor(RGB(255, 255, 255));
+	CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+	CTextDraw::Print(pDC,0,0,to_string(mousex) +"  "+ to_string(mousey));
+	CDDraw::ReleaseBackCDC();
 }

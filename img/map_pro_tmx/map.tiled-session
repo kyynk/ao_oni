@@ -4,6 +4,7 @@
         "width": 2
     },
     "activeFile": "house2_room3.tmx",
+
     "expandedProjectPaths": [
         ".",
         "res"
@@ -90,6 +91,7 @@
             "scale": 1.371986607142857,
             "selectedLayer": 2,
             "viewCenter": {
+
                 "x": 223.03424713251445,
                 "y": 304.30326201903523
             }
@@ -194,8 +196,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 226,
-                "y": 189.5
+                "x": 225.5,
+                "y": 189
             }
         },
         "house1_room1.tmx": {
@@ -431,6 +433,7 @@
         "house1_room9.tmx",
         "house1_room8.tmx",
         "house1_room6.tmx"
+
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"

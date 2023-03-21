@@ -28,7 +28,6 @@ namespace game_framework {
 		_cursor.ShowBitmap();
 	}
 	void ChoiceMenu::OnMovingCursor(UINT nChar)	{
-		//TRACE("%x\n", nChar);
 	
 		if (nChar == VK_UP ) {
 			_selection -= 1;
