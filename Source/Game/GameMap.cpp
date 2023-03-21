@@ -14,9 +14,7 @@
 
 namespace game_framework {
 
-	void GameMap::Init(int w, int h, int px, int py){
-		_width = w;
-		_height = h;
+	void GameMap::Init(int px, int py){
 		_pos_x = px;
 		_pos_y = py;
 	}
@@ -31,7 +29,7 @@ namespace game_framework {
 				int tmp = selTileset(val);
 				//TRACE("val:%d tmp:%d  %s\n", val, tmp,_resource_list[tmp].c_str());
 
-				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].SetTopLeft(j * TILE,i*TILE);
+				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].SetTopLeft(_pos_x+j * TILE,_pos_y+i*TILE);
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].ShowBitmap();
 			}
 		}
@@ -54,9 +52,11 @@ namespace game_framework {
 		}
 
 	}
-	void GameMap::Load(string files, COLORREF color)
+	void GameMap::Load(string files)
 	{
 		std::ifstream in("map_bmp/" + files);
+		in >> _mapname;
+		TRACE("%s\n", _mapname.c_str());
 		in >> _width >> _height;
 		int n;
 		in >> n;

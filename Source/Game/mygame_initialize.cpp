@@ -48,13 +48,14 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	// asdw 0x41 0x53 0x44 0x57
 	if (nChar == VK_RETURN) {
 	}
 }
 void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	
 	startmenu.OnMovingCursor(nChar);
-
+	TRACE("%x\n",nChar);
 	if (nChar == VK_RETURN) {
 		switch (startmenu.GetSelection()) {
 		case 0:
@@ -85,7 +86,6 @@ void CGameStateInit::OnShow()
 			}
 		}
 		else {
-
 			//startmenu.ShowBitmap();
 			startmenu.ShowCursor();
 			CDC *pDC = CDDraw::GetBackCDC();
