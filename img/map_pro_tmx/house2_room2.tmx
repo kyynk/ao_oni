@@ -53,7 +53,7 @@
 0,0,897,878,879,880,898,0
 </data>
  </layer>
- <layer id="4" name="layer4" width="8" height="13">
+ <layer id="4" name="layer4" width="8" height="13" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,
