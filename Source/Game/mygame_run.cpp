@@ -70,6 +70,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 	t2.init(true,false,Item::itemtype::once,1000);
 	grid.LoadBitmapByString({ "img/aa.bmp" }, RGB(0, 0, 0));
+
+	//sTest.LoadBitmapByString({ "img/shadow/shadow1.bmp" }, RGB(0, 0, 0));
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -117,6 +119,7 @@ void CGameStateRun::OnShow()
 	gamemaps["house1_lobby"].ShowMap();
 	player.OnShow();
 	t2.OnShow();
+	//sTest.ShowBitmap();
 	if(isgrid)grid.ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	//CFont *fp;

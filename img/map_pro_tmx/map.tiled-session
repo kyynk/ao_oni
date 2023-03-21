@@ -3,8 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house2_room3.tmx",
-
+    "activeFile": "house2_room5.tmx",
     "expandedProjectPaths": [
         ".",
         "res"
@@ -91,7 +90,6 @@
             "scale": 1.371986607142857,
             "selectedLayer": 2,
             "viewCenter": {
-
                 "x": 223.03424713251445,
                 "y": 304.30326201903523
             }
@@ -314,10 +312,10 @@
         },
         "house2_room2.tmx": {
             "scale": 2,
-            "selectedLayer": 3,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 128,
-                "y": 207.75
+                "x": 127.5,
+                "y": 207.25
             }
         },
         "house2_room3.tmx": {
@@ -326,6 +324,22 @@
             "viewCenter": {
                 "x": 147.5,
                 "y": 161.25
+            }
+        },
+        "house2_room4.tmx": {
+            "scale": 2.9291666666666667,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 109.2460881934566,
+                "y": 132.97297297297297
+            }
+        },
+        "house2_room5.tmx": {
+            "scale": 2.9291666666666667,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 111.97724039829302,
+                "y": 56.50071123755335
             }
         },
         "res/003-Forest01.tsx": {
@@ -337,7 +351,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 3,
+            "scaleInDock": 1.5,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -374,7 +388,7 @@
         },
         "res/room-01-udy.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 3
+            "scaleInEditor": 5.5
         },
         "res/room-01-udz.tsx": {
             "scaleInDock": 1,
@@ -410,30 +424,28 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 10,
+    "map.height": 9,
     "map.lastUsedFormat": "tmx",
-    "map.width": 9,
+    "map.width": 7,
     "openFiles": [
         "res/add_more.tsx",
         "res/room-01-udy.tsx",
-        "house2_room2.tmx",
-        "house2_room3.tmx"
+        "house2_room5.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
         "res/add_more.tsx",
         "res/room-01-udy.tsx",
-        "house2_room2.tmx",
+        "house2_room5.tmx",
+        "house2_room4.tmx",
         "house2_room3.tmx",
+        "house2_room2.tmx",
         "house1_basement2.tmx",
         "house1_basement3.tmx",
         "house1_room2.tmx",
         "house1_room1.tmx",
         "house1_kitchen.tmx",
-        "house1_room9.tmx",
-        "house1_room8.tmx",
-        "house1_room6.tmx"
-
+        "house1_room9.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
