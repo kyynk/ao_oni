@@ -404,7 +404,7 @@
         },
         "res/room-01-udy.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 5.5
+            "scaleInEditor": 3
         },
         "res/room-01-udz.tsx": {
             "scaleInDock": 1,
@@ -440,9 +440,9 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 11,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
-    "map.width": 12,
+    "map.width": 8,
     "openFiles": [
         "res/add_more.tsx",
         "res/room-01-udy.tsx",
@@ -450,18 +450,18 @@
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "house2_room6.tmx",
-        "house2_room5.tmx",
-        "house2_room4.tmx",
-        "house2_room3.tmx",
-        "house2_room2.tmx",
-        "house2_room1.tmx",
-        "house2_lobby.tmx",
-        "house2_hallway3.tmx",
-        "house2_hallway2.tmx",
-        "house2_hallway1.tmx",
-        "house1_room9.tmx",
-        "house1_room8.tmx"
+        "res/room-wasitu1-ud.tsx",
+        "res/room-03-ud.tsx",
+        "res/room-01-udz.tsx",
+        "res/room-01-udy.tsx",
+        "res/room-01-udx.tsx",
+        "res/room-01-udw3.tsx",
+        "res/room-01-udw2a.tsx",
+        "res/room-01-udw2.tsx",
+        "res/room-01-udw.tsx",
+        "res/003-Forest01.tsx",
+        "res/room-01-ud.tsx",
+        "house2_room6.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
