@@ -336,26 +336,26 @@
         },
         "house2_room4.tmx": {
             "scale": 2.9291666666666667,
-            "selectedLayer": 3,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 109.2460881934566,
+                "x": 65.88904694167852,
                 "y": 132.97297297297297
             }
         },
         "house2_room5.tmx": {
             "scale": 2.9291666666666667,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 111.97724039829302,
-                "y": 187.59601706970125
+                "y": 126.48648648648646
             }
         },
         "house2_room6.tmx": {
-            "scale": 1.7194010416666665,
-            "selectedLayer": 3,
+            "scale": 3,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 192.5088981446422,
-                "y": 176.51495645588795
+                "x": 56.33333333333333,
+                "y": 195.16666666666669
             }
         },
         "res/003-Forest01.tsx": {

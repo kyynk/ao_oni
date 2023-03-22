@@ -17,7 +17,7 @@
  <layer id="2" name="layer2" width="7" height="9" locked="1">
   <data encoding="csv">
 135,135,135,135,135,135,135,
-151,151,151,151,151,151,151,
+0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
@@ -40,7 +40,7 @@
 238,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="layer4" width="7" height="9">
+ <layer id="4" name="layer4" width="7" height="9" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,
