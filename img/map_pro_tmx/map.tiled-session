@@ -294,6 +294,14 @@
                 "y": 144.9217638691323
             }
         },
+        "house2_hallway4.tmx": {
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 205.5,
+                "y": 73.75
+            }
+        },
         "house2_lobby.tmx": {
             "scale": 1,
             "selectedLayer": 2,
@@ -340,6 +348,14 @@
             "viewCenter": {
                 "x": 111.97724039829302,
                 "y": 187.59601706970125
+            }
+        },
+        "house2_room6.tmx": {
+            "scale": 1.7194010416666665,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 192.5088981446422,
+                "y": 176.51495645588795
             }
         },
         "res/003-Forest01.tsx": {
@@ -424,9 +440,9 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 3,
+    "map.height": 11,
     "map.lastUsedFormat": "tmx",
-    "map.width": 11,
+    "map.width": 12,
     "openFiles": [
         "res/add_more.tsx",
         "res/room-01-udy.tsx",
@@ -434,8 +450,9 @@
     ],
     "project": "map.tiled-project",
     "recentFiles": [
-        "res/add_more.tsx",
+        "house2_room6.tmx",
         "res/room-01-udy.tsx",
+        "res/add_more.tsx",
         "house2_room5.tmx",
         "res/room-01-udx.tsx",
         "house2_room2.tmx",
@@ -444,8 +461,7 @@
         "house1_basement2.tmx",
         "house1_basement3.tmx",
         "house1_room2.tmx",
-        "house1_room1.tmx",
-        "house1_kitchen.tmx"
+        "house1_room1.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
