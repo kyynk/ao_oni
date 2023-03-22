@@ -115,7 +115,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 156,
-                "y": 42.75
+                "y": 171.75
             }
         },
         "house1_basement5.tmx": {
@@ -194,8 +194,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 225.5,
-                "y": 189
+                "x": 226,
+                "y": 189.5
             }
         },
         "house1_room1.tmx": {
@@ -266,23 +266,23 @@
             "scale": 2.743973214285714,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111.51712356625723,
-                "y": 190.78174570894006
+                "x": 111.15268852192307,
+                "y": 143.76962498983164
             }
         },
         "house2_hallway1.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 225.99999999999997,
-                "y": 180.99999999999997
+                "x": 224.66666666666669,
+                "y": 180.33333333333337
             }
         },
         "house2_hallway2.tmx": {
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 137,
+                "x": 136.5,
                 "y": 205.75
             }
         },
@@ -290,24 +290,24 @@
             "scale": 2.9291666666666667,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 95.93172119487909,
+                "x": 95.59032716927453,
                 "y": 144.9217638691323
             }
         },
         "house2_hallway4.tmx": {
-            "scale": 2,
+            "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 205.5,
-                "y": 73.75
+                "x": 186,
+                "y": 41.66666666666663
             }
         },
         "house2_lobby.tmx": {
-            "scale": 1,
+            "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 234,
-                "y": 252.5
+                "x": 206.66666666666669,
+                "y": 218.33333333333337
             }
         },
         "house2_room1.tmx": {
@@ -319,11 +319,11 @@
             }
         },
         "house2_room2.tmx": {
-            "scale": 8,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 150.75,
-                "y": 60.4375
+                "x": 155,
+                "y": 201.75
             }
         },
         "house2_room3.tmx": {
@@ -338,24 +338,24 @@
             "scale": 2.9291666666666667,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 65.88904694167852,
-                "y": 132.97297297297297
+                "x": 113.34281650071122,
+                "y": 140.14224751066857
             }
         },
         "house2_room5.tmx": {
             "scale": 2.9291666666666667,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 111.97724039829302,
-                "y": 126.48648648648646
+                "x": 111.29445234708392,
+                "y": 142.19061166429586
             }
         },
         "house2_room6.tmx": {
-            "scale": 3,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 56.33333333333333,
-                "y": 195.16666666666669
+                "x": 178,
+                "y": 133.66666666666663
             }
         },
         "res/003-Forest01.tsx": {
@@ -451,17 +451,17 @@
     "project": "map.tiled-project",
     "recentFiles": [
         "house2_room6.tmx",
-        "res/room-01-udy.tsx",
-        "res/add_more.tsx",
         "house2_room5.tmx",
-        "res/room-01-udx.tsx",
-        "house2_room2.tmx",
         "house2_room4.tmx",
         "house2_room3.tmx",
-        "house1_basement2.tmx",
-        "house1_basement3.tmx",
-        "house1_room2.tmx",
-        "house1_room1.tmx"
+        "house2_room2.tmx",
+        "house2_room1.tmx",
+        "house2_lobby.tmx",
+        "house2_hallway3.tmx",
+        "house2_hallway2.tmx",
+        "house2_hallway1.tmx",
+        "house1_room9.tmx",
+        "house1_room8.tmx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
