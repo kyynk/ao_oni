@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "house2_room5.tmx",
+    "activeFile": "ouside1_2.tmx",
     "expandedProjectPaths": [
         "res",
         "."
@@ -454,8 +454,24 @@
                 "y": 208.33333333333337
             }
         },
+        "ouside1_1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 314,
+                "y": 257.5
+            }
+        },
+        "ouside1_2.tmx": {
+            "scale": 0.909051724137931,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 312.4134660976767,
+                "y": 542.873399715505
+            }
+        },
         "res/003-Forest01.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 1.5,
             "scaleInEditor": 2
         },
         "res/Forest01.tsx": {
@@ -463,7 +479,7 @@
             "scaleInEditor": 1
         },
         "res/add_more.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 2,
             "scaleInEditor": 2
         },
         "res/puzzle.tsx": {
@@ -536,28 +552,29 @@
         }
     },
     "last.imagePath": "C:/Users/user/Desktop/game_framework/img/Graphics/Tilesets",
-    "map.height": 13,
+    "map.height": 29,
     "map.lastUsedFormat": "tmx",
-    "map.width": 11,
+    "map.width": 20,
     "openFiles": [
         "res/add_more.tsx",
-        "res/room-01-udy.tsx",
-        "house2_room5.tmx"
+        "res/003-Forest01.tsx",
+        "ouside1_2.tmx",
+        "ouside1_1.tmx"
     ],
     "project": "map.tiled-project",
     "recentFiles": [
+        "res/add_more.tsx",
+        "res/003-Forest01.tsx",
+        "ouside1_1.tmx",
+        "ouside1_2.tmx",
         "house2_underpass2.tmx",
         "house2_underpass1.tmx",
         "res/room-01-udz.tsx",
         "house2_basement9.tmx",
-        "res/003-Forest01.tsx",
         "res/room-01-ud.tsx",
         "res/room-01-udw.tsx",
         "res/room-01-udw2.tsx",
-        "res/room-01-udw3.tsx",
-        "res/room-01-udx.tsx",
-        "res/room-01-udy.tsx",
-        "house2_basement2.tmx"
+        "res/room-01-udw3.tsx"
     ],
     "stampsFolder": "C:/Users/user/Desktop/game_framework/img/map_pro_tmx/res",
     "tileset.lastUsedFormat": "tsx"
