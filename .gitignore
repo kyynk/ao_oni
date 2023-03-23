@@ -9,6 +9,8 @@
 *.sln.docstates
 *.vs
 Debug
+*.tiled-project
+*.tiled-session
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
