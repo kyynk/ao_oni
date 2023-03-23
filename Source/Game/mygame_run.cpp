@@ -9,6 +9,7 @@
 #include <fstream>
 #include <ostream>
 #include "vector3d.h"
+#include "Conment.h"
 #include "GameMap.h"
 #include "mygame.h"
 
@@ -71,6 +72,9 @@ namespace game_framework {
 			tmp.Load("map" + to_string(i) + ".txt");
 			gamemaps.insert({ tmp.GetName(),tmp });
 		}
+		
+		talk.SetNow(Conment::character::hirosi);
+		talk.SetParam(180, 640, 20, { "Hi", "how", "are u" });
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		t2.init(true, false, Item::itemtype::once, 1000);
@@ -152,6 +156,18 @@ namespace game_framework {
 		}
 		player.OnShow();
 		t2.OnShow();
+
+		talk.ShowBox();
+		talk.ShowHead();
+		// show text, will be placed inside a function in the future
+		CDC* txt = CDDraw::GetBackCDC();
+		txt->SetBkMode(TRANSPARENT);
+		txt->SetTextColor(RGB(255, 255, 255));
+		CTextDraw::ChangeFontLog(txt, 20, "Noto Sans TC", RGB(255, 255, 255));
+		talk.ShowText(txt);
+		CDDraw::ReleaseBackCDC();
+		talk.ShowCursor();
+
 		if (isgrid)grid.ShowBitmap();
 		// show text, will be placed inside a function in the future
 		CDC *pDC = CDDraw::GetBackCDC();
