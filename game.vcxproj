@@ -251,6 +251,7 @@
     <ClCompile Include="Source\Game\InputBox.cpp" />
     <ClCompile Include="Source\Game\Item.cpp" />
     <ClCompile Include="Source\Game\MapRes.cpp" />
+    <ClCompile Include="Source\Game\MapRouter.cpp" />
     <ClCompile Include="Source\Game\mygame_initialize.cpp" />
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Source\Game\InputBox.h" />
     <ClInclude Include="Source\Game\Item.h" />
     <ClInclude Include="Source\Game\MapRes.h" />
+    <ClInclude Include="Source\Game\MapRouter.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\vector3d.h" />
     <ClInclude Include="Source\Library\audio.h" />

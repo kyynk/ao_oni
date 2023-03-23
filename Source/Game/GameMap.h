@@ -9,9 +9,16 @@ namespace game_framework {
 		void Init(int px, int py);
 		void ShowMap(int layer);
 		void ShowMap();
+		void SetTopLeftMap(int x, int y);
 		void debug();
 		void Load(string files);
 		string GetName() { return _mapname; }
+		CPoint GetXY() {
+			CPoint z;
+			z.x = _pos_x;
+			z.y = _pos_y;
+			return z;
+		}
 	private:
 		int _layer, _width, _height;
 		int _pos_x, _pos_y;

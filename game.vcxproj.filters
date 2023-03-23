@@ -81,6 +81,9 @@
     <ClCompile Include="Source\Game\InputBox.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\MapRouter.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Library\audio.h">
@@ -141,6 +144,9 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\InputBox.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapRouter.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
