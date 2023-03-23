@@ -106,6 +106,7 @@ namespace game_framework {
 		int mousex, mousey;
 		CMovingBitmap grid;
 		bool isgrid;
+		//CMovingBitmap sTest;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
