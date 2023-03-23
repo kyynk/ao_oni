@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="7" height="9" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="res/add_more.tsx"/>
+ <layer id="1" name="layer1" width="7" height="9" locked="1">
+  <data encoding="csv">
+153,153,153,153,153,153,153,
+153,153,153,153,153,153,153,
+119,120,119,120,119,137,119,
+119,120,119,120,106,120,119,
+119,120,80,175,176,120,119,
+137,120,96,191,192,120,119,
+119,120,112,128,208,120,119,
+119,120,119,120,119,120,119,
+119,120,119,120,122,120,119
+</data>
+ </layer>
+ <layer id="2" name="layer2" width="7" height="9" locked="1">
+  <data encoding="csv">
+135,135,135,135,135,135,135,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="layer3" width="7" height="9" locked="1">
+  <data encoding="csv">
+0,0,0,9,0,0,0,
+240,0,160,25,0,0,0,
+256,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,220,
+0,0,0,0,0,0,236,
+0,0,0,0,0,0,236,
+0,0,0,0,0,0,236
+</data>
+ </layer>
+ <layer id="4" name="layer4" width="7" height="9" locked="1">
+  <data encoding="csv">
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,239,
+0,0,0,0,0,0,223,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

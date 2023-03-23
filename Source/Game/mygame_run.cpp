@@ -12,11 +12,7 @@
 #include "GameMap.h"
 #include "mygame.h"
 
-
-
 namespace game_framework {
-
-
 
 	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -126,7 +122,14 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
+
+		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+		t2.init(true, false, Item::itemtype::once, 1000);
+		grid.LoadBitmapByString({ "img/aa.bmp" }, RGB(0, 0, 0));
+
+		//sTest.LoadBitmapByString({ "img/shadow/shadow1.bmp" }, RGB(0, 0, 0));
 	}
+
 
 	void CGameStateRun::OnShow()
 	{
@@ -141,9 +144,9 @@ namespace game_framework {
 			}
 			TRACE("write\n");
 		}
-		
+
 		if (ofs.is_open() && !isedit) {
-			ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x/32 << " " << gamemaps["house1_lobby"].GetXY().y/32 << "\n";
+			ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x / 32 << " " << gamemaps["house1_lobby"].GetXY().y / 32 << "\n";
 			ofs.close();
 			TRACE("close\n");
 		}
@@ -159,4 +162,5 @@ namespace game_framework {
 		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 		CDDraw::ReleaseBackCDC();
 	}
-}
+
+};

@@ -112,6 +112,7 @@ namespace game_framework {
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 
+		//CMovingBitmap sTest;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
