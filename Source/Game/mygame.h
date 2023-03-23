@@ -44,6 +44,8 @@
 #include "GameMap.h"
 #include "MapRes.h"
 #include "item.h"
+#include <fstream>
+
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -106,6 +108,10 @@ namespace game_framework {
 		int mousex, mousey;
 		CMovingBitmap grid;
 		bool isgrid;
+		bool isedit;
+		int mousex_foc,mousey_foc;
+		std::ofstream ofs;
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
