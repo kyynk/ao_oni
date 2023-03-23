@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="9" height="11" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="room-03-ud" tilewidth="32" tileheight="32" tilecount="240" columns="8">
+  <image source="../Graphics/Tilesets/room-03-ud.png" width="256" height="960"/>
+ </tileset>
+ <tileset firstgid="241" source="res/room-01-udw2a.tsx"/>
+ <layer id="1" name="圖塊層 1" width="9" height="11">
+  <data encoding="csv">
+241,242,243,244,245,246,247,248,321,
+249,250,251,252,253,254,255,256,329,
+257,258,259,260,261,262,263,264,337,
+265,266,267,268,269,270,271,272,345,
+273,274,275,276,277,278,279,280,353,
+281,282,283,284,285,286,287,288,361,
+289,290,291,292,293,294,295,296,369,
+297,298,299,300,301,302,303,304,377,
+305,306,307,308,309,310,311,312,385,
+313,314,315,316,317,318,319,320,393,
+0,0,0,0,0,0,0,0,401
+</data>
+ </layer>
+</map>

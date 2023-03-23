@@ -39,6 +39,11 @@ namespace game_framework {
 			ShowMap(i);
 		}
 	}
+	void GameMap::SetTopLeftMap(int x,int y)
+	{
+		_pos_x = x;
+		_pos_y = y;
+	}
 	void GameMap::debug() {
 		TRACE("%d%d%d", _layer,_height,_width);
 		for (int i = 0; i < _layer; i++) {
