@@ -80,26 +80,22 @@ namespace game_framework {
 		for (int i = 0; i < int(_store.size()); i++) {
 			CTextDraw::Print(pDC, _txtX, _txtY + i * _lineSpacing, _store.at(i));
 		}
+		if (_now != none) {
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
+			CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
+		}
 		CDDraw::ReleaseBackCDC();
 	}
 	void Dialog::ShowNameBox() {
 		_nameBox.SetTopLeft(_nBoxX, _nBoxY);
 		_nameBox.ShowBitmap();
 	}
-	void Dialog::ShowName() {
-		CDC* pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
-		CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
-		CDDraw::ReleaseBackCDC();
-	}
 	void Dialog::ShowTotal() {
 		ShowBox();
 		ShowHead();
-		ShowText();
-		if (_now != none) {
+		if (_now != none)
 			ShowNameBox();
-			ShowName();
-		}
+		ShowText();
 		ShowCursor();
 	}
 	bool Dialog::isClose() {
