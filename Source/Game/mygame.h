@@ -45,6 +45,7 @@
 #include "MapNode.h"
 #include "MapRes.h"
 #include "item.h"
+#include "Dialog.h"
 #include <fstream>
 
 namespace game_framework {
@@ -102,6 +103,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		Dialog talk;
 		Human player;
 		GameMap test;
 		

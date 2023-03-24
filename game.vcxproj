@@ -244,6 +244,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Game\ChoiceMenu.cpp" />
+    <ClCompile Include="Source\Game\Dialog.cpp" />
     <ClCompile Include="Source\Game\GameMap.cpp" />
     <ClCompile Include="Source\Game\Entity.cpp" />
     <ClCompile Include="Source\Game\Event.cpp" />
@@ -257,6 +258,7 @@
     <ClCompile Include="Source\Game\mygame_over.cpp" />
     <ClCompile Include="Source\Game\mygame_run.cpp" />
     <ClCompile Include="Source\Game\MVector.cpp" />
+    <ClCompile Include="Source\Game\Oni.cpp" />
     <ClCompile Include="Source\Library\audio.cpp" />
     <ClCompile Include="Source\Library\gamecore.cpp" />
     <ClCompile Include="Source\Library\gameutil.cpp">
@@ -271,6 +273,7 @@
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
     <ClInclude Include="Source\Game\ChoiceMenu.h" />
+    <ClInclude Include="Source\Game\Dialog.h" />
     <ClInclude Include="Source\Game\GameMap.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Entity.h" />
@@ -283,6 +286,7 @@
     <ClInclude Include="Source\Game\MapRouter.h" />
     <ClInclude Include="Source\Game\mygame.h" />
     <ClInclude Include="Source\Game\MVector.h" />
+    <ClInclude Include="Source\Game\Oni.h" />
     <ClInclude Include="Source\Library\audio.h" />
     <ClInclude Include="Source\Library\gamecore.h" />
     <ClInclude Include="Source\Library\gameutil.h" />
