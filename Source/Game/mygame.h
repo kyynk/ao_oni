@@ -42,6 +42,7 @@
 #include "Human.h"
 #include "ChoiceMenu.h"
 #include "GameMap.h"
+#include "MapNode.h"
 #include "MapRes.h"
 #include "item.h"
 #include <fstream>
@@ -103,7 +104,7 @@ namespace game_framework {
 	private:
 		Human player;
 		GameMap test;
-		map<string,GameMap> gamemaps;
+		
 		Item t2;
 		int mousex, mousey;
 		CMovingBitmap grid;
@@ -111,7 +112,7 @@ namespace game_framework {
 		bool isedit;
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
-
+		vector<GameMap> gamemaps;
 		//CMovingBitmap sTest;
 	};
 

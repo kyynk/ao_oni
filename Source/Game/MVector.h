@@ -1,21 +1,30 @@
 #pragma once
 namespace game_framework {
-	class vector3d {
+	class MVector {
 	private:
 		vector<int> _vector;
 		int _DimX, _DimY, _DimZ;
 
 	public:
-		vector3d() {
+		MVector() {
 			_DimX = 0;
 			_DimY = 0;
 			_DimZ = 0;
 		}
-		~vector3d() {}
+		MVector(int x, int y, int z) {
+			SetDimension(x, y, z);
+		}
+		MVector(int x, int y) {
+			SetDimension(x,y);
+		}
+		~MVector() {}
 		void SetDimension(int x, int y, int z);
 		int GetValue(int x, int y, int z);
 		void AssignValue(int x, int y, int z, int value);
-		int V3dSize();
+		void SetDimension(int x, int y);
+		int GetValue(int x, int y);
+		void AssignValue(int x, int y, int value);
+		int Msize();
 
 	};
 
