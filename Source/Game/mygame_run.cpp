@@ -73,8 +73,8 @@ namespace game_framework {
 			gamemaps.insert({ tmp.GetName(),tmp });
 		}
 		
-		talk.SetNow(Dialog::character::takurou);
-		talk.SetParam(180, 640, 25, { "Hi", "how", "are u" });
+		talk.SetNow(Dialog::character::hirosi);
+		talk.SetParam(180, 640, 25, { "Hi", "who are", "u" });
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		t2.init(true, false, Item::itemtype::once, 1000);
@@ -170,9 +170,11 @@ namespace game_framework {
 		if (isgrid)grid.ShowBitmap();
 		// show text, will be placed inside a function in the future
 		CDC *pDC = CDDraw::GetBackCDC();
-		//CFont *fp;
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
+		if (!talk.isClose()) {
+			talk.ShowText(pDC);
+		}
 		CDDraw::ReleaseBackCDC();
 	}
 

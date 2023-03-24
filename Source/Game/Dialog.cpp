@@ -74,8 +74,7 @@ namespace game_framework {
 		_cursor.SetAnimation(200, false);
 		_cursor.ShowBitmap();
 	}
-	void Dialog::ShowText() {
-		CDC* pDC = CDDraw::GetBackCDC();
+	void Dialog::ShowText(CDC *pDC) {
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		for (int i = 0; i < int(_store.size()); i++) {
 			CTextDraw::Print(pDC, _txtX, _txtY + i * _lineSpacing, _store.at(i));
@@ -84,7 +83,6 @@ namespace game_framework {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
 			CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
 		}
-		CDDraw::ReleaseBackCDC();
 	}
 	void Dialog::ShowNameBox() {
 		_nameBox.SetTopLeft(_nBoxX, _nBoxY);
@@ -95,7 +93,6 @@ namespace game_framework {
 		ShowHead();
 		if (_now != none)
 			ShowNameBox();
-		ShowText();
 		ShowCursor();
 	}
 	bool Dialog::isClose() {
