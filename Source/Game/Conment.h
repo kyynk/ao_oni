@@ -17,14 +17,25 @@ namespace game_framework {
 		void ShowBox();
 		void ShowHead();
 		void ShowCursor();
-		void ShowText(CDC* pDC);
+		void ShowText();
+		void ShowNameBox();
+		void ShowName();
+		void ShowTotal();
+		bool isClose();
+		void Show();
+		void Close();
 	private:
 		int _cursorX, _cursorY, _boxX, _boxY,
-			_txtX, _txtY, _headX, _headY, _lineSpacing;
+			_txtX, _txtY, _headX, _headY, 
+			_nameX, _nameY, _nBoxX, _nBoxY, 
+			_lineSpacing;
+		bool _isClose;
 		character _now;
 		CMovingBitmap _cursor;
 		CMovingBitmap _box;
 		CMovingBitmap _head;
+		CMovingBitmap _nameBox;
+		vector<string> _name;
 		vector<string> _store;
 	};
 }
