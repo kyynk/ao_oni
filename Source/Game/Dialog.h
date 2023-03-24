@@ -19,7 +19,6 @@ namespace game_framework {
 		void ShowCursor();
 		void ShowText();
 		void ShowNameBox();
-		void ShowName();
 		void ShowTotal();
 		bool isClose();
 		void Show();
