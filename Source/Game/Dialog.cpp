@@ -9,16 +9,16 @@
 #include <bitset>
 #include <string.h>
 #include <vector>
-#include "Conment.h"
+#include "Dialog.h"
 
 namespace game_framework {
-	Conment::Conment() {
+	Dialog::Dialog() {
 		_now = none;
 		_isClose = true;
 	}
-	Conment::~Conment() {
+	Dialog::~Dialog() {
 	}
-	void Conment::SetNow(character a) {
+	void Dialog::SetNow(character a) {
 		_now = a;
 		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
 		if (_now == hirosi) {
@@ -41,7 +41,7 @@ namespace game_framework {
 		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
 		_nameBox.LoadBitmapByString({ "img/conment/name_box.bmp" }, RGB(204, 255, 0));
 	}
-	void Conment::SetParam(int _posX, int _posY, 
+	void Dialog::SetParam(int _posX, int _posY,
 		int linespacing, vector<string>  st) {
 		_cursorX = _posX + 448 - 16; // 320 = width of box
 		_cursorY = _posY + 128 - 40; // 128 = height of box
@@ -61,20 +61,20 @@ namespace game_framework {
 		_lineSpacing = linespacing; //font size
 		_store = st;
 	}
-	void Conment::ShowBox() {
+	void Dialog::ShowBox() {
 		_box.SetTopLeft(_boxX, _boxY);
 		_box.ShowBitmap();
 	}
-	void Conment::ShowHead() {
+	void Dialog::ShowHead() {
 		_head.SetTopLeft(_headX, _headY);
 		_head.ShowBitmap();
 	}
-	void Conment::ShowCursor() {
+	void Dialog::ShowCursor() {
 		_cursor.SetTopLeft(_cursorX, _cursorY + _lineSpacing);
 		_cursor.SetAnimation(200, false);
 		_cursor.ShowBitmap();
 	}
-	void Conment::ShowText() {
+	void Dialog::ShowText() {
 		CDC* pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		for (int i = 0; i < int(_store.size()); i++) {
@@ -82,17 +82,17 @@ namespace game_framework {
 		}
 		CDDraw::ReleaseBackCDC();
 	}
-	void Conment::ShowNameBox() {
+	void Dialog::ShowNameBox() {
 		_nameBox.SetTopLeft(_nBoxX, _nBoxY);
 		_nameBox.ShowBitmap();
 	}
-	void Conment::ShowName() {
+	void Dialog::ShowName() {
 		CDC* pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
 		CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
 		CDDraw::ReleaseBackCDC();
 	}
-	void Conment::ShowTotal() {
+	void Dialog::ShowTotal() {
 		ShowBox();
 		ShowHead();
 		ShowText();
@@ -102,13 +102,13 @@ namespace game_framework {
 		}
 		ShowCursor();
 	}
-	bool Conment::isClose() {
+	bool Dialog::isClose() {
 		return _isClose;
 	}
-	void Conment::Show() {
+	void Dialog::Show() {
 		_isClose = false;
 	}
-	void Conment::Close() {
+	void Dialog::Close() {
 		_isClose = true;
 	}
 }
