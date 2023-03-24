@@ -8,16 +8,13 @@
 #include <bitset>
 #include "config.h"
 #include <fstream>
-#include "vector3d.h"
+#include "MVector.h"
 #include "MapRes.h"
 #include "GameMap.h"
 
 namespace game_framework {
 
-	void GameMap::Init(int px, int py){
-		_pos_x = px;
-		_pos_y = py;
-	}
+	
 	void GameMap::ShowMap(int layer)	{
 		if (layer-1 >= _layer) {
 			throw std::invalid_argument("layer out of range");
@@ -27,7 +24,7 @@ namespace game_framework {
 				int val = _gamemap.GetValue(layer-1, i, j);
 				if (val == 0)continue;
 				int tmp = selTileset(val);
-				//TRACE("val:%d tmp:%d  %s\n", val, tmp,_resource_list[tmp].c_str());
+				TRACE("i: %d, j:%d ,,, val:%d tmp:%d  %s\n", i,j,val, tmp,_resource_list[tmp].c_str());
 
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].SetTopLeft(_pos_x+j * TILE,_pos_y+i*TILE);
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].ShowBitmap();
