@@ -16,20 +16,20 @@ namespace game_framework {
 		_DimX = x;
 		_DimY = y;
 		_DimZ = z;
-		if (_DimZ == 0) throw std::invalid_argument("invalid function call");
+		//if (_DimZ == 0) throw std::invalid_argument("invalid function call");
 		_vector.resize(x*y*z);
 	}
 
 
 	int MVector::GetValue(int x, int y, int z)
 	{
-		if (_DimZ == 0) throw std::invalid_argument("invalid function call");
+		//if (_DimZ == 0) throw std::invalid_argument("invalid function call");
 		return _vector.at(x * _DimY * _DimZ + y * _DimZ + z);
 	}
 
 	void MVector::AssignValue(int x, int y, int z, int value)
 	{
-		if (_DimZ == 0) throw std::invalid_argument("invalid function call");
+		//if (_DimZ == 0) throw std::invalid_argument("invalid function call");
 		_vector.at(x * _DimY * _DimZ + y * _DimZ + z) = value;
 	}
 

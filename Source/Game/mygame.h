@@ -105,8 +105,7 @@ namespace game_framework {
 	private:
 		Dialog talk;
 		Human player;
-		GameMap test;
-		
+		int tmpp;
 		Item t2;
 		int mousex, mousey;
 		CMovingBitmap grid;
@@ -115,7 +114,6 @@ namespace game_framework {
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
-		//CMovingBitmap sTest;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

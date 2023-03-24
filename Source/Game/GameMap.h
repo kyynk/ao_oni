@@ -6,7 +6,6 @@ namespace game_framework {
 	public:
 		GameMap(){}
 		~GameMap(){}
-		void Init(int px, int py);
 		void ShowMap(int layer);
 		void ShowMap();
 		void SetTopLeftMap(int x, int y);

@@ -25,7 +25,6 @@ namespace game_framework {
 	CGameStateRun::~CGameStateRun()
 	{
 		MapRes::GetInstance()->Cleanup();
-		ofs.close();
 
 	}
 
@@ -39,23 +38,22 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
-		//gamemaps["house1_lobby"].SetTopLeftMap(TILE*4, TILE*4);
 		player.OnMove();
 
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
-
+		tmpp = 0;
 		isgrid = false;
 		ShowInitProgress(33, "loading game mid");
-		vector<string> tmp;
+		vector<string> playervec;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 3; j++) {
-				tmp.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
+				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		player.Load(tmp, RGB(204, 255, 0));
+		player.Load(playervec, RGB(204, 255, 0));
 		player.init(4);
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
@@ -71,9 +69,10 @@ namespace game_framework {
 			tmp.Load("map" + to_string(i) + ".txt");
 			int w = tmp.GetWidth();
 			int h = tmp.GetHeight();
-			w = w + (w % 2 == 0) ? 0 : 1;
-			h = h + (w % 2 == 0) ? 0 : 1;
-			tmp.SetTopLeftMap(SIZE_X - w*TILE/2 , SIZE_Y - h*TILE/2);
+			w = w + ((w % 2 == 0) ? 0 : 1);
+			h = h + ((h % 2 == 0) ? 0 : 1);
+			TRACE("w:%d, h:%d i:%d\n", w, h,i);
+			tmp.SetTopLeftMap((SIZE_X-16)/2 , (SIZE_Y-20)/2);
 			gamemaps.push_back(tmp);
 		}
 		
@@ -82,11 +81,17 @@ namespace game_framework {
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		t2.init(true, false, Item::itemtype::once, 1000);
-		grid.LoadBitmapByString({ "img/aa.bmp" }, RGB(0, 0, 0));
+		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		if (nChar == 0x4A) {
+			tmpp--;
+		}
+		if (nChar == 0x4B) {
+			tmpp++;
+		}
 		if (nChar == 0x47) {
 			isgrid = !isgrid;
 		}
@@ -143,20 +148,20 @@ namespace game_framework {
 		t2.init(true, false, Item::itemtype::once, 1000);
 		grid.LoadBitmapByString({ "img/aa.bmp" }, RGB(0, 0, 0));
 
-		//sTest.LoadBitmapByString({ "img/shadow/shadow1.bmp" }, RGB(0, 0, 0));
 	}
 
 
 	void CGameStateRun::OnShow()
 	{
 
-		//gamemaps["house1_lobby"].ShowMap();
-
+		//TRACE("%d\n",gamemaps.size());
+		TRACE("%d , %d, %d\n",gamemaps.at(tmpp).GetWidth(), gamemaps.at(tmpp).GetHeight(), gamemaps.at(tmpp).GetLayer());
+		gamemaps[tmpp].ShowMap();
 		if (isedit && !ofs.is_open()) {
 			ofs.open("mappos.txt");
 			if (!ofs.is_open()) {
 				TRACE("Failed to open file.\n");
-				throw std::invalid_argument("open failed");
+				//throw std::invalid_argument("open failed");
 			}
 			TRACE("write\n");
 		}
@@ -174,9 +179,8 @@ namespace game_framework {
 		if (isgrid)grid.ShowBitmap();
 		// show text, will be placed inside a function in the future
 		CDC *pDC = CDDraw::GetBackCDC();
-		//CFont *fp;
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
+		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(tmpp) );
 		CDDraw::ReleaseBackCDC();
 	}
 
