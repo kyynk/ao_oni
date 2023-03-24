@@ -9,6 +9,7 @@
 #include <fstream>
 #include <ostream>
 #include "vector3d.h"
+#include "Dialog.h"
 #include "GameMap.h"
 #include "mygame.h"
 
@@ -71,6 +72,9 @@ namespace game_framework {
 			tmp.Load("map" + to_string(i) + ".txt");
 			gamemaps.insert({ tmp.GetName(),tmp });
 		}
+		
+		talk.SetNow(Dialog::character::takurou);
+		talk.SetParam(180, 640, 25, { "Hi", "how", "are u" });
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		t2.init(true, false, Item::itemtype::once, 1000);
@@ -89,7 +93,15 @@ namespace game_framework {
 		if (nChar == VK_RETURN) {
 			t2.SetTriggered(true);
 		}
-		player.OnKeyDown(nChar);
+		if (nChar == 0x55) { // press "U" show conment -> if finish item control will optimize
+			talk.Show();
+		}
+		if (nChar == VK_SPACE) { // press "space" colse conment
+			talk.Close();
+		}
+		if (talk.isClose()) { // if in conversation, then player cannot moving
+			player.OnKeyDown(nChar);
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -152,12 +164,13 @@ namespace game_framework {
 		}
 		player.OnShow();
 		t2.OnShow();
+		if (!talk.isClose()) {
+			talk.ShowTotal();
+		}
 		if (isgrid)grid.ShowBitmap();
 		// show text, will be placed inside a function in the future
 		CDC *pDC = CDDraw::GetBackCDC();
 		//CFont *fp;
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(255, 255, 255));
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 		CDDraw::ReleaseBackCDC();
