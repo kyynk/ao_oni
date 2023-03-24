@@ -1,6 +1,6 @@
 #pragma once
 namespace game_framework {
-	class Conment {
+	class Dialog {
 	public:
 		enum character {
 			none,
@@ -9,8 +9,8 @@ namespace game_framework {
 			takesi,
 			takurou
 		};
-		Conment();
-		~Conment();
+		Dialog();
+		~Dialog();
 		void SetNow(character a);
 		void SetParam(int _posX, int _posY, 
 			int linespacing, vector<string>  st);

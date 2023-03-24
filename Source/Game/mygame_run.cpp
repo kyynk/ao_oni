@@ -9,7 +9,7 @@
 #include <fstream>
 #include <ostream>
 #include "vector3d.h"
-#include "Conment.h"
+#include "Dialog.h"
 #include "GameMap.h"
 #include "mygame.h"
 
@@ -73,7 +73,7 @@ namespace game_framework {
 			gamemaps.insert({ tmp.GetName(),tmp });
 		}
 		
-		talk.SetNow(Conment::character::takurou);
+		talk.SetNow(Dialog::character::takurou);
 		talk.SetParam(180, 640, 25, { "Hi", "how", "are u" });
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
@@ -99,7 +99,9 @@ namespace game_framework {
 		if (nChar == VK_SPACE) { // press "space" colse conment
 			talk.Close();
 		}
-		player.OnKeyDown(nChar);
+		if (talk.isClose()) { // if in conversation, then player cannot moving
+			player.OnKeyDown(nChar);
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

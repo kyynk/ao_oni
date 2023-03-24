@@ -84,7 +84,10 @@
     <ClCompile Include="Source\Game\MapRouter.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Conment.cpp">
+    <ClCompile Include="Source\Game\Dialog.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Oni.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,7 +155,10 @@
     <ClInclude Include="Source\Game\MapRouter.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Conment.h">
+    <ClInclude Include="Source\Game\Dialog.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Oni.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>
