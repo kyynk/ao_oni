@@ -17,7 +17,7 @@ namespace game_framework {
 		void ShowBox();
 		void ShowHead();
 		void ShowCursor();
-		void ShowText();
+		void ShowText(CDC *pDC);
 		void ShowNameBox();
 		void ShowTotal();
 		bool isClose();
