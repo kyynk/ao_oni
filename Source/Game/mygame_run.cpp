@@ -180,14 +180,11 @@ namespace game_framework {
 		// show text, will be placed inside a function in the future
 		CDC *pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-<<<<<<< HEAD
-		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 		if (!talk.isClose()) {
 			talk.ShowText(pDC);
 		}
-=======
 		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(tmpp) );
->>>>>>> 143b27d51fc316b87e16e9d87113d5cf96684f72
+
 		CDDraw::ReleaseBackCDC();
 	}
 
