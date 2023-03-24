@@ -66,9 +66,6 @@
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\vector3d.cpp">
-      <Filter>MyGame</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameMap.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
@@ -82,6 +79,12 @@
       <Filter>MyGame</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\MapRouter.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MVector.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapNode.cpp">
       <Filter>MyGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,9 +134,6 @@
     <ClInclude Include="Source\Game\Event.h">
       <Filter>MyGame</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\vector3d.h">
-      <Filter>MyGame</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameMap.h">
       <Filter>MyGame</Filter>
     </ClInclude>
@@ -147,6 +147,12 @@
       <Filter>MyGame</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\MapRouter.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MVector.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapNode.h">
       <Filter>MyGame</Filter>
     </ClInclude>
   </ItemGroup>

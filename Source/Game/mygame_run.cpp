@@ -7,9 +7,7 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-#include <ostream>
-#include "vector3d.h"
-#include "GameMap.h"
+
 #include "mygame.h"
 
 namespace game_framework {
@@ -39,7 +37,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
-		gamemaps["house1_lobby"].SetTopLeftMap(TILE*mousex_foc, TILE*mousey_foc);
+		//gamemaps["house1_lobby"].SetTopLeftMap(TILE*4, TILE*4);
 		player.OnMove();
 
 	}
@@ -69,7 +67,12 @@ namespace game_framework {
 		for (int i = 0; i < 23; i++) {
 			GameMap tmp;
 			tmp.Load("map" + to_string(i) + ".txt");
-			gamemaps.insert({ tmp.GetName(),tmp });
+			int w = tmp.GetWidth();
+			int h = tmp.GetHeight();
+			w = w + (w % 2 == 0) ? 0 : 1;
+			h = h + (w % 2 == 0) ? 0 : 1;
+			tmp.SetTopLeftMap(SIZE_X - w*TILE/2 , SIZE_Y - h*TILE/2);
+			gamemaps.push_back(tmp);
 		}
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
@@ -134,7 +137,7 @@ namespace game_framework {
 	void CGameStateRun::OnShow()
 	{
 
-		gamemaps["house1_lobby"].ShowMap();
+		//gamemaps["house1_lobby"].ShowMap();
 
 		if (isedit && !ofs.is_open()) {
 			ofs.open("mappos.txt");
@@ -146,7 +149,7 @@ namespace game_framework {
 		}
 
 		if (ofs.is_open() && !isedit) {
-			ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x / 32 << " " << gamemaps["house1_lobby"].GetXY().y / 32 << "\n";
+			//ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x / 32 << " " << gamemaps["house1_lobby"].GetXY().y / 32 << "\n";
 			ofs.close();
 			TRACE("close\n");
 		}
