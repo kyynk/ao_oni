@@ -18,7 +18,7 @@ namespace game_framework {
 			_cursorY = cury;
 		}
 		void ShowBitmap();
-		void ShowText(CDC * pDC, CFont *& fp);
+		void ShowText(CDC * pDC);
 		void ShowCursor();
 		void OnMovingCursor(UINT nChar);
 		void Load(vector<string> cfn, vector<string> fn, COLORREF color1, COLORREF color2);

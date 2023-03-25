@@ -12,24 +12,26 @@ namespace game_framework {
 		Dialog();
 		~Dialog();
 		void SetNow(character a);
-		void SetParam(int _posX, int _posY, 
-			int linespacing, vector<string>  st);
+		void SetParam(vector<string>  st, bool ch);
 		void ShowBox();
 		void ShowHead();
 		void ShowCursor();
-		void ShowText();
+		void ShowText(CDC *pDC);
 		void ShowNameBox();
-		void ShowName();
 		void ShowTotal();
 		bool isClose();
 		void Show();
 		void Close();
+		bool isChoose();
+		void GetSelect(UINT nChar);
+
 	private:
 		int _cursorX, _cursorY, _boxX, _boxY,
 			_txtX, _txtY, _headX, _headY, 
 			_nameX, _nameY, _nBoxX, _nBoxY, 
 			_lineSpacing;
 		bool _isClose;
+		bool _isChoose;
 		character _now;
 		CMovingBitmap _cursor;
 		CMovingBitmap _box;
@@ -37,5 +39,6 @@ namespace game_framework {
 		CMovingBitmap _nameBox;
 		vector<string> _name;
 		vector<string> _store;
+		ChoiceMenu _choice;
 	};
 }
