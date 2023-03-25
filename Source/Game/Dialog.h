@@ -40,5 +40,6 @@ namespace game_framework {
 		vector<string> _name;
 		vector<string> _store;
 		ChoiceMenu _choice;
+
 	};
 }
