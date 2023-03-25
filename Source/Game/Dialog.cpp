@@ -9,6 +9,7 @@
 #include <bitset>
 #include <string.h>
 #include <vector>
+#include "ChoiceMenu.h"
 #include "Dialog.h"
 
 namespace game_framework {
@@ -19,7 +20,8 @@ namespace game_framework {
 		_nameX, _nameY, _nBoxX, _nBoxY,
 		_lineSpacing = 0;
 		_isClose = true;
-		_isChoice = false;
+		_isChoose = false;
+		
 	}
 	Dialog::~Dialog() {
 	}
@@ -47,8 +49,11 @@ namespace game_framework {
 			_box.LoadBitmapByString({ "img/dialog/box2.bmp" }, RGB(204, 255, 0));
 		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
 		_nameBox.LoadBitmapByString({ "img/dialog/name_box.bmp" }, RGB(204, 255, 0));
+		_choice.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
+			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/dialog/none.bmp" },
+			RGB(0, 0, 0), RGB(204, 255, 0));
 	}
-	void Dialog::SetParam(vector<string>  st) {
+	void Dialog::SetParam(vector<string>  st, bool ch) {
 		int _posX, _posY;
 		_posX, _posY = 0;
 		if (_now != none) {
@@ -77,6 +82,11 @@ namespace game_framework {
 		_txtY = _posY + 10;
 		_lineSpacing = 35; //font gap
 		_store = st;
+		_isChoose = ch;
+		if (_isChoose)
+			_choice.SetParam(_txtX, _txtY + _store.size() * _lineSpacing,
+				0, 0, _txtX - 5, _txtY + _store.size() * _lineSpacing,
+				50, { "Yes","No" });
 	}
 	void Dialog::ShowBox() {
 		_box.SetTopLeft(_boxX, _boxY);
@@ -100,6 +110,10 @@ namespace game_framework {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
 			CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
 		}
+		if (_isChoose) {
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			_choice.ShowText(pDC);
+		}
 	}
 	void Dialog::ShowNameBox() {
 		_nameBox.SetTopLeft(_nBoxX, _nBoxY);
@@ -111,10 +125,16 @@ namespace game_framework {
 			ShowHead();
 			ShowNameBox();
 		}
-		ShowCursor();
-
+		if (!_isChoose) { 
+			ShowCursor();
+		}
+		else {
+			_choice.ShowCursor();
+		}
 		CDC *pDC = CDDraw::GetBackCDC();
 		ShowText(pDC);
+		if (_isChoose)
+			_choice.ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}
 	bool Dialog::isClose() {
@@ -125,5 +145,23 @@ namespace game_framework {
 	}
 	void Dialog::Close() {
 		_isClose = true;
+	}
+	bool Dialog::isChoose() {
+		return _isChoose;
+	}
+	void Dialog::GetSelect(UINT nChar) {
+		_choice.OnMovingCursor(nChar);
+		if (nChar == VK_RETURN) {
+			switch (_choice.GetSelection()) {
+			case 0:
+				Close();
+				// will be done in future
+				break;
+			case 1:
+				Close();
+				// will be done in future
+				break;
+			}
+		}
 	}
 }

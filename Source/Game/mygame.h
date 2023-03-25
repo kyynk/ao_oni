@@ -105,6 +105,7 @@ namespace game_framework {
 	private:
 		Dialog story;
 		Dialog talk;
+		Dialog useItem;
 		Human player;
 		int tmpp;
 		Item t2;

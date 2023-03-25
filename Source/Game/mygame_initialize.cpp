@@ -89,11 +89,8 @@ namespace game_framework {
 			//startmenu.ShowBitmap();
 			startmenu.ShowCursor();
 			CDC *pDC = CDDraw::GetBackCDC();
-			CFont *fp;
-			pDC->SetBkMode(TRANSPARENT);
-			pDC->SetTextColor(RGB(255, 255, 255));
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			startmenu.ShowText(pDC, fp);
+			startmenu.ShowText(pDC);
 			CDDraw::ReleaseBackCDC();
 		}
 	}

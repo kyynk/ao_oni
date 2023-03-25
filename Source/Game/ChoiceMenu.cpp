@@ -11,7 +11,7 @@ namespace game_framework {
 	ChoiceMenu::ChoiceMenu()	{
 		_selection = 0;
 	}
-	void ChoiceMenu::ShowText(CDC *pDC, CFont* &fp)	{
+	void ChoiceMenu::ShowText(CDC *pDC)	{
 		for (int i = 0; i < int(_choices.size()); i++) {
 			CTextDraw::Print(pDC, _textX,_textY + i*_lineSpacing,_choices.at(i));
 		}
