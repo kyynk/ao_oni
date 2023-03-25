@@ -75,9 +75,13 @@ namespace game_framework {
 			tmp.SetTopLeftMap((SIZE_X-16)/2 , (SIZE_Y-20)/2);
 			gamemaps.push_back(tmp);
 		}
-		
-		talk.SetNow(Dialog::character::hirosi);
-		talk.SetParam(180, 640, 25, { "Hi", "who are", "u" });
+		story.SetNow(Dialog::character::none);
+		story.SetParam({"We heard rumors about the mansion", 
+			"they say on the outskirts of town...", 
+			"there is a monster living here...!"});
+		story.Show();
+		talk.SetNow(Dialog::character::mika);
+		talk.SetParam({ "Hi", "who are", "u" });
 
 		t2.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		t2.init(true, false, Item::itemtype::once, 1000);
@@ -106,6 +110,8 @@ namespace game_framework {
 			talk.Show();
 		}
 		if (nChar == VK_SPACE) { // press "space" colse conment
+			if (!story.isClose())
+				story.Close();
 			talk.Close();
 		}
 		if (talk.isClose()) { // if in conversation, then player cannot moving
@@ -153,39 +159,41 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-
-		//TRACE("%d\n",gamemaps.size());
-		TRACE("%d , %d, %d\n",gamemaps.at(tmpp).GetWidth(), gamemaps.at(tmpp).GetHeight(), gamemaps.at(tmpp).GetLayer());
-		gamemaps[tmpp].ShowMap();
-		if (isedit && !ofs.is_open()) {
-			ofs.open("mappos.txt");
-			if (!ofs.is_open()) {
-				TRACE("Failed to open file.\n");
-				//throw std::invalid_argument("open failed");
+		if (!story.isClose()) {
+			story.ShowTotal();
+		}
+		if (story.isClose()) {
+			//TRACE("%d\n",gamemaps.size());
+			TRACE("%d , %d, %d\n", gamemaps.at(tmpp).GetWidth(), gamemaps.at(tmpp).GetHeight(), gamemaps.at(tmpp).GetLayer());
+			gamemaps[tmpp].ShowMap();
+			if (isedit && !ofs.is_open()) {
+				ofs.open("mappos.txt");
+				if (!ofs.is_open()) {
+					TRACE("Failed to open file.\n");
+					//throw std::invalid_argument("open failed");
+				}
+				TRACE("write\n");
 			}
-			TRACE("write\n");
+
+			if (ofs.is_open() && !isedit) {
+				//ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x / 32 << " " << gamemaps["house1_lobby"].GetXY().y / 32 << "\n";
+				ofs.close();
+				TRACE("close\n");
+			}
+			player.OnShow();
+			t2.OnShow();
+			if (!talk.isClose()) {
+				talk.ShowTotal();
+			}
+			if (isgrid)grid.ShowBitmap();
+			// show text, will be placed inside a function in the future
+			CDC *pDC = CDDraw::GetBackCDC();
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(tmpp));
+			CDDraw::ReleaseBackCDC();
 		}
 
-		if (ofs.is_open() && !isedit) {
-			//ofs << gamemaps["house1_lobby"].GetName() << " " << gamemaps["house1_lobby"].GetXY().x / 32 << " " << gamemaps["house1_lobby"].GetXY().y / 32 << "\n";
-			ofs.close();
-			TRACE("close\n");
-		}
-		player.OnShow();
-		t2.OnShow();
-		if (!talk.isClose()) {
-			talk.ShowTotal();
-		}
-		if (isgrid)grid.ShowBitmap();
-		// show text, will be placed inside a function in the future
-		CDC *pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-		if (!talk.isClose()) {
-			talk.ShowText(pDC);
-		}
-		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(tmpp) );
-
-		CDDraw::ReleaseBackCDC();
+		
 	}
 
 };
