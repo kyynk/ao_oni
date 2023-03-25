@@ -17,6 +17,8 @@ namespace game_framework {
 		int GetWidth() { return _width; }
 		int GetHeight() { return _height; }
 		int GetLayer() { return _layer; }
+		bool istileindex;
+		
 	private:
 		int _layer, _width, _height;
 		int _pos_x, _pos_y;
