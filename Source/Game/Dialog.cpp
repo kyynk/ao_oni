@@ -14,7 +14,12 @@
 namespace game_framework {
 	Dialog::Dialog() {
 		_now = none;
+		_cursorX, _cursorY, _boxX, _boxY,
+		_txtX, _txtY, _headX, _headY,
+		_nameX, _nameY, _nBoxX, _nBoxY,
+		_lineSpacing = 0;
 		_isClose = true;
+		_isChoice = false;
 	}
 	Dialog::~Dialog() {
 	}
@@ -22,43 +27,55 @@ namespace game_framework {
 		_now = a;
 		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
 		if (_now == hirosi) {
-			_head.LoadBitmapByString({ "img/conment/hirosi_default.bmp" }, RGB(204, 255, 0));
+			_head.LoadBitmapByString({ "img/dialog/hirosi_default.bmp" }, RGB(204, 255, 0));
 		}
 		else if (_now == mika) {
-			_head.LoadBitmapByString({ "img/conment/mika_default.bmp" }, RGB(204, 255, 0));
+			_head.LoadBitmapByString({ "img/dialog/mika_default.bmp" }, RGB(204, 255, 0));
 		}
 		else if (_now == takesi) {
-			_head.LoadBitmapByString({ "img/conment/takesi_default.bmp" }, RGB(204, 255, 0));
+			_head.LoadBitmapByString({ "img/dialog/takesi_default.bmp" }, RGB(204, 255, 0));
 		}
 		else if (_now == takurou) {
-			_head.LoadBitmapByString({ "img/conment/takurou_default.bmp" }, RGB(204, 255, 0));
+			_head.LoadBitmapByString({ "img/dialog/takurou_default.bmp" }, RGB(204, 255, 0));
 		}
 		else {
-			_head.LoadBitmapByString({ "img/conment/none.bmp" }, RGB(204, 255, 0));
+			_head.LoadBitmapByString({ "img/dialog/none.bmp" }, RGB(204, 255, 0));
 		}
-		
-		_box.LoadBitmapByString({ "img/conment/box.bmp" }, RGB(204, 255, 0));
-		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
-		_nameBox.LoadBitmapByString({ "img/conment/name_box.bmp" }, RGB(204, 255, 0));
-	}
-	void Dialog::SetParam(int _posX, int _posY,
-		int linespacing, vector<string>  st) {
-		_cursorX = _posX + 448 - 16; // 320 = width of box
-		_cursorY = _posY + 128 - 40; // 128 = height of box
-		_boxX = _posX;
-		_boxY = _posY;
 		if (_now != none)
-			_txtX = _posX + 126;
+			_box.LoadBitmapByString({ "img/dialog/box.bmp" }, RGB(204, 255, 0));
 		else
+			_box.LoadBitmapByString({ "img/dialog/box2.bmp" }, RGB(204, 255, 0));
+		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
+		_nameBox.LoadBitmapByString({ "img/dialog/name_box.bmp" }, RGB(204, 255, 0));
+	}
+	void Dialog::SetParam(vector<string>  st) {
+		int _posX, _posY;
+		_posX, _posY = 0;
+		if (_now != none) {
+			_posX = 64;
+			_posY = 608;
+			_cursorX = _posX + 672 - 16; // 672 = width of box 
+			_cursorY = _posY + 128 - 48; // 128 = height of box
+			_txtX = _posX + 126; // have Head
+			_headX = _posX + 10; // Head is 100x100 pixel
+			_headY = _posY + 10;
+			_nameX = _posX + 10; // boxX + 10
+			_nameY = _posY - 42 + 10; // 48 = nameBox height, 42 is overlap to box
+			_nBoxX = _posX;
+			_nBoxY = _posY - 42; // 48 = nameBox height
+
+		}
+		else {
+			_posX = 144;
+			_posY = 288;
+			_cursorX = _posX + 544 - 16; // 544 = width of box2 
+			_cursorY = _posY + 192 - 48; // 192 = height of box2
 			_txtX = _posX + 16;
+		}
+		_boxX = _posX; // box and box2 is different
+		_boxY = _posY;
 		_txtY = _posY + 10;
-		_headX = _posX + 10; //Head is 100x100 pixel
-		_headY = _posY + 10;
-		_nameX = _posX +10;
-		_nameY = _posY - 42 + 10; // 48 = nameBox height
-		_nBoxX = _posX;
-		_nBoxY = _posY - 42; // 48 = nameBox height
-		_lineSpacing = linespacing; //font size
+		_lineSpacing = 35; //font gap
 		_store = st;
 	}
 	void Dialog::ShowBox() {
@@ -90,10 +107,15 @@ namespace game_framework {
 	}
 	void Dialog::ShowTotal() {
 		ShowBox();
-		ShowHead();
-		if (_now != none)
+		if (_now != none) {
+			ShowHead();
 			ShowNameBox();
+		}
 		ShowCursor();
+
+		CDC *pDC = CDDraw::GetBackCDC();
+		ShowText(pDC);
+		CDDraw::ReleaseBackCDC();
 	}
 	bool Dialog::isClose() {
 		return _isClose;

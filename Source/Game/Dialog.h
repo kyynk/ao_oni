@@ -12,8 +12,7 @@ namespace game_framework {
 		Dialog();
 		~Dialog();
 		void SetNow(character a);
-		void SetParam(int _posX, int _posY, 
-			int linespacing, vector<string>  st);
+		void SetParam(vector<string>  st);
 		void ShowBox();
 		void ShowHead();
 		void ShowCursor();
@@ -29,6 +28,7 @@ namespace game_framework {
 			_nameX, _nameY, _nBoxX, _nBoxY, 
 			_lineSpacing;
 		bool _isClose;
+		bool _isChoice;
 		character _now;
 		CMovingBitmap _cursor;
 		CMovingBitmap _box;
