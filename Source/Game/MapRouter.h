@@ -10,6 +10,7 @@ namespace game_framework {
 		~MapRouter() {}
 		void Load(string filename);
 		void Cleanup();
+		void debug();
 	private:
 		MapRouter() {}
 		int _nowID;
