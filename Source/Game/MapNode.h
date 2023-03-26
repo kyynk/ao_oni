@@ -1,21 +1,26 @@
 #pragma once
 namespace game_framework {
-	
+	class NodeData {
+	public:
+		NodeData(int ww,int xx,int yy,int zz):w(ww),x(xx),y(yy),z(zz){}
+
+		int w, x, y, z;
+
+	};
 	class MapNode {
 	public:
 		MapNode(){}
-		MapNode(int a,int b,int c,int d,int id):x1(a),y1(b),x2(c),y2(d),_ID(id) {}
+		MapNode(vector<NodeData> points,int id):_points(points),_ID(id) {}
+		void AddEdge(NodeData nd) {
+			_points.push_back(nd);
+		}
 		int GetID() { return _ID; }
-		int GetX1() { return x1; }
-		int GetY1() { return y1; }
-		int GetX2() { return x2; }
-		int GetY2() { return y2; }
-
+		void debug();
 		~MapNode(){}
 		
 	private:
 		int _ID;
-		int x1, y1, x2, y2;
+		vector<NodeData> _points;
 	};
 
 }
