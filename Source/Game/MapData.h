@@ -1,23 +1,23 @@
 #pragma once
 namespace game_framework {
-	class MVector {
+	class MapData {
 	private:
 		vector<int> _vector;
 		int _DimX, _DimY, _DimZ;
 
 	public:
-		MVector() {
+		MapData() {
 			_DimX = 0;
 			_DimY = 0;
 			_DimZ = 0;
 		}
-		MVector(int x, int y, int z) {
+		MapData(int x, int y, int z) {
 			SetDimension(x, y, z);
 		}
-		MVector(int x, int y) {
+		MapData(int x, int y) {
 			SetDimension(x,y);
 		}
-		~MVector() {}
+		~MapData() {}
 		void SetDimension(int x, int y, int z);
 		int GetValue(int x, int y, int z);
 		void AssignValue(int x, int y, int z, int value);
