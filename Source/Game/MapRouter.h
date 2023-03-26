@@ -6,9 +6,9 @@ namespace game_framework {
 	public:
 		static MapRouter* GetInstance() { return _Instance = (_Instance != nullptr) ? _Instance : new MapRouter(); }
 		void SetNowMap(int nowmap) { _nowID = nowmap; }
-		void Load(string filename);
 		int GetNowMap() { return _nowID; }
 		~MapRouter() {}
+		void Load(string filename);
 		void Cleanup();
 	private:
 		MapRouter() {}

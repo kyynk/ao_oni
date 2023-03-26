@@ -21,14 +21,25 @@ namespace game_framework {
 		}
 		for (int i = 0; i < _height; i++) {
 			for (int j = 0; j < _width; j++) {
-				int val = _gamemap.GetValue(layer-1, i, j);
+				int val = _gamemap.GetValue(layer - 1, i, j);
 				if (val == 0)continue;
 				int tmp = selTileset(val);
-				TRACE("i: %d, j:%d ,,, val:%d tmp:%d  %s\n", i,j,val, tmp,_resource_list[tmp].c_str());
+				//TRACE("i: %d, j:%d ,,, val:%d tmp:%d  %s\n", i,j,val, tmp,_resource_list[tmp].c_str());
 
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].SetTopLeft(_pos_x+j * TILE,_pos_y+i*TILE);
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].ShowBitmap();
 			}
+		}
+		if (istileindex) {
+			CDC* pDC = CDDraw::GetBackCDC();
+			for (int i = 0; i < _height; i++) {
+				for (int j = 0; j < _width; j++) {
+					int val = _gamemap.GetValue(layer - 1, i, j);
+					CTextDraw::ChangeFontLog(pDC, 10, "Noto Sans TC", RGB(204,225,0));
+					CTextDraw::Print(pDC, _pos_x + j * TILE, _pos_y + i * TILE, std::to_string(val));
+				}
+			}
+			CDDraw::ReleaseBackCDC();
 		}
 	}
 	void GameMap::ShowMap() {
@@ -58,7 +69,7 @@ namespace game_framework {
 	{
 		std::ifstream in("map_bmp/" + files);
 		in >> _mapname;
-		TRACE("%s\n", _mapname.c_str());
+		//TRACE("%s\n", _mapname.c_str());
 		in >> _width >> _height;
 		int n;
 		in >> n;

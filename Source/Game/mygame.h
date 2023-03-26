@@ -107,15 +107,19 @@ namespace game_framework {
 		Dialog talk;
 		Dialog useItem;
 		Human player;
-		int tmpp;
-		Item t2;
+		int selmap;
+		Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;
 		bool isgrid;
 		bool isedit;
+		bool iswrite;
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
+		vector<vector<int> > pointtmp;
+		CMovingBitmap seltile;
+		bool ttt;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
