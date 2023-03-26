@@ -2,7 +2,7 @@ house2_basement8
 10 8
 2
 1 room-01-udz
-513 add_more
+897 add_more
 3
 7 7 7 7 11 7 7 7 12 924
 7 7 7 7 7 7 7 7 7 924

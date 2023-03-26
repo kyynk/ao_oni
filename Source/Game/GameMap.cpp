@@ -8,7 +8,7 @@
 #include <bitset>
 #include "config.h"
 #include <fstream>
-#include "MVector.h"
+#include "MapData.h"
 #include "MapRes.h"
 #include "GameMap.h"
 
@@ -67,7 +67,7 @@ namespace game_framework {
 	}
 	void GameMap::Load(string files)
 	{
-		std::ifstream in("map_bmp/" + files);
+		std::ifstream in(files);
 		in >> _mapname;
 		//TRACE("%s\n", _mapname.c_str());
 		in >> _width >> _height;

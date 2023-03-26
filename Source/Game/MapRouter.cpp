@@ -45,14 +45,31 @@ namespace game_framework {
 		int n;
 		fstream in(filename);
 		in >> n;
+		bool nadded = true ;
 		for (int i = 0; i < n; i++) {
-			in >> mapID1 >> mapID2 >> x1 >> y1 >> x2 >> y2;
-			MapNode node1(x1,y1,x2,y2,mapID2);
-			MapNode node2(x2,y2,x1,y1,mapID1);
-			_data[mapID1].push_back(node1);
-			_data[mapID2].push_back(node2);
+			in >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
+			for (auto f : _data[mapID1]) {
+				if (f.GetID() == mapID2) {
+					f.AddEdge(NodeData(x1,y1,x2,y2));
+					nadded = false;
+					break;
+				}
+			}
+			if (nadded) {
+				_data[mapID1].push_back(MapNode({ NodeData(x1,y1,x2,y2) }, mapID2));
+			}
+			nadded = true;
+			for (auto f : _data[mapID1]) {
+				if (f.GetID() == mapID2) {
+					f.AddEdge(NodeData(x2, y2, x1, y1));
+					nadded = false;
+					break;
+				}
+			}
+			if (!nadded) {
+				_data[mapID2].push_back(MapNode({NodeData(x2, y2, x1, y1)}, mapID1));
+			}
 		}
-		
 	}
 	void MapRouter::Cleanup()
 	{
@@ -61,6 +78,17 @@ namespace game_framework {
 			_Instance = nullptr;
 		}
 	}
+
+	void MapRouter::debug()
+	{
+		for (int i = 0; i < 23; i++) {
+			for (auto f : _data[i]) {
+				f.debug();
+			}
+		}
+	}
+
+
 
 	MapRouter* MapRouter::_Instance = nullptr;
 }

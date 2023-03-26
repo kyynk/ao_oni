@@ -67,9 +67,9 @@ namespace game_framework {
 			MapRes::GetInstance()->Load(name, count);
 		}
 
-		for (int i = 0; i < 46; i++) {
+		for (int i = 0; i < 54; i++) {
 			GameMap tmp;
-			tmp.Load("map" + to_string(i) + ".txt");
+			tmp.Load("map_bmp/map" + to_string(i) + ".txt");
 			int w = tmp.GetWidth();
 			int h = tmp.GetHeight();
 			w = w + ((w % 2 == 0) ? 1 : 0);
@@ -105,7 +105,7 @@ namespace game_framework {
 			selmap--;
 		}
 		if (nChar == 0x4B) {// k
-			if(selmap<45)
+			if(selmap<53)
 			selmap++;
 		}
 		if (nChar == 0x57) { //w

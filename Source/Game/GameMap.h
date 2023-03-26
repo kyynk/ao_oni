@@ -1,5 +1,5 @@
 #pragma once
-#include "MVector.h"
+#include "MapData.h"
 namespace game_framework {
 	
 	class GameMap {
@@ -24,7 +24,7 @@ namespace game_framework {
 		int _pos_x, _pos_y;
 		int selTileset(int n);
 		map <int,string> _resource_list;
-		MVector _gamemap;
+		MapData _gamemap;
 		string _mapname;
 		int _ID;
 	};
