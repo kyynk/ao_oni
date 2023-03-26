@@ -108,7 +108,7 @@ namespace game_framework {
 			if(selmap<45)
 			selmap++;
 		}
-		if (nChar == 0x57) {
+		if (nChar == 0x57) { //w
 			iswrite = true;
 		}
 		if (nChar == 0x47) { //g
