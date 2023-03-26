@@ -21,7 +21,7 @@
 0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="layer3" width="7" height="5">
+ <layer id="3" name="layer3" width="7" height="5" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,1100,
 0,0,0,0,0,1144,1108,
