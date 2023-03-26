@@ -47,7 +47,6 @@
 #include "item.h"
 #include "Dialog.h"
 #include <fstream>
-#include <queue>
 
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
@@ -118,7 +117,7 @@ namespace game_framework {
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
-		vector<vector<int> > utilstack;
+		vector<vector<int> > pointtmp;
 		CMovingBitmap seltile;
 		bool ttt;
 	};

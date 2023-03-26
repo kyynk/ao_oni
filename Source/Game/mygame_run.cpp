@@ -151,9 +151,8 @@ namespace game_framework {
 			mousex_foc = mousex;
 			mousey_foc = mousey;
 			seltile.SetTopLeft(mousex_foc*TILE,mousey_foc*TILE);
-			utilstack.push_back({ selmap,mousex_foc, mousey_foc });
-			
-			
+			pointtmp.push_back({ selmap,mousex_foc*TILE, mousey_foc*TILE });
+			TRACE("push {%d, %d ,%d }\n", selmap, mousex_foc*TILE, mousey_foc*TILE);
 		}
 	}
 
@@ -169,9 +168,18 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		utilstack.pop_back();
-		TRACE("element popped\n");
-	}
+		if (isedit) {
+			if (pointtmp.empty()) {
+				TRACE("nothing to be popped");
+			}
+			else {
+				TRACE("element {%d,%d,%d} popped\n", pointtmp.at(pointtmp.size() - 1)[0], pointtmp.at(pointtmp.size() - 1)[1] , pointtmp.at(pointtmp.size() - 1)[2] );
+				
+				pointtmp.pop_back();
+			}
+		}
+
+}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 	{
@@ -185,48 +193,53 @@ namespace game_framework {
 			story.ShowTotal();
 		}
 		if (story.isClose()) {
+
 			
-			//t2.OnShow();
+
+			gamemaps[selmap].ShowMap();
+			if (isedit && !ofs.is_open()) {
+				ofs.open("maplink.txt", std::ios::app);
+				if (!ofs.is_open()) {
+					TRACE("Failed to open file.\n");
+					throw std::invalid_argument("open failed");
+				}
+				TRACE("openmaplink\n");
+
+			}
+			if (ofs.is_open() && !isedit) {
+				int i = 0;
+				for (auto f : pointtmp) {
+					if (i % 2 == 0) {
+						ofs << f.at(0) << " " << f.at(1) << " " << f.at(2) << " ";
+					}
+					else {
+						ofs << f.at(0) << " " << f.at(1) << " " << f.at(2) << "\n";
+
+					}
+					i++;
+				}
+				ofs.close();
+				TRACE("close\n");
+			}
+			player.OnShow();
+			testitem.OnShow();
+			if (!talk.isClose()) {
+				talk.ShowTotal();
+			}
 			if (!talk.isClose()) {
 				talk.ShowTotal();
 			}
 			if (!useItem.isClose()) {
 				useItem.ShowTotal();
 			}
-			
+			if (isgrid)grid.ShowBitmap();
+			if (isedit)seltile.ShowBitmap();
+			// show text, will be placed inside a function in the future
+			CDC *pDC = CDDraw::GetBackCDC();
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(selmap));
+			CDDraw::ReleaseBackCDC();
 		}
-
-		
-		//TRACE("%d\n",gamemaps.size());
-		//TRACE("%d , %d, %d\n",gamemaps.at(tmpp).GetWidth(), gamemaps.at(tmpp).GetHeight(), gamemaps.at(tmpp).GetLayer());
-		gamemaps[selmap].ShowMap();
-		if (isedit && !ofs.is_open()) {
-			ofs.open("maplink.txt",std::ios::app);
-			if (!ofs.is_open()) {
-				TRACE("Failed to open file.\n");
-				throw std::invalid_argument("open failed");
-			}
-			TRACE("openmaplink\n");
-
-		}
-		if (ofs.is_open() && !isedit) {
-
-			ofs.close();
-			TRACE("close\n");
-		}
-		player.OnShow();
-		testitem.OnShow();
-		if (!talk.isClose()) {
-			talk.ShowTotal();
-		}
-		if (isgrid)grid.ShowBitmap();
-		if (isedit)seltile.ShowBitmap();
-		// show text, will be placed inside a function in the future
-		CDC *pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-		CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(selmap));
-		CDDraw::ReleaseBackCDC();
-
 	}
 
 };
