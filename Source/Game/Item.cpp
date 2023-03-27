@@ -13,7 +13,9 @@ namespace game_framework {
 	Item::Item()
 	{
 	}
-	void Item::init(bool isonce,bool triggered,itemtype type, int anidelay = 100) {
+	void Item::init(bool willMove, bool isonce, bool triggered, bool blocking, itemtype type, int anidelay = 100) {
+		_isMoving = willMove;
+		_isBlock = blocking;
 		_isonce = isonce;
 		_anidelay = anidelay;
 		_triggered = triggered;
@@ -58,5 +60,10 @@ namespace game_framework {
 	void Item::Load(vector <string> file,COLORREF color)
 	{
 		bitmap.LoadBitmapByString(file, color);
+	}
+	bool Item::collide(int playerX, int playerY) {
+		// will complete can stop on the with Item
+		return _posX < playerX && playerX < _posX + _w
+			&& _posY < playerY && playerY < _posY + _h;
 	}
 }
