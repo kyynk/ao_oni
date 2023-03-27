@@ -1,61 +1,175 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Core\game.cpp" />
-    <ClCompile Include="Source\Core\gameDoc.cpp" />
-    <ClCompile Include="Source\Core\gameView.cpp" />
-    <ClCompile Include="Source\Core\MainFrm.cpp" />
-    <ClCompile Include="Source\Core\StdAfx.cpp" />
-    <ClCompile Include="Source\Game\ChoiceMenu.cpp" />
-    <ClCompile Include="Source\Game\Dialog.cpp" />
-    <ClCompile Include="Source\Game\GameMap.cpp" />
-    <ClCompile Include="Source\Game\Entity.cpp" />
-    <ClCompile Include="Source\Game\Event.cpp" />
-    <ClCompile Include="Source\Game\Human.cpp" />
-    <ClCompile Include="Source\Game\InputBox.cpp" />
-    <ClCompile Include="Source\Game\Item.cpp" />
-    <ClCompile Include="Source\Game\MapNode.cpp" />
-    <ClCompile Include="Source\Game\MapRes.cpp" />
-    <ClCompile Include="Source\Game\MapRouter.cpp" />
-    <ClCompile Include="Source\Game\mygame_initialize.cpp" />
-    <ClCompile Include="Source\Game\mygame_over.cpp" />
-    <ClCompile Include="Source\Game\mygame_run.cpp" />
-    <ClCompile Include="Source\Game\Oni.cpp" />
-    <ClCompile Include="Source\Library\audio.cpp" />
-    <ClCompile Include="Source\Library\gamecore.cpp" />
-    <ClCompile Include="Source\Library\gameutil.cpp" />
-    <ClCompile Include="Source\Game\MapData.cpp" />
+    <ClCompile Include="Source\Game\ChoiceMenu.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Dialog.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Event.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameMap.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Human.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\InputBox.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Item.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapData.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapNode.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapRes.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapRouter.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\mygame_initialize.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\mygame_run.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\mygame_over.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Oni.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\gameutil.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\audio.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\gamecore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\gameDoc.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\gameView.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\MainFrm.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\StdAfx.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Core\Game.h" />
-    <ClInclude Include="Source\Core\gameDoc.h" />
-    <ClInclude Include="Source\Core\gameView.h" />
-    <ClInclude Include="Source\Core\MainFrm.h" />
-    <ClInclude Include="Source\Core\Resource.h" />
-    <ClInclude Include="Source\Core\StdAfx.h" />
-    <ClInclude Include="Source\Game\ChoiceMenu.h" />
-    <ClInclude Include="Source\Game\Dialog.h" />
-    <ClInclude Include="Source\Game\GameMap.h" />
-    <ClInclude Include="Source\Game\config.h" />
-    <ClInclude Include="Source\Game\Entity.h" />
-    <ClInclude Include="Source\Game\Event.h" />
-    <ClInclude Include="Source\Game\Human.h" />
-    <ClInclude Include="Source\Game\InputBox.h" />
-    <ClInclude Include="Source\Game\Item.h" />
-    <ClInclude Include="Source\Game\MapNode.h" />
-    <ClInclude Include="Source\Game\MapRes.h" />
-    <ClInclude Include="Source\Game\MapRouter.h" />
-    <ClInclude Include="Source\Game\mygame.h" />
-    <ClInclude Include="Source\Game\Oni.h" />
-    <ClInclude Include="Source\Library\audio.h" />
-    <ClInclude Include="Source\Library\gamecore.h" />
-    <ClInclude Include="Source\Library\gameutil.h" />
-    <ClInclude Include="Source\Game\MapData.h" />
+    <ClInclude Include="Source\Game\ChoiceMenu.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Dialog.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Entity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Event.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameMap.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Human.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\InputBox.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Item.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapData.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapNode.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapRes.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapRouter.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\mygame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Oni.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\gameutil.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\audio.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\config.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\gamecore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\gameDoc.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\gameView.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\MainFrm.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\StdAfx.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Source\Core\game.rc" />
+    <Filter Include="Game">
+      <UniqueIdentifier>{d1e3b44a-d3b8-42b8-8e0f-ff98fd685761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{a127bfc0-b7ac-4d06-914d-44d42baed8ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2b21ff0f-8517-4545-bc21-f7ae135191b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{eb737028-7d76-4647-ba74-3b9bcb5c622d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RES\GAME.RC2" />
+    <ResourceCompile Include="Source\Core\game.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RES\GAME.RC2">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>
