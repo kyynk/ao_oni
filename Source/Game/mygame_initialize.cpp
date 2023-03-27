@@ -23,7 +23,6 @@ namespace game_framework {
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 		//
-		flag = 0;
 		startmenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp","img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/animation/big_face.bmp" }, RGB(0, 0, 0), RGB(204, 255, 0));
 		startmenu.SetParam(SIZE_X / 2 - 75, SIZE_Y / 2 - 75, 0, 0, SIZE_X / 2 - 75 - 5, SIZE_Y / 2 - 75, 50, { "Start","Load","Close" });
 		ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
@@ -34,7 +33,7 @@ namespace game_framework {
 		}
 		start_animation.LoadBitmapByString(tmp);
 		start_animation.SetTopLeft(SIZE_X / 2 - start_animation.GetWidth() / 2, SIZE_Y / 2 - start_animation.GetHeight() / 2);
-		start_animation.ToggleAnimation();
+		
 		//Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 
 
@@ -44,6 +43,8 @@ namespace game_framework {
 
 	void CGameStateInit::OnBeginState()
 	{
+		flag = 0;
+		start_animation.ToggleAnimation();
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

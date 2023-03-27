@@ -108,7 +108,7 @@ namespace game_framework {
 		Dialog useItem;
 		Human player;
 		int selmap;
-		Item testitem;
+		//Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;
 		bool isgrid;
@@ -132,6 +132,8 @@ namespace game_framework {
 		CGameStateOver(CGame *g);
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();
+		void OnKeyDown(UINT, UINT, UINT);
+
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
