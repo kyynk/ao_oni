@@ -89,14 +89,15 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 
-		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		testitem.init(true, false, Item::itemtype::once, 1000);
+		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+		//testitem.init(true, false, Item::itemtype::once, 1000);
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+
 		if (nChar == 0x49) { // i
 			gamemaps[selmap].istileindex = !gamemaps[selmap].istileindex;
 		}
@@ -116,11 +117,20 @@ namespace game_framework {
 		}
 
 		if (nChar == 0x45) { //e
-			isedit = !isedit;
+			if (pointtmp.size()%2 ==1) {
+				TRACE("still one point in buffer, pop out or add a new point.\n");
+			}
+			else {
+				isedit = !isedit;
+
+			}
 		}
-		if (nChar == VK_RETURN) {
+		if (nChar == 0x51) {
+			GotoGameState(GAME_STATE_OVER);
+		}
+		/*if (nChar == VK_RETURN) {
 			testitem.SetTriggered(true);
-		}
+		}*/
 		if (nChar == 0x55) { // press "U" show dialog -> if finish item control will optimize
 			talk.Show();
 		}
@@ -135,8 +145,9 @@ namespace game_framework {
 		if (talk.isClose() && useItem.isClose()) { // if in conversation, then player cannot moving
 			player.OnKeyDown(nChar);
 		}
-		if (!useItem.isClose())
+		if (!useItem.isClose()) {
 			useItem.GetSelect(nChar);
+		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -203,7 +214,7 @@ namespace game_framework {
 					TRACE("Failed to open file.\n");
 					throw std::invalid_argument("open failed");
 				}
-				TRACE("openmaplink\n");
+				TRACE("open maplink.txt\n");
 
 			}
 			if (ofs.is_open() && !isedit) {
@@ -222,7 +233,7 @@ namespace game_framework {
 				TRACE("close\n");
 			}
 			player.OnShow();
-			testitem.OnShow();
+			//testitem.OnShow();
 			if (!talk.isClose()) {
 				talk.ShowTotal();
 			}
@@ -232,12 +243,18 @@ namespace game_framework {
 			if (!useItem.isClose()) {
 				useItem.ShowTotal();
 			}
-			if (isgrid)grid.ShowBitmap();
-			if (isedit)seltile.ShowBitmap();
+			if (isgrid) {
+				grid.ShowBitmap();
+			}
+			if (isedit) {
+				seltile.ShowBitmap();
+				
+			}
 			// show text, will be placed inside a function in the future
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(selmap));
+			
 			CDDraw::ReleaseBackCDC();
 		}
 	}
