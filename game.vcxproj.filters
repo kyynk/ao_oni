@@ -13,9 +13,6 @@
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameMap.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Human.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -23,18 +20,6 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Item.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\MapData.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\MapNode.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\MapRes.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\MapRouter.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\mygame_initialize.cpp">
@@ -73,6 +58,21 @@
     <ClCompile Include="Source\Core\game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\MapRes.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapRouter.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameMap.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapData.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MapNode.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\ChoiceMenu.h">
@@ -87,9 +87,6 @@
     <ClInclude Include="Source\Game\Event.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameMap.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Human.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -97,18 +94,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Item.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\MapData.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\MapNode.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\MapRes.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\MapRouter.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\mygame.h">
@@ -147,6 +132,21 @@
     <ClInclude Include="Source\Core\Resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\MapRes.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapRouter.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameMap.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapData.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MapNode.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">
@@ -160,6 +160,9 @@
     </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{eb737028-7d76-4647-ba74-3b9bcb5c622d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{604bedc7-c4c1-40c2-8253-98b303139cc3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
