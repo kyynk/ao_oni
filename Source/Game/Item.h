@@ -1,6 +1,6 @@
 #pragma once
 namespace game_framework {
-	class Item :public Entity {
+	class Item : public Entity {
 	public:
 		enum itemtype {
 			once,
@@ -8,23 +8,26 @@ namespace game_framework {
 			multi,
 			multidone
 		};
+		enum move {
+			none,
+			isup,
+			isdown,
+			isleft,
+			isright
+		};
 		Item();
-
+		~Item();
 		void init(bool willMove, bool isonce, bool triggered,
-			bool blocking, 
-			itemtype type, int anidelay);
-
+			bool blocking, itemtype type, int anidelay, 
+			int step);
 		void OnMove();
-
 		void OnShow();
-		void SetTriggered(bool a) {
-			_triggered = a;
-		}
+		void SetTriggered(bool a);
 		void Load(vector<string> file, COLORREF color);
 		bool collide(int playerX, int playerY);
 	
 	private:
-		int _posX, _posY, //Top Left
+		int _step, 
 			_w, _h;  // Width Height
 		itemtype _type;
 ;		bool _triggered;
