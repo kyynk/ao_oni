@@ -26,34 +26,27 @@ namespace game_framework {
 		_triggered = triggered;
 		_type = type;
 		_step = step;
-		if (_type == once) {
-			bitmap.SetAnimation(_anidelay, isonce);
-			bitmap.ToggleAnimation();
-		}
-		else if (_type == multi) {
-
-		}
-
-
 	}
-	void Item::OnMove()
-	{
-		if (_triggered) {
-			if (_type == once) {
-
-			}
-			else if (_type == multi) {
-
-			}
-		}
+	//OnKeyDown -> game_run
+	//void Item::OnKeyDown(UINT nChar, int playerX, int playerY) {
+	//	if (collide(playerX, playerY)) {
+	//		if (nChar == VK_SPACE) {
+	//			/* will have animation */
+	//		}
+	//	}
+	//}
 	
+	void Item::OnMove() {
+		//according player direction to decide 
+		//where the Item want to go
+		if (_isMoving) {
+		}
 	}
-	void Item::OnShow()
-	{
+	void Item::OnShow() {// show animation
 		if (_triggered) {
 			if (_type == once) {
-
-				
+				bitmap.SetAnimation(_anidelay, _isonce);
+				bitmap.ToggleAnimation();
 			}
 			else if (_type == multi) {
 				bitmap.SetAnimation(_anidelay,false);
@@ -68,9 +61,23 @@ namespace game_framework {
 	{
 		bitmap.LoadBitmapByString(file, color);
 	}
-	bool Item::collide(int playerX, int playerY) {
-		// will complete can stop on the with Item
-		return pos_x < playerX && playerX < pos_x + _w
-			&& pos_y < playerY && playerY < pos_y + _h;
+	void Item::GetPlayerPos(int x, int y) {
+		// we need to change x, y to grid (x, y)
+		/*
+		to do
+		*/
+		_playerX = x;
+		_playerY = y;
+	}
+	bool Item::collide() {
+		//         player(4)
+		//player(2) item player(1)
+		//         player(3)
+
+		return //full grid collide
+			pos_x + 32 == _playerX && pos_y == _playerY ||
+			pos_x - 32 == _playerX && pos_y == _playerY ||
+			pos_x == _playerX && pos_y + 32 == _playerY ||
+			pos_x == _playerX && pos_y - 32 == _playerY;
 	}
 }
