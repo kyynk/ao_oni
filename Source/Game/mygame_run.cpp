@@ -37,11 +37,11 @@ namespace game_framework {
 		selmap = 0;
 		isgrid = false;
 		iswrite = false;
-		ttt = true;
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
+		inputbox.OnMove();
 		player.OnMove();
 		player.init(4);
 
@@ -66,7 +66,6 @@ namespace game_framework {
 			ShowInitProgress(33 + i, name);
 			MapRes::GetInstance()->Load(name, count);
 		}
-
 		for (int i = 0; i < 54; i++) {
 			GameMap tmp;
 			tmp.Load("map_bmp/map" + to_string(i) + ".txt");
@@ -93,66 +92,81 @@ namespace game_framework {
 		//testitem.init(true, false, Item::itemtype::once, 1000);
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
+		inputbox.Load("img/cursor/input_box.bmp");
+		inputbox.init(20 * TILE, 0, 0, 10);
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
-		if (nChar == 0x49) { // i
-			gamemaps[selmap].istileindex = !gamemaps[selmap].istileindex;
+		if (inputbox.IsWrite()) {
+			inputbox.BoxOn(nChar);
 		}
-		if (nChar == 0x4A) { //j
-			if(selmap>0)
-			selmap--;
-		}
-		if (nChar == 0x4B) {// k
-			if(selmap<53)
-			selmap++;
-		}
-		if (nChar == 0x57) { //w
-			iswrite = true;
-		}
-		if (nChar == 0x47) { //g
-			isgrid = !isgrid;
-		}
-
-		if (nChar == 0x45) { //e
-			if (pointtmp.size()%2 ==1) {
-				TRACE("still one point in buffer, pop out or add a new point.\n");
+		else{
+			if (nChar == KEY_I) {
+				gamemaps[selmap].istileindex = !gamemaps[selmap].istileindex;
 			}
-			else {
-				isedit = !isedit;
-
+			if (nChar == KEY_J) {
+				if (selmap > 0)
+					selmap--;
 			}
-		}
-		if (nChar == 0x51) {
-			GotoGameState(GAME_STATE_OVER);
-		}
-		/*if (nChar == VK_RETURN) {
-			testitem.SetTriggered(true);
-		}*/
-		if (nChar == 0x55) { // press "U" show dialog -> if finish item control will optimize
-			talk.Show();
-		}
-		if (nChar == 0x50) { // press "P" show dialog -> if finish item control will optimize
-			useItem.Show();
-		}
-		if (nChar == VK_SPACE) { // press "space" colse conment
-			if (!story.isClose())
-				story.Close();
-			talk.Close();
-		}
-		if (talk.isClose() && useItem.isClose()) { // if in conversation, then player cannot moving
-			player.OnKeyDown(nChar);
-		}
-		if (!useItem.isClose()) {
-			useItem.GetSelect(nChar);
+			if (nChar == KEY_K) {
+				if (selmap < 53)
+					selmap++;
+			}
+
+			if (nChar == KEY_G) {
+				isgrid = !isgrid;
+			}
+
+			if (nChar == KEY_E) {
+				if (pointtmp.size() % 2 == 1) {
+					TRACE("still one point in buffer, pop out or add a new point.\n");
+				}
+				else {
+					isedit = !isedit;
+				}
+			}
+			if (nChar == VK_ENTER) {
+				if (inputbox.isInteger()) {
+					int index = stoi(string(inputbox.GetString()));
+					if (index >= 0 && index <= 53) {
+						selmap = index;
+
+					}
+				}
+			}
+			if (nChar == KEY_W) {
+				inputbox.TimerStart();
+				inputbox.ToggleBox();
+			}
+			if (nChar == KEY_Q) {
+				GotoGameState(GAME_STATE_OVER);
+			}
+			/*if (nChar == VK_RETURN) {
+				testitem.SetTriggered(true);
+			}*/
+			if (nChar == KEY_U) { // press "U" show dialog -> if finish item control will optimize
+				talk.Show();
+			}
+			if (nChar == KEY_P) { // press "P" show dialog -> if finish item control will optimize
+				useItem.Show();
+			}
+			if (nChar == VK_SPACE) { // press "space" close dialog
+				if (!story.isClose())
+					story.Close();
+				talk.Close();
+			}
+			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
+				player.OnKeyDown(nChar);
+			}
+			if (!useItem.isClose()) {
+				useItem.GetSelect(nChar);
+			}
 		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
 		player.OnKeyUp(nChar);
 	}
 
@@ -206,7 +220,7 @@ namespace game_framework {
 		if (story.isClose()) {
 
 			
-
+			inputbox.Show();
 			gamemaps[selmap].ShowMap();
 			if (isedit && !ofs.is_open()) {
 				ofs.open("maplink.txt", std::ios::app);
@@ -253,7 +267,7 @@ namespace game_framework {
 			// show text, will be placed inside a function in the future
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			CTextDraw::Print(pDC, 0, 0, to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false") + to_string(selmap));
+			CTextDraw::Print(pDC, 0, 0, "map index:"+to_string(selmap)+ "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 			
 			CDDraw::ReleaseBackCDC();
 		}

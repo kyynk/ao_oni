@@ -15,8 +15,9 @@ namespace game_framework {
 
 		void TimerUpdate();
 		void TimerReset();
+		void TimerStop();
 		int TimerGetCount();
-		void SetTimer(bool b); // set true to start timer , false to stop timer
+		void TimerStart();
 		bool IsTimerStart(); 
 		// every entity must implement these three function 
 		virtual void OnMove();
@@ -24,7 +25,8 @@ namespace game_framework {
 		virtual void Load();
 
 		CMovingBitmap bitmap;
-		int pos_x, pos_y;
+	protected:
+		int _pos_x, _pos_y;
 
 	private:
 		int _counter;
