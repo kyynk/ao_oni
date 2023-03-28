@@ -416,6 +416,7 @@ namespace game_framework {
 
 		pDC->SetBkMode(TRANSPARENT);
 		pDC->SetTextColor(fontColor);
+		
 		LOGFONT lf;
 		CFont f;
 		memset(&lf, 0, sizeof(lf));
