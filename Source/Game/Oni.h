@@ -1,6 +1,6 @@
 #pragma once
 namespace game_framework {
-	class Oni{
+	class Oni : public Entity{
 	public:
 		enum OniType {
 			normal,
