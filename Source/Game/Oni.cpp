@@ -8,6 +8,7 @@
 #include <bitset>
 #include <vector>
 #include "config.h"
+#include "Entity.h"
 #include "Oni.h"
 
 
