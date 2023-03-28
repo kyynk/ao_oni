@@ -90,7 +90,7 @@ namespace game_framework {
 		useItem.SetParam({ "Do u want to use that?" }, true);
 
 		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		testitem.init(true, false, Item::itemtype::once, 1000);
+		testitem.init(false, true, false, false, Item::itemtype::once, 1000, 0);
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
 	}
