@@ -27,11 +27,14 @@ namespace game_framework {
 		};
 		Oni();
 		~Oni();
-		void SetParam(OniType tp);
-		void SetPos(int x, int y);
+		void SetParam(OniType tp, int step, int moveTime);
+		void Load(string filename, COLORREF color);
 		void GetPlayerPos(int playerX, int playerY);
-		void OnMove();	// will do track in this
+		void Track();
+		void OnMove();	// every time oni move, will track first
 		void OnShow();
+		// every time oni appear, default time is 10 sec
+		void ResetOT();
 		// 10 -> 0 sec, if is 0 sec, 
 		// change stage will make Oni disappear
 		void Countdown();
@@ -40,10 +43,19 @@ namespace game_framework {
 		bool isCatch(int playerX, int playerY);  // collide
 		
 	private:
-		int _posX, _posY, _time, 
-			_humanX, _humanY;
+		int _humanX, _humanY, 
+			_step, _moveTime, _overTime;
 		bool _isDisappear;
+		bool _walkiter;
+		bool _blocked;
+		bool _isup;
+		bool _isdown;
+		bool _isleft;
+		bool _isright;
 		OniType _type;
-		CMovingBitmap bitmap;
+		bstate _bstate;
+		move _premove;
+		move _nowmove;
+		move _tracking;
 	};
 }
