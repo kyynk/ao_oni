@@ -47,11 +47,11 @@ namespace game_framework{
 	void Human::OnMove() {
 
 		if (_isup || _isdown || _isleft || _isright) {
-			SetTimer(true);
+			TimerStart();
 		}
 		else {
 			if (TimerGetCount() == 8) {
-				SetTimer(false);
+				TimerReset();
 				_walkiter = !_walkiter;
 			}
 		}
@@ -71,21 +71,21 @@ namespace game_framework{
 				_bstate = s2;
 			}
 			if (_nowmove == isup) {
-				pos_y -= _step;
+				_pos_y -= _step;
 			}
 			else if (_nowmove == isdown) {
-				pos_y += _step;
+				_pos_y += _step;
 			}
 			else if (_nowmove == isleft) {
-				pos_x -= _step;
+				_pos_x -= _step;
 			}
 			else if (_nowmove == isright) {
-				pos_x += _step;
+				_pos_x += _step;
 			}
 			TimerUpdate();
 
 		}
-		bitmap.SetTopLeft(pos_x, pos_y);
+		bitmap.SetTopLeft(_pos_x, _pos_y);
 		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {

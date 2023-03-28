@@ -46,6 +46,7 @@
 #include "MapRes.h"
 #include "item.h"
 #include "Dialog.h"
+#include "InputBox.h"
 #include <fstream>
 
 namespace game_framework {
@@ -119,7 +120,7 @@ namespace game_framework {
 		vector<GameMap> gamemaps;
 		vector<vector<int> > pointtmp;
 		CMovingBitmap seltile;
-		bool ttt;
+		InputBox inputbox;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
