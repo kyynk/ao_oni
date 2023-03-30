@@ -35,15 +35,15 @@ namespace game_framework {
 		_playerY = y;
 	}
 	void Item::CheckMoveDirection() {
-		int x = pos_x + _boxX;
-		int y = pos_y + _boxY;
-		if (_playerX + 32 == pos_x && (_playerY == pos_y || _playerY == y))
+		int x = _pos_x + _boxX;
+		int y = _pos_y + _boxY;
+		if (_playerX + 32 == _pos_x && (_playerY == _pos_y || _playerY == y))
 			_move = isright;
-		else if (_playerX - 32 == x && (_playerY == pos_y || _playerY == y))
+		else if (_playerX - 32 == x && (_playerY == _pos_y || _playerY == y))
 			_move = isleft;
-		else if ((_playerX == pos_x || _playerX == x) && _playerY + 32 == pos_y)
+		else if ((_playerX == _pos_x || _playerX == x) && _playerY + 32 == _pos_y)
 			_move = isdown;
-		else if ((_playerX == pos_x || _playerX == x) && _playerY - 32 == y)
+		else if ((_playerX == _pos_x || _playerX == x) && _playerY - 32 == y)
 			_move = isup;
 		else
 			_move = none;
@@ -53,15 +53,15 @@ namespace game_framework {
 			if (nChar == 0x47)
 				_close = true;
 			if (_move == isright && nChar == VK_RIGHT)
-				pos_x += _step;
+				_pos_x += _step;
 			else if (_move == isleft && nChar == VK_LEFT)
-				pos_x -= _step;
+				_pos_x -= _step;
 			else if (_move == isup && nChar == VK_UP)
-				pos_y -= _step;
+				_pos_y -= _step;
 			else if (_move == isdown && nChar == VK_DOWN)
-				pos_y += _step;
+				_pos_y += _step;
 		}
-		bitmap.SetTopLeft(pos_x, pos_y);
+		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}
 	void Item::OnShow() {
 		if(!_close)

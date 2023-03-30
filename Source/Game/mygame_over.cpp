@@ -19,7 +19,6 @@ CGameStateOver::CGameStateOver(CGame *g): CGameState(g)
 
 void CGameStateOver::OnMove()
 {
-	GotoGameState(GAME_STATE_INIT);
 }
 
 void CGameStateOver::OnBeginState()
@@ -43,6 +42,13 @@ void CGameStateOver::OnInit()
 	ShowInitProgress(100, "OK!");
 
 	//Sleep(200);
+}
+
+void game_framework::CGameStateOver::OnKeyDown(UINT nChar, UINT, UINT)
+{
+	if (nChar == KEY_Q) {
+		GotoGameState(GAME_STATE_INIT);
+	}
 }
 
 void CGameStateOver::OnShow()
