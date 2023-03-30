@@ -90,13 +90,15 @@ namespace game_framework {
 		useItem.SetParam({ "Do u want to use that?" }, true);
 
 		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		testitem.init(false, true, false, false, Item::itemtype::once, 1000, 0);
+		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		testitem.GetPlayerPos(32, 0);
+		testitem.OnMove(nChar);  // press G vanish
 		if (nChar == 0x49) { // i
 			gamemaps[selmap].istileindex = !gamemaps[selmap].istileindex;
 		}
@@ -119,7 +121,8 @@ namespace game_framework {
 			isedit = !isedit;
 		}
 		if (nChar == VK_RETURN) {
-			testitem.SetTriggered(true);
+			testitem.SetTrigger();
+			testitem.Animation(0);
 		}
 		if (nChar == 0x55) { // press "U" show dialog -> if finish item control will optimize
 			talk.Show();

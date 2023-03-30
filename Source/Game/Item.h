@@ -3,6 +3,7 @@ namespace game_framework {
 	class Item : public Entity {
 	public:
 		enum itemtype {
+			select,
 			once,
 			repeat
 		};
@@ -23,7 +24,7 @@ namespace game_framework {
 		void OnMove(UINT nChar);
 		void OnShow();
 		bool Collide();
-		void Animation();
+		void Animation(int n);
 		void SetTrigger();
 	
 	private:
@@ -32,6 +33,6 @@ namespace game_framework {
 			_boxX, _boxY;
 		itemtype _type;
 		move _move;
-;		bool _triggered;
+;		bool _triggered, _close;
 	};
 }
