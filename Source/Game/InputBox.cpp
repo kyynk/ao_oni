@@ -15,7 +15,6 @@ namespace game_framework {
 		_pos_x = x;
 		_pos_y = y;
 		_iswrite = false;
-		_cursor = cursor;
 		_margin = margin;
 		_toggleplaceholder = true;
 		_box.SetTopLeft(_pos_x + _margin, _pos_y + _margin);
@@ -27,16 +26,14 @@ namespace game_framework {
 			if (isalnum(c)) {
 				if (int(_buffer.size()) < buffersize - 1) {  // Make sure there is space in the buffer
 					_buffer.push_back(c);
-					_cursor++;
 				}
 			}
 			else if (c == VK_BACK) {
 				if (int(_buffer.size()) > 0) {
 					_buffer.pop_back();
-					_cursor--;
 				}
 			}
-			else if (c == VK_RETURN) {
+			else if (c == VK_SPACE) {
 				_iswrite = false;
 				_placeholder = "\0";
 				TimerReset();
@@ -57,6 +54,9 @@ namespace game_framework {
 			}
 			TimerUpdate();
 		}
+	}
+	void InputBox::ClearBuffer() {
+		_buffer.clear();
 	}
 	void InputBox::Load(string box,COLORREF color1)
 	{

@@ -51,11 +51,10 @@ namespace game_framework{
 		}
 		else {
 			if (TimerGetCount() == 8) {
-				TimerReset();
+				TimerStop();
 				_walkiter = !_walkiter;
 			}
 		}
-
 		if (IsTimerStart()) {
 			if (TimerGetCount() % 8 == 0) {
 				_nowmove = _pressing;
