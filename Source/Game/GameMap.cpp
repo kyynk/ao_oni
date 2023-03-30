@@ -30,21 +30,22 @@ namespace game_framework {
 				MapRes::GetInstance()->GetData()[_resource_list[tmp]][val - tmp].ShowBitmap();
 			}
 		}
-		if (istileindex) {
-			CDC* pDC = CDDraw::GetBackCDC();
-			for (int i = 0; i < _height; i++) {
-				for (int j = 0; j < _width; j++) {
-					int val = _gamemap.GetValue(layer - 1, i, j);
-					CTextDraw::ChangeFontLog(pDC, 10, "Noto Sans TC", RGB(204,225,0));
-					CTextDraw::Print(pDC, _pos_x + j * TILE, _pos_y + i * TILE, std::to_string(val));
-				}
-			}
-			CDDraw::ReleaseBackCDC();
-		}
+		
 	}
 	void GameMap::ShowMap() {
 		for (int i = 1; i < _layer+1; i++) {
 			ShowMap(i);
+		}
+		if (isshowtileindex) {
+			CDC *cdc = CDDraw::GetBackCDC();
+			CTextDraw::ChangeFontLog(cdc, 10, "Noto Sans TC", RGB(255, 255, 255));
+			for (int i = 0; i < _height; i++) {
+				for (int j = 0; j < _width; j++) {
+					int val = _gamemap.GetValue(indexlayer, i, j);
+					CTextDraw::Print(cdc, _pos_x + j * TILE, _pos_y + i * TILE, to_string(val));
+				}
+			}
+			CDDraw::ReleaseBackCDC();
 		}
 	}
 	void GameMap::SetTopLeftMap(int x,int y)
@@ -91,6 +92,15 @@ namespace game_framework {
 			}
 		}
 	}
+	void GameMap::ShowTileIndexLayer()
+	{
+		if (isshowtileindex) {
+			CDC *cdc = CDDraw::GetBackCDC();
+			CTextDraw::ChangeFontLog(cdc, 20, "Noto Sans TC", RGB(255, 0, 0), 700);
+			CTextDraw::Print(cdc, 24 * TILE, 3 * TILE, to_string(indexlayer));
+			CDDraw::ReleaseBackCDC();
+		}
+	}
 	int GameMap::selTileset(int n)
 	{
 		int pre = 0;
@@ -101,7 +111,7 @@ namespace game_framework {
 				tmp = pre;
 			}
 		}
-		return pre;
-		
+		return pre;	
 	}
+	
 }

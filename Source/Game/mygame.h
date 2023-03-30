@@ -46,6 +46,7 @@
 #include "MapRes.h"
 #include "item.h"
 #include "Dialog.h"
+#include "InputBox.h"
 #include <fstream>
 
 namespace game_framework {
@@ -107,7 +108,7 @@ namespace game_framework {
 		Dialog talk;
 		Dialog useItem;
 		Human player;
-		int selmap;
+		//int selmap;
 		Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;
@@ -117,9 +118,12 @@ namespace game_framework {
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
-		vector<vector<int> > pointtmp;
+		vector<int > pointtmp;
+		//vector<int> indexlog;
 		CMovingBitmap seltile;
-		bool ttt;
+		InputBox inputbox;
+		
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -132,6 +136,8 @@ namespace game_framework {
 		CGameStateOver(CGame *g);
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();
+		void OnKeyDown(UINT, UINT, UINT);
+
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面

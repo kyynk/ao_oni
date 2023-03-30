@@ -13,31 +13,11 @@
 #include "GameMap.h"
 #include "MapNode.h"
 #include "MapRouter.h"
-#define HOUSE1_BASEMENT1 0
-#define HOUSE1_BASEMENT2 1
-#define HOUSE1_BASEMENT3 2
-#define HOUSE1_BASEMENT4 3
-#define HOUSE1_BASEMENT5 4
-#define HOUSE1_HALLWAY1 5
-#define HOUSE1_HALLWAY2 6
-#define HOUSE1_HALLWAY3 7
-#define HOUSE1_HALLWAY4 8
-#define HOUSE1_HALLWAY5 9
-#define HOUSE1_HALLWAY6 10
-#define HOUSE1_KITCHEN 11
-#define HOUSE1_LIBRARY 12
-#define HOUSE1_LOBBY 13
-#define HOUSE1_ROOM1 14
-#define HOUSE1_ROOM2 15
-#define HOUSE1_ROOM3 16
-#define HOUSE1_ROOM4 17
-#define HOUSE1_ROOM5 18
-#define HOUSE1_ROOM6 19
-#define HOUSE1_ROOM7 20
-#define HOUSE1_ROOM8 21
-#define HOUSE1_ROOM9 22
 
 namespace game_framework {
+	void MapRouter::init()
+	{
+	}
 	void MapRouter::Load(string filename)
 	{
 		int mapID1, mapID2;
@@ -48,27 +28,34 @@ namespace game_framework {
 		bool nadded = true ;
 		for (int i = 0; i < n; i++) {
 			in >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
-			for (auto f : _data[mapID1]) {
-				if (f.GetID() == mapID2) {
-					f.AddEdge(NodeData(x1,y1,x2,y2));
+			NodeData tmp1(x1, y1, x2, y2);
+			for (int j = 0; j < 5 ; j++) {
+				if (_data[mapID1][j].GetID() == mapID2) {
+					_data[mapID1][j].AddEdge(move(tmp1));
 					nadded = false;
 					break;
 				}
 			}
 			if (nadded) {
-				_data[mapID1].push_back(MapNode({ NodeData(x1,y1,x2,y2) }, mapID2));
+				MapNode newnode(move(tmp1), mapID2);
+				_data[mapID1][record[mapID1]] = newnode;
+				record[mapID1] += 1;
 			}
 			nadded = true;
-			for (auto f : _data[mapID1]) {
-				if (f.GetID() == mapID2) {
-					f.AddEdge(NodeData(x2, y2, x1, y1));
+			NodeData tmp2(x2, y2, x1, y1);
+			for (int j = 0; j < 5; j++) {
+				if (_data[mapID2][j].GetID() == mapID1) {
+					_data[mapID2][j].AddEdge(move(tmp2));
 					nadded = false;
 					break;
 				}
 			}
-			if (!nadded) {
-				_data[mapID2].push_back(MapNode({NodeData(x2, y2, x1, y1)}, mapID1));
+			if (nadded) {
+				MapNode newnode(move(tmp2), mapID1);
+				_data[mapID2][record[mapID2]] = newnode;
+				record[mapID2] += 1;
 			}
+			nadded = true;
 		}
 	}
 	void MapRouter::Cleanup()
@@ -82,13 +69,18 @@ namespace game_framework {
 	void MapRouter::debug()
 	{
 		for (int i = 0; i < 23; i++) {
-			for (auto f : _data[i]) {
-				f.debug();
+			for (int j = 0; j < record[i];j++) {
+				TRACE("%d\n", i);
+				_data[i][j].debug();
 			}
 		}
 	}
 
 
+	void MapRouter::ShowIndexLayer()
+	{
+		_gamemaps.at(_nowID).ShowTileIndexLayer();
+	}
 
 	MapRouter* MapRouter::_Instance = nullptr;
 }

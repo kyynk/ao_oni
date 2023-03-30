@@ -25,7 +25,7 @@ namespace game_framework{
 		};
 		Human();
 
-		void init(int step);
+		void init(int step,int offset);
 		
 		void OnMove();
 		void OnKeyDown(UINT nChar);
@@ -44,6 +44,7 @@ namespace game_framework{
 		}
 
 	private:
+		int _coroffset;
 		bool _pressed;
 		bool _walkiter;
 		bool _blocked;

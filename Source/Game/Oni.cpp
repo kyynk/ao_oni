@@ -74,8 +74,8 @@ namespace game_framework {
 		_humanY = playerY;
 	}
 	void Oni::Track() {
-		int xLen = pos_x - _humanX;
-		int yLen = pos_y - _humanY;
+		int xLen = _pos_x - _humanX;
+		int yLen = _pos_y - _humanY;
 		if (abs(xLen) < abs(yLen)) {
 			if (yLen < 0) _tracking = isdown;
 			else _tracking = isup;
@@ -148,6 +148,6 @@ namespace game_framework {
 		_overTime++;
 	}
 	bool Oni::isCatch(int playerX, int playerY) {
-		return pos_x == playerX && pos_y == playerY;
+		return _pos_x == playerX && _pos_y == playerY;
 	}
 }
