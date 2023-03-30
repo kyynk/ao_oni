@@ -7,7 +7,6 @@ namespace game_framework {
 		bool _iswrite;
 		vector <char> _buffer;
 		string _placeholder;
-		int _cursor;
 		int _margin;
 		bool _toggleplaceholder;
 	public:
@@ -24,6 +23,7 @@ namespace game_framework {
 		void init(int x, int y, int cursor, int margin);
 		void BoxOn(UINT c);
 		void OnMove();
+		void ClearBuffer();
 		void Load(string box, COLORREF color1 = RGB(0,0,0));
 		bool IsWrite() { return _iswrite; }
 		void Show();

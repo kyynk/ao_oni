@@ -46,7 +46,7 @@ void CGameStateOver::OnInit()
 
 void game_framework::CGameStateOver::OnKeyDown(UINT nChar, UINT, UINT)
 {
-	if (nChar == 0x51) {
+	if (nChar == KEY_Q) {
 		GotoGameState(GAME_STATE_INIT);
 	}
 }

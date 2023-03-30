@@ -69,3 +69,16 @@
 #define KEY_Y 0x59
 #define KEY_Z 0x5a
 #define VK_ENTER VK_RETURN
+
+/*
+debug mode
+press
+e : enable map path edit
+i : enable show map tile index
+9 amd 0 : navigate through indexes of each map layers
+j and k : navigate through maps
+w : enable input box
+space :  when input box is enable, escape input box.
+		otherwise, if input is in the range of map index, teleport to to corresponding map
+
+*/
