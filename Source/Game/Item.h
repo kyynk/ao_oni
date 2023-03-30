@@ -2,13 +2,9 @@
 namespace game_framework {
 	class Item : public Entity {
 	public:
-		// need to 
-		// check the type will be once -> multi or not
 		enum itemtype {
 			once,
-			oncedone,
-			multi,
-			multidone
+			repeat
 		};
 		enum move {
 			none,
@@ -19,26 +15,23 @@ namespace game_framework {
 		};
 		Item();
 		~Item();
-		void init(bool willMove, bool isonce, bool triggered,
-			bool blocking, itemtype type, int anidelay, 
-			int step);
-		//void OnKeyDown(UINT nChar, int playerX, int playerY);
-		void OnMove();
-		void OnShow();
-		void SetTriggered(bool a);
-		void Load(vector<string> file, COLORREF color);
+		void SetParam(int step, int delay, itemtype type, 
+			int boxX, int boxY);
+		void Load(vector<string> filename, COLORREF color);
 		void GetPlayerPos(int x, int y);
-		bool collide();
+		void CheckMoveDirection();
+		void OnMove(UINT nChar);
+		void OnShow();
+		bool Collide();
+		void Animation();
+		void SetTrigger();
 	
 	private:
-		int _step, _playerX, _playerY, 
-			_w, _h;  // Width Height
+		int _step, _anidelay, 
+			_playerX, _playerY, 
+			_boxX, _boxY;
 		itemtype _type;
+		move _move;
 ;		bool _triggered;
-		bool _isonce;
-		bool _isMoving;
-		bool _isBlock;
-		int _anidelay;
 	};
-
 }

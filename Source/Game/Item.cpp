@@ -9,75 +9,71 @@
 #include "Entity.h"
 #include "Item.h"
 namespace game_framework {
-
 	Item::Item() {
-
+		_step, _anidelay, _boxX, _boxY = 0;
+		_type = once;
+		_move = none;
+		_triggered = false;
 	}
 	Item::~Item() {
-
 	}
-	void Item::init(bool willMove, bool isonce, 
-		bool triggered, bool blocking, itemtype type, 
-		int anidelay = 100, int step=0) {
-		_isMoving = willMove;
-		_isBlock = blocking;
-		_isonce = isonce;
-		_anidelay = anidelay;
-		_triggered = triggered;
-		_type = type;
+	void Item::SetParam(int step, int delay, itemtype type, 
+		int boxX, int boxY) {
 		_step = step;
+		_anidelay = delay;
+		_type = type;
+		_boxX = boxX;
+		_boxY = boxY;
 	}
-	//OnKeyDown -> game_run
-	//void Item::OnKeyDown(UINT nChar, int playerX, int playerY) {
-	//	if (collide(playerX, playerY)) {
-	//		if (nChar == VK_SPACE) {
-	//			/* will have animation */
-	//		}
-	//	}
-	//}
-	
-	void Item::OnMove() {
-		//according player direction to decide 
-		//where the Item want to go
-		if (_isMoving) {
-		}
-	}
-	void Item::OnShow() {// show animation
-		if (_triggered) {
-			if (_type == once) {
-				bitmap.SetAnimation(_anidelay, _isonce);
-				bitmap.ToggleAnimation();
-			}
-			else if (_type == multi) {
-				bitmap.SetAnimation(_anidelay,false);
-			}
-			bitmap.ShowBitmap();
-		}
-	}
-	void Item::SetTriggered(bool a) {
-		_triggered = a;
-	}
-	void Item::Load(vector <string> file,COLORREF color)
-	{
-		bitmap.LoadBitmapByString(file, color);
+	void Item::Load(vector<string> filename, COLORREF color) {
+		bitmap.LoadBitmapByString(filename, color);
 	}
 	void Item::GetPlayerPos(int x, int y) {
-		// we need to change x, y to grid (x, y)
-		/*
-		to do
-		*/
 		_playerX = x;
 		_playerY = y;
 	}
-	bool Item::collide() {
-		//         player(4)
-		//player(2) item player(1)
-		//         player(3)
-
-		return //full grid collide
-			pos_x + 32 == _playerX && pos_y == _playerY ||
-			pos_x - 32 == _playerX && pos_y == _playerY ||
-			pos_x == _playerX && pos_y + 32 == _playerY ||
-			pos_x == _playerX && pos_y - 32 == _playerY;
+	void Item::CheckMoveDirection() {
+		int x = pos_x + _boxX;
+		int y = pos_y + _boxY;
+		if (_playerX + 32 == pos_x && (_playerY == pos_y || _playerY == y))
+			_move = isright;
+		else if (_playerX - 32 == x && (_playerY == pos_y || _playerY == y))
+			_move = isleft;
+		else if ((_playerX == pos_x || _playerX == x) && _playerY + 32 == pos_y)
+			_move = isdown;
+		else if ((_playerX == pos_x || _playerX == x) && _playerY - 32 == y)
+			_move = isup;
+		else
+			_move = none;
+	}
+	void Item::OnMove(UINT nChar) {
+		if (_move == isright && nChar == VK_RIGHT)
+			pos_x += _step;
+		else if (_move == isleft && nChar == VK_LEFT)
+			pos_x -= _step;
+		else if (_move == isup && nChar == VK_UP)
+			pos_y -= _step;
+		else if (_move == isdown && nChar == VK_DOWN)
+			pos_y += _step;
+		bitmap.SetTopLeft(pos_x, pos_y);
+	}
+	void Item::OnShow() {
+		bitmap.ShowBitmap();
+	}
+	bool Item::Collide() {
+		CheckMoveDirection();
+		return _move != none;
+	}
+	void Item::Animation() {
+		if (_triggered) {
+			if (_type == once) {
+				bitmap.ToggleAnimation();
+				bitmap.SetAnimation(_anidelay, true);
+			}
+			_triggered = false;
+		}
+	}
+	void Item::SetTrigger() {
+		_triggered = true;
 	}
 }
