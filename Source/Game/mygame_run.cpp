@@ -44,7 +44,7 @@ namespace game_framework {
 	{
 		inputbox.OnMove();
 		player.OnMove();
-		player.init(4);
+		player.init(4,16);
 
 	}
 
@@ -87,9 +87,9 @@ namespace game_framework {
 		talk.SetParam({ "Hi", "how", "r u?" }, false);
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
-		
-		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		//testitem.init(true, false, Item::itemtype::once, 1000);
+		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
 		inputbox.Load("img/cursor/input_box.bmp");
@@ -101,27 +101,31 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+
+		testitem.GetPlayerPos(32, 0);
+		testitem.OnMove(nChar);  // press G vanish
 		if (inputbox.IsWrite()) {
 			inputbox.BoxOn(nChar);
 		}
-		else{
+		else {
 			if (nChar == KEY_I) {
 				MapRouter::GetInstance()->ToggleShowTileIndex();
 			}
 			if (nChar == KEY_9) {
 				MapRouter::GetInstance()->MinusTileIndex();
 			}
-			if(nChar == KEY_0){
+			if (nChar == KEY_0) {
 				MapRouter::GetInstance()->AddTileIndex();
 			}
 			if (nChar == KEY_J) {
 				if (MapRouter::GetInstance()->GSNowID() > 0)
-					MapRouter::GetInstance()->GSNowID()-=1;
+					MapRouter::GetInstance()->GSNowID() -= 1;
 			}
 			if (nChar == KEY_K) {
 				if (MapRouter::GetInstance()->GSNowID() < 53)
 					MapRouter::GetInstance()->GSNowID()++;
 			}
+
 
 			if (nChar == KEY_G) {
 				isgrid = !isgrid;
@@ -160,8 +164,9 @@ namespace game_framework {
 						//indexlog.push_back(selmap);
 					}
 				}
-				if (!story.isClose())
+				if (!story.isClose()) {
 					story.Close();
+				}
 				talk.Close();
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
@@ -169,6 +174,11 @@ namespace game_framework {
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
+			}
+
+			if (nChar == VK_RETURN) {
+				testitem.SetTrigger();
+				testitem.Animation(0);
 			}
 		}
 	}
@@ -178,8 +188,8 @@ namespace game_framework {
 		player.OnKeyUp(nChar);
 	}
 
-void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
+	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	{
 	if (isedit) {
 		mousex_foc = mousex;
 		mousey_foc = mousey;
@@ -190,20 +200,20 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 		pointtmp.push_back(mousey_foc*TILE);
 		TRACE("push {%d, %d ,%d }\n", MapRouter::GetInstance()->GSNowID(), mousex_foc*TILE, mousey_foc*TILE);
 	}
-}
+	}
 
-void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-}
+	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+	}
 
-void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-	mousex = point.x / 32;
-	mousey = point.y / 32;
-}
+	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+		mousex = point.x / 32;
+		mousey = point.y / 32;
+	}
 
-void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
-{
+	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	{
 	if (isedit) {
 		if (pointtmp.empty()) {
 			TRACE("nothing to be popped");
@@ -216,80 +226,80 @@ void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			pointtmp.pop_back();
 		}
 	}
-}
-
-void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
-{
-
-}
-
-
-void CGameStateRun::OnShow()
-{
-	if (!story.isClose()) {
-		story.ShowTotal();
 	}
-	if (story.isClose()) {
-		///////////////////// debug section
-		inputbox.Show();
-		MapRouter::GetInstance()->ShowMap();
-		if (isedit && !ofs.is_open()) {
-			ofs.open("maplink.txt", std::ios::app);
-			if (!ofs.is_open()) {
-				TRACE("Failed to open file.\n");
-				throw std::invalid_argument("open failed");
-			}
-			TRACE("open maplink.txt\n");
 
+	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	{
+
+	}
+
+
+	void CGameStateRun::OnShow()
+	{
+		if (!story.isClose()) {
+			story.ShowTotal();
 		}
-		if (ofs.is_open() && !isedit) {
-			int i = 1;
-			for (auto f : pointtmp) {
-				ofs << f;
-				if (i % 6 == 0) {
-					ofs << "\n";
+		if (story.isClose()) {
+			///////////////////// debug section
+			inputbox.Show();
+			MapRouter::GetInstance()->ShowMap();
+			if (isedit && !ofs.is_open()) {
+				ofs.open("maplink.txt", std::ios::app);
+				if (!ofs.is_open()) {
+					TRACE("Failed to open file.\n");
+					throw std::invalid_argument("open failed");
 				}
-				else {
-					ofs << " ";
-				}
-				i++;
+				TRACE("open maplink.txt\n");
+
 			}
-			ofs.close();
-			TRACE("close\n");
-		}
-		MapRouter::GetInstance()->ShowIndexLayer();
-		if (isgrid) {
-			grid.ShowBitmap();
-		}
-		if (isedit) {
-			seltile.ShowBitmap();
-		}
-		CDC *pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-		CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
-		int len = int(pointtmp.size());
-		if(len % 6 == 0 && len !=0){
-			CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
-			CTextDraw::Print(pDC, 0, 60,"point2  " + to_string(pointtmp[len-3]) + "  " + to_string(pointtmp[len-2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
+			if (ofs.is_open() && !isedit) {
+				int i = 1;
+				for (auto f : pointtmp) {
+					ofs << f;
+					if (i % 6 == 0) {
+						ofs << "\n";
+					}
+					else {
+						ofs << " ";
+					}
+					i++;
+				}
+				ofs.close();
+				TRACE("close\n");
+			}
+			MapRouter::GetInstance()->ShowIndexLayer();
+			if (isgrid) {
+				grid.ShowBitmap();
+			}
+			if (isedit) {
+				seltile.ShowBitmap();
+			}
+			CDC *pDC = CDDraw::GetBackCDC();
+			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
+			CTextDraw::Print(pDC, 0, TILE * 6,"player cor : "+ to_string(player.getX1()) + " " + to_string(player.getY1()+16) );
+			int len = int(pointtmp.size());
+			if(len % 6 == 0 && len !=0){
+				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
+				CTextDraw::Print(pDC, 0, 60,"point2  " + to_string(pointtmp[len-3]) + "  " + to_string(pointtmp[len-2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
 			
-		}
-		else if (len % 3 == 0 && len != 0) {
-			CTextDraw::Print(pDC, 0, 30,"point1  " +  to_string(pointtmp[len - 3]) + "  " + to_string(pointtmp[len - 2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
-		}	
-		CDDraw::ReleaseBackCDC();
-		//////////////////////// debug section end
-		player.OnShow();
-		//testitem.OnShow();
-		if (!talk.isClose()) {
-			talk.ShowTotal();
-		}
-		if (!talk.isClose()) {
-			talk.ShowTotal();
-		}
-		if (!useItem.isClose()) {
-			useItem.ShowTotal();
-		}
-		// show text, will be placed inside a function in the future
+			}
+			else if (len % 3 == 0 && len != 0) {
+				CTextDraw::Print(pDC, 0, 30,"point1  " +  to_string(pointtmp[len - 3]) + "  " + to_string(pointtmp[len - 2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
+			}	
+			CDDraw::ReleaseBackCDC();
+			//////////////////////// debug section end
+			player.OnShow();
+			//testitem.OnShow();
+			if (!talk.isClose()) {
+				talk.ShowTotal();
+			}
+			if (!talk.isClose()) {
+				talk.ShowTotal();
+			}
+			if (!useItem.isClose()) {
+				useItem.ShowTotal();
+			}
 		}
 	}
 

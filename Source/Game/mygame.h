@@ -109,7 +109,7 @@ namespace game_framework {
 		Dialog useItem;
 		Human player;
 		//int selmap;
-		//Item testitem;
+		Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;
 		bool isgrid;

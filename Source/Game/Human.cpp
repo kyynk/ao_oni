@@ -40,8 +40,9 @@ namespace game_framework{
 		_nowmove = none;
 		_pressing = none;
 	}
-	void Human::init(int step) {
+	void Human::init(int step,int offset) {
 		_step = step;
+		_coroffset = offset;
 	}
 
 	void Human::OnMove() {
