@@ -86,7 +86,7 @@ namespace game_framework {
 		if (_isChoose)
 			_choice.SetParam(_txtX, _txtY + _store.size() * _lineSpacing,
 				0, 0, _txtX - 5, _txtY + _store.size() * _lineSpacing,
-				50, { "Yes","No" });
+				45, { "Yes","No" });
 	}
 	void Dialog::ShowBox() {
 		_box.SetTopLeft(_boxX, _boxY);
