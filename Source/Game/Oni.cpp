@@ -30,7 +30,8 @@ namespace game_framework {
 		SetXY(0, 0);
 		_type = normal;
 		ResetOT();
-		_humanX, _humanY, _step = 0;
+		_humanX, _humanY, _step, 
+			_offsetX, _offsetY= 0;
 		_isDisappear = false;
 		_walkiter = true;
 		_bstate = s1;
@@ -39,6 +40,7 @@ namespace game_framework {
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
+		_wait = false;
 		TimerReset();
 		_premove = none;
 		_nowmove = none;
@@ -53,11 +55,24 @@ namespace game_framework {
 		string name;
 		if (_type == normal) {
 			name = "oni_";
+			_offsetX = 32;
+			_offsetY = 80;
 		}
 		else if (_type == mika) {
 			name = "mika_";
+			_offsetX = 32;
+			_offsetY = 80;
 		}
 		Load(name, RGB(204, 255, 0));
+	}
+	void Oni::SetPos(int x, int y) {
+		SetXY(x, y - _offsetY);
+	}
+	int Oni::GetPosX() {
+		return _pos_x;
+	}
+	int Oni::GetPosY() {
+		return _pos_y + _offsetY;
 	}
 	void Oni::Load(string filename, COLORREF color) {
 		vector<string> oniVec;
@@ -75,14 +90,16 @@ namespace game_framework {
 	}
 	void Oni::Track() {
 		int xLen = _pos_x - _humanX;
-		int yLen = _pos_y - _humanY;
+		int yLen = _pos_y + _offsetY - _humanY;
 		if (abs(xLen) < abs(yLen)) {
 			if (yLen < 0) _tracking = isdown;
-			else _tracking = isup;
+			else if (yLen > 0) _tracking = isup;
+			else _tracking = none;
 		}
 		else {
 			if (xLen < 0) _tracking = isright;
-			else _tracking = isleft;
+			else if (xLen > 0) _tracking = isleft;
+			else _tracking = none;
 		}
 	}
 	void Oni::OnMove() {
@@ -91,7 +108,47 @@ namespace game_framework {
 		//which is bigger than the other
 		//we will choose it
 		//and move it first
-		Track();
+		if (isCatch()) {
+			TimerStop();
+		}
+		else {
+			Track();
+			TimerStart();
+			if (TimerGetCount() == _moveTime) {
+				TimerStop();
+				_walkiter = !_walkiter;
+			}
+			if (IsTimerStart()) {
+				if (TimerGetCount() % _moveTime == 0) {
+					_nowmove = _tracking;
+				}
+				if (TimerGetCount() == _moveTime) {
+					TimerReset();
+					_walkiter = !_walkiter;
+				}
+				if (TimerGetCount() < (_moveTime / 2)) {
+					_bstate = s1;
+				}
+				else {
+					_bstate = s2;
+				}
+				if (_nowmove == isup) {
+					_pos_y -= _step;
+				}
+				else if (_nowmove == isdown) {
+					_pos_y += _step;
+				}
+				else if (_nowmove == isleft) {
+					_pos_x -= _step;
+				}
+				else if (_nowmove == isright) {
+					_pos_x += _step;
+				}
+				TimerUpdate();
+				Countdown();
+			}
+			bitmap.SetTopLeft(_pos_x, _pos_y);
+		}
 	}
 	void Oni::OnShow() {
 		//if (!_isDisappear)
@@ -133,7 +190,7 @@ namespace game_framework {
 		bitmap.ShowBitmap();
 	}
 	void Oni::ResetOT() {
-		_overTime = 10;
+		_overTime = 10*30;
 	}
 	void Oni::Countdown() {
 		//_time--
@@ -147,7 +204,39 @@ namespace game_framework {
 		//_time ++
 		_overTime++;
 	}
-	bool Oni::isCatch(int playerX, int playerY) {
-		return _pos_x == playerX && _pos_y == playerY;
+	void Oni::SetWait() {
+		_wait = true;
+	}
+	void Oni::Waiting(Oni::changeMap a) {
+		if (_wait == true) {
+			TimerStart();
+		}
+		else {
+			TimerStop();
+		}
+		if (IsTimerStart()) {
+			if (a == room)
+				if (TimerGetCount() == 30)
+					_wait = false;
+			if (a == hallway)
+				if (TimerGetCount() == 15)
+					_wait = false;
+			TimerUpdate();
+		}
+	}
+	bool Oni::WaitOver() {
+		return _wait;
+	}
+	bool Oni::isCatch() {
+		return (_pos_x == _humanX || _pos_x + _offsetX == _humanX) 
+			&& _pos_y + _offsetY == _humanY;
+	}
+	void Oni::SetVanish() {
+		if (isCatch()) {
+			_isDisappear = true;
+			TimerStop();
+			ResetOT();
+			SetPos(0,0);
+		}
 	}
 }
