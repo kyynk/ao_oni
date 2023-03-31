@@ -67,6 +67,7 @@ namespace game_framework {
 					to_string(i) + to_string(j) + ".bmp");
 			}
 		}
+		
 		bitmap.LoadBitmapByString(oniVec, color);
 	}
 	void Oni::GetPlayerPos(int playerX, int playerY) {

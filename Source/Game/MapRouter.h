@@ -1,4 +1,8 @@
 #pragma once
+#include <string>
+#include <vector>
+#include "GameMap.h"
+#include "MapNode.h"
 namespace game_framework {
 
 
@@ -6,23 +10,25 @@ namespace game_framework {
 	public:
 		static MapRouter* GetInstance() { return _Instance = (_Instance != nullptr) ? _Instance : new MapRouter(); }
 		void SetNowMap(int nowmap) { _nowID = nowmap; }
-		MapNode* GetNowMap() { return _data[_nowID]; }
+		MapNode* GetNodeMap() { return _data[_nowID]; }
+		GameMap& GetGameMap() { return _gamemaps.at(_nowID); }
 		~MapRouter() {}
 		void init();
 		void Load(string filename);
 		void Cleanup();
 		void debug();
-		inline void ShowMap() { _gamemaps.at(_nowID).ShowMap(); }
-		inline void AddMap(GameMap map) { _gamemaps.push_back(map); }
-		inline void ToggleShowTileIndex() { _gamemaps.at(_nowID).isshowtileindex = (_gamemaps.at(_nowID).isshowtileindex) ? false :true; }
+		bool IsInBanlist(int bx,int by);
+		void ShowMap() { _gamemaps.at(_nowID).ShowMap(); }
+		void AddMap(GameMap map) { _gamemaps.push_back(map); }
+		void ToggleShowTileIndex() { _gamemaps.at(_nowID).isshowtileindex = (_gamemaps.at(_nowID).isshowtileindex) ? false :true; }
 		
-		inline void AddTileIndex() { 
+		void AddTileIndex() { 
 			if(_gamemaps.at(_nowID).indexlayer<_gamemaps.at(_nowID).GetLayer()-1)_gamemaps.at(_nowID).indexlayer++;
 		};
 		inline void MinusTileIndex() { 
 			if(_gamemaps.at(_nowID).indexlayer>0)_gamemaps.at(_nowID).indexlayer--;
 		};
-		inline int &GSNowID() { return _nowID; }
+		int &GSNowID() { return _nowID; }
 		
 		void ShowIndexLayer();
 	private:
@@ -34,6 +40,7 @@ namespace game_framework {
 		MapNode _data[23][5];
 		int record[23];
 		vector<GameMap> _gamemaps;
+		vector<int> _ban_list;
 		static MapRouter* _Instance;
 	};
 }

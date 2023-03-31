@@ -7,12 +7,13 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-#include <ostream>
+
 #include "ChoiceMenu.h"
 #include "Dialog.h"
 #include "MapNode.h"
 #include "GameMap.h"
 #include "MapRouter.h"
+
 #include "mygame.h"
 
 namespace game_framework {
@@ -42,6 +43,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
+		
 		inputbox.OnMove();
 		player.OnMove();
 		player.init(4,16);
@@ -101,7 +103,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
 		testitem.GetPlayerPos(32, 0);
 		testitem.OnMove(nChar);  // press G vanish
 		if (inputbox.IsWrite()) {
@@ -171,6 +172,7 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar);
+
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
@@ -190,16 +192,16 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-	if (isedit) {
-		mousex_foc = mousex;
-		mousey_foc = mousey;
-		seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
+		if (isedit) {
+			mousex_foc = mousex;
+			mousey_foc = mousey;
+			seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
 
-		pointtmp.push_back(MapRouter::GetInstance()->GSNowID());
-		pointtmp.push_back(mousex_foc*TILE);
-		pointtmp.push_back(mousey_foc*TILE);
-		TRACE("push {%d, %d ,%d }\n", MapRouter::GetInstance()->GSNowID(), mousex_foc*TILE, mousey_foc*TILE);
-	}
+			pointtmp.push_back(MapRouter::GetInstance()->GSNowID());
+			pointtmp.push_back(mousex_foc*TILE);
+			pointtmp.push_back(mousey_foc*TILE);
+			TRACE("push {%d, %d ,%d }\n", MapRouter::GetInstance()->GSNowID(), mousex_foc*TILE, mousey_foc*TILE);
+		}
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -277,7 +279,7 @@ namespace game_framework {
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
-			CTextDraw::Print(pDC, 0, TILE * 6,"player cor : "+ to_string(player.getX1()) + " " + to_string(player.getY1()+16) );
+			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-MapRouter::GetInstance()->GetGameMap().GetX())/TILE) + " " + to_string((player.GetY1()- MapRouter::GetInstance()->GetGameMap().GetY()) /TILE) );
 			int len = int(pointtmp.size());
 			if(len % 6 == 0 && len !=0){
 				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
@@ -290,7 +292,7 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
 			player.OnShow();
-			//testitem.OnShow();
+			testitem.OnShow();
 			if (!talk.isClose()) {
 				talk.ShowTotal();
 			}

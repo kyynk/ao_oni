@@ -6,6 +6,10 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include "MapData.h"
+#include "GameMap.h"
+#include "MapNode.h"
+#include "MapRouter.h"
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
@@ -30,11 +34,14 @@ namespace game_framework{
 		_step = 0;
 		_walkiter = true;
 		_bstate = s1;
-		_blocked = false;
 		_isup = false ;
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
+		_bdown = false;
+		_bup = false;
+		_bleft = false;
+		_bright = false;
 		TimerReset();
 		_premove = none;
 		_nowmove = none;
@@ -46,7 +53,8 @@ namespace game_framework{
 	}
 
 	void Human::OnMove() {
-
+		
+		
 		if (_isup || _isdown || _isleft || _isright) {
 			TimerStart();
 		}
@@ -56,6 +64,7 @@ namespace game_framework{
 				_walkiter = !_walkiter;
 			}
 		}
+		
 		if (IsTimerStart()) {
 			if (TimerGetCount() % 8 == 0) {
 				_nowmove = _pressing;
@@ -71,7 +80,9 @@ namespace game_framework{
 				_bstate = s2;
 			}
 			if (_nowmove == isup) {
+				
 				_pos_y -= _step;
+				
 			}
 			else if (_nowmove == isdown) {
 				_pos_y += _step;
@@ -86,28 +97,38 @@ namespace game_framework{
 
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
+
 		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
-			_premove = _pressing;
-			_pressing = isleft;
-			_isleft = true;
+			if (!_bleft) {
+				_premove = _pressing;
+				_pressing = isleft;
+				_isleft = true;
+			}
 		}
 		else if (nChar == VK_UP) {
-			_premove = _pressing;
-			_pressing = isup;
-			_isup = true;
+			//TRACE("%d, %d\n", _pos_x, _pos_y);
+			if (!_bup) {
+				_premove = _pressing;
+				_pressing = isup;
+				_isup = true;
+			}
 		}
 		else if (nChar == VK_RIGHT) {
-			_premove = _pressing;
-			_pressing = isright;
-			_isright = true;
+			if (!_bright) {
+				_premove = _pressing;
+				_pressing = isright;
+				_isright = true;
+			}
 		}
 		else if (nChar == VK_DOWN) {
-			_premove = _pressing;
-			_pressing = isdown;
-			_isdown = true;
+			if (!_bdown) {
+				_premove = _pressing;
+				_pressing = isdown;
+				_isdown = true;
+			}
 		}
 	}
 
@@ -119,6 +140,7 @@ namespace game_framework{
 		else if (nChar == VK_UP) {
 			_premove = isup;
 			_isup = false;
+			
 		}
 		else if (nChar == VK_RIGHT) {
 			_premove = isright;
