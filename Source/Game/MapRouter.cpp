@@ -15,8 +15,12 @@
 #include "MapRouter.h"
 
 namespace game_framework {
+
 	void MapRouter::init()
 	{
+		_ban_list.push_back(12);
+		_ban_list.push_back(28);
+
 	}
 	void MapRouter::Load(string filename)
 	{
@@ -76,12 +80,26 @@ namespace game_framework {
 		}
 	}
 
+	bool MapRouter::IsInBanlist(int bx, int by)
+	{
+		for (int i = 0; i < _gamemaps.at(_nowID).GetLayer(); i++) {
+			for (int j = 0; j < 2;j++ ) {
+				//TRACE("i:%d bx:%d by:%d\n",i ,bx, by);
+				if (_gamemaps.at(_nowID).GetMapData(i, bx-_gamemaps.at(_nowID).GetX()/TILE, by - _gamemaps.at(_nowID).GetY()/TILE) == _ban_list[j]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	
 
 	void MapRouter::ShowIndexLayer()
 	{
 		_gamemaps.at(_nowID).ShowTileIndexLayer();
 	}
-
 	MapRouter* MapRouter::_Instance = nullptr;
+
 }
 
