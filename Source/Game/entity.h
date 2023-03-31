@@ -19,6 +19,10 @@ namespace game_framework {
 		int TimerGetCount();
 		void TimerStart();
 		bool IsTimerStart(); 
+	/*	bool UBlocked();
+		bool DBlocked();
+		bool LBlocked();
+		bool RBlocked();*/
 		// every entity must implement these three function 
 		virtual void OnMove();
 		virtual void OnShow();
@@ -27,6 +31,10 @@ namespace game_framework {
 		CMovingBitmap bitmap;
 	protected:
 		int _pos_x, _pos_y;
+		int _uy;
+		int _dy;
+		int _lx;
+		int _rx;
 
 	private:
 		int _counter;

@@ -74,6 +74,8 @@ namespace game_framework {
 	{
 		for (int i = 0; i < 23; i++) {
 			for (int j = 0; j < record[i];j++) {
+
+				
 				TRACE("%d\n", i);
 				_data[i][j].debug();
 			}
@@ -84,7 +86,6 @@ namespace game_framework {
 	{
 		for (int i = 0; i < _gamemaps.at(_nowID).GetLayer(); i++) {
 			for (int j = 0; j < 2;j++ ) {
-				//TRACE("i:%d bx:%d by:%d\n",i ,bx, by);
 				if (_gamemaps.at(_nowID).GetMapData(i, bx-_gamemaps.at(_nowID).GetX()/TILE, by - _gamemaps.at(_nowID).GetY()/TILE) == _ban_list[j]) {
 					return true;
 				}

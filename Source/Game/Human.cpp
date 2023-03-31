@@ -31,6 +31,10 @@ namespace game_framework{
 
 	Human::Human() :Entity() {
 		SetXY(12 * TILE, 11 * TILE + TILE / 2);
+		_uy = _pos_y + TILE;
+		_dy = _pos_y - TILE;
+		_lx = _pos_x - TILE;
+		_rx = _pos_x + TILE;
 		_step = 0;
 		_walkiter = true;
 		_bstate = s1;
@@ -38,10 +42,7 @@ namespace game_framework{
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
-		_bdown = false;
-		_bup = false;
-		_bleft = false;
-		_bright = false;
+		
 		TimerReset();
 		_premove = none;
 		_nowmove = none;
@@ -82,22 +83,52 @@ namespace game_framework{
 			if (_nowmove == isup) {
 				
 				_pos_y -= _step;
-				
+				_uy -= _step;
+				_dy -= _step;
 			}
 			else if (_nowmove == isdown) {
 				_pos_y += _step;
+				_uy += _step;
+				_dy += _step;
 			}
 			else if (_nowmove == isleft) {
 				_pos_x -= _step;
+				_lx -= _step;
+				_rx -= _step;
 			}
 			else if (_nowmove == isright) {
 				_pos_x += _step;
+				_lx += _step;
+				_rx += _step;
 			}
 			TimerUpdate();
 
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
-
+		/*if (this->UBlocked()) {
+			_bup = true;
+		}
+		else {
+			_bup = false;
+		}
+		if (this->DBlocked()) {
+			_bdown = true;
+		}
+		else {
+			_bdown = false;
+		}
+		if (this->LBlocked()) {
+			_bleft = true;
+		}
+		else {
+			_bleft = false;
+		}
+		if (this->RBlocked()) {
+			_bright = true;
+		}
+		else {
+			_bright = false;
+		}*/
 		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {
@@ -109,7 +140,6 @@ namespace game_framework{
 			}
 		}
 		else if (nChar == VK_UP) {
-			//TRACE("%d, %d\n", _pos_x, _pos_y);
 			if (!_bup) {
 				_premove = _pressing;
 				_pressing = isup;
