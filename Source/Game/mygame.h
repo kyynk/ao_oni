@@ -40,6 +40,7 @@
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
+#include "Oni.h"
 #include "ChoiceMenu.h"
 #include "GameMap.h"
 #include "MapNode.h"
@@ -108,6 +109,7 @@ namespace game_framework {
 		Dialog talk;
 		Dialog useItem;
 		Human player;
+		Oni oni1;
 		//int selmap;
 		Item testitem;
 		int mousex, mousey;
@@ -143,6 +145,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		int counter;	// 倒數之計數器
+		CMovingBitmap GameOver;
 	};
 
 }

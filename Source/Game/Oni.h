@@ -25,9 +25,16 @@ namespace game_framework {
 			isleft,
 			isright
 		};
+		enum changeMap {
+			room,
+			hallway
+		};
 		Oni();
 		~Oni();
 		void SetParam(OniType tp, int step, int moveTime);
+		void SetPos(int x, int y);
+		int GetPosX();
+		int GetPosY();
 		void Load(string filename, COLORREF color);
 		void GetPlayerPos(int playerX, int playerY);
 		void Track();
@@ -40,11 +47,17 @@ namespace game_framework {
 		void Countdown();
 		// if change stage, will add 1 sec
 		void ChangeMap();
-		bool isCatch(int playerX, int playerY);  // collide
+		void SetWait();
+		// if change room wait 1 sec, change hallway 0.5 sec
+		void Waiting(changeMap a);
+		bool WaitOver();
+		bool isCatch();  // collide
+		void SetVanish();
 		
 	private:
 		int _humanX, _humanY, 
-			_step, _moveTime, _overTime;
+			_step, _moveTime, _overTime, 
+			_offsetX, _offsetY;
 		bool _isDisappear;
 		bool _walkiter;
 		bool _blocked;
@@ -52,6 +65,7 @@ namespace game_framework {
 		bool _isdown;
 		bool _isleft;
 		bool _isright;
+		bool _wait;
 		OniType _type;
 		bstate _bstate;
 		move _premove;
