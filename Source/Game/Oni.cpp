@@ -36,11 +36,6 @@ namespace game_framework {
 		_isDisappear = false;
 		_walkiter = true;
 		_bstate = s1;
-		_blocked = false;
-		_isup = false;
-		_isdown = false;
-		_isleft = false;
-		_isright = false;
 		_wait = false;
 		TimerReset();
 		_nowmove = none;

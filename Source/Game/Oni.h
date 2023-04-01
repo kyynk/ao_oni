@@ -64,11 +64,6 @@ namespace game_framework {
 			_offsetX, _offsetY;
 		bool _isDisappear;
 		bool _walkiter;
-		bool _blocked;
-		bool _isup;
-		bool _isdown;
-		bool _isleft;
-		bool _isright;
 		bool _wait;
 		OniType _type;
 		bstate _bstate;
