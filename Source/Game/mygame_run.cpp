@@ -39,6 +39,7 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		iswrite = false;
+		_nowID = 13;
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -47,7 +48,7 @@ namespace game_framework {
 		inputbox.OnMove();
 		player.OnMove();
 		player.init(4,16);
-
+		
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -78,7 +79,8 @@ namespace game_framework {
 			h = h + ((h % 2 == 0) ? 1 : 0);
 			//TRACE("w:%d, h:%d i:%d\n", w, h,i);
 			tmp.SetTopLeftMap((SIZE_X-16-w*TILE)/2 , (SIZE_Y-20-h* TILE)/2);
-			MapRouter::GetInstance()->AddMap(tmp);
+			gamemaps.push_back(tmp);
+			//MapRouter::GetInstance()->AddMap(tmp);
 		}
 		story.SetNow(Dialog::character::none);
 		story.SetParam({"We heard rumors about the mansion", 
@@ -110,21 +112,26 @@ namespace game_framework {
 		}
 		else {
 			if (nChar == KEY_I) {
-				MapRouter::GetInstance()->ToggleShowTileIndex();
+				gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;
+				//MapRouter::GetInstance()->ToggleShowTileIndex();
 			}
 			if (nChar == KEY_9) {
-				MapRouter::GetInstance()->MinusTileIndex();
+				if (gamemaps.at(_nowID).indexlayer > 0)gamemaps.at(_nowID).indexlayer--;
+
+				//MapRouter::GetInstance()->MinusTileIndex();
 			}
 			if (nChar == KEY_0) {
-				MapRouter::GetInstance()->AddTileIndex();
+				if(gamemaps.at(_nowID).indexlayer < gamemaps.at(_nowID).GetLayer() - 1)gamemaps.at(_nowID).indexlayer++;
+
+				//MapRouter::GetInstance()->AddTileIndex();
 			}
 			if (nChar == KEY_J) {
-				if (MapRouter::GetInstance()->GSNowID() > 0)
-					MapRouter::GetInstance()->GSNowID() -= 1;
+				if (_nowID > 0)
+					_nowID -= 1;
 			}
 			if (nChar == KEY_K) {
-				if (MapRouter::GetInstance()->GSNowID() < 53)
-					MapRouter::GetInstance()->GSNowID()++;
+				if (_nowID < 53)
+					_nowID++;
 			}
 
 
@@ -161,7 +168,7 @@ namespace game_framework {
 				if (inputbox.isInteger()) {
 					int index = stoi(string(inputbox.GetString()));
 					if (index >= 0 && index <= 53) {
-						MapRouter::GetInstance()->GSNowID() = index;
+						_nowID = index;
 						//indexlog.push_back(selmap);
 					}
 				}
@@ -172,6 +179,35 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar);
+				/*if (MapRouter::GetInstance()->IsInBanlist(player.getX1()/ TILE, player.GetU()/ TILE)) {
+					player._bup = true;
+				}
+				else {
+					player._bup = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.getX1() / TILE, player.GetD()/ TILE)) {
+					player._bdown = true;
+				}
+				else {
+					player._bdown = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.GetL() / TILE, player.getY1()/ TILE)) {
+					player._bleft = true;
+				}
+				else {
+					player._bleft = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.GetR() / TILE, player.getY1()/ TILE)) {
+					player._bright = true;
+				}
+				else {
+					player._bright = false;
+					player.OnKeyDown(nChar);
+				}*/
+				
 
 			}
 			if (!useItem.isClose()) {
@@ -244,7 +280,8 @@ namespace game_framework {
 		if (story.isClose()) {
 			///////////////////// debug section
 			inputbox.Show();
-			MapRouter::GetInstance()->ShowMap();
+			gamemaps.at(_nowID).ShowMap();
+			//MapRouter::GetInstance()->ShowMap();
 			if (isedit && !ofs.is_open()) {
 				ofs.open("maplink.txt", std::ios::app);
 				if (!ofs.is_open()) {
@@ -269,7 +306,8 @@ namespace game_framework {
 				ofs.close();
 				TRACE("close\n");
 			}
-			MapRouter::GetInstance()->ShowIndexLayer();
+			gamemaps.at(_nowID).ShowTileIndexLayer();
+			//MapRouter::GetInstance()->ShowIndexLayer();
 			if (isgrid) {
 				grid.ShowBitmap();
 			}
@@ -279,7 +317,7 @@ namespace game_framework {
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
-			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-MapRouter::GetInstance()->GetGameMap().GetX())/TILE) + " " + to_string((player.GetY1()- MapRouter::GetInstance()->GetGameMap().GetY()) /TILE) );
+			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE) );
 			int len = int(pointtmp.size());
 			if(len % 6 == 0 && len !=0){
 				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));

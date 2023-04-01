@@ -42,7 +42,10 @@ namespace game_framework{
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
-		
+		_bdown = false;
+		_bup = false;
+		_bleft = false;
+		_bright = false;
 		TimerReset();
 		_premove = none;
 		_nowmove = none;
@@ -55,8 +58,10 @@ namespace game_framework{
 
 	void Human::OnMove() {
 		
-		
-		if (_isup || _isdown || _isleft || _isright) {
+	/*	if (_bdown || _bup || _bleft || _bright) {
+			return;
+		}*/
+		if (_isup || _isdown || _isleft || _isright ) {
 			TimerStart();
 		}
 		else {
@@ -80,7 +85,7 @@ namespace game_framework{
 			else {
 				_bstate = s2;
 			}
-			if (_nowmove == isup) {
+			if (_nowmove == isup ) {
 				
 				_pos_y -= _step;
 				_uy -= _step;
@@ -105,60 +110,33 @@ namespace game_framework{
 
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
-		/*if (this->UBlocked()) {
-			_bup = true;
-		}
-		else {
-			_bup = false;
-		}
-		if (this->DBlocked()) {
-			_bdown = true;
-		}
-		else {
-			_bdown = false;
-		}
-		if (this->LBlocked()) {
-			_bleft = true;
-		}
-		else {
-			_bleft = false;
-		}
-		if (this->RBlocked()) {
-			_bright = true;
-		}
-		else {
-			_bright = false;
-		}*/
+	
 		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
-			if (!_bleft) {
-				_premove = _pressing;
-				_pressing = isleft;
-				_isleft = true;
-			}
+			
+			_premove = _pressing;
+			_pressing = isleft;
+			_isleft = true;
+			
 		}
 		else if (nChar == VK_UP) {
-			if (!_bup) {
-				_premove = _pressing;
-				_pressing = isup;
-				_isup = true;
-			}
+			
+			_premove = _pressing;
+			_pressing = isup;
+			_isup = true;
+			
 		}
 		else if (nChar == VK_RIGHT) {
-			if (!_bright) {
-				_premove = _pressing;
-				_pressing = isright;
-				_isright = true;
-			}
+			_premove = _pressing;
+			_pressing = isright;
+			_isright = true;
 		}
 		else if (nChar == VK_DOWN) {
-			if (!_bdown) {
-				_premove = _pressing;
-				_pressing = isdown;
-				_isdown = true;
-			}
+			_premove = _pressing;
+			_pressing = isdown;
+			_isdown = true;
 		}
 	}
 

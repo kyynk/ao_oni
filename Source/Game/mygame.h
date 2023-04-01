@@ -123,8 +123,7 @@ namespace game_framework {
 		//vector<int> indexlog;
 		CMovingBitmap seltile;
 		InputBox inputbox;
-		
-
+		int _nowID;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

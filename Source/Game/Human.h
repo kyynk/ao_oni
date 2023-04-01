@@ -41,6 +41,10 @@ namespace game_framework{
 		int GetPremove(){
 			return _premove;
 		}
+		int GetU() { return _uy; }
+		int GetD() { return _dy; }
+		int GetL() { return _lx; }
+		int GetR() { return _rx; }
 		int GetX1() { return _pos_x; };
 		//int GetX2() { return  this->getX1(); }
 		int GetY1() { return _pos_y+_coroffset; }
