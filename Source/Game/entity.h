@@ -19,10 +19,10 @@ namespace game_framework {
 		int TimerGetCount();
 		void TimerStart();
 		bool IsTimerStart(); 
-	/*	bool UBlocked();
-		bool DBlocked();
-		bool LBlocked();
-		bool RBlocked();*/
+		//bool UBlocked();
+		//bool DBlocked();
+		//bool LBlocked();
+		//bool RBlocked();
 		// every entity must implement these three function 
 		virtual void OnMove();
 		virtual void OnShow();
