@@ -106,8 +106,8 @@ namespace game_framework {
 		
 		if (layer < 0 || layer >= _layer || bx < 0 || bx >= _width || by < 0 || by >= _height) {
 
-			TRACE("%d %d %d out of range u fucking dunky\n", layer, bx, by);
-			TRACE("this map %d %d %d\n", _layer, _width, _height);
+			// TRACE("%d %d %d out of range u fucking dunky\n", layer, bx, by);
+			// TRACE("this map %d %d %d\n", _layer, _width, _height);
 			return -87;
 		}
 		else {
