@@ -26,8 +26,8 @@ namespace game_framework{
 
 		void init(int step,int offset);
 		
-		void OnMove();
-		void OnKeyDown(UINT nChar);
+		void OnMove(GameMap &map);
+		void OnKeyDown(UINT nChar, GameMap &map);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
@@ -41,8 +41,8 @@ namespace game_framework{
 		int GetPremove(){
 			return _premove;
 		}
-		int GetU() { return _uy; }
-		int GetD() { return _dy; }
+		int GetU() { return _uy + _coroffset; }
+		int GetD() { return _dy + _coroffset; }
 		int GetL() { return _lx; }
 		int GetR() { return _rx; }
 		int GetX1() { return _pos_x; };
