@@ -7,12 +7,13 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-#include <ostream>
+
 #include "ChoiceMenu.h"
 #include "Dialog.h"
 #include "MapNode.h"
 #include "GameMap.h"
 #include "MapRouter.h"
+
 #include "mygame.h"
 
 namespace game_framework {
@@ -38,19 +39,25 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		iswrite = false;
+		_nowID = 0;
+		player.init(4,16);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
+		
 		inputbox.OnMove();
-		player.OnMove();
+
+		
+		player.OnMove(gamemaps.at(_nowID));
 		//oni need to set XY if map change
 		//oni1.SetXY()
 		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
 		if (oni1.isCatch())
-			GotoGameState(GAME_STATE_OVER);
+			//GotoGameState(GAME_STATE_OVER);
 		else
 			oni1.OnMove();
+
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -82,7 +89,8 @@ namespace game_framework {
 			h = h + ((h % 2 == 0) ? 1 : 0);
 			//TRACE("w:%d, h:%d i:%d\n", w, h,i);
 			tmp.SetTopLeftMap((SIZE_X-16-w*TILE)/2 , (SIZE_Y-20-h* TILE)/2);
-			MapRouter::GetInstance()->AddMap(tmp);
+			gamemaps.push_back(tmp);
+			//MapRouter::GetInstance()->AddMap(tmp);
 		}
 		story.SetNow(Dialog::character::none);
 		story.SetParam({"We heard rumors about the mansion", 
@@ -109,7 +117,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
 		testitem.GetPlayerPos(32, 0);
 		testitem.OnMove(nChar);  // press G vanish
 		if (inputbox.IsWrite()) {
@@ -117,21 +124,26 @@ namespace game_framework {
 		}
 		else {
 			if (nChar == KEY_I) {
-				MapRouter::GetInstance()->ToggleShowTileIndex();
+				gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;
+				//MapRouter::GetInstance()->ToggleShowTileIndex();
 			}
 			if (nChar == KEY_9) {
-				MapRouter::GetInstance()->MinusTileIndex();
+				if (gamemaps.at(_nowID).indexlayer > 0)gamemaps.at(_nowID).indexlayer--;
+
+				//MapRouter::GetInstance()->MinusTileIndex();
 			}
 			if (nChar == KEY_0) {
-				MapRouter::GetInstance()->AddTileIndex();
+				if(gamemaps.at(_nowID).indexlayer < gamemaps.at(_nowID).GetLayer() - 1)gamemaps.at(_nowID).indexlayer++;
+
+				//MapRouter::GetInstance()->AddTileIndex();
 			}
 			if (nChar == KEY_J) {
-				if (MapRouter::GetInstance()->GSNowID() > 0)
-					MapRouter::GetInstance()->GSNowID() -= 1;
+				if (_nowID > 0)
+					_nowID -= 1;
 			}
 			if (nChar == KEY_K) {
-				if (MapRouter::GetInstance()->GSNowID() < 53)
-					MapRouter::GetInstance()->GSNowID()++;
+				if (_nowID < 53)
+					_nowID++;
 			}
 
 
@@ -168,7 +180,7 @@ namespace game_framework {
 				if (inputbox.isInteger()) {
 					int index = stoi(string(inputbox.GetString()));
 					if (index >= 0 && index <= 53) {
-						MapRouter::GetInstance()->GSNowID() = index;
+						_nowID = index;
 						//indexlog.push_back(selmap);
 					}
 				}
@@ -178,7 +190,37 @@ namespace game_framework {
 				talk.Close();
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
-				player.OnKeyDown(nChar);
+				player.OnKeyDown(nChar,gamemaps.at(_nowID));
+				/*if (MapRouter::GetInstance()->IsInBanlist(player.getX1()/ TILE, player.GetU()/ TILE)) {
+					player._bup = true;
+				}
+				else {
+					player._bup = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.getX1() / TILE, player.GetD()/ TILE)) {
+					player._bdown = true;
+				}
+				else {
+					player._bdown = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.GetL() / TILE, player.getY1()/ TILE)) {
+					player._bleft = true;
+				}
+				else {
+					player._bleft = false;
+					player.OnKeyDown(nChar);
+				}
+				if (MapRouter::GetInstance()->IsInBanlist(player.GetR() / TILE, player.getY1()/ TILE)) {
+					player._bright = true;
+				}
+				else {
+					player._bright = false;
+					player.OnKeyDown(nChar);
+				}*/
+				
+
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
@@ -193,21 +235,23 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		player.OnKeyUp(nChar);
+		if (talk.isClose() && useItem.isClose()) {
+			player.OnKeyUp(nChar);
+		}
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-	if (isedit) {
-		mousex_foc = mousex;
-		mousey_foc = mousey;
-		seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
+		if (isedit) {
+			mousex_foc = mousex;
+			mousey_foc = mousey;
+			seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
 
-		pointtmp.push_back(MapRouter::GetInstance()->GSNowID());
-		pointtmp.push_back(mousex_foc*TILE);
-		pointtmp.push_back(mousey_foc*TILE);
-		TRACE("push {%d, %d ,%d }\n", MapRouter::GetInstance()->GSNowID(), mousex_foc*TILE, mousey_foc*TILE);
-	}
+			pointtmp.push_back(_nowID);
+			pointtmp.push_back(mousex_foc*TILE);
+			pointtmp.push_back(mousey_foc*TILE);
+			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE, mousey_foc*TILE);
+		}
 	}
 
 	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -250,7 +294,8 @@ namespace game_framework {
 		if (story.isClose()) {
 			///////////////////// debug section
 			inputbox.Show();
-			MapRouter::GetInstance()->ShowMap();
+			gamemaps.at(_nowID).ShowMap();
+			//MapRouter::GetInstance()->ShowMap();
 			if (isedit && !ofs.is_open()) {
 				ofs.open("maplink.txt", std::ios::app);
 				if (!ofs.is_open()) {
@@ -275,7 +320,8 @@ namespace game_framework {
 				ofs.close();
 				TRACE("close\n");
 			}
-			MapRouter::GetInstance()->ShowIndexLayer();
+			gamemaps.at(_nowID).ShowTileIndexLayer();
+			//MapRouter::GetInstance()->ShowIndexLayer();
 			if (isgrid) {
 				grid.ShowBitmap();
 			}
@@ -285,7 +331,10 @@ namespace game_framework {
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
-			CTextDraw::Print(pDC, 0, TILE * 6,"player cor : "+ to_string(player.getX1()) + " " + to_string(player.getY1()+16) );
+			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE) );
+			CTextDraw::Print(pDC, 0, TILE * 8,"player cor up value layer 0 on map: "+ to_string(gamemaps.at(_nowID).GetMapData(0, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
+			CTextDraw::Print(pDC, 0, TILE * 10,"player cor point x : "+ to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : "+ to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
+			
 			int len = int(pointtmp.size());
 			if(len % 6 == 0 && len !=0){
 				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
@@ -298,8 +347,10 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
 			player.OnShow();
+
 			oni1.OnShow();
 			//testitem.OnShow();
+
 			if (!talk.isClose()) {
 				talk.ShowTotal();
 			}

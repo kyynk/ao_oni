@@ -38,16 +38,22 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 #include "config.h"
+
 #include "Entity.h"
 #include "Human.h"
 #include "Oni.h"
 #include "ChoiceMenu.h"
+
 #include "GameMap.h"
 #include "MapNode.h"
+#include "MapRouter.h"
 #include "MapRes.h"
+#include "Entity.h"
+#include "ChoiceMenu.h"
 #include "item.h"
 #include "Dialog.h"
 #include "InputBox.h"
+#include "Human.h"
 #include <fstream>
 
 namespace game_framework {
@@ -124,8 +130,7 @@ namespace game_framework {
 		//vector<int> indexlog;
 		CMovingBitmap seltile;
 		InputBox inputbox;
-		
-
+		int _nowID;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
