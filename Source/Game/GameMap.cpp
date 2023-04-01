@@ -21,7 +21,7 @@ namespace game_framework {
 		}
 		for (int i = 0; i < _height; i++) {
 			for (int j = 0; j < _width; j++) {
-				int val = _gamemap.GetValue(layer - 1, i, j);
+				int val = _gamemapdata.GetValue(layer - 1, i, j);
 				if (val == 0)continue;
 				int tmp = selTileset(val);
 				//TRACE("i: %d, j:%d ,,, val:%d tmp:%d  %s\n", i,j,val, tmp,_resource_list[tmp].c_str());
@@ -41,7 +41,7 @@ namespace game_framework {
 			CTextDraw::ChangeFontLog(cdc, 10, "Noto Sans TC", RGB(255, 255, 255));
 			for (int i = 0; i < _height; i++) {
 				for (int j = 0; j < _width; j++) {
-					int val = _gamemap.GetValue(indexlayer, i, j);
+					int val = _gamemapdata.GetValue(indexlayer, i, j);
 					CTextDraw::Print(cdc, _pos_x + j * TILE, _pos_y + i * TILE, to_string(val));
 				}
 			}
@@ -58,7 +58,7 @@ namespace game_framework {
 		for (int i = 0; i < _layer; i++) {
 			for (int j = 0; j < _height; j++) {
 				for (int k = 0; k < _width; k++) {
-					TRACE("%d ", _gamemap.GetValue(i,j,k));
+					TRACE("%d ", _gamemapdata.GetValue(i,j,k));
 				}
 				TRACE("\n");
 			}
@@ -81,13 +81,13 @@ namespace game_framework {
 			_resource_list.insert({first_grid_ID,str });
 		}
 		in >> _layer;
-		_gamemap.SetDimension(_layer,_height,_width);
+		_gamemapdata.SetDimension(_layer,_height,_width);
 		for (int i = 0; i < _layer; i++) {
 			for (int j = 0; j < _height; j++) {
 				for (int k = 0; k < _width; k++) {
 					int tmp;
 					in >> tmp;
-					_gamemap.AssignValue(i,j,k,tmp);
+					_gamemapdata.AssignValue(i,j,k,tmp);
 				}
 			}
 		}
@@ -100,6 +100,21 @@ namespace game_framework {
 			CTextDraw::Print(cdc, 24 * TILE, 3 * TILE, to_string(indexlayer));
 			CDDraw::ReleaseBackCDC();
 		}
+	}
+	int GameMap::GetMapData(int layer, int bx, int by)
+	{
+		
+		if (layer < 0 || layer >= _layer || bx < 0 || bx >= _width || by < 0 || by >= _height) {
+
+			TRACE("%d %d %d out of range u fucking dunky\n", layer, bx, by);
+			TRACE("this map %d %d %d\n", _layer, _width, _height);
+			return -87;
+		}
+		else {
+			return _gamemapdata.GetValue(layer, by, bx);
+		}
+	
+
 	}
 	int GameMap::selTileset(int n)
 	{

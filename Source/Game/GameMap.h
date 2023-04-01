@@ -22,7 +22,7 @@ namespace game_framework {
 		int GetWidth() { return _width; }
 		int GetHeight() { return _height; }
 		int GetLayer() { return _layer; }
-		
+		int GetMapData(int layer, int bx, int by);
 		bool isshowtileindex;
 		int indexlayer;
 	private:
@@ -30,7 +30,7 @@ namespace game_framework {
 		int _pos_x, _pos_y;
 		int selTileset(int n);
 		map <int,string> _resource_list;
-		MapData _gamemap;
+		MapData _gamemapdata;
 		string _mapname;
 		int _ID;
 	};

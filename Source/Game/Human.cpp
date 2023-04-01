@@ -6,6 +6,10 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include "MapData.h"
+#include "GameMap.h"
+#include "MapNode.h"
+#include "MapRouter.h"
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
@@ -27,14 +31,22 @@ namespace game_framework{
 
 	Human::Human() :Entity() {
 		SetXY(12 * TILE, 11 * TILE + TILE / 2);
+		_uy = _pos_y - TILE;
+		_dy = _pos_y + TILE;
+		_lx = _pos_x - TILE;
+		_rx = _pos_x + TILE;
 		_step = 0;
 		_walkiter = true;
 		_bstate = s1;
-		_blocked = false;
 		_isup = false ;
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
+
+		_bdown = false;
+		_bup = false;
+		_bleft = false;
+		_bright = false;
 		TimerReset();
 		_premove = none;
 		_nowmove = none;
@@ -45,9 +57,54 @@ namespace game_framework{
 		_coroffset = offset;
 	}
 
-	void Human::OnMove() {
-
-		if (_isup || _isdown || _isleft || _isright) {
+	void Human::OnMove(GameMap &map) {
+		
+	/*	if (_bdown || _bup || _bleft || _bright) {
+			return;
+		}*/
+		
+		bool upmovable = false;
+		bool downmovable = false;
+		bool leftmovable = false;
+		bool rightmovable = false;
+		
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
+			(this->GetX1() - map.GetX()) % TILE == 0 &&
+			(this->GetU() - map.GetY()) % TILE == 0  ) {
+			upmovable = false;
+		}
+		else {
+			upmovable = true;
+		}
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0||
+			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
+			(this->GetX1() - map.GetX()) % TILE == 0 &&
+			(this->GetD() - map.GetY()) % TILE == 0) {
+			downmovable = false;
+		}
+		else {
+			downmovable = true;
+		}
+		if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0||
+			map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+			(this->GetL() - map.GetX()) % TILE == 0 &&
+			(this->GetY1() - map.GetY()) % TILE == 0) {
+			leftmovable = false;
+		}
+		else {
+			leftmovable = true;
+		}
+		if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+			(this->GetR() - map.GetX()) % TILE == 0 &&
+			(this->GetY1() - map.GetY()) % TILE == 0) {
+			rightmovable = false;
+		}
+		else {
+			rightmovable = true;
+		}
+		if (_isup || _isdown || _isleft || _isright ) {
 			TimerStart();
 		}
 		else {
@@ -59,6 +116,7 @@ namespace game_framework{
 		if (IsTimerStart()) {
 			if (TimerGetCount() % 8 == 0) {
 				_nowmove = _pressing;
+				
 			}
 			if (TimerGetCount() == 8) {
 				TimerReset();
@@ -70,34 +128,51 @@ namespace game_framework{
 			else {
 				_bstate = s2;
 			}
-			if (_nowmove == isup) {
+			
+			if (_nowmove == isup && upmovable) {
+				
 				_pos_y -= _step;
+				_uy -= _step;
+				_dy -= _step;
 			}
-			else if (_nowmove == isdown) {
+			else if (_nowmove == isdown && downmovable) {
 				_pos_y += _step;
+				_uy += _step;
+				_dy += _step;
 			}
-			else if (_nowmove == isleft) {
+			else if (_nowmove == isleft && leftmovable) {
 				_pos_x -= _step;
+				_lx -= _step;
+				_rx -= _step;
 			}
-			else if (_nowmove == isright) {
+			else if (_nowmove == isright && rightmovable) {
 				_pos_x += _step;
+				_lx += _step;
+				_rx += _step;
 			}
 			TimerUpdate();
-
+			
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
+	
 		//TRACE("%d\n", TimerGetCount());
 	}
-	void Human::OnKeyDown(UINT nChar) {
+	void Human::OnKeyDown(UINT nChar,GameMap &map) {
+		
 		if (nChar == VK_LEFT) {
+			
 			_premove = _pressing;
 			_pressing = isleft;
 			_isleft = true;
+			
 		}
 		else if (nChar == VK_UP) {
+			
+			
 			_premove = _pressing;
 			_pressing = isup;
 			_isup = true;
+			
 		}
 		else if (nChar == VK_RIGHT) {
 			_premove = _pressing;
@@ -119,6 +194,7 @@ namespace game_framework{
 		else if (nChar == VK_UP) {
 			_premove = isup;
 			_isup = false;
+			
 		}
 		else if (nChar == VK_RIGHT) {
 			_premove = isright;

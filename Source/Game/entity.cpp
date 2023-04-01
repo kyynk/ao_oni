@@ -6,11 +6,13 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include "config.h"
+#include "MapRouter.h"
 #include "Entity.h"
 namespace game_framework {
 	Entity::Entity() {
 		_counter = 0;		//initialize
-		_istimerstart = false;
+		_istimerstart = false;	
 	}
 
 	int Entity::getX1() {
@@ -49,6 +51,22 @@ namespace game_framework {
 	{
 		return _istimerstart;
 	}
+	/*bool Entity::UBlocked()
+	{
+		return MapRouter::GetInstance()->IsInBanlist(_pos_x/TILE, _uy / TILE);
+	}
+	bool Entity::DBlocked()
+	{
+		return MapRouter::GetInstance()->IsInBanlist(_pos_x / TILE, _dy / TILE);
+	}
+	bool Entity::LBlocked()
+	{
+		return MapRouter::GetInstance()->IsInBanlist(_lx / TILE, _pos_y / TILE);
+	}
+	bool Entity::RBlocked()
+	{
+		return MapRouter::GetInstance()->IsInBanlist(_rx / TILE,_pos_y / TILE);
+	}*/
 	void Entity::OnMove()
 	{
 	}
