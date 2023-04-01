@@ -8,6 +8,7 @@
 #include <bitset>
 #include <vector>
 #include "config.h"
+#include "GameMap.h"
 #include "Entity.h"
 #include "Oni.h"
 
@@ -42,7 +43,6 @@ namespace game_framework {
 		_isright = false;
 		_wait = false;
 		TimerReset();
-		_premove = none;
 		_nowmove = none;
 		_tracking = none;
 	}
@@ -74,6 +74,18 @@ namespace game_framework {
 	int Oni::GetPosY() {
 		return _pos_y + _offsetY;
 	}
+	int Oni::GetPosL() {
+		return _pos_x - TILE;
+	}
+	int Oni::GetPosU() {
+		return _pos_y + _offsetY - TILE;
+	}
+	int Oni::GetPosR() {
+		return _pos_x + _offsetX + TILE;
+	}
+	int Oni::GetPosD() {
+		return _pos_y + _offsetY - TILE;
+	}
 	void Oni::Load(string filename, COLORREF color) {
 		vector<string> oniVec;
 		for (int i = 0; i < 4; i++) {
@@ -89,21 +101,62 @@ namespace game_framework {
 		_humanX = playerX;
 		_humanY = playerY;
 	}
-	void Oni::Track() {
-		int xLen = _pos_x - _humanX;
-		int yLen = _pos_y + _offsetY - _humanY;
-		if (abs(xLen) < abs(yLen)) {
-			if (yLen < 0) _tracking = isdown;
-			else if (yLen > 0) _tracking = isup;
-			else _tracking = none;
+	void Oni::Track(GameMap &map) {
+		bool upmovable = false;
+		bool downmovable = false;
+		bool leftmovable = false;
+		bool rightmovable = false;
+
+		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) &&
+			(this->GetPosX() - map.GetX()) % TILE == 0 &&
+			(this->GetPosU() - map.GetY()) % TILE == 0) {
+			upmovable = false;
 		}
 		else {
-			if (xLen < 0) _tracking = isright;
-			else if (xLen > 0) _tracking = isleft;
-			else _tracking = none;
+			upmovable = true;
 		}
+		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) &&
+			(this->GetPosX() - map.GetX()) % TILE == 0 &&
+			(this->GetPosD() - map.GetY()) % TILE == 0) {
+			downmovable = false;
+		}
+		else {
+			downmovable = true;
+		}
+		if ((map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
+			(this->GetPosL() - map.GetX()) % TILE == 0 &&
+			(this->GetPosY() - map.GetY()) % TILE == 0) {
+			leftmovable = false;
+		}
+		else {
+			leftmovable = true;
+		}
+		if ((map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
+			(this->GetPosR() - map.GetX()) % TILE == 0 &&
+			(this->GetPosY() - map.GetY()) % TILE == 0) {
+			rightmovable = false;
+		}
+		else {
+			rightmovable = true;
+		}
+		int xLen = _pos_x - _humanX;
+		int yLen = _pos_y + _offsetY - _humanY;
+		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
+		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
+		else if (abs(xLen) > abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
+		else if (abs(xLen) > abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
+		// if block the longest LENGTH, then we need to choose other chance
+		else if (abs(xLen) < abs(yLen) && xLen > 0 && rightmovable) _tracking = isright;
+		else if (abs(xLen) < abs(yLen) && xLen < 0 && leftmovable) _tracking = isleft;
+		else if (abs(xLen) > abs(yLen) && yLen > 0 && downmovable) _tracking = isdown;
+		else if (abs(xLen) > abs(yLen) && yLen < 0 && upmovable) _tracking = isup;
+		else _tracking = none;
 	}
-	void Oni::OnMove() {
+	void Oni::OnMove(GameMap &map) {
 		//according humanXY
 		//we find the abs((human - pos)X) abs((human - pos)Y)
 		//which is bigger than the other
@@ -113,7 +166,7 @@ namespace game_framework {
 			TimerStop();
 		}
 		else {
-			Track();
+			Track(map);
 			TimerStart();
 			if (TimerGetCount() == _moveTime) {
 				TimerStop();
