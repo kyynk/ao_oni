@@ -6,6 +6,9 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "config.h"
+#include "MapNode.h"
+#include "GameMap.h"
+#include "MapRouter.h"
 #include <bitset>
 #include "mygame.h"
 
