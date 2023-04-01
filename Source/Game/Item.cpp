@@ -63,6 +63,9 @@ namespace game_framework {
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}
+	void Item::OnKeyDown(UINT nChar) {
+
+	}
 	void Item::OnShow() {
 		if(!_close)
 			bitmap.ShowBitmap();

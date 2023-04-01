@@ -22,6 +22,7 @@ namespace game_framework {
 		void GetPlayerPos(int x, int y);
 		void CheckMoveDirection();
 		void OnMove(UINT nChar);
+		void OnKeyDown(UINT nChar);
 		void OnShow();
 		bool Collide();
 		void Animation(int n);
@@ -31,8 +32,13 @@ namespace game_framework {
 		int _step, _anidelay, 
 			_playerX, _playerY, 
 			_boxX, _boxY;
+		bool _left;
+		bool _up;
+		bool _right;
+		bool _down;
 		itemtype _type;
 		move _move;
+		move _press;
 ;		bool _triggered, _close;
 	};
 }

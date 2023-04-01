@@ -51,13 +51,10 @@ namespace game_framework {
 
 		
 		player.OnMove(gamemaps.at(_nowID));
-		//oni need to set XY if map change
-		//oni1.SetXY()
 		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
 		if (oni1.isCatch()) {
-
-		}
 			//GotoGameState(GAME_STATE_OVER);
+		}
 		else
 			oni1.OnMove(gamemaps.at(_nowID));
 
