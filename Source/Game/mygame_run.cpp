@@ -59,7 +59,7 @@ namespace game_framework {
 		}
 			//GotoGameState(GAME_STATE_OVER);
 		else
-			oni1.OnMove();
+			oni1.OnMove(gamemaps.at(_nowID));
 
 	}
 
