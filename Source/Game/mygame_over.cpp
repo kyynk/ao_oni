@@ -23,6 +23,7 @@ void CGameStateOver::OnMove()
 
 void CGameStateOver::OnBeginState()
 {
+	GameOver.SetTopLeft((SIZE_X - 16 - GameOver.GetWidth()) / 2, (SIZE_Y - 20 - GameOver.GetHeight()) / 2);
 }
 
 void CGameStateOver::OnInit()
