@@ -39,15 +39,17 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		iswrite = false;
-		_nowID = 13;
+		_nowID = 0;
+		player.init(4,16);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
 		
 		inputbox.OnMove();
-		player.OnMove();
-		player.init(4,16);
+		
+		player.OnMove(gamemaps.at(_nowID));
+
 		
 	}
 
@@ -178,7 +180,7 @@ namespace game_framework {
 				talk.Close();
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
-				player.OnKeyDown(nChar);
+				player.OnKeyDown(nChar,gamemaps.at(_nowID));
 				/*if (MapRouter::GetInstance()->IsInBanlist(player.getX1()/ TILE, player.GetU()/ TILE)) {
 					player._bup = true;
 				}
@@ -223,7 +225,9 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		player.OnKeyUp(nChar);
+		if (talk.isClose() && useItem.isClose()) {
+			player.OnKeyUp(nChar);
+		}
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -233,10 +237,10 @@ namespace game_framework {
 			mousey_foc = mousey;
 			seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
 
-			pointtmp.push_back(MapRouter::GetInstance()->GSNowID());
+			pointtmp.push_back(_nowID);
 			pointtmp.push_back(mousex_foc*TILE);
 			pointtmp.push_back(mousey_foc*TILE);
-			TRACE("push {%d, %d ,%d }\n", MapRouter::GetInstance()->GSNowID(), mousex_foc*TILE, mousey_foc*TILE);
+			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE, mousey_foc*TILE);
 		}
 	}
 
@@ -318,6 +322,9 @@ namespace game_framework {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE) );
+			CTextDraw::Print(pDC, 0, TILE * 8,"player cor up value layer 0 on map: "+ to_string(gamemaps.at(_nowID).GetMapData(0, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
+			CTextDraw::Print(pDC, 0, TILE * 10,"player cor point x : "+ to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : "+ to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
+			
 			int len = int(pointtmp.size());
 			if(len % 6 == 0 && len !=0){
 				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
