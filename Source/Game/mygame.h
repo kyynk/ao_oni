@@ -38,13 +38,11 @@
  *      3. Use ShowInitProgress(percent) to display loading progress.
 */
 #include "config.h"
-
 #include "Entity.h"
+#include "GameMap.h"
 #include "Human.h"
 #include "Oni.h"
 #include "ChoiceMenu.h"
-
-#include "GameMap.h"
 #include "MapNode.h"
 #include "MapRouter.h"
 #include "MapRes.h"

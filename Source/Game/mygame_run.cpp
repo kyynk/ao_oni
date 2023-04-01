@@ -39,8 +39,9 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		iswrite = false;
-		_nowID = 0;
+		_nowID = 13;
 		player.init(4,16);
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -53,7 +54,9 @@ namespace game_framework {
 		//oni need to set XY if map change
 		//oni1.SetXY()
 		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
-		if (oni1.isCatch())
+		if (oni1.isCatch()) {
+
+		}
 			//GotoGameState(GAME_STATE_OVER);
 		else
 			oni1.OnMove();
@@ -64,6 +67,7 @@ namespace game_framework {
 	{
 
 		ShowInitProgress(33, "loading game mid");
+		// main character
 		vector<string> playervec;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -71,7 +75,7 @@ namespace game_framework {
 			}
 		}
 		player.Load(playervec, RGB(204, 255, 0));
-		player.init(4, 16);
+		// map resources
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
 		int count;
@@ -80,6 +84,7 @@ namespace game_framework {
 			ShowInitProgress(33 + i, name);
 			MapRes::GetInstance()->Load(name, count);
 		}
+		// map data
 		for (int i = 0; i < 54; i++) {
 			GameMap tmp;
 			tmp.Load("map_bmp/map" + to_string(i) + ".txt");
@@ -87,11 +92,10 @@ namespace game_framework {
 			int h = tmp.GetHeight();
 			w = w + ((w % 2 == 0) ? 1 : 0);
 			h = h + ((h % 2 == 0) ? 1 : 0);
-			//TRACE("w:%d, h:%d i:%d\n", w, h,i);
 			tmp.SetTopLeftMap((SIZE_X-16-w*TILE)/2 , (SIZE_Y-20-h* TILE)/2);
 			gamemaps.push_back(tmp);
-			//MapRouter::GetInstance()->AddMap(tmp);
 		}
+		// dialog
 		story.SetNow(Dialog::character::none);
 		story.SetParam({"We heard rumors about the mansion", 
 			"they say on the outskirts of town...", 
@@ -101,18 +105,18 @@ namespace game_framework {
 		talk.SetParam({ "Hi", "how", "r u?" }, false);
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
+		// item 
 		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
-
-
+		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
 		inputbox.Load("img/cursor/input_box.bmp");
 		inputbox.init(20 * TILE, 0, 0, 10);
+		// map link data
 		MapRouter::GetInstance()->init();
 		MapRouter::GetInstance()->Load("maplink.txt");
-		MapRouter::GetInstance()->debug();
+		//MapRouter::GetInstance()->debug();
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -125,17 +129,12 @@ namespace game_framework {
 		else {
 			if (nChar == KEY_I) {
 				gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;
-				//MapRouter::GetInstance()->ToggleShowTileIndex();
 			}
 			if (nChar == KEY_9) {
 				if (gamemaps.at(_nowID).indexlayer > 0)gamemaps.at(_nowID).indexlayer--;
-
-				//MapRouter::GetInstance()->MinusTileIndex();
 			}
 			if (nChar == KEY_0) {
 				if(gamemaps.at(_nowID).indexlayer < gamemaps.at(_nowID).GetLayer() - 1)gamemaps.at(_nowID).indexlayer++;
-
-				//MapRouter::GetInstance()->AddTileIndex();
 			}
 			if (nChar == KEY_J) {
 				if (_nowID > 0)
@@ -145,8 +144,6 @@ namespace game_framework {
 				if (_nowID < 53)
 					_nowID++;
 			}
-
-
 			if (nChar == KEY_G) {
 				isgrid = !isgrid;
 			}
@@ -167,9 +164,6 @@ namespace game_framework {
 			if (nChar == KEY_Q) {
 				GotoGameState(GAME_STATE_OVER);
 			}
-			/*if (nChar == VK_RETURN) {
-				testitem.SetTriggered(true);
-			}*/
 			if (nChar == KEY_U) { // press "U" show dialog -> if finish item control will optimize
 				talk.Show();
 			}
@@ -181,7 +175,6 @@ namespace game_framework {
 					int index = stoi(string(inputbox.GetString()));
 					if (index >= 0 && index <= 53) {
 						_nowID = index;
-						//indexlog.push_back(selmap);
 					}
 				}
 				if (!story.isClose()) {
@@ -191,36 +184,6 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar,gamemaps.at(_nowID));
-				/*if (MapRouter::GetInstance()->IsInBanlist(player.getX1()/ TILE, player.GetU()/ TILE)) {
-					player._bup = true;
-				}
-				else {
-					player._bup = false;
-					player.OnKeyDown(nChar);
-				}
-				if (MapRouter::GetInstance()->IsInBanlist(player.getX1() / TILE, player.GetD()/ TILE)) {
-					player._bdown = true;
-				}
-				else {
-					player._bdown = false;
-					player.OnKeyDown(nChar);
-				}
-				if (MapRouter::GetInstance()->IsInBanlist(player.GetL() / TILE, player.getY1()/ TILE)) {
-					player._bleft = true;
-				}
-				else {
-					player._bleft = false;
-					player.OnKeyDown(nChar);
-				}
-				if (MapRouter::GetInstance()->IsInBanlist(player.GetR() / TILE, player.getY1()/ TILE)) {
-					player._bright = true;
-				}
-				else {
-					player._bright = false;
-					player.OnKeyDown(nChar);
-				}*/
-				
-
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
@@ -266,18 +229,18 @@ namespace game_framework {
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-	if (isedit) {
-		if (pointtmp.empty()) {
-			TRACE("nothing to be popped");
+		if (isedit) {
+			if (pointtmp.empty()) {
+				TRACE("nothing to be popped");
+			}
+			else {
+				int len = int(pointtmp.size());
+				TRACE("element {%d,%d,%d} popped\n", pointtmp[len - 3], pointtmp[len - 2], pointtmp[len - 1] );
+				pointtmp.pop_back();
+				pointtmp.pop_back();
+				pointtmp.pop_back();
+			}
 		}
-		else {
-			int len = int(pointtmp.size());
-			TRACE("element {%d,%d,%d} popped\n", pointtmp[len - 3], pointtmp[len - 2], pointtmp[len - 1] );
-			pointtmp.pop_back();
-			pointtmp.pop_back();
-			pointtmp.pop_back();
-		}
-	}
 	}
 
 	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
@@ -295,7 +258,6 @@ namespace game_framework {
 			///////////////////// debug section
 			inputbox.Show();
 			gamemaps.at(_nowID).ShowMap();
-			//MapRouter::GetInstance()->ShowMap();
 			if (isedit && !ofs.is_open()) {
 				ofs.open("maplink.txt", std::ios::app);
 				if (!ofs.is_open()) {
@@ -303,7 +265,6 @@ namespace game_framework {
 					throw std::invalid_argument("open failed");
 				}
 				TRACE("open maplink.txt\n");
-
 			}
 			if (ofs.is_open() && !isedit) {
 				int i = 1;
@@ -321,7 +282,6 @@ namespace game_framework {
 				TRACE("close\n");
 			}
 			gamemaps.at(_nowID).ShowTileIndexLayer();
-			//MapRouter::GetInstance()->ShowIndexLayer();
 			if (isgrid) {
 				grid.ShowBitmap();
 			}
@@ -347,7 +307,6 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
 			player.OnShow();
-
 			oni1.OnShow();
 			//testitem.OnShow();
 
