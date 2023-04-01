@@ -70,6 +70,7 @@ namespace game_framework {
 
 				break;
 			case 2:
+				exit(0);
 
 				break;
 			}

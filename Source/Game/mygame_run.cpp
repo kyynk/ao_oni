@@ -47,10 +47,17 @@ namespace game_framework {
 	{
 		
 		inputbox.OnMove();
-		
-		player.OnMove(gamemaps.at(_nowID));
 
 		
+		player.OnMove(gamemaps.at(_nowID));
+		//oni need to set XY if map change
+		//oni1.SetXY()
+		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
+		if (oni1.isCatch())
+			//GotoGameState(GAME_STATE_OVER);
+		else
+			oni1.OnMove();
+
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -64,6 +71,7 @@ namespace game_framework {
 			}
 		}
 		player.Load(playervec, RGB(204, 255, 0));
+		player.init(4, 16);
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
 		int count;
@@ -95,6 +103,8 @@ namespace game_framework {
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
+
 
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -337,7 +347,10 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
 			player.OnShow();
-			testitem.OnShow();
+
+			oni1.OnShow();
+			//testitem.OnShow();
+
 			if (!talk.isClose()) {
 				talk.ShowTotal();
 			}
