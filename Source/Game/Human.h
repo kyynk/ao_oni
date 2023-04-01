@@ -1,5 +1,4 @@
 #pragma once
-
 namespace game_framework{
 	class Human : public Entity {
 	public:
@@ -27,8 +26,8 @@ namespace game_framework{
 
 		void init(int step,int offset);
 		
-		void OnMove();
-		void OnKeyDown(UINT nChar);
+		void OnMove(GameMap &map);
+		void OnKeyDown(UINT nChar, GameMap &map);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
@@ -42,12 +41,22 @@ namespace game_framework{
 		int GetPremove(){
 			return _premove;
 		}
-
+		int GetU() { return _uy + _coroffset; }
+		int GetD() { return _dy + _coroffset; }
+		int GetL() { return _lx; }
+		int GetR() { return _rx; }
+		int GetX1() { return _pos_x; };
+		//int GetX2() { return  this->getX1(); }
+		int GetY1() { return _pos_y+_coroffset; }
+		//int GetY2() { return this->getY2() + _coroffset; }
+		bool _bup;
+		bool _bdown;
+		bool _bleft;
+		bool _bright;
 	private:
 		int _coroffset;
 		bool _pressed;
 		bool _walkiter;
-		bool _blocked;
 		Direction _direction;
 		bstate _bstate;
 		move _premove;
