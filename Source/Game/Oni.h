@@ -35,10 +35,14 @@ namespace game_framework {
 		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
+		int GetPosL();
+		int GetPosU();
+		int GetPosR();
+		int GetPosD();
 		void Load(string filename, COLORREF color);
 		void GetPlayerPos(int playerX, int playerY);
-		void Track();
-		void OnMove();	// every time oni move, will track first
+		void Track(GameMap &map);
+		void OnMove(GameMap &map);	// every time oni move, will track first
 		void OnShow();
 		// every time oni appear, default time is 10 sec
 		void ResetOT();
@@ -60,15 +64,9 @@ namespace game_framework {
 			_offsetX, _offsetY;
 		bool _isDisappear;
 		bool _walkiter;
-		bool _blocked;
-		bool _isup;
-		bool _isdown;
-		bool _isleft;
-		bool _isright;
 		bool _wait;
 		OniType _type;
 		bstate _bstate;
-		move _premove;
 		move _nowmove;
 		move _tracking;
 	};
