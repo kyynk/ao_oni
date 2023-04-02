@@ -37,11 +37,8 @@ namespace game_framework {
 		start_animation.LoadBitmapByString(tmp);
 		start_animation.SetTopLeft(SIZE_X / 2 - start_animation.GetWidth() / 2, SIZE_Y / 2 - start_animation.GetHeight() / 2);
 		
-		//Sleep(200);				// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
-
-
+		
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
-		//
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -84,7 +81,7 @@ namespace game_framework {
 	void CGameStateInit::OnShow()
 	{
 		if (flag) {
-			start_animation.SetAnimation(10, true);
+			start_animation.SetAnimation(1, true);
 			start_animation.ShowBitmap();
 			if (start_animation.IsAnimationDone()) {
 				GotoGameState(GAME_STATE_RUN);

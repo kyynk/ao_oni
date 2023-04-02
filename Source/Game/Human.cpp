@@ -59,16 +59,12 @@ namespace game_framework{
 
 	void Human::OnMove(GameMap &map) {
 		
-	/*	if (_bdown || _bup || _bleft || _bright) {
-			return;
-		}*/
-		
 		bool upmovable = false;
 		bool downmovable = false;
 		bool leftmovable = false;
 		bool rightmovable = false;
 		
-		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
 			(this->GetX1() - map.GetX()) % TILE == 0 &&
 			(this->GetU() - map.GetY()) % TILE == 0  ) {
@@ -77,7 +73,7 @@ namespace game_framework{
 		else {
 			upmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0||
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
 			(this->GetX1() - map.GetX()) % TILE == 0 &&
 			(this->GetD() - map.GetY()) % TILE == 0) {
@@ -86,7 +82,7 @@ namespace game_framework{
 		else {
 			downmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0||
+		if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
 			(this->GetL() - map.GetX()) % TILE == 0 &&
 			(this->GetY1() - map.GetY()) % TILE == 0) {
@@ -95,7 +91,7 @@ namespace game_framework{
 		else {
 			leftmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
+		if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
 			(this->GetR() - map.GetX()) % TILE == 0 &&
 			(this->GetY1() - map.GetY()) % TILE == 0) {
@@ -160,19 +156,14 @@ namespace game_framework{
 	void Human::OnKeyDown(UINT nChar,GameMap &map) {
 		
 		if (nChar == VK_LEFT) {
-			
 			_premove = _pressing;
 			_pressing = isleft;
 			_isleft = true;
-			
 		}
 		else if (nChar == VK_UP) {
-			
-			
 			_premove = _pressing;
 			_pressing = isup;
 			_isup = true;
-			
 		}
 		else if (nChar == VK_RIGHT) {
 			_premove = _pressing;
@@ -194,7 +185,6 @@ namespace game_framework{
 		else if (nChar == VK_UP) {
 			_premove = isup;
 			_isup = false;
-			
 		}
 		else if (nChar == VK_RIGHT) {
 			_premove = isright;
@@ -243,7 +233,6 @@ namespace game_framework{
 				bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
 			}
 		}
-
 
 		bitmap.ShowBitmap();
 
