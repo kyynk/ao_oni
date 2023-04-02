@@ -84,7 +84,7 @@ namespace game_framework {
 	void CGameStateInit::OnShow()
 	{
 		if (flag) {
-			start_animation.SetAnimation(10, true);
+			start_animation.SetAnimation(1, true);
 			start_animation.ShowBitmap();
 			if (start_animation.IsAnimationDone()) {
 				GotoGameState(GAME_STATE_RUN);

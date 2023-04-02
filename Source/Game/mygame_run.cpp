@@ -7,7 +7,8 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-
+#include <functional>
+#include <olebind.h>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
 #include "MapNode.h"
@@ -29,7 +30,6 @@ namespace game_framework {
 	CGameStateRun::~CGameStateRun()
 	{
 		MapRes::GetInstance()->Cleanup();
-		MapRouter::GetInstance()->Cleanup();
 	}
 
 	void CGameStateRun::OnBeginState()
@@ -50,16 +50,18 @@ namespace game_framework {
 		inputbox.OnMove();
 
 		
-		player.OnMove(gamemaps.at(_nowID));
+		player.OnMove(gamemaps.at(_nowID),banlist);
 		//oni need to set XY if map change
 		//oni1.SetXY()
-		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
+		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
 		if (oni1.isCatch()) {
 
-		}
 			//GotoGameState(GAME_STATE_OVER);
-		else
+		}
+		else {
 			oni1.OnMove();
+
+		}
 
 	}
 
@@ -114,9 +116,12 @@ namespace game_framework {
 		inputbox.Load("img/cursor/input_box.bmp");
 		inputbox.init(20 * TILE, 0, 0, 10);
 		// map link data
-		MapRouter::GetInstance()->init();
-		MapRouter::GetInstance()->Load("maplink.txt");
-		//MapRouter::GetInstance()->debug();
+		router.Load("map_bmp/maplink.txt");
+		router.debug();
+		banlist.push_back(0);
+		banlist.push_back(12);
+		banlist.push_back(28);
+
 	}
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -148,14 +153,14 @@ namespace game_framework {
 				isgrid = !isgrid;
 			}
 
-			if (nChar == KEY_E) {
+			/*if (nChar == KEY_E) {
 				if (pointtmp.size() % 6 == 3) {
 					TRACE("still one point in buffer, pop out or add a new point.\n");
 				}
 				else {
 					isedit = !isedit;
 				}
-			}
+			}*/
 			if (nChar == KEY_W) {
 				inputbox.ClearBuffer();
 				inputbox.TimerStart();
@@ -213,7 +218,7 @@ namespace game_framework {
 			pointtmp.push_back(_nowID);
 			pointtmp.push_back(mousex_foc*TILE);
 			pointtmp.push_back(mousey_foc*TILE);
-			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE, mousey_foc*TILE);
+			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE-gamemaps.at(_nowID).GetX(), mousey_foc*TILE-gamemaps.at(_nowID).GetY());
 		}
 	}
 
@@ -249,6 +254,7 @@ namespace game_framework {
 	}
 
 
+
 	void CGameStateRun::OnShow()
 	{
 		if (!story.isClose()) {
@@ -257,9 +263,10 @@ namespace game_framework {
 		if (story.isClose()) {
 			///////////////////// debug section
 			inputbox.Show();
-			gamemaps.at(_nowID).ShowMap();
+			
+			gamemaps.at(_nowID).ShowMapAll(player);
 			if (isedit && !ofs.is_open()) {
-				ofs.open("maplink.txt", std::ios::app);
+				ofs.open("map_bmpmaplink.txt", std::ios::app);
 				if (!ofs.is_open()) {
 					TRACE("Failed to open file.\n");
 					throw std::invalid_argument("open failed");
@@ -290,7 +297,7 @@ namespace game_framework {
 			}
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(MapRouter::GetInstance()->GSNowID()) + "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID )+ "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
 			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE) );
 			CTextDraw::Print(pDC, 0, TILE * 8,"player cor up value layer 0 on map: "+ to_string(gamemaps.at(_nowID).GetMapData(0, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
 			CTextDraw::Print(pDC, 0, TILE * 10,"player cor point x : "+ to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : "+ to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
@@ -306,7 +313,7 @@ namespace game_framework {
 			}	
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
-			player.OnShow();
+			
 			oni1.OnShow();
 			//testitem.OnShow();
 

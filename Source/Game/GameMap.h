@@ -1,5 +1,10 @@
 #pragma once
 #include "MapData.h"
+
+#include "entity.h"
+#include "Human.h"
+
+
 namespace game_framework {
 	
 	class GameMap {
@@ -11,7 +16,7 @@ namespace game_framework {
 		}
 		~GameMap(){}
 		void ShowMap(int layer);
-		void ShowMap();
+		void ShowMapAll(Human &obj);
 		void SetTopLeftMap(int x, int y);
 		void debug();
 		void Load(string files);
