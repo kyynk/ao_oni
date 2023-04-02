@@ -18,20 +18,19 @@ namespace game_framework {
 
 	void MapRouter::init()
 	{
-		_ban_list.push_back(0);
-		_ban_list.push_back(28);
 
 	}
 	void MapRouter::Load(string filename)
 	{
 		int mapID1, mapID2;
 		int x1, y1,x2,y2;
+		int twoway;
 		int n;
 		fstream in(filename);
 		in >> n;
 		bool nadded = true ;
 		for (int i = 0; i < n; i++) {
-			in >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
+			in >> twoway >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
 			NodeData tmp1(x1, y1, x2, y2);
 			for (int j = 0; j < 5 ; j++) {
 				if (_data[mapID1][j].GetID() == mapID2) {
@@ -45,28 +44,23 @@ namespace game_framework {
 				_data[mapID1][record[mapID1]] = newnode;
 				record[mapID1] += 1;
 			}
-			nadded = true;
-			NodeData tmp2(x2, y2, x1, y1);
-			for (int j = 0; j < 5; j++) {
-				if (_data[mapID2][j].GetID() == mapID1) {
-					_data[mapID2][j].AddEdge(move(tmp2));
-					nadded = false;
-					break;
+			if (twoway == 2) {
+				nadded = true;
+				NodeData tmp2(x2, y2, x1, y1);
+				for (int j = 0; j < 5; j++) {
+					if (_data[mapID2][j].GetID() == mapID1) {
+						_data[mapID2][j].AddEdge(move(tmp2));
+						nadded = false;
+						break;
+					}
+				}
+				if (nadded) {
+					MapNode newnode(move(tmp2), mapID1);
+					_data[mapID2][record[mapID2]] = newnode;
+					record[mapID2] += 1;
 				}
 			}
-			if (nadded) {
-				MapNode newnode(move(tmp2), mapID1);
-				_data[mapID2][record[mapID2]] = newnode;
-				record[mapID2] += 1;
-			}
 			nadded = true;
-		}
-	}
-	void MapRouter::Cleanup()
-	{
-		if (_Instance) {
-			delete _Instance;
-			_Instance = nullptr;
 		}
 	}
 
@@ -74,35 +68,12 @@ namespace game_framework {
 	{
 		for (int i = 0; i < 23; i++) {
 			for (int j = 0; j < record[i];j++) {
-
-				
 				TRACE("%d\n", i);
 				_data[i][j].debug();
 			}
 		}
 	}
 
-	//bool MapRouter::IsInBanlist(int bx, int by)
-	//{
-	//	for (int i = 0; i < 1; i++) {
-	//		for (int j = 0; j < 2;j++ ) {
-	//			
-	//			if (_gamemaps.at(_nowID).GetMapData(i, bx-_gamemaps.at(_nowID).GetX()/TILE, by - _gamemaps.at(_nowID).GetY()/TILE) == _ban_list[j]) {
-	//				//TRACE("haha:%d layer:%d x:%d y:%d\n ", _gamemaps.at(_nowID).GetMapData(i, bx - _gamemaps.at(_nowID).GetX() / TILE, by - _gamemaps.at(_nowID).GetY() / TILE),i, bx - _gamemaps.at(_nowID).GetX() / TILE, by - _gamemaps.at(_nowID).GetY() / TILE);
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//	return false;
-	//}
-
-	
-
-	/*void MapRouter::ShowIndexLayer()
-	{
-		_gamemaps.at(_nowID).ShowTileIndexLayer();
-	}*/
-	MapRouter* MapRouter::_Instance = nullptr;
 
 }
 

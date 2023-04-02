@@ -67,18 +67,29 @@ namespace game_framework {
 	{
 		return MapRouter::GetInstance()->IsInBanlist(_rx / TILE,_pos_y / TILE);
 	}*/
-	void Entity::OnMove()
-	{
-	}
-	void Entity::OnShow()
-	{
-	}
-	void Entity::Load()
-	{
-	}
+	//void Entity::OnMove()
+	//{
+	//}
+	//void Entity::OnShow()
+	//{
+	//}
+	//void Entity::Load()
+	//{
+	//}
 	void Entity::SelectShowBitmap(int index) {
 		bitmap.SetFrameIndexOfBitmap(index);
 	}
+
+	bool Entity::CheckInVec(int n, vector<int> vec)
+	{
+		for (auto f : vec) {
+			if (n == f) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	
 
 }

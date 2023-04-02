@@ -32,8 +32,10 @@ namespace game_framework {
 		}
 		
 	}
-	void GameMap::ShowMap() {
-		for (int i = 1; i < _layer+1; i++) {
+	void GameMap::ShowMapAll(Human &obj) {
+		ShowMap(1);
+		obj.OnShow();
+		for (int i = 2; i < _layer+1; i++) {
 			ShowMap(i);
 		}
 		if (isshowtileindex) {

@@ -67,7 +67,7 @@ namespace game_framework {
 		_box.ShowBitmap();
 		CDC *pDC = CDDraw::GetBackCDC();
 
-		CTextDraw::Print(pDC, _pos_x + _margin, _pos_y + _margin, string(_buffer.begin(), _buffer.end())+_placeholder);
+		CTextDraw::Print(pDC, _pos_x + _margin*2, _pos_y + _margin*2, string(_buffer.begin(), _buffer.end())+_placeholder);
 		CDDraw::ReleaseBackCDC();
 	}
 	

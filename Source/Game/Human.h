@@ -1,5 +1,6 @@
 #pragma once
 namespace game_framework{
+	class GameMap;
 	class Human : public Entity {
 	public:
 		enum Direction {
@@ -26,7 +27,7 @@ namespace game_framework{
 
 		void init(int step,int offset);
 		
-		void OnMove(GameMap &map);
+		void OnMove(GameMap &map) ;
 		void OnKeyDown(UINT nChar, GameMap &map);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
