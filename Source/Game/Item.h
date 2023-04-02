@@ -14,31 +14,46 @@ namespace game_framework {
 			isleft,
 			isright
 		};
+		enum itemName {
+			key_lib,
+			key_3F_L,
+			key_2F_TL,
+			broken_dash,
+			tub_once,
+			flathead, //screwdriver
+			tub_fixed,
+			phillips, //screwdriver
+			lighter,
+			oil,
+			handkerchief,
+			detergent, //wash
+			door_knob,
+			door_no_knob
+		};
 		Item();
 		~Item();
-		void SetParam(int step, int delay, itemtype type, 
-			int boxX, int boxY);
+		void SetParam(int step, int delay, itemtype type,
+			int boxX, int boxY, itemName name);
 		void Load(vector<string> filename, COLORREF color);
 		void GetPlayerPos(int x, int y);
 		void CheckMoveDirection();
-		void OnMove(UINT nChar);
+		void OnMove();
 		void OnKeyDown(UINT nChar);
+		void OnKeyUp(UINT nChar);
 		void OnShow();
 		bool Collide();
 		void Animation(int n);
 		void SetTrigger();
-	
+		string GetName();
+
 	private:
-		int _step, _anidelay, 
-			_playerX, _playerY, 
+		int _step, _anidelay,
+			_playerX, _playerY,
 			_boxX, _boxY;
-		bool _left;
-		bool _up;
-		bool _right;
-		bool _down;
+		bool _press;
 		itemtype _type;
 		move _move;
-		move _press;
-;		bool _triggered, _close;
+		itemName _name;
+		bool _triggered, _close;
 	};
 }

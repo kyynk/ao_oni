@@ -103,8 +103,8 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+		//testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -118,8 +118,8 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		testitem.GetPlayerPos(32, 0);
-		testitem.OnMove(nChar);  // press G vanish
+		//testitem.GetPlayerPos(32, 0);
+		//testitem.OnMove(nChar);  // press G vanish
 		if (inputbox.IsWrite()) {
 			inputbox.BoxOn(nChar);
 		}
@@ -187,8 +187,8 @@ namespace game_framework {
 			}
 
 			if (nChar == VK_RETURN) {
-				testitem.SetTrigger();
-				testitem.Animation(0);
+				//testitem.SetTrigger();
+				//testitem.Animation(0);
 			}
 		}
 	}
@@ -305,7 +305,7 @@ namespace game_framework {
 			//////////////////////// debug section end
 			player.OnShow();
 			oni1.OnShow();
-			//testitem.OnShow();
+			////testitem.OnShow();
 
 			if (!talk.isClose()) {
 				talk.ShowTotal();
