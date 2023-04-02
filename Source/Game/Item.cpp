@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "config.h"
+#include <string.h>
 #include "Entity.h"
 #include "Item.h"
 namespace game_framework {
@@ -13,19 +14,21 @@ namespace game_framework {
 		_step, _anidelay, _boxX, _boxY = 0;
 		_type = select;
 		_move = none;
+		_press = false;
 		_triggered = false;
 		_close = false;
 	}
 	Item::~Item() {
 	}
-	void Item::SetParam(int step, int delay, itemtype type, 
-		int boxX, int boxY) {
+	void Item::SetParam(int step, int delay, itemtype type,
+		int boxX, int boxY, itemName name) {
 		SetXY(0, 0);
 		_step = step;
 		_anidelay = delay;
 		_type = type;
 		_boxX = boxX;
 		_boxY = boxY;
+		_name = name;
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
 		bitmap.LoadBitmapByString(filename, color);
@@ -48,27 +51,27 @@ namespace game_framework {
 		else
 			_move = none;
 	}
-	void Item::OnMove(UINT nChar) {
-		if (Collide()) {
-			if (nChar == 0x47)
-				_close = true;
-			if (_move == isright && nChar == VK_RIGHT)
-				_pos_x += _step;
-			else if (_move == isleft && nChar == VK_LEFT)
-				_pos_x -= _step;
-			else if (_move == isup && nChar == VK_UP)
-				_pos_y -= _step;
-			else if (_move == isdown && nChar == VK_DOWN)
-				_pos_y += _step;
+	void Item::OnMove() {
+		if (Collide() && _press) {
+			// will add more condition in future
+			_close = true;
 		}
-		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}
 	void Item::OnKeyDown(UINT nChar) {
-
+		if (nChar == VK_SPACE) {
+			_press = true;
+		}
+	}
+	void Item::OnKeyUp(UINT nChar) {
+		if (nChar == VK_SPACE) {
+			_press = false;
+		}
 	}
 	void Item::OnShow() {
-		if(!_close)
+		if (!_close)
 			bitmap.ShowBitmap();
+		else
+			bitmap.UnshowBitmap();
 	}
 	bool Item::Collide() {
 		CheckMoveDirection();
@@ -91,5 +94,18 @@ namespace game_framework {
 	}
 	void Item::SetTrigger() {
 		_triggered = true;
+	}
+	string Item::GetName() {
+		if (_name == key_lib) return "library key";
+		else if (_name == key_3F_L) return "3F bedroom key";
+		else if (_name == key_2F_TL) return "2F kid room key";
+		else if (_name == broken_dash) return "broken dash";
+		else if (_name == flathead) return "flathead_screwdriver";
+		else if (_name == phillips) return "phillips_screwdriver";
+		else if (_name == lighter) return "lighter";
+		else if (_name == oil) return "oil";
+		else if (_name == handkerchief) return "handkerchief";
+		else if (_name == detergent) return "detergent";
+		else if (_name == door_knob) return "door_knob";
 	}
 }
