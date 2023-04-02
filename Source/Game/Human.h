@@ -27,7 +27,7 @@ namespace game_framework{
 
 		void init(int step,int offset);
 		
-		void OnMove(GameMap &map, vector <int> bl) ;
+		void OnMove(GameMap &map) ;
 		void OnKeyDown(UINT nChar, GameMap &map);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
