@@ -4,8 +4,6 @@
 #include "GameMap.h"
 #include "MapNode.h"
 namespace game_framework {
-
-
 	class MapRouter {
 	public:
 		MapRouter() {

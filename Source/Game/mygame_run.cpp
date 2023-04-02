@@ -7,7 +7,7 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-#include <functional>
+#include <filesystem>
 #include <olebind.h>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
@@ -36,9 +36,9 @@ namespace game_framework {
 	{
 		mousex_foc = 0;
 		mousey_foc = 0;
+		istwoway = 0;
 		isedit = false;
 		isgrid = false;
-		iswrite = false;
 		_nowID = 13;
 		player.init(4,16);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
@@ -116,8 +116,8 @@ namespace game_framework {
 		inputbox.Load("img/cursor/input_box.bmp");
 		inputbox.init(20 * TILE, 0, 0, 10);
 		// map link data
-		router.Load("map_bmp/maplink.txt");
-		router.debug();
+		//router.Load("map_bmp/maplink.txt");
+		//router.debug();
 		banlist.push_back(0);
 		banlist.push_back(12);
 		banlist.push_back(28);
@@ -153,14 +153,23 @@ namespace game_framework {
 				isgrid = !isgrid;
 			}
 
-			/*if (nChar == KEY_E) {
+			if (nChar == KEY_E) {
 				if (pointtmp.size() % 6 == 3) {
 					TRACE("still one point in buffer, pop out or add a new point.\n");
 				}
 				else {
 					isedit = !isedit;
 				}
-			}*/
+			}
+			if (isedit && !inputbox.IsWrite()) {
+				if (nChar == KEY_7) {
+					istwoway = 1;
+				}
+				else if (nChar == KEY_8) {
+					istwoway = 2;
+				}
+			}
+			
 			if (nChar == KEY_W) {
 				inputbox.ClearBuffer();
 				inputbox.TimerStart();
@@ -186,6 +195,8 @@ namespace game_framework {
 					story.Close();
 				}
 				talk.Close();
+			
+				}
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar,gamemaps.at(_nowID));
@@ -198,8 +209,8 @@ namespace game_framework {
 				testitem.SetTrigger();
 				testitem.Animation(0);
 			}
-		}
 	}
+	
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
@@ -210,15 +221,23 @@ namespace game_framework {
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		if (isedit) {
+		if (isedit && (istwoway !=0 || (pointtmp.size()%6 == 3))) {
+			
 			mousex_foc = mousex;
 			mousey_foc = mousey;
 			seltile.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
-
+			if (istwoway != 0) {
+				twowayvec.push_back(istwoway);
+				TRACE("push twoway {%d}\n", istwoway);
+				istwoway = 0;
+			}
 			pointtmp.push_back(_nowID);
-			pointtmp.push_back(mousex_foc*TILE);
-			pointtmp.push_back(mousey_foc*TILE);
+			pointtmp.push_back(mousex_foc*TILE - gamemaps.at(_nowID).GetX());
+			pointtmp.push_back(mousey_foc*TILE - gamemaps.at(_nowID).GetY());
 			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE-gamemaps.at(_nowID).GetX(), mousey_foc*TILE-gamemaps.at(_nowID).GetY());
+		}
+		else {
+			TRACE("please specify istwoway?(oneway/twoway)(7/8)\n");
 		}
 	}
 
@@ -236,10 +255,15 @@ namespace game_framework {
 	{
 		if (isedit) {
 			if (pointtmp.empty()) {
-				TRACE("nothing to be popped");
+				TRACE("nothing to be popped\n");
 			}
 			else {
 				int len = int(pointtmp.size());
+				int len2 = int(twowayvec.size());
+				if (int(pointtmp.size() % 6 == 3)) {
+					TRACE("twoway popped{%d}\n",twowayvec[len2-1]);
+					twowayvec.pop_back();
+				}
 				TRACE("element {%d,%d,%d} popped\n", pointtmp[len - 3], pointtmp[len - 2], pointtmp[len - 1] );
 				pointtmp.pop_back();
 				pointtmp.pop_back();
@@ -262,11 +286,11 @@ namespace game_framework {
 		}
 		if (story.isClose()) {
 			///////////////////// debug section
-			inputbox.Show();
-			
+			// 
+			string maplink = "map_bmpmaplink.txt";
 			gamemaps.at(_nowID).ShowMapAll(player);
 			if (isedit && !ofs.is_open()) {
-				ofs.open("map_bmpmaplink.txt", std::ios::app);
+				ofs.open(maplink, std::ios::app);
 				if (!ofs.is_open()) {
 					TRACE("Failed to open file.\n");
 					throw std::invalid_argument("open failed");
@@ -274,8 +298,14 @@ namespace game_framework {
 				TRACE("open maplink.txt\n");
 			}
 			if (ofs.is_open() && !isedit) {
+
 				int i = 1;
+				int j = 0;
 				for (auto f : pointtmp) {
+					if (i % 6 == 1) {
+						ofs << twowayvec[j++];
+						ofs << " ";
+					}
 					ofs << f;
 					if (i % 6 == 0) {
 						ofs << "\n";
@@ -286,8 +316,27 @@ namespace game_framework {
 					i++;
 				}
 				ofs.close();
+				twowayvec.clear();
+				pointtmp.clear();
+				TRACE("twowayvec & pointtmp cleared \n");
+				ifstream file(maplink);
+				string content;
+				string line;
+				int lineNumber = 0;
+				while (getline(file, line)) {
+					lineNumber++;
+					if(lineNumber!=1)content += line + "\n";
+				}
+				file.close();
+				TRACE("link number : %d\n", lineNumber-1);
+				// Write the modified content back to the file
+				ofstream outputFile(maplink,ios::trunc);
+				outputFile << lineNumber -1 <<"\n";
+				outputFile << content;
+				outputFile.close();
 				TRACE("close\n");
 			}
+			inputbox.Show();
 			gamemaps.at(_nowID).ShowTileIndexLayer();
 			if (isgrid) {
 				grid.ShowBitmap();
@@ -295,21 +344,36 @@ namespace game_framework {
 			if (isedit) {
 				seltile.ShowBitmap();
 			}
+
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID )+ "  " + to_string(mousex) + "  " + to_string(mousey) + " edit mode: " + ((isedit) ? "true" : "false"));
-			CTextDraw::Print(pDC, 0, TILE * 6,"player cor on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE) );
-			CTextDraw::Print(pDC, 0, TILE * 8,"player cor up value layer 0 on map: "+ to_string(gamemaps.at(_nowID).GetMapData(0, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
-			CTextDraw::Print(pDC, 0, TILE * 10,"player cor point x : "+ to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : "+ to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
+
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID));
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID));
+			(isedit) ? CTextDraw::Print(pDC, 0, TILE, " edit mode: true") : CTextDraw::Print(pDC, 0, TILE, " edit mode: false");
+
+			CTextDraw::Print(pDC, 0, TILE * 2, "mouse window tile coordinate : " + to_string(mousex) + "  " + to_string(mousey));
+			CTextDraw::Print(pDC, 0, TILE * 3, "mouse map tile coordinate : " + to_string(mousex - gamemaps.at(_nowID).GetX()/TILE)+ "  " + to_string(mousey - gamemaps.at(_nowID).GetY() / TILE));
+
+			CTextDraw::Print(pDC, 0, TILE * 4,"player tile coordinate on map: "+ to_string((player.GetX1()-gamemaps.at(_nowID).GetX())/TILE) + " " + to_string((player.GetY1()- gamemaps.at(_nowID).GetY()) /TILE)+
+				"(check for out of grid) player cor point x : " + to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
+			CTextDraw::Print(pDC, 0, TILE * 5,"     up            :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
+			CTextDraw::Print(pDC, 0, TILE * 6,"left    right      : "+ 
+				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY1() - gamemaps.at(_nowID).GetY()) / TILE))+
+				"    " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetR() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY1() - gamemaps.at(_nowID).GetY()) / TILE)
+			));
+			CTextDraw::Print(pDC, 0, TILE * 7,"    down           :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE))  );
+			CTextDraw::Print(pDC, 0, TILE * 8, "is twoway : " +to_string(istwoway));
+			
 			
 			int len = int(pointtmp.size());
 			if(len % 6 == 0 && len !=0){
-				CTextDraw::Print(pDC, 0, 30,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
-				CTextDraw::Print(pDC, 0, 60,"point2  " + to_string(pointtmp[len-3]) + "  " + to_string(pointtmp[len-2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
+				CTextDraw::Print(pDC, 0, TILE * 20,"point1  " + to_string(pointtmp[len-6]) +"  "+ to_string(pointtmp[len-5]) + "  " + to_string(pointtmp[len - 4]) + "  tile x:  " + to_string(pointtmp[len - 5] / TILE) + "  tile y:  " + to_string(pointtmp[len - 4] / TILE));
+				CTextDraw::Print(pDC, 0, TILE * 21,"point2  " + to_string(pointtmp[len-3]) + "  " + to_string(pointtmp[len-2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
 			
 			}
 			else if (len % 3 == 0 && len != 0) {
-				CTextDraw::Print(pDC, 0, 30,"point1  " +  to_string(pointtmp[len - 3]) + "  " + to_string(pointtmp[len - 2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
+				CTextDraw::Print(pDC, 0, TILE * 20,"point1  " +  to_string(pointtmp[len - 3]) + "  " + to_string(pointtmp[len - 2]) + "  " + to_string(pointtmp[len - 1]) + "  tile x:  " + to_string(pointtmp[len - 2] / TILE) + "  tile y:  " + to_string(pointtmp[len - 1] / TILE));
 			}	
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
