@@ -35,6 +35,13 @@ namespace game_framework {
 		void SetParam(int step, int delay, itemtype type,
 			int boxX, int boxY, itemName name);
 		void Load(vector<string> filename, COLORREF color);
+		void SetPos(int x, int y);
+		int GetPosX();
+		int GetPosY();
+		int GetPosL();
+		int GetPosU();
+		int GetPosR();
+		int GetPosD();
 		void GetPlayerPos(int x, int y);
 		void CheckMoveDirection();
 		void OnMove();
