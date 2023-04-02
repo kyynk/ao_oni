@@ -114,23 +114,22 @@ namespace game_framework {
 		Dialog useItem;
 		Human player;
 		Oni oni1;
-		//int selmap;
 		Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;
-		bool isgrid;
-		bool isedit;
-		bool iswrite;
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
-		vector<int > pointtmp;
 		vector<int > banlist;
-		//vector<int> indexlog;
 		CMovingBitmap seltile;
 		InputBox inputbox;
 		int _nowID;
 		MapRouter router;
+		bool isgrid;
+		bool isedit;
+		int istwoway;
+		vector<int> twowayvec;
+		vector<int > pointtmp;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
