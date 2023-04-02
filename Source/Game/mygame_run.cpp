@@ -50,18 +50,16 @@ namespace game_framework {
 		inputbox.OnMove();
 
 		
-		player.OnMove(gamemaps.at(_nowID),banlist);
-		//oni need to set XY if map change
-		//oni1.SetXY()
-		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
-		if (oni1.isCatch()) {
 
+	
+		player.OnMove(gamemaps.at(_nowID));
+		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
+		if (oni1.isCatch()) {
 			//GotoGameState(GAME_STATE_OVER);
 		}
-		else {
-			oni1.OnMove();
+		else
+			oni1.OnMove(gamemaps.at(_nowID));
 
-		}
 
 	}
 
@@ -108,8 +106,8 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
+		//testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -126,8 +124,8 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		testitem.GetPlayerPos(32, 0);
-		testitem.OnMove(nChar);  // press G vanish
+		//testitem.GetPlayerPos(32, 0);
+		//testitem.OnMove(nChar);  // press G vanish
 		if (inputbox.IsWrite()) {
 			inputbox.BoxOn(nChar);
 		}
@@ -206,8 +204,8 @@ namespace game_framework {
 			}
 
 			if (nChar == VK_RETURN) {
-				testitem.SetTrigger();
-				testitem.Animation(0);
+				//testitem.SetTrigger();
+				//testitem.Animation(0);
 			}
 	}
 	
@@ -379,7 +377,7 @@ namespace game_framework {
 			//////////////////////// debug section end
 			
 			oni1.OnShow();
-			//testitem.OnShow();
+			////testitem.OnShow();
 
 			if (!talk.isClose()) {
 				talk.ShowTotal();
