@@ -57,14 +57,14 @@ namespace game_framework{
 		_coroffset = offset;
 	}
 
-	void Human::OnMove(GameMap &map,vector <int> bl) {
+	void Human::OnMove(GameMap &map) {
 		
 		bool upmovable = false;
 		bool downmovable = false;
 		bool leftmovable = false;
 		bool rightmovable = false;
 		
-		if ((this->CheckInVec(map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE),bl)||
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
 			(this->GetX1() - map.GetX()) % TILE == 0 &&
 			(this->GetU() - map.GetY()) % TILE == 0  ) {
@@ -73,7 +73,7 @@ namespace game_framework{
 		else {
 			upmovable = true;
 		}
-		if ((this->CheckInVec(map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE),bl)||
+		if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
 			(this->GetX1() - map.GetX()) % TILE == 0 &&
 			(this->GetD() - map.GetY()) % TILE == 0) {
@@ -82,7 +82,7 @@ namespace game_framework{
 		else {
 			downmovable = true;
 		}
-		if ((this->CheckInVec(map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE),bl)||
+		if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
 			(this->GetL() - map.GetX()) % TILE == 0 &&
 			(this->GetY1() - map.GetY()) % TILE == 0) {
@@ -91,7 +91,7 @@ namespace game_framework{
 		else {
 			leftmovable = true;
 		}
-		if ((this->CheckInVec(map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) ,bl)||
+		if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE)==0||
 			map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
 			(this->GetR() - map.GetX()) % TILE == 0 &&
 			(this->GetY1() - map.GetY()) % TILE == 0) {
