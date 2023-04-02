@@ -1,10 +1,12 @@
 #pragma once
+#pragma once
 namespace game_framework {
-	class Chair : public Entity {
+	class ObjMove : public Entity {
 	public:
-		enum ChairType {
-			red,
-			black
+		enum ObjType {
+			red_chair,
+			black_chair,
+			flower
 		};
 		enum move {
 			none,
@@ -13,10 +15,10 @@ namespace game_framework {
 			isleft,
 			isright
 		};
-		Chair();
-		~Chair();
+		ObjMove();
+		~ObjMove();
 		// step and moveTime sould be same with player
-		void SetParam(ChairType tp, int step, int moveTime);
+		void SetParam(ObjType tp, int step, int moveTime);
 		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
@@ -29,7 +31,6 @@ namespace game_framework {
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);	// every time chair move, will track first
 		void OnShow();
-
 		void Reset();
 		void Fixed();
 	private:
@@ -37,7 +38,7 @@ namespace game_framework {
 			_step, _moveTime, _overTime,
 			_offsetX, _offsetY;
 		bool _isFixedPos;
-		ChairType _type;
+		objType _type;
 		move _nowmove;
 		move _tracking;
 	};
