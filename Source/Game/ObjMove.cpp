@@ -10,10 +10,10 @@
 #include "config.h"
 #include "GameMap.h"
 #include "Entity.h"
-#include "Chair.h"
+#include "ObjMove.h"
 
 namespace game_framework {
-	Chair::Chair() {
+	ObjMove::ObjMove() {
 
 	}
 }
