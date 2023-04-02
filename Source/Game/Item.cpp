@@ -33,6 +33,27 @@ namespace game_framework {
 	void Item::Load(vector<string> filename, COLORREF color) {
 		bitmap.LoadBitmapByString(filename, color);
 	}
+	void Item::SetPos(int x, int y) {
+		SetXY(x, y);
+	}
+	int Item::GetPosX() {
+		return _pos_x;
+	}
+	int Item::GetPosY() {
+		return _pos_y;
+	}
+	int Item::GetPosL() {
+		return _pos_x - TILE;
+	}
+	int Item::GetPosU() {
+		return _pos_y - TILE;
+	}
+	int Item::GetPosR() {
+		return _pos_x + _boxX + TILE;
+	}
+	int Item::GetPosD() {
+		return _pos_y + _boxY + TILE;
+	}
 	void Item::GetPlayerPos(int x, int y) {
 		_playerX = x;
 		_playerY = y;
