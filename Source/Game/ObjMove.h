@@ -34,9 +34,13 @@ namespace game_framework {
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);
 		// every time obj move, will track first
+		void OnKeyDown(UINT nChar);
+		void OnKeyUp(UINT nChar);
 		void OnShow();
 		void Reset();
 		void Fixed();
+		bool isCollide();
+		
 	private:
 		int _humanX, _humanY,
 			_step, _moveTime, _overTime,
@@ -45,6 +49,7 @@ namespace game_framework {
 			_fixedX, _fixedY;
 		bool _isFixedPos;
 		bool _press;
+		bool _collide;
 		ObjType _type;
 		move _nowmove;
 		move _tracking;

@@ -55,6 +55,7 @@ namespace game_framework {
 		if (Collide() && _press) {
 			// will add more condition in future
 			_close = true;
+			SetTrigger();
 		}
 	}
 	void Item::OnKeyDown(UINT nChar) {
