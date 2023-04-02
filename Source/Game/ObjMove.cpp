@@ -21,6 +21,7 @@ namespace game_framework {
 			_fixedX, _fixedY = 0;
 		_isFixedPos = false;
 		_press = false;
+		_collide = false;
 		_type = no;
 		_nowmove = none;
 		_tracking = none;
@@ -50,16 +51,16 @@ namespace game_framework {
 		return _pos_y;
 	}
 	int ObjMove::GetPosL() {
-		return _pos_x;
+		return _pos_x - TILE;
 	}
 	int ObjMove::GetPosU() {
-		return _pos_y;
+		return _pos_y - TILE;
 	}
 	int ObjMove::GetPosR() {
-		return _pos_x + _offsetX;
+		return _pos_x + _offsetX + TILE;
 	}
 	int ObjMove::GetPosD() {
-		return _pos_y + _offsetY;
+		return _pos_y + _offsetY + TILE;
 	}
 	void ObjMove::GetPlayerPos(int playerX, int playerY) {
 		_humanX = playerX;
@@ -70,6 +71,14 @@ namespace game_framework {
 	}
 	void ObjMove::OnMove(GameMap &map) {	// every time obj move, will track first
 		
+	}
+	void ObjMove::OnKeyDown(UINT nChar) {
+		if (nChar == VK_SPACE)
+			_press = true;
+	}
+	void ObjMove::OnKeyUp(UINT nChar) {
+		if (nChar == VK_SPACE)
+			_press = false;
 	}
 	void ObjMove::OnShow() {
 
@@ -84,5 +93,18 @@ namespace game_framework {
 			_resetX = _fixedX;
 			_resetY = _fixedY;
 		}
+	}
+	bool ObjMove::isCollide() {
+		int x = _pos_x + _offsetX;
+		int y = _pos_y + _offsetY;
+		if ((_humanX + 32 == _pos_x && (_humanY == _pos_y || _humanY == y))
+			|| (_humanX - 32 == x && (_humanY == _pos_y || _humanY == y))
+			|| ((_humanX == _pos_x || _humanX == x) && _humanY + 32 == _pos_y)
+			|| ((_humanX == _pos_x || _humanX == x) && _humanY - 32 == y))
+			_collide = true;
+		else
+			_collide = false;
+
+		return _collide;
 	}
 }
