@@ -17,8 +17,11 @@ namespace game_framework {
 		};
 		ObjMove();
 		~ObjMove();
-		// step and moveTime sould be same with player
-		void SetParam(ObjType tp, int step, int moveTime);
+		// step and moveTime sould be fast with player
+		// e.g. moveTime = 4, step = 8
+		void SetParam(ObjType tp, int step, int moveTime, 
+			int offsetX, int offsetY);
+		void Load(vector<string> filename, COLORREF color);
 		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
@@ -26,19 +29,21 @@ namespace game_framework {
 		int GetPosU();
 		int GetPosR();
 		int GetPosD();
-		void Load(string filename, COLORREF color);
 		void GetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
-		void OnMove(GameMap &map);	// every time chair move, will track first
+		void OnMove(GameMap &map);
+		// every time obj move, will track first
 		void OnShow();
 		void Reset();
 		void Fixed();
 	private:
 		int _humanX, _humanY,
 			_step, _moveTime, _overTime,
-			_offsetX, _offsetY;
+			_offsetX, _offsetY, 
+			_resetX, _resetY, 
+			_fixedX, _fixedY;
 		bool _isFixedPos;
-		objType _type;
+		ObjType _type;
 		move _nowmove;
 		move _tracking;
 	};
