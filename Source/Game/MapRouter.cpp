@@ -18,8 +18,6 @@ namespace game_framework {
 
 	void MapRouter::init()
 	{
-		_ban_list.push_back(0);
-		_ban_list.push_back(28);
 
 	}
 	void MapRouter::Load(string filename)
@@ -62,13 +60,6 @@ namespace game_framework {
 			nadded = true;
 		}
 	}
-	void MapRouter::Cleanup()
-	{
-		if (_Instance) {
-			delete _Instance;
-			_Instance = nullptr;
-		}
-	}
 
 	void MapRouter::debug()
 	{
@@ -82,27 +73,6 @@ namespace game_framework {
 		}
 	}
 
-	//bool MapRouter::IsInBanlist(int bx, int by)
-	//{
-	//	for (int i = 0; i < 1; i++) {
-	//		for (int j = 0; j < 2;j++ ) {
-	//			
-	//			if (_gamemaps.at(_nowID).GetMapData(i, bx-_gamemaps.at(_nowID).GetX()/TILE, by - _gamemaps.at(_nowID).GetY()/TILE) == _ban_list[j]) {
-	//				//TRACE("haha:%d layer:%d x:%d y:%d\n ", _gamemaps.at(_nowID).GetMapData(i, bx - _gamemaps.at(_nowID).GetX() / TILE, by - _gamemaps.at(_nowID).GetY() / TILE),i, bx - _gamemaps.at(_nowID).GetX() / TILE, by - _gamemaps.at(_nowID).GetY() / TILE);
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//	return false;
-	//}
-
-	
-
-	/*void MapRouter::ShowIndexLayer()
-	{
-		_gamemaps.at(_nowID).ShowTileIndexLayer();
-	}*/
-	MapRouter* MapRouter::_Instance = nullptr;
 
 }
 

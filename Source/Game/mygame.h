@@ -125,10 +125,12 @@ namespace game_framework {
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
 		vector<int > pointtmp;
+		vector<int > banlist;
 		//vector<int> indexlog;
 		CMovingBitmap seltile;
 		InputBox inputbox;
 		int _nowID;
+		MapRouter router;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -12,6 +12,7 @@ namespace game_framework {
 		int getY2();
 		void SetXY(int, int);
 		void SelectShowBitmap(int index);
+		bool CheckInVec(int n,vector<int> vec);
 
 		void TimerUpdate();
 		void TimerReset();
@@ -24,9 +25,9 @@ namespace game_framework {
 		//bool LBlocked();
 		//bool RBlocked();
 		// every entity must implement these three function 
-		virtual void OnMove();
+		/*virtual void OnMove();
 		virtual void OnShow();
-		virtual void Load();
+		virtual void Load();*/
 
 		CMovingBitmap bitmap;
 	protected:
