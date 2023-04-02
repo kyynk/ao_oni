@@ -107,5 +107,6 @@ namespace game_framework {
 		else if (_name == handkerchief) return "handkerchief";
 		else if (_name == detergent) return "detergent";
 		else if (_name == door_knob) return "door_knob";
+		return "";
 	}
 }
