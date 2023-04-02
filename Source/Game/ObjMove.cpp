@@ -14,22 +14,34 @@
 
 namespace game_framework {
 	ObjMove::ObjMove() {
+		_humanX, _humanY,
+			_step, _moveTime, _overTime,
+			_offsetX, _offsetY,
+			_resetX, _resetY,
+			_fixedX, _fixedY = 0;
+		_isFixedPos = false;
+		_press = false;
+		_type = no;
+		_nowmove = none;
+		_tracking = none;
 	}
 	ObjMove::~ObjMove() {
 	}
 	void ObjMove::SetParam(ObjType tp, int step, int moveTime, 
-		int offsetX, int offsetY) {
+		int offsetX, int offsetY, int resetX, int resetY, 
+		int fixedX, int fixedY) {
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
 		_offsetX = offsetX;
 		_offsetY = offsetY;
+		_resetX = resetX;
+		_resetY = resetY;
+		_fixedX = fixedX;
+		_fixedY = fixedY;
 	}
 	void ObjMove::Load(vector<string> filename, COLORREF color) {
 		bitmap.LoadBitmapByString(filename, color);
-	}
-	void ObjMove::SetPos(int x, int y) {
-		SetXY(x, y);
 	}
 	int ObjMove::GetPosX() {
 		return _pos_x;
@@ -63,9 +75,14 @@ namespace game_framework {
 
 	}
 	void ObjMove::Reset() {
-
+		SetXY(_resetX, _resetY);
 	}
 	void ObjMove::Fixed() {
-
+		if (_pos_x == _fixedX && _pos_y == _fixedY)
+			_isFixedPos = true;
+		if (_isFixedPos) {
+			_resetX = _fixedX;
+			_resetY = _fixedY;
+		}
 	}
 }

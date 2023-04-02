@@ -4,6 +4,7 @@ namespace game_framework {
 	class ObjMove : public Entity {
 	public:
 		enum ObjType {
+			no,
 			red_chair,
 			black_chair,
 			flower
@@ -20,9 +21,9 @@ namespace game_framework {
 		// step and moveTime sould be fast with player
 		// e.g. moveTime = 4, step = 8
 		void SetParam(ObjType tp, int step, int moveTime, 
-			int offsetX, int offsetY);
+			int offsetX, int offsetY, int resetX, int resetY,
+			int fixedX, int fixedY);
 		void Load(vector<string> filename, COLORREF color);
-		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
 		int GetPosL();
@@ -43,6 +44,7 @@ namespace game_framework {
 			_resetX, _resetY, 
 			_fixedX, _fixedY;
 		bool _isFixedPos;
+		bool _press;
 		ObjType _type;
 		move _nowmove;
 		move _tracking;
