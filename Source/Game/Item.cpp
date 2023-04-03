@@ -49,7 +49,7 @@ namespace game_framework {
 		}
 		else if (_name == key_2F_TL) {
 			for (int i = 0; i < 4; i++) {
-				bitmapName.push_back("img/item_animation/kid_room_key/key_2F_TL" + to_string(i) + ".bmp");
+				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
 			}
 		}
 		else if (_name == key_basement) {
@@ -60,6 +60,11 @@ namespace game_framework {
 		else if (_name == key_jail) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/jail_key/jail_key" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == key_annexe) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
 			}
 		}
 		else if (_name == broken_dish) {
@@ -81,7 +86,7 @@ namespace game_framework {
 			bitmapName.push_back("img/item_animation/tub/tub7.bmp");
 		}
 		else if (_name == flathead) {
-
+			bitmapName.push_back("img/item_animation/flathead/flathead.bmp");
 		}
 		else if (_name == lighter) {
 			for (int i = 0; i < 3; i++) {
@@ -110,6 +115,11 @@ namespace game_framework {
 		else if (_name == gate) {
 			for (int i = 0; i < 2; i++) {
 				bitmapName.push_back("img/item_animation/gate/gate" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == toilet) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/toilet/toilet" + to_string(i) + ".bmp");
 			}
 		}
 		Load(bitmapName, RGB(204, 255, 0));
@@ -225,6 +235,7 @@ namespace game_framework {
 		else if (_name == key_2F_TL) return "2F kid room key";
 		else if (_name == key_basement) return "basement key";
 		else if (_name == key_jail) return "jail key";
+		else if (_name == key_annexe) return "annexe key";
 		else if (_name == broken_dish) return "broken dish";
 		else if (_name == phillips) return "phillips screwdriver";
 		else if (_name == flathead) return "flathead screwdriver";
