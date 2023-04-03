@@ -14,6 +14,7 @@ namespace game_framework {
 		_step, _anidelay, _boxX, _boxY = 0;
 		_type = select;
 		_move = none;
+		_pressing = none;
 		_press = false;
 		_triggered = false;
 		_close = false;
@@ -61,27 +62,45 @@ namespace game_framework {
 	void Item::CheckMoveDirection() {
 		int x = _pos_x + _boxX;
 		int y = _pos_y + _boxY;
-		if (_playerX + 32 == _pos_x && (_playerY == _pos_y || _playerY == y))
+		if (_playerX + 32 == _pos_x && (_playerY == _pos_y || _playerY == y) && _pressing == isright)
 			_move = isright;
-		else if (_playerX - 32 == x && (_playerY == _pos_y || _playerY == y))
+		else if (_playerX - 32 == x && (_playerY == _pos_y || _playerY == y) && _pressing == isleft)
 			_move = isleft;
-		else if ((_playerX == _pos_x || _playerX == x) && _playerY + 32 == _pos_y)
+		else if ((_playerX == _pos_x || _playerX == x) && _playerY + 32 == _pos_y && _pressing == isdown)
 			_move = isdown;
-		else if ((_playerX == _pos_x || _playerX == x) && _playerY - 32 == y)
+		else if ((_playerX == _pos_x || _playerX == x) && _playerY - 32 == y && _pressing == isup)
 			_move = isup;
 		else
 			_move = none;
+		_pressing = none;
 	}
 	void Item::OnMove() {
 		if (Collide() && _press) {
 			// will add more condition in future
 			_close = true;
 			SetTrigger();
+			_press = false;
 		}
 	}
 	void Item::OnKeyDown(UINT nChar) {
 		if (nChar == VK_SPACE) {
 			_press = true;
+		}
+		if (nChar == VK_LEFT) {
+			_pressing = isleft;
+			//TRACE("\n\n press L \n\n");
+		}
+		else if (nChar == VK_UP) {
+			_pressing = isup;
+			//TRACE("\n\n press U \n\n");
+		}
+		else if (nChar == VK_RIGHT) {
+			_pressing = isright;
+			//TRACE("\n\n press R \n\n");
+		}
+		else if (nChar == VK_DOWN) {
+			_pressing = isdown;
+			//TRACE("\n\n press D \n\n");
 		}
 	}
 	void Item::OnKeyUp(UINT nChar) {
