@@ -43,30 +43,27 @@ namespace game_framework {
 		_nowID = 13;
 		player.init(4,16);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		redChair.Reset();
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
-		
 		inputbox.OnMove();
-
-		
-
-	
 		player.OnMove(gamemaps.at(_nowID));
-		oni1.GetPlayerPos(player.getX1(), player.getY1() + 16);
+		// test ObjMove
+		redChair.GetPlayerPos(player.GetX1(), player.GetY1());
+		redChair.OnMove(gamemaps.at(_nowID));
+		// test ObjMove end
+		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
 		if (oni1.isCatch()) {
 			//GotoGameState(GAME_STATE_OVER);
 		}
 		else
 			oni1.OnMove(gamemaps.at(_nowID));
-
-
 	}
 
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
-
 		ShowInitProgress(33, "loading game mid");
 		// main character
 		vector<string> playervec;
@@ -115,6 +112,10 @@ namespace game_framework {
 		// item 
 		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
 		//testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+		// objMove
+		redChair.SetParam(ObjMove::ObjType::red_chair,
+			8, 4, 0, 0, 10 * TILE, 11 * TILE,
+			13 * TILE, 16 * TILE);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		seltile.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -129,8 +130,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		//testitem.GetPlayerPos(32, 0);
-		//testitem.OnMove(nChar);  // press G vanish
+		
 		if (inputbox.IsWrite()) {
 			inputbox.BoxOn(nChar);
 		}
@@ -203,6 +203,10 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar,gamemaps.at(_nowID));
+				//testitem.GetPlayerPos(32, 0);
+				//testitem.OnMove(nChar);  // press G vanish
+				//test ObjMove
+				redChair.OnKeyDown(nChar);
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
@@ -219,6 +223,7 @@ namespace game_framework {
 	{
 		if (talk.isClose() && useItem.isClose()) {
 			player.OnKeyUp(nChar);
+			redChair.OnKeyUp(nChar);
 		}
 	}
 
@@ -289,9 +294,12 @@ namespace game_framework {
 		}
 		if (story.isClose()) {
 			///////////////////// debug section
-			// 
+			//
 			string maplink = "map_bmp/maplink.txt";
 			gamemaps.at(_nowID).ShowMapAll(player,mapoverlayindex.at(_nowID));
+			// test ObjMove
+			redChair.OnShow();
+			// test ObjMove end
 			if (isedit && !ofs.is_open()) {
 				ofs.open(maplink, std::ios::app);
 				if (!ofs.is_open()) {
