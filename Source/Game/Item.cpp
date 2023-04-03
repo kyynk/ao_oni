@@ -224,6 +224,7 @@ namespace game_framework {
 		else if (_name == key_3F_L) return "3F bedroom key";
 		else if (_name == key_2F_TL) return "2F kid room key";
 		else if (_name == key_basement) return "basement key";
+		else if (_name == key_jail) return "jail key";
 		else if (_name == broken_dish) return "broken dish";
 		else if (_name == phillips) return "phillips screwdriver";
 		else if (_name == flathead) return "flathead screwdriver";
