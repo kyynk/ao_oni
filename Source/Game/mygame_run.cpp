@@ -215,7 +215,7 @@ namespace game_framework {
 				}
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
-				player.OnKeyDown(nChar,gamemaps.at(_nowID));
+				player.OnKeyDown(nChar);
 
 				//testitem.GetPlayerPos(32, 0);
 				//testitem.OnMove(nChar);  // press G vanish
