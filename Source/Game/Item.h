@@ -33,6 +33,7 @@ namespace game_framework {
 			detergent, //wash
 			door_knob,
 			door_no_knob,
+			tatami,
 			gate, 
 			toilet
 		};
@@ -58,6 +59,10 @@ namespace game_framework {
 		void Animation(int n);
 		void SetTrigger();
 		string GetName();
+		bool IsFixed();
+		// e.g. 
+		// if player on chair a = true, else a = false
+		void IsOnTriPos(bool a);
 
 	private:
 		int _step, _anidelay,
@@ -67,7 +72,10 @@ namespace game_framework {
 		move _move;
 		move _pressing;
 		itemName _name;
+		// pick -> disappear, take -> leave
 		bool _triggered, _close, 
-			_press, _pick;
+			_press, _pick, _fixed, 
+			_take, _onCorrectPos, 
+			_useItem;
 	};
 }
