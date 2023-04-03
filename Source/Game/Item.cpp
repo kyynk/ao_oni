@@ -18,8 +18,11 @@ namespace game_framework {
 		_pressing = none;
 		_press = false;
 		_triggered = false;
-		_pick = false;
-		_close = false;
+		_pick = false; // will disappear
+		_close = true; // door, toilet, ...
+		_fixed = false; // will not do anything if _fixed == true
+		_take = false; // will leave
+		_useItem = false; // will use screwdriver or lighter ...
 	}
 	Item::~Item() {
 	}
@@ -112,6 +115,11 @@ namespace game_framework {
 		else if (_name == door_no_knob) {
 			bitmapName.push_back("img/item_animation/doorknob/nodoorknob.bmp");
 		}
+		else if (_name == tatami) {
+			for (int i = 0; i < 3; i++) {
+				bitmapName.push_back("img/item_animation/tatami/tatami" + to_string(i) + ".bmp");
+			}
+		}
 		else if (_name == gate) {
 			for (int i = 0; i < 2; i++) {
 				bitmapName.push_back("img/item_animation/gate/gate" + to_string(i) + ".bmp");
@@ -167,12 +175,138 @@ namespace game_framework {
 			_move = none;
 		_pressing = none;
 	}
-	void Item::OnMove() {
+	void Item::OnMove() { // actually is action function
 		if (Collide() && _press) {
-			// will add more condition in future
-			_close = true;
-			SetTrigger();
-			_press = false;
+			// on lib
+			if (_name == lib_book && !_fixed) {
+				SetPos(_pos_x, _pos_y + TILE);
+				_fixed = true;
+			}
+			// chair move to fixed pos
+			if (_name == key_lib && !_pick) {
+				_pick = true;
+			}
+			// lib_book move to fixed pos
+			if (_name == key_3F_L && !_pick) {
+				_pick = true;
+			}
+			// password box in 2F_D unlock
+			if (_name == key_2F_TL && !_pick) {
+				_pick = true;
+			}
+			// in the jail room (near tatami)
+			if (_name == key_basement && !_pick) {
+				_pick = true;
+			}
+			// basement onChair can pick
+			if (_name == key_jail && _onCorrectPos && !_pick) {
+				_pick = true;
+			}
+			// password box in basement1 unlock
+			if (_name == key_annexe && !_pick) {
+				_pick = true;
+			}
+			// on kitchen
+			if (_name == broken_dish && !_take) {
+				_take = true;
+				SetTrigger();
+				Animation(1);
+			}
+			// on shower
+			if (_name == tub_once && !_fixed) {
+				SetTrigger();
+				Animation(0);
+			}
+			// in tub
+			if (_name == phillips && !_pick) {
+				_pick = true;
+			}
+			// tub fixed only need to show, no interact
+			// on basement (which has a chair), onChair can pick
+			if (_name == flathead && _onCorrectPos && !_pick) {
+				_pick = true;
+			}
+			// tatami leftside
+			if (_name == lighter && _onCorrectPos && !_pick) {
+				_pick = true;
+			}
+			// kid room, onchair can pick
+			if (_name == oil && _onCorrectPos && !_pick) {
+				_pick = true;
+			}
+			// 2F_TR, in lib take 3F key
+			if (_name == handkerchief && !_pick) {
+				_pick = true;
+			}
+			// in toilet
+			if (_name == detergent && !_pick) {
+				_pick = true;
+			}
+			// 3F, need to use screwdriver
+			if (_name == door_knob && !_take) {
+				if (_useItem)
+					_take = true;
+				else {
+					if (_close) {
+						SetTrigger();
+						// will optimize Animation
+						Animation(1); // open
+						_close = false;
+					}
+					else {
+						SetTrigger();
+						// will optimize Animation
+						Animation(0); // close
+						_close = true;
+					}
+				}
+			}
+			// door_no_knob only need to show, no interact
+			//tatami
+			if (_name == tatami) {
+				if (_close) {
+					SetTrigger();
+					// will optimize Animation
+					Animation(1); // open
+					_close = false;
+				}
+				else {
+					SetTrigger();
+					// will optimize Animation
+					Animation(0); // close
+					_close = true;
+				}
+			}
+			// jail
+			if (_name == gate) {
+				if (_close) {
+					SetTrigger();
+					// will optimize Animation
+					Animation(1); // open
+					_close = false;
+				}
+				else {
+					SetTrigger();
+					// will optimize Animation
+					Animation(0); // close
+					_close = true;
+				}
+			}
+			// toilet
+			if (_name == toilet) {
+				if (_close) {
+					SetTrigger();
+					// will optimize Animation
+					Animation(1); // open
+					_close = false;
+				}
+				else {
+					SetTrigger();
+					// will optimize Animation
+					Animation(0); // close
+					_close = true;
+				}
+			}
 		}
 	}
 	void Item::OnKeyDown(UINT nChar) {
@@ -204,8 +338,6 @@ namespace game_framework {
 	void Item::OnShow() {
 		if (!_pick)
 			bitmap.ShowBitmap();
-		else
-			bitmap.UnshowBitmap();
 	}
 	bool Item::Collide() {
 		CheckMoveDirection();
@@ -245,5 +377,11 @@ namespace game_framework {
 		else if (_name == detergent) return "detergent";
 		else if (_name == door_knob) return "door knob";
 		return "";
+	}
+	bool Item::IsFixed() {
+		return _fixed;
+	}
+	void Item::IsOnTriPos(bool a) {
+		_onCorrectPos = a;
 	}
 }
