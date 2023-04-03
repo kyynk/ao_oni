@@ -6,10 +6,7 @@ namespace game_framework {
 	public:
 		Entity();
 		//getter
-		int getX1();
-		int getX2();
-		int getY1();
-		int getY2();
+		
 		void SetXY(int, int);
 		void SelectShowBitmap(int index);
 		bool CheckInVec(int n,vector<int> vec);

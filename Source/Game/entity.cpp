@@ -15,18 +15,7 @@ namespace game_framework {
 		_istimerstart = false;	
 	}
 
-	int Entity::getX1() {
-		return _pos_x;
-	}
-	int Entity::getX2() {
-		return _pos_x + bitmap.GetWidth();
-	}
-	int Entity::getY1() {
-		return _pos_y;
-	}
-	int Entity::getY2() {
-		return _pos_y + bitmap.GetHeight();
-	}
+	
 	void Entity::SetXY(int x, int y) {
 		_pos_x = x;
 		_pos_y = y;
