@@ -110,8 +110,6 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		//testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 10 * TILE, 11 * TILE,
@@ -203,8 +201,6 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar,gamemaps.at(_nowID));
-				//testitem.GetPlayerPos(32, 0);
-				//testitem.OnMove(nChar);  // press G vanish
 				//test ObjMove
 				redChair.OnKeyDown(nChar);
 			}
@@ -213,8 +209,6 @@ namespace game_framework {
 			}
 
 			if (nChar == VK_RETURN) {
-				//testitem.SetTrigger();
-				//testitem.Animation(0);
 			}
 	}
 	
@@ -389,7 +383,7 @@ namespace game_framework {
 			//////////////////////// debug section end
 			
 			oni1.OnShow();
-			////testitem.OnShow();
+		
 
 			if (!talk.isClose()) {
 				talk.ShowTotal();
