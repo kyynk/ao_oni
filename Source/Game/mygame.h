@@ -48,6 +48,7 @@
 #include "MapRes.h"
 #include "ChoiceMenu.h"
 #include "Item.h"
+#include "ObjMove.h"
 #include "Dialog.h"
 #include "InputBox.h"
 #include "Human.h"
@@ -113,6 +114,7 @@ namespace game_framework {
 		Dialog useItem;
 		Human player;
 		Oni oni1;
+		ObjMove redChair;
 		Item testitem;
 		int mousex, mousey;
 		CMovingBitmap grid;

@@ -23,7 +23,7 @@ namespace game_framework {
 		void SetParam(ObjType tp, int step, int moveTime, 
 			int offsetX, int offsetY, int resetX, int resetY,
 			int fixedX, int fixedY);
-		void Load(vector<string> filename, COLORREF color);
+		void Load(string filename, COLORREF color);
 		int GetPosX();
 		int GetPosY();
 		int GetPosL();
@@ -52,6 +52,6 @@ namespace game_framework {
 		bool _collide;
 		ObjType _type;
 		move _nowmove;
-		move _tracking;
+		move _pressing;
 	};
 }
