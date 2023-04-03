@@ -6,7 +6,8 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "config.h"
-#include <string.h>
+#include <string>
+#include <vector>
 #include "Entity.h"
 #include "Item.h"
 namespace game_framework {
@@ -17,6 +18,7 @@ namespace game_framework {
 		_pressing = none;
 		_press = false;
 		_triggered = false;
+		_pick = false;
 		_close = false;
 	}
 	Item::~Item() {
@@ -30,6 +32,87 @@ namespace game_framework {
 		_boxX = boxX;
 		_boxY = boxY;
 		_name = name;
+
+		vector<string> bitmapName;
+		if (_name == lib_book) {
+			bitmapName.push_back("img/item_animation/lib_book/lib_book.bmp");
+		}
+		else if (_name == key_lib) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == key_3F_L) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == key_2F_TL) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/kid_room_key/key_2F_TL" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == key_basement) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == key_jail) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/jail_key/jail_key" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == broken_dish) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/dish/dish" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == tub_once) {
+			for (int i = 1; i < 8; i++) {
+				bitmapName.push_back("img/item_animation/tub/tub" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == phillips) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/tub/tub_star" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == tub_fixed) {
+			bitmapName.push_back("img/item_animation/tub/tub7.bmp");
+		}
+		else if (_name == flathead) {
+
+		}
+		else if (_name == lighter) {
+			for (int i = 0; i < 3; i++) {
+				bitmapName.push_back("img/item_animation/tatami/tatami_lighter" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == oil) {
+			bitmapName.push_back("img/item/oil.bmp");
+		}
+		else if (_name == handkerchief) {
+			bitmapName.push_back("img/item/hankati.bmp");
+		}
+		else if (_name == detergent) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/detergent/detergent" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == door_knob) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/doorknob/doorknob" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == door_no_knob) {
+			bitmapName.push_back("img/item_animation/doorknob/nodoorknob.bmp");
+		}
+		else if (_name == gate) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/gate/gate" + to_string(i) + ".bmp");
+			}
+		}
+		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
 		bitmap.LoadBitmapByString(filename, color);
@@ -109,7 +192,7 @@ namespace game_framework {
 		}
 	}
 	void Item::OnShow() {
-		if (!_close)
+		if (!_pick)
 			bitmap.ShowBitmap();
 		else
 			bitmap.UnshowBitmap();
@@ -140,14 +223,15 @@ namespace game_framework {
 		if (_name == key_lib) return "library key";
 		else if (_name == key_3F_L) return "3F bedroom key";
 		else if (_name == key_2F_TL) return "2F kid room key";
-		else if (_name == broken_dash) return "broken dash";
-		else if (_name == flathead) return "flathead_screwdriver";
-		else if (_name == phillips) return "phillips_screwdriver";
+		else if (_name == key_basement) return "basement key";
+		else if (_name == broken_dish) return "broken dish";
+		else if (_name == phillips) return "phillips screwdriver";
+		else if (_name == flathead) return "flathead screwdriver";
 		else if (_name == lighter) return "lighter";
 		else if (_name == oil) return "oil";
 		else if (_name == handkerchief) return "handkerchief";
 		else if (_name == detergent) return "detergent";
-		else if (_name == door_knob) return "door_knob";
+		else if (_name == door_knob) return "door knob";
 		return "";
 	}
 }

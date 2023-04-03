@@ -15,20 +15,24 @@ namespace game_framework {
 			isright
 		};
 		enum itemName {
+			lib_book,
 			key_lib,
 			key_3F_L,
 			key_2F_TL,
-			broken_dash,
+			key_basement,
+			key_jail, 
+			broken_dish,
 			tub_once,
-			flathead, //screwdriver
-			tub_fixed,
 			phillips, //screwdriver
+			tub_fixed,
+			flathead, //screwdriver
 			lighter,
 			oil,
 			handkerchief,
 			detergent, //wash
 			door_knob,
-			door_no_knob
+			door_no_knob,
+			gate
 		};
 		Item();
 		~Item();
@@ -57,11 +61,11 @@ namespace game_framework {
 		int _step, _anidelay,
 			_playerX, _playerY,
 			_boxX, _boxY;
-		bool _press;
 		itemtype _type;
 		move _move;
 		move _pressing;
 		itemName _name;
-		bool _triggered, _close;
+		bool _triggered, _close, 
+			_press, _pick;
 	};
 }
