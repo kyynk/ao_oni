@@ -60,6 +60,7 @@ namespace game_framework {
 		bool _press;
 		itemtype _type;
 		move _move;
+		move _pressing;
 		itemName _name;
 		bool _triggered, _close;
 	};
