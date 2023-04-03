@@ -34,6 +34,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnBeginState()
 	{
+		oni1.SetXY(0, 0);
 		mousex_foc = 0;
 		mousey_foc = 0;
 		istwoway = 0;
@@ -95,6 +96,12 @@ namespace game_framework {
 			tmp.SetTopLeftMap((SIZE_X-16-w*TILE)/2 , (SIZE_Y-20-h* TILE)/2);
 			gamemaps.push_back(tmp);
 		}
+		ifstream indexlayer("map_bmp/mapindexlayer.txt");
+		int i2;
+		for (int i = 0; i < 46; i++) {
+			indexlayer >> i2;
+			mapoverlayindex.push_back(i2);
+		}
 		// dialog
 		story.SetNow(Dialog::character::none);
 		story.SetParam({"We heard rumors about the mansion", 
@@ -116,9 +123,7 @@ namespace game_framework {
 		// map link data
 		//router.Load("map_bmp/maplink.txt");
 		//router.debug();
-		banlist.push_back(0);
-		banlist.push_back(12);
-		banlist.push_back(28);
+		
 
 	}
 
@@ -285,8 +290,8 @@ namespace game_framework {
 		if (story.isClose()) {
 			///////////////////// debug section
 			// 
-			string maplink = "map_bmpmaplink.txt";
-			gamemaps.at(_nowID).ShowMapAll(player);
+			string maplink = "map_bmp/maplink.txt";
+			gamemaps.at(_nowID).ShowMapAll(player,mapoverlayindex.at(_nowID));
 			if (isedit && !ofs.is_open()) {
 				ofs.open(maplink, std::ios::app);
 				if (!ofs.is_open()) {
@@ -346,8 +351,7 @@ namespace game_framework {
 			CDC *pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 
-			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID));
-			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID));
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID) +"  "+ gamemaps.at(_nowID).GetName() );
 			(isedit) ? CTextDraw::Print(pDC, 0, TILE, " edit mode: true") : CTextDraw::Print(pDC, 0, TILE, " edit mode: false");
 
 			CTextDraw::Print(pDC, 0, TILE * 2, "mouse window tile coordinate : " + to_string(mousex) + "  " + to_string(mousey));
