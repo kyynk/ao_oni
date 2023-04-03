@@ -7,15 +7,19 @@ namespace game_framework {
 	class MapRouter {
 	public:
 		MapRouter() {
-			memset(record, 0, sizeof(record));
 		}
 		~MapRouter() {}
 		void init();
 		void Load(string filename);
 		void debug();
-	
+		MapNode* GetNowMapPortal(int nowID) {
+			return _data[nowID];
+		}
+		int GetRecord(int nowID) {
+			return _record[nowID];
+		}
 	private:
-		MapNode _data[23][5];
-		int record[23];
+		MapNode _data[46][5];
+		int _record[46];
 	};
 }

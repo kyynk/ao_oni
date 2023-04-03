@@ -109,6 +109,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		//game
 		Dialog story;
 		Dialog talk;
 		Dialog useItem;
@@ -116,21 +117,25 @@ namespace game_framework {
 		Oni oni1;
 		ObjMove redChair;
 		Item testitem;
+		//map related
+		vector<GameMap> gamemaps;
+		int _nowID;
+		vector<int> mapoverlayindex;
+		MapRouter router;
+		//dev related
 		int mousex, mousey;
-		CMovingBitmap grid;
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
-		vector<GameMap> gamemaps;
-		CMovingBitmap seltile;
+		CMovingBitmap grid;
+		CMovingBitmap tileplaceholder;
 		InputBox inputbox;
-		int _nowID;
-		MapRouter router;
 		bool isgrid;
 		bool isedit;
 		int istwoway;
+		int isbs;
 		vector<int> twowayvec;
-		vector<int> pointtmp;
-		vector<int> mapoverlayindex;
+		vector<int> pointvec;
+		vector<int> bsvec;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
