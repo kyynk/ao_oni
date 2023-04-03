@@ -34,13 +34,13 @@ namespace game_framework {
 
 	void CGameStateRun::OnBeginState()
 	{
-		oni1.SetXY(0, 0);
+		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
 		istwoway = 0;
 		isedit = false;
 		isgrid = false;
-		_nowID = 13;
+		_nowID = 0;
 		player.init(4,16);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
