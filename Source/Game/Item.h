@@ -20,7 +20,8 @@ namespace game_framework {
 			key_3F_L,
 			key_2F_TL,
 			key_basement,
-			key_jail, 
+			key_jail,
+			key_annexe,
 			broken_dish,
 			tub_once,
 			phillips, //screwdriver
@@ -32,7 +33,8 @@ namespace game_framework {
 			detergent, //wash
 			door_knob,
 			door_no_knob,
-			gate
+			gate, 
+			toilet
 		};
 		Item();
 		~Item();
