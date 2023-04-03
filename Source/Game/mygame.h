@@ -119,7 +119,6 @@ namespace game_framework {
 		int mousex_foc,mousey_foc;
 		std::ofstream ofs;
 		vector<GameMap> gamemaps;
-		vector<int > banlist;
 		CMovingBitmap seltile;
 		InputBox inputbox;
 		int _nowID;
@@ -128,7 +127,8 @@ namespace game_framework {
 		bool isedit;
 		int istwoway;
 		vector<int> twowayvec;
-		vector<int > pointtmp;
+		vector<int> pointtmp;
+		vector<int> mapoverlayindex;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
