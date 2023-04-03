@@ -16,12 +16,12 @@ namespace game_framework {
 
 	
 	void GameMap::ShowMap(int layer)	{
-		if (layer-1 >= _layer) {
+		if (layer >= _layer) {
 			throw std::invalid_argument("layer out of range");
 		}
 		for (int i = 0; i < _height; i++) {
 			for (int j = 0; j < _width; j++) {
-				int val = _gamemapdata.GetValue(layer - 1, i, j);
+				int val = _gamemapdata.GetValue(layer , i, j);
 				if (val == 0)continue;
 				int tmp = selTileset(val);
 				//TRACE("i: %d, j:%d ,,, val:%d tmp:%d  %s\n", i,j,val, tmp,_resource_list[tmp].c_str());
@@ -32,10 +32,13 @@ namespace game_framework {
 		}
 		
 	}
-	void GameMap::ShowMapAll(Human &obj) {
-		ShowMap(1);
+	void GameMap::ShowMapAll(Human &obj,int overlayindex) {
+		
+		for (int i = 1; i < overlayindex+1; i++) {
+			ShowMap(i);
+		}
 		obj.OnShow();
-		for (int i = 2; i < _layer+1; i++) {
+		for (int i = overlayindex +1; i < _layer; i++) {
 			ShowMap(i);
 		}
 		if (isshowtileindex) {

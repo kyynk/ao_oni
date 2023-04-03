@@ -16,7 +16,7 @@ namespace game_framework {
 		}
 		~GameMap(){}
 		void ShowMap(int layer);
-		void ShowMapAll(Human &obj);
+		void ShowMapAll(Human &obj, int overlayindex);
 		void SetTopLeftMap(int x, int y);
 		void debug();
 		void Load(string files);
@@ -38,6 +38,7 @@ namespace game_framework {
 		MapData _gamemapdata;
 		string _mapname;
 		int _ID;
+		int _overlayindex;
 	};
 
 }
