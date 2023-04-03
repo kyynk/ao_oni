@@ -1,6 +1,7 @@
 #pragma once
 namespace game_framework {
 	class NodeData {
+		friend class MapNode;
 	public:
 		NodeData() {
 			w = -1;
@@ -8,7 +9,11 @@ namespace game_framework {
 			y = -1;
 			z = -1;
 		}
-		NodeData(short ww, short xx, short yy, short zz):w(ww),x(xx),y(yy),z(zz){}
+		NodeData(int ww, int xx, int yy, int zz):w(ww),x(xx),y(yy),z(zz){
+		}
+		NodeData(int ww, int xx) :w(ww), x(xx), y(-1), z(-1) {
+		}
+		~NodeData(){}
 		NodeData(const NodeData& other) {
 			w = other.w;
 			x = other.x;
@@ -33,10 +38,27 @@ namespace game_framework {
 			}
 			return *this;
 		}
+		bool operator==(const NodeData&& other) {
+			if (this->w == other.w&&
+				this->x == other.x)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+
+		}
 		bool IsEmpty() { return (w == -1 && x == -1 && y == -1 && z == -1) ? true : false; }
-		short w, x, y, z;
+		int GetW() { return w; }
+		int GetX() { return x; }
+		int GetY() { return y; }
+		int GetZ() { return z; }
+	private:
+		int w, x, y, z;
 	};
 	class MapNode {
+		
 	public:
 		MapNode(){
 			_ID = -1;
@@ -48,13 +70,9 @@ namespace game_framework {
 			_points[_index].x = points.x;
 			_points[_index].y = points.y;
 			_points[_index].z = points.z;
-			_index++;
+			_index ++;
 		}
-	
-		int GetSize() const {
-			return _index;
-		}
-
+		~MapNode(){}
 		void AddEdge(NodeData &&nd) {
 			_points[_index].w = nd.w;
 			_points[_index].x = nd.x;
@@ -63,10 +81,16 @@ namespace game_framework {
 			if(_index <5)_index++;
 			//TRACE("In edge : %d %d %d %d\n",_points->w,_points->x,_points->y,_points->z);
 		}
-		int GetID() { return _ID; }
+		int GetSize() const {
+			return _index;
+		}
+		int GetID() {
+			return _ID; 
+		}
 		void debug();
-		~MapNode(){}
-		
+		NodeData GetPointByIndex(int index) {
+			return _points[index];
+		}
 	private:
 		int _index;
 		int _ID;
