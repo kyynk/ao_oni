@@ -61,7 +61,7 @@ namespace game_framework{
 		bool _walkiter;
 		Direction _direction;
 		bstate _bstate;
-		//move _premove;
+		move _premove;
 		move _nowmove;
 		move _pressing;
 		int _step;
