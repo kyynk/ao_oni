@@ -43,7 +43,7 @@ namespace game_framework{
 		_nextmapy = 0;
 		_nextMapID = 0;
 		TimerReset();
-		//_premove = none;
+		_premove = none;
 		_nowmove = none;
 		_pressing = none;
 	}
@@ -52,7 +52,6 @@ namespace game_framework{
 		_coroffset = offset;
 		_isMapChanged = false;
 		_switchMapCheck = false;
-		//_switchMapCheckPre = false;
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
@@ -62,26 +61,30 @@ namespace game_framework{
 	void Human::OnMove(GameMap &map, MapRouter &router, int nowID) {
 		if (_isMapChanged && _switchMapCheck) {
 			//TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
-			if (_nowmove == isup) {
+			if (_pressing == isup) {
 				_pos_x = map.GetX() + _nextmapx ;
 				_pos_y = map.GetY() + _nextmapy - _coroffset - TILE;
-				//TRACE("%d %d %d \n",_pos_x,_pos_y,1);
+				TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,1);
+				TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,1);
 					
 			}
-			if (_nowmove == isdown) {
+			else if (_pressing == isdown) {
 				_pos_x = map.GetX() + _nextmapx;
 				_pos_y = map.GetY() + _nextmapy - _coroffset + TILE;
-				//TRACE("%d %d %d \n",_pos_x,_pos_y,2);
+				TRACE("%d %d %d \n",_pos_x/TILE,_pos_y / TILE,2);
+				TRACE("%d %d %d \n",_pos_x%TILE,_pos_y % TILE,2);
 			}
-			if (_nowmove == isleft) {
+			else if (_pressing == isleft) {
 				_pos_x = map.GetX() + _nextmapx - TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
-				//TRACE("%d %d %d \n",_pos_x,_pos_y,3);
+				TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,3);
+				TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,3);
 			}
-			if (_nowmove == isright) {
+			else if (_pressing == isright) {
 				_pos_x = map.GetX() + _nextmapx + TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
-				//TRACE("%d %d %d \n",_pos_x,_pos_y,4);
+				TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,4);
+				TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,4);
 			}
 			_uy = _pos_y - TILE;
 			_dy = _pos_y + TILE;
@@ -90,17 +93,13 @@ namespace game_framework{
 			bitmap.SetTopLeft(_pos_x , _pos_y);
 			
 			_isMapChanged = false;
-			
 			_switchMapCheck = false;
 		}
 		else {
-
-
 			bool upmovable = false;
 			bool downmovable = false;
 			bool leftmovable = false;
 			bool rightmovable = false;
-
 			if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
 				map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
 				(this->GetX1() - map.GetX()) % TILE == 0 &&
@@ -143,7 +142,25 @@ namespace game_framework{
 			else {
 				if (TimerGetCount() == 8) {
 					TimerStop();
+					if (this->GetX1() % TILE != 0 || this->GetY1() % TILE != 0) {
+						int dx = 0;
+						int dy = 1;
+						if (this->GetX1() % TILE >= TILE / 2) {
+							dx = 1;
 
+						}
+						if (this->GetY1() % TILE < TILE / 2) {
+							dy = 0;
+						}
+						_pos_x = (_pos_x / TILE + dx)*TILE;
+						_pos_y = ((_pos_y + _coroffset) / TILE + dy)*TILE - _coroffset;
+						_uy = _pos_y - TILE;
+						_dy = _pos_y + TILE;
+						_lx = _pos_x - TILE;
+						_rx = _pos_x + TILE;
+						bitmap.SetTopLeft(_pos_x, _pos_y);
+						TRACE("return to grid\n");
+					}
 					_walkiter = !_walkiter;
 				}
 			}
@@ -162,9 +179,7 @@ namespace game_framework{
 				else {
 					_bstate = s2;
 				}
-
 				if (_nowmove == isup && upmovable) {
-
 					_pos_y -= _step;
 					_uy -= _step;
 					_dy -= _step;
@@ -187,83 +202,107 @@ namespace game_framework{
 				TimerUpdate();
 
 			}
-			int xtmp = 0;
-			int ytmp = 0;
 			for (int i = 0; i < router.GetRecord(nowID); i++) {
 				for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
-
-					if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetX1() - map.GetX(), this->GetY1() - map.GetY())) {
-
+					if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetL() - map.GetX(), this->GetY1() - map.GetY())&&_nowmove==isleft) {
 						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
 						_isMapChanged = true;
 						break;
 					}
-					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetX1() - map.GetX(), this->GetU() - map.GetY())) {
+					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetR() - map.GetX(), this->GetY1() - map.GetY()) && _nowmove == isright) {
 						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
 						_isMapChanged = true;
 						break;
 					}
-
+					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetX1() - map.GetX(), this->GetU() - map.GetY())&& _nowmove ==isup) {
+						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+						_isMapChanged = true;
+						break;
+					}
+					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == NodeData(this->GetX1() - map.GetX(), this->GetD() - map.GetY()) && _nowmove == isdown) {
+						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+						_isMapChanged = true;
+						break;
+					}
 				}
 				if (_isMapChanged) {
 					break;
 				}
-
 			}
-
 			bitmap.SetTopLeft(_pos_x, _pos_y);
-
 		}
-
 		
-		//TRACE("%d\n", TimerGetCount());
 	}
 	void Human::OnKeyDown(UINT nChar) {
-		if (_isMapChanged) {
-
-			_switchMapCheck = true;
-		}
+		//TRACE("%d %d \n", _premove, _pressing);
+		
 		if (nChar == VK_LEFT) {
-			//_premove = _pressing;
-			_pressing = isleft;
-			_isleft = true;
+			if (_isMapChanged) {
+				_switchMapCheck = true;
+			}
+			else {
+				//_premove = _nowmove;
+				_pressing = isleft;
+				_isleft = true;
+			}
 		}
 		else if (nChar == VK_UP) {
-			//_premove = _pressing;
-			_pressing = isup;
-			_isup = true;
+			if (_isMapChanged) {
+				_switchMapCheck = true;
+			}
+			else {
+				//_premove = _nowmove;
+				_pressing = isup;
+				_isup = true;
+			}
 		}
 		else if (nChar == VK_RIGHT) {
-			//_premove = _pressing;
-			_pressing = isright;
-			_isright = true;
+			if (_isMapChanged) {
+				_switchMapCheck = true;
+			}
+			else {
+				//_premove = _nowmove;
+				_pressing = isright;
+				_isright = true;
+			}
+			
 		}
 		else if (nChar == VK_DOWN) {
-			//_premove = _pressing;
-			_pressing = isdown;
-			_isdown = true;
+			if (_isMapChanged) {
+				_switchMapCheck = true;
+			}
+			else {
+				//_premove = _nowmove;
+				_pressing = isdown;
+				_isdown = true;
+			}
 		}
 	}
+	
 
 	void Human::OnKeyUp(UINT nChar){
 		if (nChar == VK_LEFT) {
-			//_premove = isleft;
+			_premove = isleft;
 			_isleft = false;
 		}
 		else if (nChar == VK_UP) {
-			//_premove = isup;
+			_premove = isup;
 			_isup = false;
 		}
 		else if (nChar == VK_RIGHT) {
-			//_premove = isright;
+			_premove = isright;
 			_isright = false;
 		}
 		else if (nChar == VK_DOWN) {
-			//_premove = isdown;
+			_premove = isdown;
 			_isdown = false;
 		}
 	}

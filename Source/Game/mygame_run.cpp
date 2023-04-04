@@ -39,6 +39,7 @@ namespace game_framework {
 		mousey_foc = 0;
 		isbs = 0;
 		istwoway = 0;
+		isteleportblock = false;
 		isedit = false;
 		isgrid = false;
 		_nowID = 0;
@@ -51,6 +52,7 @@ namespace game_framework {
 	{
 		inputbox.OnMove();
 		if (player.IsMapChanged()&&player.IsSwitchMap()) {
+			
 			_nowID = player.NextMapID();
 		}
 		player.OnMove(gamemaps.at(_nowID), router, _nowID);
@@ -141,6 +143,7 @@ namespace game_framework {
 			if (nChar == KEY_A) {
 				TRACE("%d %d \n",player.GetX1(),player.GetY1());
 				TRACE("%d %d \n", redChair.GetPosX(), redChair.GetPosY());
+				isteleportblock = !isteleportblock;
 			}
 			if (nChar == KEY_I) {
 				gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;
@@ -369,7 +372,18 @@ namespace game_framework {
 				outputFile.close();
 				TRACE("close\n");
 			}
+
 			inputbox.Show();
+			if (isteleportblock) {
+				for (int i = 0; i < router.GetRecord(_nowID); i++) {
+					for (int j = 0; j < router.GetNowMapPortal(_nowID)[i].GetSize(); j++) {
+						tileplaceholder.SetTopLeft(router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetW()+gamemaps.at(_nowID).GetX(), router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetX() + gamemaps.at(_nowID).GetY());
+						tileplaceholder.ShowBitmap();
+
+					}
+				}
+
+			}
 			gamemaps.at(_nowID).ShowTileIndexLayer();
 			if (isgrid) {
 				grid.ShowBitmap();
@@ -388,13 +402,14 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 3, "mouse map tile coordinate : " + to_string(mousex - gamemaps.at(_nowID).GetX()/TILE)+ "  " + to_string(mousey - gamemaps.at(_nowID).GetY() / TILE));
 
 			CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) / TILE));
-			CTextDraw::Print(pDC, 0, TILE * 5, "(check for out of grid) player cor point x : " + to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
-			CTextDraw::Print(pDC, 0, TILE * 6,"     up            :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
-			CTextDraw::Print(pDC, 0, TILE * 7,"left    right      : "+ 
+			CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX1()/TILE) + " " + to_string(player.GetY1()/TILE));
+			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX1() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY1() - gamemaps.at(_nowID).GetY()) % TILE));
+			CTextDraw::Print(pDC, 0, TILE * 17,"     up            :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1()-gamemaps.at(_nowID).GetX())/TILE , (player.GetU()- gamemaps.at(_nowID).GetY()) /TILE)) );
+			CTextDraw::Print(pDC, 0, TILE * 18,"left    right      : "+ 
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY1() - gamemaps.at(_nowID).GetY()) / TILE))+
 				"    " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetR() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY1() - gamemaps.at(_nowID).GetY()) / TILE)
 			));
-			CTextDraw::Print(pDC, 0, TILE * 8,"    down           :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE))  );
+			CTextDraw::Print(pDC, 0, TILE * 19,"    down           :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE))  );
 			(istwoway != 0)?((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes" ): CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")):CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
 			(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
 			
