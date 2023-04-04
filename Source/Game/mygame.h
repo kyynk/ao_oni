@@ -129,6 +129,7 @@ namespace game_framework {
 		CMovingBitmap grid;
 		CMovingBitmap tileplaceholder;
 		InputBox inputbox;
+		bool isteleportblock;
 		bool isgrid;
 		bool isedit;
 		int istwoway;
