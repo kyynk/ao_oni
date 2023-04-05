@@ -2,11 +2,6 @@
 namespace game_framework {
 	class Item : public Entity {
 	public:
-		enum itemtype {
-			select,
-			once,
-			repeat
-		};
 		enum move {
 			none,
 			isup,
@@ -39,10 +34,9 @@ namespace game_framework {
 		};
 		Item();
 		~Item();
-		void SetParam(int step, int delay, itemtype type,
-			int boxX, int boxY, itemName name);
+		void SetParam(int delay, int boxX, int boxY, 
+			itemName name);
 		void Load(vector<string> filename, COLORREF color);
-		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
 		int GetPosL();
@@ -56,7 +50,7 @@ namespace game_framework {
 		void OnKeyUp(UINT nChar);
 		void OnShow();
 		bool Collide();
-		void Animation(int n);
+		void Animation(int n, int frame);
 		void SetTrigger();
 		string GetName();
 		bool IsFixed();
@@ -65,10 +59,15 @@ namespace game_framework {
 		void IsOnTriPos(bool a);
 
 	private:
-		int _step, _anidelay,
+		// _aniType : 
+		// 0, toggleOnce, 
+		// 1, toggleOnceReverse, 
+		// 2, select
+		// 3, repeat
+		int _anidelay,
 			_playerX, _playerY,
-			_boxX, _boxY;
-		itemtype _type;
+			_boxX, _boxY, 
+			_aniType, _aniFrame;
 		move _move;
 		move _pressing;
 		itemName _name;
