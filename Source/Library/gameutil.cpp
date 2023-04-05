@@ -236,24 +236,12 @@ namespace game_framework {
 	/*!
 		僅能在 `onShow()` 時呼叫，且圖片需要被讀取。
 	*/
-	void CMovingBitmap::ShowBitmap(int n, int frame)
+	void CMovingBitmap::ShowBitmap(int n)
 	{
 		GAME_ASSERT(isBitmapLoaded, "A bitmap must be loaded before ShowBitmap() is called !!!");
-		if (n == 0) {
-			ToggleAnimation();
-			CDDraw::BltBitmapToBack(surfaceID[frameIndex], locations[frameIndex].left, locations[frameIndex].top);
-			ShowBitmapBySetting();
-		}
-		else if (n == 1) {
-			ToggleAnimationReverse();
-			CDDraw::BltBitmapToBack(surfaceID[frameIndex], locations[frameIndex].left, locations[frameIndex].top);
-			ShowBitmapBySettingReverse();
-		}
-		else if (n == 2) {
-			SetFrameIndexOfBitmap(frame);
-			CDDraw::BltBitmapToBack(surfaceID[frameIndex], locations[frameIndex].left, locations[frameIndex].top);
-			ShowBitmapBySetting();
-		}
+		CDDraw::BltBitmapToBack(surfaceID[frameIndex], locations[frameIndex].left, locations[frameIndex].top);
+		if (n == 1)	ShowBitmapBySettingReverse();
+		else ShowBitmapBySetting();
 	}
 
 	//! 設置當前圖片顯示幀的索引值。
