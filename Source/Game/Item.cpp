@@ -12,10 +12,12 @@
 #include "Item.h"
 namespace game_framework {
 	Item::Item() {
-		_step, _anidelay, _boxX, _boxY = 0;
-		_type = select;
+		SetXY(14 * TILE, 15 * TILE);
+		_anidelay, _boxX, _boxY = 0;
 		_move = none;
 		_pressing = none;
+		_aniType = -1;
+		_aniFrame = -1;
 		_press = false;
 		_triggered = false;
 		_pick = false; // will disappear
@@ -26,12 +28,9 @@ namespace game_framework {
 	}
 	Item::~Item() {
 	}
-	void Item::SetParam(int step, int delay, itemtype type,
-		int boxX, int boxY, itemName name) {
-		SetXY(0, 0);
-		_step = step;
+	void Item::SetParam(int delay, int boxX, int boxY, 
+		itemName name) {
 		_anidelay = delay;
-		_type = type;
 		_boxX = boxX;
 		_boxY = boxY;
 		_name = name;
@@ -135,9 +134,6 @@ namespace game_framework {
 	void Item::Load(vector<string> filename, COLORREF color) {
 		bitmap.LoadBitmapByString(filename, color);
 	}
-	void Item::SetPos(int x, int y) {
-		SetXY(x, y);
-	}
 	int Item::GetPosX() {
 		return _pos_x;
 	}
@@ -179,131 +175,131 @@ namespace game_framework {
 		if (Collide() && _press) {
 			// on lib
 			if (_name == lib_book && !_fixed) {
-				SetPos(_pos_x, _pos_y + TILE);
+				SetXY(_pos_x, _pos_y + TILE);
 				_fixed = true;
 			}
 			// chair move to fixed pos
-			if (_name == key_lib && !_pick) {
+			else if (_name == key_lib && !_pick) {
 				_pick = true;
 			}
 			// lib_book move to fixed pos
-			if (_name == key_3F_L && !_pick) {
+			else if (_name == key_3F_L && !_pick) {
 				_pick = true;
 			}
 			// password box in 2F_D unlock
-			if (_name == key_2F_TL && !_pick) {
+			else if (_name == key_2F_TL && !_pick) {
 				_pick = true;
 			}
 			// in the jail room (near tatami)
-			if (_name == key_basement && !_pick) {
+			else if (_name == key_basement && !_pick) {
 				_pick = true;
 			}
 			// basement onChair can pick
-			if (_name == key_jail && _onCorrectPos && !_pick) {
+			else if (_name == key_jail && _onCorrectPos && !_pick) {
 				_pick = true;
 			}
 			// password box in basement1 unlock
-			if (_name == key_annexe && !_pick) {
+			else if (_name == key_annexe && !_pick) {
 				_pick = true;
 			}
 			// on kitchen
-			if (_name == broken_dish && !_take) {
+			else if (_name == broken_dish && !_take) {
 				_take = true;
 				SetTrigger();
-				Animation(1);
+				Animation(2, 1);
 			}
 			// on shower
-			if (_name == tub_once && !_fixed) {
+			else if (_name == tub_once && !_fixed) {
 				SetTrigger();
-				Animation(0);
+				Animation(0, 0);
 			}
 			// in tub
-			if (_name == phillips && !_pick) {
+			else if (_name == phillips && !_pick) {
 				_pick = true;
 			}
 			// tub fixed only need to show, no interact
 			// on basement (which has a chair), onChair can pick
-			if (_name == flathead && _onCorrectPos && !_pick) {
+			else if (_name == flathead && _onCorrectPos && !_pick) {
 				_pick = true;
 			}
 			// tatami leftside
-			if (_name == lighter && _onCorrectPos && !_pick) {
+			else if (_name == lighter && _onCorrectPos && !_pick) {
 				_pick = true;
 			}
 			// kid room, onchair can pick
-			if (_name == oil && _onCorrectPos && !_pick) {
+			else if (_name == oil && _onCorrectPos && !_pick) {
 				_pick = true;
 			}
 			// 2F_TR, in lib take 3F key
-			if (_name == handkerchief && !_pick) {
+			else if (_name == handkerchief && !_pick) {
 				_pick = true;
 			}
 			// in toilet
-			if (_name == detergent && !_pick) {
+			else if (_name == detergent && !_pick) {
 				_pick = true;
 			}
 			// 3F, need to use screwdriver
-			if (_name == door_knob && !_take) {
+			else if (_name == door_knob && !_take) {
 				if (_useItem)
 					_take = true;
 				else {
 					if (_close) {
 						SetTrigger();
 						// will optimize Animation
-						Animation(1); // open
+						Animation(0, 1); // open
 						_close = false;
 					}
 					else {
 						SetTrigger();
 						// will optimize Animation
-						Animation(0); // close
+						Animation(1, 3); // close
 						_close = true;
 					}
 				}
 			}
 			// door_no_knob only need to show, no interact
 			//tatami
-			if (_name == tatami) {
+			else if (_name == tatami) {
 				if (_close) {
 					SetTrigger();
 					// will optimize Animation
-					Animation(1); // open
+					Animation(0, 0); // open
 					_close = false;
 				}
 				else {
 					SetTrigger();
 					// will optimize Animation
-					Animation(0); // close
+					Animation(1, 2); // close
 					_close = true;
 				}
 			}
 			// jail
-			if (_name == gate) {
+			else if (_name == gate) {
 				if (_close) {
 					SetTrigger();
 					// will optimize Animation
-					Animation(1); // open
+					Animation(2, 1); // open
 					_close = false;
 				}
 				else {
 					SetTrigger();
 					// will optimize Animation
-					Animation(0); // close
+					Animation(2, 0); // close
 					_close = true;
 				}
 			}
 			// toilet
-			if (_name == toilet) {
+			else if (_name == toilet) {
 				if (_close) {
 					SetTrigger();
 					// will optimize Animation
-					Animation(1); // open
+					Animation(2, 1); // open
 					_close = false;
 				}
 				else {
 					SetTrigger();
 					// will optimize Animation
-					Animation(0); // close
+					Animation(2, 0); // close
 					_close = true;
 				}
 			}
@@ -336,24 +332,29 @@ namespace game_framework {
 		}
 	}
 	void Item::OnShow() {
-		if (!_pick)
-			bitmap.ShowBitmap();
+		/*if (!_pick && (_aniType == -1 || _aniType == 3))
+			bitmap.ShowBitmap();*/
+		//else if (!_pick && (_aniType == 0 || _aniType == 1 || _aniType == 2))
+		if (_aniType == 0 || _aniType == 1 || _aniType == 2)
+			bitmap.ShowBitmap(_aniType, _aniFrame);
 	}
 	bool Item::Collide() {
 		CheckMoveDirection();
 		return _move != none;
 	}
-	void Item::Animation(int n = 0) {
+	void Item::Animation(int n, int frame) {
 		if (_triggered) {
-			if (_type == once) {
-				bitmap.ToggleAnimation();
+			_aniType = n;
+			if (n == 0 || n == 1) {
 				bitmap.SetAnimation(_anidelay, true);
+				_aniFrame = frame;
 			}
-			else if (_type == repeat) {
+			else if (n == 2) {
+				_aniFrame = frame;
+			}
+			else if (n == 3) {
 				bitmap.SetAnimation(_anidelay, false);
-			}
-			else if (_type == select) {
-				SelectShowBitmap(n);
+				_aniFrame = frame;
 			}
 			_triggered = false;
 		}
