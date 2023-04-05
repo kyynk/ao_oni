@@ -43,31 +43,43 @@ namespace game_framework {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == key_3F_L) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == key_2F_TL) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == key_basement) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == key_jail) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/jail_key/jail_key" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == key_annexe) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == broken_dish) {
 			for (int i = 0; i < 2; i++) {
@@ -83,6 +95,8 @@ namespace game_framework {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/tub/tub_star" + to_string(i) + ".bmp");
 			}
+			SetTrigger();
+			Animation(3, 0);
 		}
 		else if (_name == tub_fixed) {
 			bitmapName.push_back("img/item_animation/tub/tub7.bmp");
@@ -219,6 +233,7 @@ namespace game_framework {
 				else if (_name == tub_once && !_fixed) {
 					SetTrigger();
 					Animation(0, 0);
+					_fixed = true;
 				}
 				// in tub
 				else if (_name == phillips && !_pick) {
@@ -395,5 +410,14 @@ namespace game_framework {
 	}
 	void Item::IsOnTriPos(bool a) {
 		_onCorrectPos = a;
+	}
+	void Item::Reset() {
+		_press = false;
+		_triggered = false;
+		_pick = false; // will disappear
+		_close = true; // door, toilet, ...
+		_fixed = false; // will not do anything if _fixed == true
+		_take = false; // will leave
+		_useItem = false; // will use screwdriver or lighter ...
 	}
 }

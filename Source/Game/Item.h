@@ -57,6 +57,7 @@ namespace game_framework {
 		// e.g. 
 		// if player on chair a = true, else a = false
 		void IsOnTriPos(bool a);
+		void Reset(); // all control reset
 
 	private:
 		// _aniType : 

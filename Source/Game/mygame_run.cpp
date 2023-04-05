@@ -46,7 +46,8 @@ namespace game_framework {
 		player.init(4,16);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
-		testitem.SetXY(15 * TILE, 16 * TILE);
+		testitem.SetXY(12 * TILE, 14 * TILE);
+		testitem.Reset();
 		testitem.SetTrigger();
 		testitem.Animation(2, 0);
 	}
@@ -123,8 +124,7 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		testitem.SetParam(500, 0, 0, Item::itemName::toilet);
-		
+		testitem.SetParam(200, 0, 32, Item::itemName::door_knob);
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 10 * TILE, 11 * TILE,
