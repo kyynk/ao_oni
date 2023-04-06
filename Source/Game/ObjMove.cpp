@@ -218,4 +218,7 @@ namespace game_framework {
 
 		return _collide;
 	}
+	bool ObjMove::IsFixed() {
+		return _isFixedPos;
+	}
 }

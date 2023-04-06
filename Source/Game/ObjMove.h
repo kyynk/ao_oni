@@ -40,6 +40,7 @@ namespace game_framework {
 		void Reset();
 		void Fixed();
 		bool isCollide();
+		bool IsFixed();
 		
 	private:
 		int _humanX, _humanY,
