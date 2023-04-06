@@ -25,14 +25,14 @@ namespace game_framework {
 	{
 		int mapID1, mapID2;
 		int x1, y1, x2, y2;
-		int blocksensitive;
+		//int blocksensitive;
 		int twoway;
 		int n;
 		fstream in(filename);
 		in >> n;
 		bool nadded = true ;
 		for (int i = 0; i < n; i++) {
-			in >> twoway >>blocksensitive>> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
+			in >> twoway >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
 			NodeData tmp1(x1, y1, x2, y2);
 			for (int j = 0; j < 5 ; j++) {
 				if (_data[mapID1][j].GetID() == mapID2) {

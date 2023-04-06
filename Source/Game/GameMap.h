@@ -3,7 +3,7 @@
 
 #include "entity.h"
 #include "Human.h"
-
+#include "Oni.h"
 
 namespace game_framework {
 	
@@ -16,7 +16,7 @@ namespace game_framework {
 		}
 		~GameMap(){}
 		void ShowMap(int layer);
-		void ShowMapAll(Human &obj, int overlayindex);
+		void ShowMapAll(Human &,Oni &, int overlayindex);
 		void SetTopLeftMap(int x, int y);
 		void debug();
 		void Load(string files);
