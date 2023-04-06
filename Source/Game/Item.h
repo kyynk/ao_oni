@@ -53,11 +53,13 @@ namespace game_framework {
 		void Animation(int n, int frame);
 		void SetTrigger();
 		string GetName();
-		bool IsFixed();
 		// e.g. 
 		// if player on chair a = true, else a = false
 		void IsOnTriPos(bool a);
 		void Reset(); // all control reset
+		bool IsPick();
+		bool IsFixed();
+		bool IsAnimationDone();
 
 	private:
 		// _aniType : 
