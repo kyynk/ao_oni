@@ -26,7 +26,7 @@ namespace game_framework{
 		};
 		Human();
 
-		void init(int step,int offset);
+		void init(int step,int offset,Direction dir);
 		
 		void OnMove(GameMap &map, MapRouter &router, int nowID) ;
 		void OnKeyDown(UINT nChar);

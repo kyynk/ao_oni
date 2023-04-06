@@ -43,7 +43,7 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		_nowID = 13;
-		player.init(4,16);
+		player.init(4,16,Human::down);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
 	}

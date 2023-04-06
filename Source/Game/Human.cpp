@@ -39,6 +39,8 @@ namespace game_framework{
 		_isdown = false;
 		_isleft = false;
 		_isright = false;
+		_isMapChanged = false;
+		_switchMapCheck = false;
 		_nextmapx = 0;
 		_nextmapy = 0;
 		_nextMapID = 0;
@@ -47,11 +49,10 @@ namespace game_framework{
 		_nowmove = none;
 		_pressing = none;
 	}
-	void Human::init(int step,int offset) {
+	void Human::init(int step,int offset,Direction dir) {
 		_step = step;
 		_coroffset = offset;
-		_isMapChanged = false;
-		_switchMapCheck = false;
+		_direction = dir;
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
