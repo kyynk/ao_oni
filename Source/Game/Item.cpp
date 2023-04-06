@@ -172,6 +172,7 @@ namespace game_framework {
 	}
 	void Item::CheckMoveDirection() {
 		int x = _pos_x + _boxX;
+		TRACE("asdsad\n");
 		int y = _pos_y + _boxY;
 		if (_playerX + 32 == _pos_x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isright)
 			_move = isright;
@@ -183,20 +184,20 @@ namespace game_framework {
 			_move = isup;
 		else
 			_move = none;
-		/*if (_move == isright) TRACE("\n\nmove is RRR\n\n");
+		if (_move == isright) TRACE("\n\nmove is RRR\n\n");
 		if (_move == isleft) TRACE("\n\nmove is LLL\n\n");
 		if (_move == isdown) TRACE("\n\nmove is DDD\n\n");
 		if (_move == isup) TRACE("\n\nmove is UUU\n\n");
-		if (_move == none) TRACE("\n\nmove is NNN\n\n");*/
+		if (_move == none) TRACE("\n\nmove is NNN\n\n");
 		_press = false;
 	}
 	void Item::OnMove() { // actually is action function
 		if (_press) {
-			/*TRACE("\n\npress\n\n");*/
+			TRACE("\n\npress\n\n");
 			if (Collide()) {
 				// on lib
 				if (_name == lib_book && !_fixed) {
-					SetXY(_pos_x, _pos_y + TILE);
+					SetXY(_pos_x, _pos_y - TILE);
 					_fixed = true;
 				}
 				// chair move to fixed pos
@@ -247,6 +248,8 @@ namespace game_framework {
 				// tatami leftside
 				else if (_name == lighter && _onCorrectPos && !_pick) {
 					_pick = true;
+					SetTrigger();
+					Animation(0, 0);
 				}
 				// kid room, onchair can pick
 				else if (_name == oil && _onCorrectPos && !_pick) {
@@ -261,9 +264,9 @@ namespace game_framework {
 					_pick = true;
 				}
 				// 3F, need to use screwdriver
-				else if (_name == door_knob && !_take) {
+				else if (_name == door_knob && !_pick) {
 					if (_useItem)
-						_take = true;
+						_pick = true;
 					else {
 						if (_close) {
 							SetTrigger();
@@ -329,8 +332,10 @@ namespace game_framework {
 			TRACE("\n\nno press\n\n");*/
 	}
 	void Item::OnKeyDown(UINT nChar) {
+		//TRACE("\n\niiiiiiiiii\n\n");
 		if (nChar == VK_SPACE) {
 			_press = true;
+			//TRACE("\n\npresssssss\n\n");
 		}
 		if (nChar == VK_LEFT) {
 			_pressing = isleft;
@@ -369,6 +374,7 @@ namespace game_framework {
 		if (_triggered) {
 			_aniType = n;
 			if (n == 0 || n == 1) { //once
+				TRACE("\n\n%d\n", _anidelay);
 				bitmap.SetAnimation(_anidelay, true);
 				_aniFrame = frame;
 				if (n == 0) bitmap.ToggleAnimation();
@@ -405,9 +411,6 @@ namespace game_framework {
 		else if (_name == door_knob) return "door knob";
 		return "";
 	}
-	bool Item::IsFixed() {
-		return _fixed;
-	}
 	void Item::IsOnTriPos(bool a) {
 		_onCorrectPos = a;
 	}
@@ -419,5 +422,14 @@ namespace game_framework {
 		_fixed = false; // will not do anything if _fixed == true
 		_take = false; // will leave
 		_useItem = false; // will use screwdriver or lighter ...
+	}
+	bool Item::IsPick() {
+		return _pick;
+	}
+	bool Item::IsFixed() {
+		return _fixed;
+	}
+	bool Item::IsAnimationDone() {
+		return bitmap.IsAnimationDone();
 	}
 }

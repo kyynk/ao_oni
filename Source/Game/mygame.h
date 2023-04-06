@@ -116,7 +116,20 @@ namespace game_framework {
 		Human player;
 		Oni oni1;
 		ObjMove redChair;
-		Item testitem;
+		Item toilet;
+		Item tub_once;
+		Item phillips;
+		Item tub_fixed;
+		Item broken_dish;
+		Item lib_book;
+		Item key_3F_L;
+		Item lighter;
+		Item tatami_L;
+		Item tatami_R;
+		Item key_lib;
+		Item door_knob;
+		Item door_no_knob;
+		vector<Item> items;
 		//map related
 		vector<GameMap> gamemaps;
 		int _nowID;
