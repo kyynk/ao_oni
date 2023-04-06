@@ -119,16 +119,16 @@ namespace game_framework {
 		else {
 			rightmovable = true;
 		}
-		if (leftmovable) { _nowmove = isleft; TRACE("\n\n LLLLLL \n\n"); }
-		else if (upmovable) { _nowmove = isup; TRACE("\n\n UUUUUU \n\n"); }
-		else if (rightmovable) { _nowmove = isright; TRACE("\n\n RRRRRR \n\n"); }
-		else if (downmovable) { _nowmove = isdown; TRACE("\n\n DDDDDD \n\n"); }
-		else { _nowmove = none;  TRACE("\n\n NNNNNN \n\n"); }
+		if (leftmovable) _nowmove = isleft;
+		else if (upmovable) _nowmove = isup;
+		else if (rightmovable) _nowmove = isright;
+		else if (downmovable) _nowmove = isdown;
+		else _nowmove = none;
 
-		if (_pressing == isleft) { TRACE("\n\n lll \n\n"); }
+		/*if (_pressing == isleft) { TRACE("\n\n lll \n\n"); }
 		if (_pressing == isup) { TRACE("\n\n uuu \n\n"); }
 		if (_pressing == isright) { TRACE("\n\n rrr \n\n"); }
-		if (_pressing == isdown) { TRACE("\n\n ddd \n\n"); }
+		if (_pressing == isdown) { TRACE("\n\n ddd \n\n"); }*/
 
 		_pressing = none;
 	}
@@ -136,7 +136,7 @@ namespace game_framework {
 		Fixed(); // to check isFixed or not
 		if (_press && !_isFixedPos) {
 			if (isCollide()) {
-				TRACE("\n\n\n obj isCollide \n");
+				//TRACE("\n\n\n obj isCollide \n");
 				Track(map);
 			}
 			_press = false;
@@ -171,19 +171,19 @@ namespace game_framework {
 		}
 		if (nChar == VK_LEFT) {			
 			_pressing = isleft;
-			TRACE("\n\n press L \n\n");
+			//TRACE("\n\n press L \n\n");
 		}
 		else if (nChar == VK_UP) {			
 			_pressing = isup;
-			TRACE("\n\n press U \n\n");
+			//TRACE("\n\n press U \n\n");
 		}
 		else if (nChar == VK_RIGHT) {			
 			_pressing = isright;
-			TRACE("\n\n press R \n\n");
+			//TRACE("\n\n press R \n\n");
 		}
 		else if (nChar == VK_DOWN) {			
 			_pressing = isdown;
-			TRACE("\n\n press D \n\n");
+			//TRACE("\n\n press D \n\n");
 		}
 	}
 	void ObjMove::OnKeyUp(UINT nChar) {
@@ -208,10 +208,10 @@ namespace game_framework {
 	bool ObjMove::isCollide() {
 		int x = _pos_x + _offsetX;
 		int y = _pos_y + _offsetY;
-		if ((_humanX + 32 == _pos_x && (_humanY == _pos_y || _humanY == y) && _pressing == isright)
-			|| (_humanX - 32 == x && (_humanY == _pos_y || _humanY == y) && _pressing == isleft)
-			|| ((_humanX == _pos_x || _humanX == x) && _humanY + 32 == _pos_y && _pressing == isdown)
-			|| ((_humanX == _pos_x || _humanX == x) && _humanY - 32 == y) && _pressing == isup)
+		if ((_humanX + 32 == _pos_x && (_humanY >= _pos_y || _humanY <= y) && _pressing == isright)
+			|| (_humanX - 32 == x && (_humanY >= _pos_y || _humanY <= y) && _pressing == isleft)
+			|| ((_humanX >= _pos_x || _humanX <= x) && _humanY + 32 == _pos_y && _pressing == isdown)
+			|| ((_humanX >= _pos_x || _humanX <= x) && _humanY - 32 == y) && _pressing == isup)
 			_collide = true;
 		else
 			_collide = false;
