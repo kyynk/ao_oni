@@ -31,51 +31,6 @@ namespace game_framework {
 	{
 		MapRes::GetInstance()->Cleanup();
 	}
-
-	void CGameStateRun::OnBeginState()
-	{
-		oni1.SetXY(10 * TILE, 11 * TILE + 80);
-		mousex_foc = 0;
-		mousey_foc = 0;
-		isbs = 0;
-		istwoway = 0;
-		isteleportblock = false;
-		isedit = false;
-		isgrid = false;
-		_nowID = 13;
-		player.init(4,16,Human::down);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
-		redChair.Reset();
-		testitem.SetXY(12 * TILE, 14 * TILE);
-		testitem.Reset();
-		testitem.SetTrigger();
-		testitem.Animation(2, 0);
-	}
-
-	void CGameStateRun::OnMove()							// 移動遊戲元素
-	{
-		inputbox.OnMove();
-		if (player.IsMapChanged()&&player.IsSwitchMap()) {
-			
-			_nowID = player.NextMapID();
-		}
-		player.OnMove(gamemaps.at(_nowID), router, _nowID,specialblockL,specialblockR,specialblockTN);
-		// test ObjMove
-		redChair.GetPlayerPos(player.GetX1(), player.GetY1());
-		redChair.OnMove(gamemaps.at(_nowID));
-		// test ObjMove end
-		// test Item
-		testitem.GetPlayerPos(player.GetX1(), player.GetY1());
-		testitem.OnMove();
-		// test Item end
-		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
-		if (oni1.isCatch()) {
-			//GotoGameState(GAME_STATE_OVER);
-		}
-		else
-			oni1.OnMove(gamemaps.at(_nowID));
-	}
-
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
 		ShowInitProgress(33, "loading game mid");
@@ -86,13 +41,13 @@ namespace game_framework {
 				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		specialblockL.push_back({8,5,13});
-		specialblockL.push_back({5,4,7});
-		specialblockL.push_back({8,11,7});
-		specialblockR.push_back({4,4,7});
-		specialblockR.push_back({7,11,7});
-		specialblockR.push_back({7,5,13});
-		specialblockTN.push_back({4,5,7});
+		specialblockL.push_back({ 8,5,13 });
+		specialblockL.push_back({ 5,4,7 });
+		specialblockL.push_back({ 8,11,7 });
+		specialblockR.push_back({ 4,4,7 });
+		specialblockR.push_back({ 7,11,7 });
+		specialblockR.push_back({ 7,5,13 });
+		specialblockTN.push_back({ 4,5,7 });
 		//specialblockTN.push_back({3,9,16});
 
 		player.Load(playervec, RGB(204, 255, 0));
@@ -113,7 +68,7 @@ namespace game_framework {
 			int h = tmp.GetHeight();
 			w = w + ((w % 2 == 0) ? 1 : 0);
 			h = h + ((h % 2 == 0) ? 1 : 0);
-			tmp.SetTopLeftMap((SIZE_X-16-w*TILE)/2 , (SIZE_Y-20-h* TILE)/2);
+			tmp.SetTopLeftMap((SIZE_X - 16 - w * TILE) / 2, (SIZE_Y - 20 - h * TILE) / 2);
 			gamemaps.push_back(tmp);
 		}
 		ifstream indexlayer("map_bmp/mapindexlayer.txt");
@@ -124,21 +79,42 @@ namespace game_framework {
 		}
 		// dialog
 		story.SetNow(Dialog::character::none);
-		story.SetParam({"We heard rumors about the mansion", 
-			"they say on the outskirts of town...", 
-			"there is a monster living here...!"}, false);
+		story.SetParam({ "We heard rumors about the mansion",
+			"they say on the outskirts of town...",
+			"there is a monster living here...!" }, false);
 		story.Show();
 		talk.SetNow(Dialog::character::mika);
 		talk.SetParam({ "Hi", "how", "r u?" }, false);
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
-		// item 
-		testitem.SetParam(100, 0, 32, Item::itemName::door_knob);
+		// item
+		toilet.SetParam(-1, 0, 0, Item::itemName::toilet);
+		tub_once.SetParam(100, 0, TILE, Item::itemName::tub_once);
+		phillips.SetParam(100, 0, TILE, Item::itemName::phillips);
+		tub_fixed.SetParam(-1, 0, TILE, Item::itemName::tub_fixed);
+		broken_dish.SetParam(-1, 0, 0, Item::itemName::broken_dish);
+		lib_book.SetParam(-1, 0, 0, Item::itemName::lib_book);
+		key_3F_L.SetParam(100, 0, 0, Item::itemName::key_3F_L);
+		key_lib.SetParam(100, 0, 0, Item::itemName::key_lib);
+		door_knob.SetParam(100, 0, TILE, Item::itemName::door_knob);
+		door_no_knob.SetParam(100, 0, TILE, Item::itemName::door_no_knob);
+
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
-			8, 4, 0, 0, 10 * TILE, 11 * TILE,
-			13 * TILE, 16 * TILE);
+			8, 4, 0, 0, 15 * TILE, 9 * TILE,
+			16 * TILE, 9 * TILE);
 		// debug
+		items.push_back(move(toilet));
+		items.push_back(move(tub_once));
+		items.push_back(move(phillips));
+		items.push_back(move(tub_fixed));
+		items.push_back(move(broken_dish));
+		items.push_back(move(lib_book));
+		items.push_back(move(key_3F_L));
+		items.push_back(move(key_lib));
+		items.push_back(move(door_knob));
+		items.push_back(move(door_no_knob));
+
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
 		inputbox.Load("img/cursor/input_box.bmp");
@@ -147,20 +123,126 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		router.debug();
-		
+
 
 	}
+	void CGameStateRun::OnBeginState()
+	{
+		oni1.SetXY(10 * TILE, 11 * TILE + 80);
+		mousex_foc = 0;
+		mousey_foc = 0;
+		isbs = 0;
+		istwoway = 0;
+		isteleportblock = false;
+		isedit = false;
+		isgrid = false;
+		_nowID = 13;
+		player.init(4, 16, Human::down);
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		redChair.Reset();
+		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
+		/*items.at(TOILET).Reset();
+		items.at(TOILET).SetTrigger();
+		items.at(TOILET).Animation(2, 0);*/
+		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
+		items.at(PHILLIPS).SetXY(9 * TILE, 12 * TILE);
+		items.at(TUB_FIXED).SetXY(9 * TILE, 12 * TILE);
+		items.at(BROKEN_DISH).SetXY(12 * TILE, 8 * TILE);
+		items.at(LIB_BOOK).SetXY(7 * TILE, 14 * TILE);
+		items.at(KEY_3F_L).SetXY(7 * TILE, 14 * TILE);
+		items.at(KEY_LIB).SetXY(15 * TILE, 9 * TILE);
+		items.at(DOOR_KNOB).SetXY(12 * TILE, 6 * TILE);
+		items.at(DOOR_NO_KNOB).SetXY(12 * TILE, 6 * TILE);
+		lighter.SetXY(6 * TILE, 6 * TILE);
+		tatami_L.SetXY(6 * TILE, 6 * TILE);
+		tatami_R.SetXY(9 * TILE, 6 * TILE);
+	}
+
+	void CGameStateRun::OnMove()							// 移動遊戲元素
+	{
+		inputbox.OnMove();
+		if (player.IsMapChanged() && player.IsSwitchMap()) {
+
+			_nowID = player.NextMapID();
+		}
+		player.OnMove(gamemaps.at(_nowID), router, _nowID, specialblockL, specialblockR, specialblockTN);
+		// test Item
+		if (_nowID == 19) {
+			items.at(TOILET).GetPlayerPos(player.GetX1(), player.GetY1());
+			items.at(TOILET).OnMove();
+		}
+		else if (_nowID == 18) {
+			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(TUB_ONCE).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(TUB_ONCE).OnMove();
+			}
+			else if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(PHILLIPS).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(PHILLIPS).OnMove();
+			}
+			else if (items.at(PHILLIPS).IsPick()) {
+				items.at(TUB_FIXED).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(TUB_FIXED).OnMove();
+			}
+		}
+		else if (_nowID == 11) {
+			items.at(BROKEN_DISH).GetPlayerPos(player.GetX1(), player.GetY1());
+			items.at(BROKEN_DISH).OnMove();
+		}
+		else if (_nowID == 12) {
+			items.at(LIB_BOOK).GetPlayerPos(player.GetX1(), player.GetY1());
+			items.at(LIB_BOOK).OnMove();
+			if (items.at(LIB_BOOK).IsFixed()) {
+				items.at(KEY_3F_L).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(KEY_3F_L).OnMove();
+			}
+		}
+		else if (_nowID == 10) {
+			tatami_R.GetPlayerPos(player.GetX1(), player.GetY1());
+			tatami_R.OnMove();
+			/*lighter.GetPlayerPos(player.GetX1(), player.GetY1());
+			lighter.OnMove();
+			tatami_L.GetPlayerPos(player.GetX1(), player.GetY1());
+			tatami_L.OnMove();*/
+		}
+		else if (_nowID == 14) {
+			redChair.GetPlayerPos(player.GetX1(), player.GetY1());
+			redChair.OnMove(gamemaps.at(_nowID));
+			if (redChair.IsFixed()) {
+				items.at(KEY_LIB).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(KEY_LIB).OnMove();
+			}
+		}
+		else if (_nowID == 15) {
+			if (!items.at(DOOR_KNOB).IsPick()) {
+				items.at(DOOR_KNOB).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(DOOR_KNOB).OnMove();
+			}
+			if (items.at(DOOR_KNOB).IsPick()) {
+				items.at(DOOR_NO_KNOB).GetPlayerPos(player.GetX1(), player.GetY1());
+				items.at(DOOR_NO_KNOB).OnMove();
+			}
+		}
+		// test Item end
+		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
+		if (oni1.isCatch()) {
+			//GotoGameState(GAME_STATE_OVER);
+		}
+		else
+			oni1.OnMove(gamemaps.at(_nowID));
+	}
+
+
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		
+
 		if (inputbox.IsWrite()) {
 			inputbox.BoxOn(nChar);
 		}
 		else {
 			if (nChar == KEY_A) {
-				TRACE("%d %d \n",player.GetX1(),player.GetY1());
-				TRACE("%d %d \n", redChair.GetPosX(), redChair.GetPosY());
+				TRACE("%d %d \n", player.GetX1(), player.GetY1());
 				isteleportblock = !isteleportblock;
 			}
 			if (nChar == KEY_I) {
@@ -170,7 +252,7 @@ namespace game_framework {
 				if (gamemaps.at(_nowID).indexlayer > 0)gamemaps.at(_nowID).indexlayer--;
 			}
 			if (nChar == KEY_0) {
-				if(gamemaps.at(_nowID).indexlayer < gamemaps.at(_nowID).GetLayer() - 1)gamemaps.at(_nowID).indexlayer++;
+				if (gamemaps.at(_nowID).indexlayer < gamemaps.at(_nowID).GetLayer() - 1)gamemaps.at(_nowID).indexlayer++;
 			}
 			if (nChar == KEY_J) {
 				if (_nowID > 0)
@@ -206,7 +288,7 @@ namespace game_framework {
 					isbs = 2;
 				}
 			}
-			
+
 			if (nChar == KEY_W) {
 				inputbox.ClearBuffer();
 				inputbox.TimerStart();
@@ -232,56 +314,98 @@ namespace game_framework {
 					story.Close();
 				}
 				talk.Close();
-			
+
+			}
+		}
+		if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
+			player.OnKeyDown(nChar);
+
+			//test Item
+			if (_nowID == 19) {
+				items.at(TOILET).OnKeyDown(nChar);
+			}
+			else if (_nowID == 18) {
+				if (!items.at(TUB_ONCE).IsFixed()) {
+					//TRACE("\n\nhhhhh\n\n");
+					items.at(TUB_ONCE).OnKeyDown(nChar);
+					if (nChar != VK_SPACE)
+						items.at(PHILLIPS).OnKeyDown(nChar);
+				}
+				if (items.at(TUB_ONCE).IsFixed()) {
+					items.at(PHILLIPS).OnKeyDown(nChar);
+				}
+				if (items.at(PHILLIPS).IsPick()) {
+					items.at(TUB_FIXED).OnKeyDown(nChar);
 				}
 			}
-			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
-				player.OnKeyDown(nChar);
-
-				
-				//test ObjMove
+			else if (_nowID == 11) {
+				items.at(BROKEN_DISH).OnKeyDown(nChar);
+			}
+			else if (_nowID == 12) {
+				items.at(LIB_BOOK).OnKeyDown(nChar);
+				// 3F L
+				if (nChar != VK_SPACE)
+					items.at(KEY_3F_L).OnKeyDown(nChar);
+				if (items.at(LIB_BOOK).IsFixed())
+					items.at(KEY_3F_L).OnKeyDown(nChar);
+			}
+			else if (_nowID == 14) {
 				redChair.OnKeyDown(nChar);
-				//test Item
-				testitem.OnKeyDown(nChar);
+				if (nChar != VK_SPACE)
+					items.at(KEY_LIB).OnKeyDown(nChar);
+				if (redChair.IsFixed())
+					items.at(KEY_LIB).OnKeyDown(nChar);
 			}
-			if (!useItem.isClose()) {
-				useItem.GetSelect(nChar);
+			else if (_nowID == 15) {
+				if (!items.at(DOOR_KNOB).IsPick()) {
+					items.at(DOOR_KNOB).OnKeyDown(nChar);
+					if (nChar != VK_SPACE)
+						items.at(DOOR_NO_KNOB).OnKeyDown(nChar);
+				}
+				if (items.at(DOOR_KNOB).IsPick())
+					items.at(DOOR_NO_KNOB).OnKeyDown(nChar);
 			}
+		}
+		if (!useItem.isClose()) {
+			useItem.GetSelect(nChar);
+		}
 
-			if (nChar == VK_RETURN) {
-			}
+		if (nChar == VK_RETURN) {
+		}
 	}
-	
+
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (talk.isClose() && useItem.isClose()) {
 			player.OnKeyUp(nChar);
-			redChair.OnKeyUp(nChar);
+			if (_nowID == 14) {
+				redChair.OnKeyUp(nChar);
+			}
 		}
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
-		if (isedit && ((istwoway !=0 && isbs!=0) || (pointvec.size()%6 == 3))) {
-			
+		if (isedit && ((istwoway != 0 && isbs != 0) || (pointvec.size() % 6 == 3))) {
+
 			mousex_foc = mousex;
 			mousey_foc = mousey;
-			tileplaceholder.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
+			tileplaceholder.SetTopLeft(mousex_foc * TILE, mousey_foc * TILE);
 			if (istwoway != 0) {
 				twowayvec.push_back(istwoway);
 				//bsvec.push_back(isbs);
-				(istwoway == 1)?TRACE("push twoway {%d} true\n", istwoway):TRACE("push twoway {%d} false\n", istwoway);
-				(isbs ==1)?TRACE("push bs {%d} true \n", isbs):TRACE("push bs {%d} false \n", isbs);
+				(istwoway == 1) ? TRACE("push twoway {%d} true\n", istwoway) : TRACE("push twoway {%d} false\n", istwoway);
+				(isbs == 1) ? TRACE("push bs {%d} true \n", isbs) : TRACE("push bs {%d} false \n", isbs);
 				istwoway = 0;
 				isbs = 0;
 			}
 			pointvec.push_back(_nowID);
-			pointvec.push_back(mousex_foc*TILE - gamemaps.at(_nowID).GetX());
-			pointvec.push_back(mousey_foc*TILE - gamemaps.at(_nowID).GetY());
-			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc*TILE-gamemaps.at(_nowID).GetX(), mousey_foc*TILE-gamemaps.at(_nowID).GetY());
+			pointvec.push_back(mousex_foc * TILE - gamemaps.at(_nowID).GetX());
+			pointvec.push_back(mousey_foc * TILE - gamemaps.at(_nowID).GetY());
+			TRACE("push {%d, %d ,%d }\n", _nowID, mousex_foc * TILE - gamemaps.at(_nowID).GetX(), mousey_foc * TILE - gamemaps.at(_nowID).GetY());
 		}
-		else if (isedit){
+		else if (isedit) {
 			TRACE("\n please specify istwoway?(oneway/twoway)(7/8)\n and isbs?(yes/no)(5/6)\n");
 		}
 	}
@@ -307,12 +431,12 @@ namespace game_framework {
 				int len2 = int(twowayvec.size());
 				//int len3 = int(bsvec.size());
 				if (int(pointvec.size() % 6 == 3)) {
-					TRACE("twoway popped{%d}\n",twowayvec[len2-1]);
+					TRACE("twoway popped{%d}\n", twowayvec[len2 - 1]);
 					//TRACE("bs popped{%d}\n",bsvec[len3-1]);
 					twowayvec.pop_back();
 					//bsvec.pop_back();
 				}
-				TRACE("element {%d,%d,%d} popped\n", pointvec[len - 3], pointvec[len - 2], pointvec[len - 1] );
+				TRACE("element {%d,%d,%d} popped\n", pointvec[len - 3], pointvec[len - 2], pointvec[len - 1]);
 				pointvec.pop_back();
 				pointvec.pop_back();
 				pointvec.pop_back();
@@ -336,12 +460,42 @@ namespace game_framework {
 			///////////////////// debug section
 			//
 			string maplink = "map_bmp/maplink.txt";
-			gamemaps.at(_nowID).ShowMapAll(player,oni1,mapoverlayindex.at(_nowID));
-			// test ObjMove
-			redChair.OnShow();
-			// test ObjMove end
+			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
 			// test Item
-			testitem.OnShow();
+			if (_nowID == 19) {
+				items.at(TOILET).OnShow();
+			}
+			else if (_nowID == 18) {
+				if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
+					(items.at(TUB_ONCE).IsAnimationDone()) ? TRACE("\n\n\naaaaaaaaaaa\n\n") : TRACE("\n\n\asdsdfdfdsadfsdfdd\n\n");
+					items.at(TUB_ONCE).OnShow();
+				}
+				if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
+					items.at(PHILLIPS).OnShow();
+				}
+				if (items.at(PHILLIPS).IsPick()) {
+					items.at(TUB_FIXED).OnShow();
+				}
+			}
+			else if (_nowID == 11) {
+				items.at(BROKEN_DISH).OnShow();
+			}
+			else if (_nowID == 12) {
+				items.at(LIB_BOOK).OnShow();
+				if (items.at(LIB_BOOK).IsFixed())
+					items.at(KEY_3F_L).OnShow();
+			}
+			else if (_nowID == 14) {
+				redChair.OnShow();
+				if (redChair.IsFixed())
+					items.at(KEY_LIB).OnShow();
+			}
+			else if (_nowID == 15) {
+				if (!items.at(DOOR_KNOB).IsPick())
+					items.at(DOOR_KNOB).OnShow();
+				if (items.at(DOOR_KNOB).IsPick())
+					items.at(DOOR_NO_KNOB).OnShow();
+			}
 			// test Item end
 			if (isedit && !ofs.is_open()) {
 				ofs.open(maplink, std::ios::app);

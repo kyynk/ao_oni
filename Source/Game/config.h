@@ -69,7 +69,16 @@
 #define KEY_Y 0x59
 #define KEY_Z 0x5a
 #define VK_ENTER VK_RETURN
-
+#define TOILET 0
+#define TUB_ONCE 1
+#define PHILLIPS 2
+#define TUB_FIXED 3
+#define BROKEN_DISH 4
+#define LIB_BOOK 5
+#define KEY_3F_L 6
+#define KEY_LIB 7
+#define DOOR_KNOB 8
+#define DOOR_NO_KNOB 9
 /*
 debug mode
 press
