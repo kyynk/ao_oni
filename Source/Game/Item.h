@@ -2,11 +2,6 @@
 namespace game_framework {
 	class Item : public Entity {
 	public:
-		enum itemtype {
-			select,
-			once,
-			repeat
-		};
 		enum move {
 			none,
 			isup,
@@ -15,27 +10,33 @@ namespace game_framework {
 			isright
 		};
 		enum itemName {
+			lib_book,
 			key_lib,
 			key_3F_L,
 			key_2F_TL,
-			broken_dash,
+			key_basement,
+			key_jail,
+			key_annexe,
+			broken_dish,
 			tub_once,
-			flathead, //screwdriver
-			tub_fixed,
 			phillips, //screwdriver
+			tub_fixed,
+			flathead, //screwdriver
 			lighter,
 			oil,
 			handkerchief,
 			detergent, //wash
 			door_knob,
-			door_no_knob
+			door_no_knob,
+			tatami,
+			gate, 
+			toilet
 		};
 		Item();
 		~Item();
-		void SetParam(int step, int delay, itemtype type,
-			int boxX, int boxY, itemName name);
+		void SetParam(int delay, int boxX, int boxY, 
+			itemName name);
 		void Load(vector<string> filename, COLORREF color);
-		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
 		int GetPosL();
@@ -49,19 +50,32 @@ namespace game_framework {
 		void OnKeyUp(UINT nChar);
 		void OnShow();
 		bool Collide();
-		void Animation(int n);
+		void Animation(int n, int frame);
 		void SetTrigger();
 		string GetName();
+		bool IsFixed();
+		// e.g. 
+		// if player on chair a = true, else a = false
+		void IsOnTriPos(bool a);
+		void Reset(); // all control reset
 
 	private:
-		int _step, _anidelay,
+		// _aniType : 
+		// 0, toggleOnce, 
+		// 1, toggleOnceReverse, 
+		// 2, select
+		// 3, repeat
+		int _anidelay,
 			_playerX, _playerY,
-			_boxX, _boxY;
-		bool _press;
-		itemtype _type;
+			_boxX, _boxY, 
+			_aniType, _aniFrame;
 		move _move;
 		move _pressing;
 		itemName _name;
-		bool _triggered, _close;
+		// pick -> disappear, take -> leave
+		bool _triggered, _close, 
+			_press, _pick, _fixed, 
+			_take, _onCorrectPos, 
+			_useItem;
 	};
 }
