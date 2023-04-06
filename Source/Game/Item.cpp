@@ -175,7 +175,7 @@ namespace game_framework {
 		int y = _pos_y + _boxY;
 		if (_playerX + 32 == _pos_x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isright)
 			_move = isright;
-		else if (_playerX - 32 == x && (_playerY >= _pos_y || _playerY <= y) && _pressing == isleft)
+		else if (_playerX - 32 == x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isleft)
 			_move = isleft;
 		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + 32 == _pos_y && _pressing == isdown)
 			_move = isdown;
