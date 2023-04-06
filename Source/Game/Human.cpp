@@ -59,7 +59,7 @@ namespace game_framework{
 		_rx = _pos_x + TILE;
 	}
 
-	void Human::OnMove(GameMap &map, MapRouter &router, int nowID) {
+	void Human::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
 			//TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
 			if (_pressing == isup) {
@@ -97,6 +97,7 @@ namespace game_framework{
 			_switchMapCheck = false;
 		}
 		else {
+			bool itercheck = true;
 			bool upmovable = false;
 			bool downmovable = false;
 			bool leftmovable = false;
@@ -119,24 +120,53 @@ namespace game_framework{
 			else {
 				downmovable = true;
 			}
-			if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
-				(this->GetL() - map.GetX()) % TILE == 0 &&
-				(this->GetY1() - map.GetY()) % TILE == 0) {
-				leftmovable = false;
+			for (auto f : VL) {
+				if ( (this->GetX1() - map.GetX()) / TILE == f[0] && 
+					 (this->GetX1() - map.GetX()) % TILE == 0 && 
+					 (this->GetY1() - map.GetY()) / TILE == f[1] && 
+					 (this->GetY1() - map.GetY()) % TILE == 0 && 
+					nowID == f[2]) {
+					leftmovable = false;
+					itercheck = false;
+					break;
+				}
 			}
-			else {
-				leftmovable = true;
+			if (itercheck) {
+				if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
+					map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+					(this->GetL() - map.GetX()) % TILE == 0 &&
+					(this->GetY1() - map.GetY()) % TILE == 0) {
+					leftmovable = false;
+				}
+
+				else {
+					leftmovable = true;
+				}
 			}
-			if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
-				(this->GetR() - map.GetX()) % TILE == 0 &&
-				(this->GetY1() - map.GetY()) % TILE == 0) {
-				rightmovable = false;
+			itercheck = true;
+			for (auto f : VR) {
+				if ((this->GetX1() - map.GetX()) / TILE == f[0] &&
+					(this->GetX1() - map.GetX()) % TILE == 0 &&
+					(this->GetY1() - map.GetY()) / TILE == f[1] &&
+					(this->GetY1() - map.GetY()) % TILE == 0 &&
+					nowID == f[2]) {
+					rightmovable = false;
+					itercheck = false;
+					break;
+				}
 			}
-			else {
-				rightmovable = true;
+			if (itercheck) {
+				if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
+					map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+					(this->GetR() - map.GetX()) % TILE == 0 &&
+					(this->GetY1() - map.GetY()) % TILE == 0) {
+					rightmovable = false;
+				}
+				else {
+					rightmovable = true;
+				}
 			}
+			itercheck = true;
 			if (_isup || _isdown || _isleft || _isright) {
 				TimerStart();
 			}
@@ -168,7 +198,6 @@ namespace game_framework{
 			if (IsTimerStart()) {
 				if (TimerGetCount() % 8 == 0) {
 					_nowmove = _pressing;
-
 				}
 				if (TimerGetCount() == 8) {
 					TimerReset();
@@ -203,51 +232,59 @@ namespace game_framework{
 				TimerUpdate();
 
 			}
-			for (int i = 0; i < router.GetRecord(nowID); i++) {
-				for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
-					if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == 
-						NodeData(this->GetL() - map.GetX(), this->GetY1() - map.GetY())&&
-						_direction == left &&
-						_nowmove == isleft) {
-						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-						_isMapChanged = true;
-						break;
-					}
-					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == 
-						NodeData(this->GetR() - map.GetX(), this->GetY1() - map.GetY()) && 
-						_direction == right&&
-						_nowmove == isright) {
-						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-						_isMapChanged = true;
-						break;
-					}
-					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == 
-						NodeData(this->GetX1() - map.GetX(), this->GetU() - map.GetY())&& 
-						_direction == up &&
-						_nowmove ==isup) {
-						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-						_isMapChanged = true;
-						break;
-					}
-					else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) == 
-						NodeData(this->GetX1() - map.GetX(), this->GetD() - map.GetY()) && 
-						_direction == down&&
-						_nowmove == isdown) {
-						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-						_isMapChanged = true;
-						break;
-					}
-				}
-				if (_isMapChanged) {
+			for (auto f : TN) {
+				if ((this->GetX1() - map.GetX()) / TILE == f[0] && (this->GetY1() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
+					itercheck = false;
 					break;
+				}
+			}
+			if (itercheck) {
+				for (int i = 0; i < router.GetRecord(nowID); i++) {
+					for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
+						if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+							NodeData(this->GetL() - map.GetX(), this->GetY1() - map.GetY()) &&
+							_direction == left &&
+							_nowmove == isleft) {
+							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+							_isMapChanged = true;
+							break;
+						}
+						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+							NodeData(this->GetR() - map.GetX(), this->GetY1() - map.GetY()) &&
+							_direction == right &&
+							_nowmove == isright) {
+							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+							_isMapChanged = true;
+							break;
+						}
+						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+							NodeData(this->GetX1() - map.GetX(), this->GetU() - map.GetY()) &&
+							_direction == up &&
+							_nowmove == isup) {
+							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+							_isMapChanged = true;
+							break;
+						}
+						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+							NodeData(this->GetX1() - map.GetX(), this->GetD() - map.GetY()) &&
+							_direction == down &&
+							_nowmove == isdown) {
+							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+							_isMapChanged = true;
+							break;
+						}
+					}
+					if (_isMapChanged) {
+						break;
+					}
 				}
 			}
 			bitmap.SetTopLeft(_pos_x, _pos_y);

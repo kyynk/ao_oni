@@ -59,7 +59,7 @@ namespace game_framework {
 			
 			_nowID = player.NextMapID();
 		}
-		player.OnMove(gamemaps.at(_nowID), router, _nowID);
+		player.OnMove(gamemaps.at(_nowID), router, _nowID,specialblockL,specialblockR,specialblockTN);
 		// test ObjMove
 		redChair.GetPlayerPos(player.GetX1(), player.GetY1());
 		redChair.OnMove(gamemaps.at(_nowID));
@@ -86,6 +86,15 @@ namespace game_framework {
 				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
+		specialblockL.push_back({8,5,13});
+		specialblockL.push_back({5,4,7});
+		specialblockL.push_back({8,11,7});
+		specialblockR.push_back({4,4,7});
+		specialblockR.push_back({7,11,7});
+		specialblockR.push_back({7,5,13});
+		specialblockTN.push_back({4,5,7});
+		//specialblockTN.push_back({3,9,16});
+
 		player.Load(playervec, RGB(204, 255, 0));
 		// map resources
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
@@ -124,7 +133,7 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		testitem.SetParam(200, 0, 32, Item::itemName::door_knob);
+		testitem.SetParam(100, 0, 32, Item::itemName::door_knob);
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 10 * TILE, 11 * TILE,
@@ -261,7 +270,7 @@ namespace game_framework {
 			tileplaceholder.SetTopLeft(mousex_foc*TILE, mousey_foc*TILE);
 			if (istwoway != 0) {
 				twowayvec.push_back(istwoway);
-				bsvec.push_back(isbs);
+				//bsvec.push_back(isbs);
 				(istwoway == 1)?TRACE("push twoway {%d} true\n", istwoway):TRACE("push twoway {%d} false\n", istwoway);
 				(isbs ==1)?TRACE("push bs {%d} true \n", isbs):TRACE("push bs {%d} false \n", isbs);
 				istwoway = 0;
@@ -296,12 +305,12 @@ namespace game_framework {
 			else {
 				int len = int(pointvec.size());
 				int len2 = int(twowayvec.size());
-				int len3 = int(bsvec.size());
+				//int len3 = int(bsvec.size());
 				if (int(pointvec.size() % 6 == 3)) {
 					TRACE("twoway popped{%d}\n",twowayvec[len2-1]);
-					TRACE("bs popped{%d}\n",bsvec[len3-1]);
+					//TRACE("bs popped{%d}\n",bsvec[len3-1]);
 					twowayvec.pop_back();
-					bsvec.pop_back();
+					//bsvec.pop_back();
 				}
 				TRACE("element {%d,%d,%d} popped\n", pointvec[len - 3], pointvec[len - 2], pointvec[len - 1] );
 				pointvec.pop_back();
@@ -327,7 +336,7 @@ namespace game_framework {
 			///////////////////// debug section
 			//
 			string maplink = "map_bmp/maplink.txt";
-			gamemaps.at(_nowID).ShowMapAll(player,mapoverlayindex.at(_nowID));
+			gamemaps.at(_nowID).ShowMapAll(player,oni1,mapoverlayindex.at(_nowID));
 			// test ObjMove
 			redChair.OnShow();
 			// test ObjMove end
@@ -351,8 +360,8 @@ namespace game_framework {
 					if (i % 6 == 1) {
 						ofs << twowayvec[j++];
 						ofs << " ";
-						ofs << bsvec[k++];
-						ofs << " ";
+						//ofs << bsvec[k++];
+						//ofs << " ";
 					}
 					ofs << f;
 					if (i % 6 == 0) {
@@ -366,7 +375,7 @@ namespace game_framework {
 				ofs.close();
 				twowayvec.clear();
 				pointvec.clear();
-				bsvec.clear();
+				//bsvec.clear();
 				TRACE("twowayvec & pointtmp & bsvec cleared \n");
 				ifstream file(maplink);
 				string content;
@@ -438,7 +447,7 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 			//////////////////////// debug section end
 			
-			oni1.OnShow();
+			//oni1.OnShow();
 		
 
 			if (!talk.isClose()) {

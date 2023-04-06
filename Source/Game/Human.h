@@ -28,7 +28,7 @@ namespace game_framework{
 
 		void init(int step,int offset,Direction dir);
 		
-		void OnMove(GameMap &map, MapRouter &router, int nowID) ;
+		void OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&, vector<vector<int>>&, vector<vector<int>>&) ;
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
@@ -40,9 +40,7 @@ namespace game_framework{
 		int GetDirection() {
 			return _direction;
 		}
-		/*int GetPremove(){
-			return _premove;
-		}*/
+		
 		int GetOffset() { return _coroffset; }
 		int GetU() { return _uy + _coroffset; }
 		int GetD() { return _dy + _coroffset; }
@@ -74,6 +72,5 @@ namespace game_framework{
 		int _nextMapID;
 		bool _isMapChanged;
 		bool _switchMapCheck;
-		//bool _switchMapCheckPre;
 	};
 }
