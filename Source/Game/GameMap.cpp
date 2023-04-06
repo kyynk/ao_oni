@@ -32,12 +32,21 @@ namespace game_framework {
 		}
 		
 	}
-	void GameMap::ShowMapAll(Human &obj,int overlayindex) {
+	void GameMap::ShowMapAll(Human &humanobj,Oni &oniobj,int overlayindex) {
 		
 		for (int i = 1; i < overlayindex+1; i++) {
 			ShowMap(i);
 		}
-		obj.OnShow();
+		if (oniobj.GetPosD() > humanobj.GetD()) {
+
+			oniobj.OnShow();
+			humanobj.OnShow();
+		}
+		else {
+			humanobj.OnShow();
+			oniobj.OnShow();
+
+		}
 		for (int i = overlayindex +1; i < _layer; i++) {
 			ShowMap(i);
 		}

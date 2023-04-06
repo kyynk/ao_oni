@@ -120,6 +120,9 @@ namespace game_framework {
 		//map related
 		vector<GameMap> gamemaps;
 		int _nowID;
+		vector<vector<int>> specialblockL; //x y nowID
+		vector<vector<int>> specialblockR; //x y nowID
+		vector<vector<int>> specialblockTN; //x y nowID
 		vector<int> mapoverlayindex;
 		MapRouter router;
 		//dev related
@@ -136,7 +139,7 @@ namespace game_framework {
 		int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;
-		vector<int> bsvec;
+		//vector<int> bsvec;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
