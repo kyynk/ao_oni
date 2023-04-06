@@ -232,6 +232,18 @@ namespace game_framework {
 		ShowBitmapBySetting();
 	}
 
+	//! 顯示圖片。
+	/*!
+		僅能在 `onShow()` 時呼叫，且圖片需要被讀取。
+	*/
+	void CMovingBitmap::ShowBitmap(int n)
+	{
+		GAME_ASSERT(isBitmapLoaded, "A bitmap must be loaded before ShowBitmap() is called !!!");
+		CDDraw::BltBitmapToBack(surfaceID[frameIndex], locations[frameIndex].left, locations[frameIndex].top);
+		if (n == 1)	ShowBitmapBySettingReverse();
+		else ShowBitmapBySetting();
+	}
+
 	//! 設置當前圖片顯示幀的索引值。
 	/*!
 		圖片顯示幀的索引值以 0 開始。
@@ -276,6 +288,16 @@ namespace game_framework {
 	*/
 	void CMovingBitmap::ToggleAnimation() {
 		frameIndex = 0;
+		isAnimation = true;
+		isAnimationDone = false;
+	}
+
+	//! 啟動單次動畫。
+	/*!
+		將動畫設為初始幀，並且初始化單次動畫的參數值。
+	*/
+	void CMovingBitmap::ToggleAnimationReverse() {
+		frameIndex = surfaceID.size() - 1;
 		isAnimation = true;
 		isAnimationDone = false;
 	}
@@ -350,6 +372,24 @@ namespace game_framework {
 				return;
 			}
 			frameIndex = frameIndex % surfaceID.size();
+		}
+	}
+
+	//! 根據使用者設定的參數來顯示圖片。
+	void CMovingBitmap::ShowBitmapBySettingReverse() {
+		if (isAnimation == true && clock() - last_time >= delayCount) {
+			frameIndex -= 1;
+			last_time = clock();
+			/*if (frameIndex == surfaceID.size() && animationCount > 0) {
+				animationCount -= 1;
+			}*/
+			if (frameIndex == 0 && (isOnce || animationCount == 0)) {
+				isAnimation = false;
+				isAnimationDone = true;
+				frameIndex = 0;
+				return;
+			}
+			//frameIndex = frameIndex % surfaceID.size();
 		}
 	}
 
