@@ -67,7 +67,7 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int Oni::GetPosY() {
-		return _pos_y + _offsetY;
+		return _pos_y;
 	}
 	int Oni::GetPosL() {
 		return _pos_x - TILE;
@@ -79,7 +79,7 @@ namespace game_framework {
 		return _pos_x + _offsetX + TILE;
 	}
 	int Oni::GetPosD() {
-		return _pos_y + _offsetY - TILE;
+		return _pos_y + _offsetY + TILE;
 	}
 	void Oni::Load(string filename, COLORREF color) {
 		vector<string> oniVec;
@@ -102,17 +102,21 @@ namespace game_framework {
 		bool leftmovable = false;
 		bool rightmovable = false;
 
-		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) &&
-			(this->GetPosX() - map.GetX()) % TILE == 0 &&
+		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) ||
+			(map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
+				(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosU() - map.GetY()) % TILE == 0) {
 			upmovable = false;
 		}
 		else {
 			upmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) &&
+		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) ||
+			(map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosD() - map.GetY()) % TILE == 0) {
 			downmovable = false;
@@ -120,35 +124,54 @@ namespace game_framework {
 		else {
 			downmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
+		if ((map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() + _offsetY - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() + _offsetY - map.GetY()) / TILE) == -87) &&
 			(this->GetPosL() - map.GetX()) % TILE == 0 &&
-			(this->GetPosY() - map.GetY()) % TILE == 0) {
+			(this->GetPosY() + _offsetY - map.GetY()) % TILE == 0) {
 			leftmovable = false;
 		}
 		else {
 			leftmovable = true;
 		}
-		if ((map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
+		if ((map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() + _offsetY - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() + _offsetY - map.GetY()) / TILE) == -87) &&
 			(this->GetPosR() - map.GetX()) % TILE == 0 &&
-			(this->GetPosY() - map.GetY()) % TILE == 0) {
+			(this->GetPosY() + _offsetY - map.GetY()) % TILE == 0) {
 			rightmovable = false;
 		}
 		else {
 			rightmovable = true;
 		}
-		int xLen = _pos_x - _humanX;
+
+		/*if (downmovable) { TRACE("\n\n oni ddd \n\n"); }
+		else { TRACE("\n\n oni no ddd \n\n"); }
+		if (upmovable) { TRACE("\n\n oni uuu \n\n"); }
+		else { TRACE("\n\n oni no uuu \n\n"); }
+		if (leftmovable) { TRACE("\n\n oni lll \n\n"); }
+		else { TRACE("\n\n oni no lll \n\n"); }
+		if (rightmovable) { TRACE("\n\n oni rrr \n\n"); }
+		else { TRACE("\n\n oni no rrr \n\n"); }*/
+		int xLen1 = _pos_x - _humanX;
+		int xLen2 = _pos_x + _offsetX - _humanX;
 		int yLen = _pos_y + _offsetY - _humanY;
+		int xLen;
+		if (_pos_x <= _humanX && _humanX <= _pos_x + _offsetX) xLen = 0;
+		else if (abs(xLen1) < abs(xLen2)) xLen = xLen1;
+		else xLen = xLen2;
+		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
+		//xLen = xLen1;
 		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
 		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
 		else if (abs(xLen) > abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
 		else if (abs(xLen) > abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
 		// if block the longest LENGTH, then we need to choose other chance
-		else if (abs(xLen) < abs(yLen) && xLen > 0 && rightmovable) _tracking = isright;
-		else if (abs(xLen) < abs(yLen) && xLen < 0 && leftmovable) _tracking = isleft;
-		else if (abs(xLen) > abs(yLen) && yLen > 0 && downmovable) _tracking = isdown;
-		else if (abs(xLen) > abs(yLen) && yLen < 0 && upmovable) _tracking = isup;
+		else if (abs(xLen) < abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
+		else if (abs(xLen) < abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
+		else if (abs(xLen) > abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
+		else if (abs(xLen) > abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
+		// if abs xLen == abs yLen, then choose xLen first
+		else if (abs(xLen) == abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
+		else if (abs(xLen) == abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
 		else _tracking = none;
 	}
 	void Oni::OnMove(GameMap &map) {
@@ -277,7 +300,7 @@ namespace game_framework {
 		return _wait;
 	}
 	bool Oni::isCatch() {
-		return (_pos_x == _humanX || _pos_x + _offsetX == _humanX) 
+		return (_pos_x <= _humanX && _humanX <= _pos_x + _offsetX )
 			&& _pos_y + _offsetY == _humanY;
 	}
 	void Oni::SetVanish() {
@@ -287,5 +310,9 @@ namespace game_framework {
 			ResetOT();
 			SetPos(0,0);
 		}
+	}
+	void Oni::ResetOni() {
+		_isDisappear = false;
+		ResetOT();
 	}
 }

@@ -34,7 +34,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnBeginState()
 	{
-		oni1.SetXY(0, 0);
+		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
 		isbs = 0;
@@ -46,6 +46,10 @@ namespace game_framework {
 		player.init(4,16);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
+		testitem.SetXY(12 * TILE, 14 * TILE);
+		testitem.Reset();
+		testitem.SetTrigger();
+		testitem.Animation(2, 0);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -60,6 +64,10 @@ namespace game_framework {
 		redChair.GetPlayerPos(player.GetX1(), player.GetY1());
 		redChair.OnMove(gamemaps.at(_nowID));
 		// test ObjMove end
+		// test Item
+		testitem.GetPlayerPos(player.GetX1(), player.GetY1());
+		testitem.OnMove();
+		// test Item end
 		oni1.GetPlayerPos(player.GetX1(), player.GetY1());
 		if (oni1.isCatch()) {
 			//GotoGameState(GAME_STATE_OVER);
@@ -116,8 +124,7 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item 
-		//testitem.Load({ "img/item/blueeye.bmp","img/item/book.bmp","img/item/oil.bmp" }, RGB(204, 255, 0));
-		//testitem.SetParam(30, 100, Item::itemtype::repeat, 0, 0);
+		testitem.SetParam(200, 0, 32, Item::itemName::door_knob);
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 10 * TILE, 11 * TILE,
@@ -221,19 +228,18 @@ namespace game_framework {
 			}
 			if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
 				player.OnKeyDown(nChar);
+
 				
-				//testitem.GetPlayerPos(32, 0);
-				//testitem.OnMove(nChar);  // press G vanish
 				//test ObjMove
 				redChair.OnKeyDown(nChar);
+				//test Item
+				testitem.OnKeyDown(nChar);
 			}
 			if (!useItem.isClose()) {
 				useItem.GetSelect(nChar);
 			}
 
 			if (nChar == VK_RETURN) {
-				//testitem.SetTrigger();
-				//testitem.Animation(0);
 			}
 	}
 	
@@ -325,6 +331,9 @@ namespace game_framework {
 			// test ObjMove
 			redChair.OnShow();
 			// test ObjMove end
+			// test Item
+			testitem.OnShow();
+			// test Item end
 			if (isedit && !ofs.is_open()) {
 				ofs.open(maplink, std::ios::app);
 				if (!ofs.is_open()) {
@@ -430,7 +439,7 @@ namespace game_framework {
 			//////////////////////// debug section end
 			
 			oni1.OnShow();
-			////testitem.OnShow();
+		
 
 			if (!talk.isClose()) {
 				talk.ShowTotal();

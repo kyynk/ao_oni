@@ -7,7 +7,7 @@ namespace game_framework {
 		Entity();
 		//getter
 		
-		void SetXY(int, int);
+		void SetXY(int x, int y);
 		void SelectShowBitmap(int index);
 		bool CheckInVec(int n,vector<int> vec);
 

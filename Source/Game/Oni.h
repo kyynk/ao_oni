@@ -57,6 +57,7 @@ namespace game_framework {
 		bool WaitOver();
 		bool isCatch();  // collide
 		void SetVanish();
+		void ResetOni();
 		
 	private:
 		int _humanX, _humanY, 
