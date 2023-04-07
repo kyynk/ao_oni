@@ -587,7 +587,7 @@ namespace game_framework {
 			));
 			CTextDraw::Print(pDC, 0, TILE * 19,"    down           :     "+ to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX1() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE))  );
 			(istwoway != 0)?((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes" ): CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")):CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
-			(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
+			//(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
 			
 			int len = int(pointvec.size());
 			if(len % 6 == 0 && len !=0){
