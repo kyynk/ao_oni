@@ -259,7 +259,7 @@ namespace game_framework {
 					_nowID -= 1;
 			}
 			if (nChar == KEY_K) {
-				if (_nowID < 53)
+				if (_nowID < 45)
 					_nowID++;
 			}
 			if (nChar == KEY_G) {
