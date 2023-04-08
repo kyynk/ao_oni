@@ -1,4 +1,4 @@
-house1_basement5
+house1_basement5 4
 3 11
 1
 1 add_more
@@ -13,7 +13,7 @@ house1_basement5
 312 312 312
 312 312 312
 312 312 312
-0 0 0
+0 312 0
 
 43 43 43
 43 43 43

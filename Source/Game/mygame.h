@@ -149,7 +149,7 @@ namespace game_framework {
 		bool isgrid;
 		bool isedit;
 		int istwoway;
-		int isbs;
+		//int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;
 		//vector<int> bsvec;

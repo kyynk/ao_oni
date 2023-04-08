@@ -1,4 +1,4 @@
-house1_hallway3
+house1_hallway3 7
 10 14
 2
 1 add_more

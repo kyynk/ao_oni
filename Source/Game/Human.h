@@ -46,8 +46,8 @@ namespace game_framework{
 		int GetD() { return _dy + _coroffset; }
 		int GetL() { return _lx; }
 		int GetR() { return _rx; }
-		int GetX1() { return _pos_x; };
-		int GetY1() { return _pos_y+_coroffset; }
+		int GetX() { return _pos_x; };
+		int GetY() { return _pos_y+_coroffset; }
 		int NextX() { return _nextmapx; }
 		int NextY() { return _nextmapy; }
 		int NextMapID() { return _nextMapID; }
