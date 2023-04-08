@@ -19,7 +19,7 @@ namespace game_framework {
 			return _record[nowID];
 		}
 	private:
-		MapNode _data[46][5];
-		int _record[46];
+		MapNode _data[65][6];
+		int _record[65];
 	};
 }
