@@ -102,18 +102,18 @@ namespace game_framework{
 			bool downmovable = false;
 			bool leftmovable = false;
 			bool rightmovable = false;
-			if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
-				(this->GetX1() - map.GetX()) % TILE == 0 &&
+			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
+				(this->GetX() - map.GetX()) % TILE == 0 &&
 				(this->GetU() - map.GetY()) % TILE == 0) {
 				upmovable = false;
 			}
 			else {
 				upmovable = true;
 			}
-			if ((map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetX1() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
-				(this->GetX1() - map.GetX()) % TILE == 0 &&
+			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
+				(this->GetX() - map.GetX()) % TILE == 0 &&
 				(this->GetD() - map.GetY()) % TILE == 0) {
 				downmovable = false;
 			}
@@ -121,10 +121,10 @@ namespace game_framework{
 				downmovable = true;
 			}
 			for (auto f : VL) {
-				if ( (this->GetX1() - map.GetX()) / TILE == f[0] && 
-					 (this->GetX1() - map.GetX()) % TILE == 0 && 
-					 (this->GetY1() - map.GetY()) / TILE == f[1] && 
-					 (this->GetY1() - map.GetY()) % TILE == 0 && 
+				if ( (this->GetX() - map.GetX()) / TILE == f[0] && 
+					 (this->GetX() - map.GetX()) % TILE == 0 && 
+					 (this->GetY() - map.GetY()) / TILE == f[1] && 
+					 (this->GetY() - map.GetY()) % TILE == 0 && 
 					nowID == f[2]) {
 					leftmovable = false;
 					itercheck = false;
@@ -132,10 +132,10 @@ namespace game_framework{
 				}
 			}
 			if (itercheck) {
-				if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
-					map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+				if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+					map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87) &&
 					(this->GetL() - map.GetX()) % TILE == 0 &&
-					(this->GetY1() - map.GetY()) % TILE == 0) {
+					(this->GetY() - map.GetY()) % TILE == 0) {
 					leftmovable = false;
 				}
 
@@ -145,10 +145,10 @@ namespace game_framework{
 			}
 			itercheck = true;
 			for (auto f : VR) {
-				if ((this->GetX1() - map.GetX()) / TILE == f[0] &&
-					(this->GetX1() - map.GetX()) % TILE == 0 &&
-					(this->GetY1() - map.GetY()) / TILE == f[1] &&
-					(this->GetY1() - map.GetY()) % TILE == 0 &&
+				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
+					(this->GetX() - map.GetX()) % TILE == 0 &&
+					(this->GetY() - map.GetY()) / TILE == f[1] &&
+					(this->GetY() - map.GetY()) % TILE == 0 &&
 					nowID == f[2]) {
 					rightmovable = false;
 					itercheck = false;
@@ -156,10 +156,10 @@ namespace game_framework{
 				}
 			}
 			if (itercheck) {
-				if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == 0 ||
-					map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY1() - map.GetY()) / TILE) == -87) &&
+				if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+					map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87) &&
 					(this->GetR() - map.GetX()) % TILE == 0 &&
-					(this->GetY1() - map.GetY()) % TILE == 0) {
+					(this->GetY() - map.GetY()) % TILE == 0) {
 					rightmovable = false;
 				}
 				else {
@@ -167,20 +167,23 @@ namespace game_framework{
 				}
 			}
 			itercheck = true;
+			
+			
+			
 			if (_isup || _isdown || _isleft || _isright) {
 				TimerStart();
 			}
 			else {
 				if (TimerGetCount() == 8) {
 					TimerStop();
-					if (this->GetX1() % TILE != 0 || this->GetY1() % TILE != 0) {
+					if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
 						int dx = 0;
 						int dy = 1;
-						if (this->GetX1() % TILE >= TILE / 2) {
+						if (this->GetX() % TILE >= TILE / 2) {
 							dx = 1;
 
 						}
-						if (this->GetY1() % TILE < TILE / 2) {
+						if (this->GetY() % TILE < TILE / 2) {
 							dy = 0;
 						}
 						_pos_x = (_pos_x / TILE + dx)*TILE;
@@ -233,7 +236,7 @@ namespace game_framework{
 
 			}
 			for (auto f : TN) {
-				if ((this->GetX1() - map.GetX()) / TILE == f[0] && (this->GetY1() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
+				if ((this->GetX() - map.GetX()) / TILE == f[0] && (this->GetY() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
 					itercheck = false;
 					break;
 				}
@@ -242,7 +245,7 @@ namespace game_framework{
 				for (int i = 0; i < router.GetRecord(nowID); i++) {
 					for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
 						if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
-							NodeData(this->GetL() - map.GetX(), this->GetY1() - map.GetY()) &&
+							NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 							_direction == left &&
 							_nowmove == isleft) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
@@ -252,7 +255,7 @@ namespace game_framework{
 							break;
 						}
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
-							NodeData(this->GetR() - map.GetX(), this->GetY1() - map.GetY()) &&
+							NodeData(this->GetR() - map.GetX(), this->GetY() - map.GetY()) &&
 							_direction == right &&
 							_nowmove == isright) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
@@ -262,7 +265,7 @@ namespace game_framework{
 							break;
 						}
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
-							NodeData(this->GetX1() - map.GetX(), this->GetU() - map.GetY()) &&
+							NodeData(this->GetX() - map.GetX(), this->GetU() - map.GetY()) &&
 							_direction == up &&
 							_nowmove == isup) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
@@ -272,7 +275,7 @@ namespace game_framework{
 							break;
 						}
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
-							NodeData(this->GetX1() - map.GetX(), this->GetD() - map.GetY()) &&
+							NodeData(this->GetX() - map.GetX(), this->GetD() - map.GetY()) &&
 							_direction == down &&
 							_nowmove == isdown) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();

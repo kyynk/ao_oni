@@ -1,4 +1,4 @@
-house2_basement3
+house2_basement3 25
 9 9
 2
 1 room-01-udz

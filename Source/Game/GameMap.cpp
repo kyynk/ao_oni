@@ -33,22 +33,209 @@ namespace game_framework {
 		
 	}
 	void GameMap::ShowMapAll(Human &humanobj,Oni &oniobj,int overlayindex) {
-		
-		for (int i = 1; i < overlayindex+1; i++) {
-			ShowMap(i);
-		}
-		if (oniobj.GetPosD() > humanobj.GetD()) {
+		int humany = (humanobj.GetY()-_pos_y)/TILE;
+		int oniy = (oniobj.GetPosY()- _pos_y)/TILE;
+		int humanya = humanobj.GetY()& TILE;
+		int oniya = oniobj.GetPosY()&TILE;
 
-			oniobj.OnShow();
-			humanobj.OnShow();
+		//TRACE("%d %d %d %d \n",humany,oniy, humanya, oniya);
+		if (_ID == 0) {
+			bool f1 = true;
+			bool f2 = true;
+			for (int i = 1;i < _layer;i++) {
+				ShowMap(i);
+
+				if (i == 2&&(f1 ||f2)) {
+					if (humany < 8 && oniy < 8) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 8) {
+						humanobj.OnShow();
+						f1 = false;
+					}
+					else if (oniy < 8) {
+						oniobj.OnShow();
+						f2 = false;
+					}
+				}
+				else if (i == 3 && (f1 || f2)) {
+					if (humany < 13 && oniy < 13) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 13) {
+						humanobj.OnShow();
+						f1 = false;
+
+					}
+					else if (oniy < 13) {
+						oniobj.OnShow();
+						f2 = false;
+
+					}
+				}
+				else  if(i==4&&(f1 || f2)){
+					if (humany < oniy) {
+						humanobj.OnShow();
+						oniobj.OnShow();
+					}
+					else {
+						oniobj.OnShow();
+						humanobj.OnShow();
+					}
+					f1 = false;
+					f2 = false;
+				}
+			}
+		}
+		else if (_ID == 12) {
+			//TRACE("ID == %d", _ID);
+			bool f1 = true;
+			bool f2 = true;
+			for (int i = 1;i < _layer;i++) {
+				ShowMap(i);
+
+				if (i == 4 && (f1 || f2)) {
+					if (humany < 4 && oniy < 4) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 4) {
+						humanobj.OnShow();
+						f1 = false;
+					}
+					else if (oniy < 4) {
+						oniobj.OnShow();
+						f2 = false;
+					}
+				}
+				
+				else if (i == 5 && (f1 || f2)) {
+					if (humany < 8 && oniy < 8) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 8) {
+						humanobj.OnShow();
+						f1 = false;
+
+					}
+					else if (oniy < 8) {
+						oniobj.OnShow();
+						f2 = false;
+
+					}
+				}
+				else if (i == 6 && (f1 || f2)) {
+					if (humany < 12 && oniy < 12) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 12) {
+						humanobj.OnShow();
+						f1 = false;
+
+					}
+					else if (oniy < 12) {
+						oniobj.OnShow();
+						f2 = false;
+
+					}
+				}
+				else  if (i == 7 && (f1 || f2)) {
+					if (humany < 15 && oniy < 15) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
+					}
+					else if (humany < 15) {
+						humanobj.OnShow();
+						f1 = false;
+
+					}
+					else if (oniy < 15) {
+						oniobj.OnShow();
+						f2 = false;
+					}
+				}
+				else  if (i == 8 && (f1 || f2)) {
+					if (humany < oniy) {
+						humanobj.OnShow();
+						oniobj.OnShow();
+					}
+					else {
+						oniobj.OnShow();
+						humanobj.OnShow();
+					}
+					f1 = false;
+					f2 = false;
+				}
+			}
 		}
 		else {
-			humanobj.OnShow();
-			oniobj.OnShow();
+			for (int i = 1; i < _layer; i++) {
+				ShowMap(i);
+				if (i == overlayindex) {
+					if (oniobj.GetPosD() > humanobj.GetD()) {
 
-		}
-		for (int i = overlayindex +1; i < _layer; i++) {
-			ShowMap(i);
+						oniobj.OnShow();
+						humanobj.OnShow();
+					}
+					else {
+						humanobj.OnShow();
+						oniobj.OnShow();
+
+					}
+				}
+			}
 		}
 		if (isshowtileindex) {
 			CDC *cdc = CDDraw::GetBackCDC();
@@ -83,7 +270,7 @@ namespace game_framework {
 	void GameMap::Load(string files)
 	{
 		std::ifstream in(files);
-		in >> _mapname;
+		in >> _mapname >> _ID;
 		//TRACE("%s\n", _mapname.c_str());
 		in >> _width >> _height;
 		int n;
