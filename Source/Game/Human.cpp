@@ -131,6 +131,7 @@ namespace game_framework{
 					break;
 				}
 			}
+			//if (nowID > 45) return;
 			if (itercheck) {
 				if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
 					map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87) &&

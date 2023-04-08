@@ -49,6 +49,8 @@ namespace game_framework {
 		blockLeftCor.push_back({ 2,3,34 });
 		blockLeftCor.push_back({ 10,4,42 });
 		blockLeftCor.push_back({ 10,6,23 });
+		blockLeftCor.push_back({ 2,13,54 });
+		blockLeftCor.push_back({ 2,5,56 });
 
 
 		blockRightCor.push_back({ 4,4,7 });
@@ -58,12 +60,21 @@ namespace game_framework {
 		blockRightCor.push_back({ 1,3 ,34});
 		blockRightCor.push_back({ 9,4,42 });
 		blockRightCor.push_back({ 9,6,23 });
+		blockRightCor.push_back({ 1,13,54 });
+		blockRightCor.push_back({ 1,5,56 });
 
 		blockTeleportCor.push_back({ 4,5,7 });
 		blockTeleportCor.push_back({ 6,9,33 });
 		blockTeleportCor.push_back({ 2,4,34 });
 		blockTeleportCor.push_back({ 9,5,42 });
 		blockTeleportCor.push_back({ 9,5,23 });
+		blockTeleportCor.push_back({ 2,12,54 });
+		blockTeleportCor.push_back({ 2,6,56 });
+		blockTeleportCor.push_back({ 18,15,54 });
+		blockTeleportCor.push_back({ 19,16,54 });
+		blockTeleportCor.push_back({ 4,4,55 });
+		blockTeleportCor.push_back({ 4,3,46 });
+		blockTeleportCor.push_back({ 3,2,46 });
 
 		//specialblockTN.push_back({3,9,16});
 
@@ -78,7 +89,7 @@ namespace game_framework {
 			MapRes::GetInstance()->Load(name, count);
 		}
 		// map data
-		for (int i = 0; i < 54; i++) {
+		for (int i = 0; i < 65; i++) {
 			GameMap tmp;
 			tmp.Load("map_bmp/map" + to_string(i) + ".txt");
 			int w = tmp.GetWidth();
@@ -90,7 +101,7 @@ namespace game_framework {
 		}
 		ifstream indexlayer("map_bmp/mapindexlayer.txt");
 		int i2;
-		for (int i = 0; i < 46; i++) {
+		for (int i = 0; i < 65; i++) {
 			indexlayer >> i2;
 			mapoverlayindex.push_back(i2);
 		}
@@ -284,7 +295,7 @@ namespace game_framework {
 					_nowID -= 1;
 			}
 			if (nChar == KEY_K) {
-				if (_nowID < 45)
+				if (_nowID < 64)
 					_nowID++;
 			}
 			if (nChar == KEY_G) {
@@ -326,7 +337,7 @@ namespace game_framework {
 			if (nChar == VK_SPACE) { // press "space" close dialog
 				if (inputbox.isInteger()) {
 					int index = stoi(string(inputbox.GetString()));
-					if (index >= 0 && index <= 53) {
+					if (index >= 0 && index <= 64) {
 						_nowID = index;
 					}
 				}
