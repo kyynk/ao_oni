@@ -267,7 +267,7 @@ namespace game_framework {
 		}
 		else {
 			if (nChar == KEY_A) {
-				TRACE("%d %d \n", player.GetX(), player.GetY());
+				//TRACE("%d %d \n", player.GetX(), player.GetY());
 				isteleportblock = !isteleportblock;
 			}
 			if (nChar == KEY_I) {
@@ -487,7 +487,7 @@ namespace game_framework {
 			}
 			else if (_nowID == 18) {
 				if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
-					(items.at(TUB_ONCE).IsAnimationDone()) ? TRACE("\n\n\naaaaaaaaaaa\n\n") : TRACE("\n\n\asdsdfdfdsadfsdfdd\n\n");
+					//(items.at(TUB_ONCE).IsAnimationDone()) ? TRACE("\n\n\naaaaaaaaaaa\n\n") : TRACE("\n\n\asdsdfdfdsadfsdfdd\n\n");
 					items.at(TUB_ONCE).OnShow();
 				}
 				if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {

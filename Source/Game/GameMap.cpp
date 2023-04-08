@@ -34,7 +34,7 @@ namespace game_framework {
 	}
 	void GameMap::ShowMapAll(Human &humanobj,Oni &oniobj,int overlayindex) {
 		int humany = (humanobj.GetY()-_pos_y)/TILE;
-		int oniy = (oniobj.GetPosY()- _pos_y)/TILE;
+		int oniy = (oniobj.GetPosY()- _pos_y)/TILE+3;
 		int humanya = humanobj.GetY()& TILE;
 		int oniya = oniobj.GetPosY()&TILE;
 
@@ -46,7 +46,7 @@ namespace game_framework {
 				ShowMap(i);
 
 				if (i == 2&&(f1 ||f2)) {
-					if (humany < 8 && oniy < 8) {
+					if (humany < 8 && oniy < 8 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -58,17 +58,17 @@ namespace game_framework {
 						f1 = false;
 						f2 = false;
 					}
-					else if (humany < 8) {
+					else if (humany < 8 && f1) {
 						humanobj.OnShow();
 						f1 = false;
 					}
-					else if (oniy < 8) {
+					else if (oniy < 8 && f2) {
 						oniobj.OnShow();
 						f2 = false;
 					}
 				}
 				else if (i == 3 && (f1 || f2)) {
-					if (humany < 13 && oniy < 13) {
+					if (humany < 13 && oniy < 13 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -80,28 +80,40 @@ namespace game_framework {
 						f1 = false;
 						f2 = false;
 					}
-					else if (humany < 13) {
+					else if (humany < 13 && f1 ) {
 						humanobj.OnShow();
 						f1 = false;
 
 					}
-					else if (oniy < 13) {
+					else if (oniy < 13 && f2) {
 						oniobj.OnShow();
 						f2 = false;
 
 					}
 				}
-				else  if(i==4&&(f1 || f2)){
-					if (humany < oniy) {
-						humanobj.OnShow();
-						oniobj.OnShow();
+				else if( i==4 && (f1 || f2)){
+					if (f1 && f2) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
 					}
-					else {
-						oniobj.OnShow();
+					else if (f1) {
 						humanobj.OnShow();
+						f1 = false;
+
 					}
-					f1 = false;
-					f2 = false;
+					else if (f2) {
+						oniobj.OnShow();
+						f2 = false;
+
+					}
 				}
 			}
 		}
@@ -113,7 +125,7 @@ namespace game_framework {
 				ShowMap(i);
 
 				if (i == 4 && (f1 || f2)) {
-					if (humany < 4 && oniy < 4) {
+					if (humany < 4 && oniy < 4 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -124,19 +136,23 @@ namespace game_framework {
 						}
 						f1 = false;
 						f2 = false;
+						//TRACE("1\n");
 					}
-					else if (humany < 4) {
+					else if (humany < 4&&f1) {
 						humanobj.OnShow();
 						f1 = false;
+						//TRACE("2\n");
+					
 					}
-					else if (oniy < 4) {
+					else if (oniy < 4&&f2) {
 						oniobj.OnShow();
 						f2 = false;
+						//TRACE("3\n");
 					}
 				}
 				
 				else if (i == 5 && (f1 || f2)) {
-					if (humany < 8 && oniy < 8) {
+					if (humany < 8 && oniy < 8 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -148,19 +164,19 @@ namespace game_framework {
 						f1 = false;
 						f2 = false;
 					}
-					else if (humany < 8) {
+					else if (humany < 8 && f1) {
 						humanobj.OnShow();
 						f1 = false;
 
 					}
-					else if (oniy < 8) {
+					else if (oniy < 8 && f2) {
 						oniobj.OnShow();
 						f2 = false;
 
 					}
 				}
 				else if (i == 6 && (f1 || f2)) {
-					if (humany < 12 && oniy < 12) {
+					if (humany < 12 && oniy < 12 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -172,19 +188,19 @@ namespace game_framework {
 						f1 = false;
 						f2 = false;
 					}
-					else if (humany < 12) {
+					else if (humany < 12 && f1) {
 						humanobj.OnShow();
 						f1 = false;
 
 					}
-					else if (oniy < 12) {
+					else if (oniy < 12 && f2) {
 						oniobj.OnShow();
 						f2 = false;
 
 					}
 				}
 				else  if (i == 7 && (f1 || f2)) {
-					if (humany < 15 && oniy < 15) {
+					if (humany < 15 && oniy < 15 && f1 && f2) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -196,27 +212,38 @@ namespace game_framework {
 						f1 = false;
 						f2 = false;
 					}
-					else if (humany < 15) {
+					else if (humany < 15 && f1) {
 						humanobj.OnShow();
 						f1 = false;
 
 					}
-					else if (oniy < 15) {
+					else if (oniy < 15 && f2) {
 						oniobj.OnShow();
 						f2 = false;
 					}
 				}
 				else  if (i == 8 && (f1 || f2)) {
-					if (humany < oniy) {
-						humanobj.OnShow();
-						oniobj.OnShow();
+					if (f1 && f2) {
+						if (humany < oniy) {
+							humanobj.OnShow();
+							oniobj.OnShow();
+						}
+						else {
+							oniobj.OnShow();
+							humanobj.OnShow();
+						}
+						f1 = false;
+						f2 = false;
 					}
-					else {
-						oniobj.OnShow();
+					else if ( f1) {
 						humanobj.OnShow();
+						f1 = false;
+
 					}
-					f1 = false;
-					f2 = false;
+					else if (f2) {
+						oniobj.OnShow();
+						f2 = false;
+					}
 				}
 			}
 		}
