@@ -116,7 +116,7 @@ namespace game_framework {
 		Human player;
 		Oni oni1;
 		ObjMove redChair;
-		Item toilet;
+		/*Item toilet;
 		Item tub_once;
 		Item phillips;
 		Item tub_fixed;
@@ -128,7 +128,7 @@ namespace game_framework {
 		Item tatami_R;
 		Item key_lib;
 		Item door_knob;
-		Item door_no_knob;
+		Item door_no_knob;*/
 		vector<Item> items;
 		//map related
 		vector<GameMap> gamemaps;
