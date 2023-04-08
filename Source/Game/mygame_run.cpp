@@ -105,23 +105,34 @@ namespace game_framework {
 		useItem.SetNow(Dialog::character::hirosi);
 		useItem.SetParam({ "Do u want to use that?" }, true);
 		// item
-		toilet.SetParam(-1, 0, 0, Item::itemName::toilet);
-		tub_once.SetParam(100, 0, TILE, Item::itemName::tub_once);
-		phillips.SetParam(100, 0, TILE, Item::itemName::phillips);
-		tub_fixed.SetParam(-1, 0, TILE, Item::itemName::tub_fixed);
-		broken_dish.SetParam(-1, 0, 0, Item::itemName::broken_dish);
-		lib_book.SetParam(-1, 0, 0, Item::itemName::lib_book);
-		key_3F_L.SetParam(100, 0, 0, Item::itemName::key_3F_L);
-		key_lib.SetParam(100, 0, 0, Item::itemName::key_lib);
-		door_knob.SetParam(100, 0, TILE, Item::itemName::door_knob);
-		door_no_knob.SetParam(100, 0, TILE, Item::itemName::door_no_knob);
+		items.resize(30);
+		items.at(TOILET).SetParam(-1, 0, 0, Item::itemName::toilet);
+		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::itemName::tub_once);
+		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::itemName::phillips);
+		items.at(TUB_FIXED).SetParam(-1, 0, TILE, Item::itemName::tub_fixed);
+		items.at(BROKEN_DISH).SetParam(-1, 0, 0, Item::itemName::broken_dish);
+		items.at(LIB_BOOK).SetParam(-1, 0, 0, Item::itemName::lib_book);
+		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::itemName::key_3F_L);
+		items.at(KEY_LIB).SetParam(100, 0, 0, Item::itemName::key_lib);
+		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::itemName::door_knob);
+		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::itemName::door_no_knob);
+	/*	toilet
+		tub_once
+		phillips
+		tub_fixed
+		broken_dish
+		lib_book
+		key_3F_L
+		key_lib
+		door_knob
+		door_no_knob*/
 
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
 			16 * TILE, 9 * TILE);
 		// debug
-		items.push_back(move(toilet));
+		/*items.push_back(move(toilet));
 		items.push_back(move(tub_once));
 		items.push_back(move(phillips));
 		items.push_back(move(tub_fixed));
@@ -130,7 +141,7 @@ namespace game_framework {
 		items.push_back(move(key_3F_L));
 		items.push_back(move(key_lib));
 		items.push_back(move(door_knob));
-		items.push_back(move(door_no_knob));
+		items.push_back(move(door_no_knob));*/
 
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -158,9 +169,6 @@ namespace game_framework {
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
-		/*items.at(TOILET).Reset();
-		items.at(TOILET).SetTrigger();
-		items.at(TOILET).Animation(2, 0);*/
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
 		items.at(PHILLIPS).SetXY(9 * TILE, 12 * TILE);
 		items.at(TUB_FIXED).SetXY(9 * TILE, 12 * TILE);
@@ -170,9 +178,9 @@ namespace game_framework {
 		items.at(KEY_LIB).SetXY(15 * TILE, 9 * TILE);
 		items.at(DOOR_KNOB).SetXY(12 * TILE, 6 * TILE);
 		items.at(DOOR_NO_KNOB).SetXY(12 * TILE, 6 * TILE);
-		lighter.SetXY(6 * TILE, 6 * TILE);
-		tatami_L.SetXY(6 * TILE, 6 * TILE);
-		tatami_R.SetXY(9 * TILE, 6 * TILE);
+		items.at(LIGHTER).SetXY(6 * TILE, 6 * TILE);
+		items.at(TATAMI_L).SetXY(6 * TILE, 6 * TILE);
+		items.at(TATAMI_R).SetXY(9 * TILE, 6 * TILE);
 	}
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -215,8 +223,8 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 10) {
-			tatami_R.GetPlayerPos(player.GetX(), player.GetY());
-			tatami_R.OnMove();
+			items.at(TATAMI_R).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(TATAMI_R).OnMove();
 			/*lighter.GetPlayerPos(player.GetX1(), player.GetY1());
 			lighter.OnMove();
 			tatami_L.GetPlayerPos(player.GetX1(), player.GetY1());

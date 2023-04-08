@@ -79,6 +79,10 @@
 #define KEY_LIB 7
 #define DOOR_KNOB 8
 #define DOOR_NO_KNOB 9
+#define LIGHTER 10
+#define TATAMI_L 11
+#define TATAMI_R 11
+
 /*
 debug mode
 press
