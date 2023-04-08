@@ -42,28 +42,28 @@ namespace game_framework {
 			}
 		}
 		// player map x, player map y, map ID
-		specialblockL.push_back({ 8,5,13 });
-		specialblockL.push_back({ 5,4,7 });
-		specialblockL.push_back({ 8,11,7 });
-		specialblockL.push_back({ 6,10,33 });
-		specialblockL.push_back({ 2,3,34 });
-		specialblockL.push_back({ 10,4,42 });
-		specialblockL.push_back({ 10,6,23 });
+		blockLeftCor.push_back({ 8,5,13 });
+		blockLeftCor.push_back({ 5,4,7 });
+		blockLeftCor.push_back({ 8,11,7 });
+		blockLeftCor.push_back({ 6,10,33 });
+		blockLeftCor.push_back({ 2,3,34 });
+		blockLeftCor.push_back({ 10,4,42 });
+		blockLeftCor.push_back({ 10,6,23 });
 
 
-		specialblockR.push_back({ 4,4,7 });
-		specialblockR.push_back({ 7,11,7 });
-		specialblockR.push_back({ 7,5,13 });
-		specialblockR.push_back({ 5,10,33 });
-		specialblockR.push_back({ 1,3 ,34});
-		specialblockR.push_back({ 9,4,42 });
-		specialblockR.push_back({ 9,6,23 });
+		blockRightCor.push_back({ 4,4,7 });
+		blockRightCor.push_back({ 7,11,7 });
+		blockRightCor.push_back({ 7,5,13 });
+		blockRightCor.push_back({ 5,10,33 });
+		blockRightCor.push_back({ 1,3 ,34});
+		blockRightCor.push_back({ 9,4,42 });
+		blockRightCor.push_back({ 9,6,23 });
 
-		specialblockTN.push_back({ 4,5,7 });
-		specialblockTN.push_back({ 6,9,33 });
-		specialblockTN.push_back({ 2,4,34 });
-		specialblockTN.push_back({ 9,5,42 });
-		specialblockTN.push_back({ 9,5,23 });
+		blockTeleportCor.push_back({ 4,5,7 });
+		blockTeleportCor.push_back({ 6,9,33 });
+		blockTeleportCor.push_back({ 2,4,34 });
+		blockTeleportCor.push_back({ 9,5,42 });
+		blockTeleportCor.push_back({ 9,5,23 });
 
 		//specialblockTN.push_back({3,9,16});
 
@@ -190,7 +190,7 @@ namespace game_framework {
 
 			_nowID = player.NextMapID();
 		}
-		player.OnMove(gamemaps.at(_nowID), router, _nowID, specialblockL, specialblockR, specialblockTN);
+		player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		// test Item
 		if (_nowID == 19) {
 			items.at(TOILET).GetPlayerPos(player.GetX(), player.GetY());
