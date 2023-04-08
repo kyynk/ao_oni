@@ -133,9 +133,9 @@ namespace game_framework {
 		//map related
 		vector<GameMap> gamemaps;
 		int _nowID;
-		vector<vector<int>> specialblockL; //x y nowID
-		vector<vector<int>> specialblockR; //x y nowID
-		vector<vector<int>> specialblockTN; //x y nowID
+		vector<vector<int>> blockLeftCor; //x y nowID
+		vector<vector<int>> blockRightCor; //x y nowID
+		vector<vector<int>> blockTeleportCor; //x y nowID
 		vector<int> mapoverlayindex;
 		MapRouter router;
 		//dev related
