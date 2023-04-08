@@ -1,4 +1,4 @@
-house2_room4
+house2_room4 40
 7 9
 1
 1 add_more
