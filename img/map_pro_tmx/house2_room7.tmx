@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="8" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" source="res/add_more.tsx"/>
- <layer id="5" name="layer0" width="8" height="10" locked="1">
+ <layer id="5" name="layer0" width="8" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,
@@ -10,12 +10,12 @@
 312,312,312,312,312,312,312,0,
 312,312,312,312,312,312,312,0,
 312,312,312,0,312,312,312,0,
-312,312,312,312,312,312,312,0,
+312,312,312,312,312,312,312,312,
 312,312,312,312,312,312,312,0,
 312,312,312,312,312,312,312,0
 </data>
  </layer>
- <layer id="1" name="layer1" width="8" height="10" locked="1">
+ <layer id="1" name="layer1" width="8" height="10" visible="0" locked="1">
   <data encoding="csv">
 153,153,153,153,153,153,153,28,
 153,153,153,153,153,153,153,28,
