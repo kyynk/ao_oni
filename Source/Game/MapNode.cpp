@@ -19,5 +19,6 @@ namespace game_framework {
 			TRACE("{%d, %d, %d, %d}\n", _points[i].w/TILE, _points[i].x/TILE, _points[i].y/TILE, _points[i].z/TILE );
 		}
 	}
+	
 }
 
