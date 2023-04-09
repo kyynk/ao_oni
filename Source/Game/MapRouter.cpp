@@ -34,7 +34,7 @@ namespace game_framework {
 		for (int i = 0; i < n; i++) {
 			in >> twoway >> mapID1 >> x1 >> y1 >> mapID2 >> x2 >> y2;
 			NodeData tmp1(x1, y1, x2, y2);
-			for (int j = 0; j < 5 ; j++) {
+			for (int j = 0; j < 6 ; j++) {
 				if (_data[mapID1][j].GetID() == mapID2) {
 					_data[mapID1][j].AddEdge(move(tmp1));
 					nadded = false;
@@ -49,7 +49,7 @@ namespace game_framework {
 			nadded = true;
 			if (twoway == 1) {
 				NodeData tmp2(x2, y2, x1, y1);
-				for (int j = 0; j < 5; j++) {
+				for (int j = 0; j < 6; j++) {
 					if (_data[mapID2][j].GetID() == mapID1) {
 						_data[mapID2][j].AddEdge(move(tmp2));
 						nadded = false;
@@ -68,7 +68,7 @@ namespace game_framework {
 
 	void MapRouter::debug()
 	{
-		for (int i = 0; i < 46; i++) {
+		for (int i = 0; i < 65; i++) {
 			for (int j = 0; j < _record[i];j++) {
 				TRACE("map1 ID : %d\n", i);
 				_data[i][j].debug();
