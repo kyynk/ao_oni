@@ -52,6 +52,7 @@
 #include "Dialog.h"
 #include "InputBox.h"
 #include "Human.h"
+#include "Event.h"
 #include <fstream>
 
 namespace game_framework {
@@ -116,6 +117,7 @@ namespace game_framework {
 		Human player;
 		Oni oni1;
 		ObjMove redChair;
+		vector<Event> events;
 		/*Item toilet;
 		Item tub_once;
 		Item phillips;
@@ -149,6 +151,7 @@ namespace game_framework {
 		bool isgrid;
 		bool isedit;
 		int istwoway;
+		bool isdebugmode;
 		//int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;

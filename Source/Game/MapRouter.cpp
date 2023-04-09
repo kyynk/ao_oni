@@ -75,7 +75,10 @@ namespace game_framework {
 			}
 		}
 	}
-
+	void MapRouter::BlockPath(int x, int y)
+	{
+		_pathblocked[x][y] = true;
+	}
 
 }
 

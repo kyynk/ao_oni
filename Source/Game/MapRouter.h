@@ -18,8 +18,10 @@ namespace game_framework {
 		int GetRecord(int nowID) {
 			return _record[nowID];
 		}
+		void BlockPath(int x,int y);
 	private:
 		MapNode _data[65][6];
+		bool _pathblocked[65][6];
 		int _record[65];
 	};
 }
