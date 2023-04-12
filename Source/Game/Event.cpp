@@ -6,28 +6,43 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include "ChoiceMenu.h"
+#include"Dialog.h"
 #include "Event.h"
 namespace game_framework {
 	Event::Event()	{
+		_condition = false;
+		_evtname = "";
+		_triggered = false;
+		_dialogindex = 0;
+		_dialogcount = 0;
 	}
 	void Event::debug()	{
-		for (auto iter : _prereq) {
-			TRACE("%s ,%d\n", iter.first, (iter.second) ? 1 : 0);
-		}
+		
 	}
-	void Event::SetConditionTrue(string pre) {
-		_prereq[pre] = true;
+	void Event::SetCondition(bool con) {
+		_condition = con;
 	}
-	void Event::SetEvents(vector<string> evts) {
-		for (auto iter : evts) {
-			_prereq.emplace(iter, false);
-		}
+
+	void Event::SetTriggered(bool triggered) {
+		_triggered = triggered;
 	}
-	bool Event::Trigger()	{
-		bool trigger = true;
-		for (auto iter : _prereq) {
-			trigger = trigger && iter.second;
-		}
-		return trigger;
+	bool Event::IsTriggered()	{
+		return _triggered;
+	}
+	vector<vector<int> >& Event::GetBlockPath() {
+		return _blockpath;
+	}
+	void Event::SetParam(string evtname, vector<vector<int> > blockpath, int firstindex, int count) {
+		_evtname = evtname;
+		_blockpath = blockpath;
+		_dialogindex = firstindex;
+		_dialogcount = count;
+	}
+	int Event::GetDialogIndex() {
+		return _dialogindex;
+	}
+	int Event::GetDialogCount() {
+		return _dialogcount;
 	}
 }

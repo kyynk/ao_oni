@@ -42,7 +42,6 @@
 #include "GameMap.h"
 #include "Human.h"
 #include "Oni.h"
-#include "ChoiceMenu.h"
 #include "MapNode.h"
 #include "MapRouter.h"
 #include "MapRes.h"
@@ -52,6 +51,7 @@
 #include "Dialog.h"
 #include "InputBox.h"
 #include "Human.h"
+#include "Event.h"
 #include <fstream>
 
 namespace game_framework {
@@ -66,12 +66,16 @@ namespace game_framework {
 		AUDIO_NTUT				// 2
 	};
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲開頭畫面物件
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateInit : public CGameState {
+	enum substate {
+		startmenustate,
+		animationstate,
+		nameingstate,
+		showstorydialogstate,
+		loaddatamenustate,
+		jumpstate
+	};
 	public:
 		CGameStateInit(CGame *g);
 		void OnInit();  								// 遊戲的初值及圖形設定
@@ -84,15 +88,18 @@ namespace game_framework {
 	private:
 		ChoiceMenu startmenu;
 		CMovingBitmap start_animation;
-		int flag;
+		Dialog story;
+		int _substate;
 	};
 
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
 
 	class CGameStateRun : public CGameState {
+	enum substate {
+		OnChasing,
+		OnDialogs,
+		OnWalking,
+		OnInputBox
+	};
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
@@ -106,33 +113,32 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 	protected:
-		void OnMove();									// 移動遊戲元素
+		void OnMove();
+		// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		
+		void DeBugRecursive();
 		//game
-		Dialog story;
-		Dialog talk;
-		Dialog useItem;
+		int _substate;
+		
+		//Dialog talk;
+		//Dialog useItem;
+		vector<Dialog> dialogs;
 		Human player;
+		Human player2;
+		Human player3;
+		Human player4;
 		Oni oni1;
 		ObjMove redChair;
-		/*Item toilet;
-		Item tub_once;
-		Item phillips;
-		Item tub_fixed;
-		Item broken_dish;
-		Item lib_book;
-		Item key_3F_L;
-		Item lighter;
-		Item tatami_L;
-		Item tatami_R;
-		Item key_lib;
-		Item door_knob;
-		Item door_no_knob;*/
+		vector<Event> events;
 		vector<Item> items;
 		//map related
 		vector<GameMap> gamemaps;
 		int _nowID;
+		int _dialogID;
+		int _dialogcount;
+		int _eventID;
 		vector<vector<int>> blockLeftCor; //x y nowID
 		vector<vector<int>> blockRightCor; //x y nowID
 		vector<vector<int>> blockTeleportCor; //x y nowID
@@ -149,17 +155,12 @@ namespace game_framework {
 		bool isgrid;
 		bool isedit;
 		int istwoway;
+		bool isdebugmode;
 		//int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;
 		//vector<int> bsvec;
 	};
-
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的結束狀態(Game Over)
-	// 每個Member function的Implementation都要弄懂
-	/////////////////////////////////////////////////////////////////////////////
-
 	class CGameStateOver : public CGameState {
 	public:
 		CGameStateOver(CGame *g);

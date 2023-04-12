@@ -172,7 +172,7 @@ namespace game_framework {
 	}
 	void Item::CheckMoveDirection() {
 		int x = _pos_x + _boxX;
-		TRACE("asdsad\n");
+		//TRACE("asdsad\n");
 		int y = _pos_y + _boxY;
 		if (_playerX + 32 == _pos_x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isright)
 			_move = isright;
@@ -193,7 +193,7 @@ namespace game_framework {
 	}
 	void Item::OnMove() { // actually is action function
 		if (_press) {
-			TRACE("\n\npress\n\n");
+			TRACE("\n\nitem press\n\n");
 			if (Collide()) {
 				// on lib
 				if (_name == lib_book && !_fixed) {
@@ -428,6 +428,9 @@ namespace game_framework {
 	}
 	bool Item::IsFixed() {
 		return _fixed;
+	}
+	bool Item::IsTake() {
+		return _take;
 	}
 	bool Item::IsAnimationDone() {
 		return bitmap.IsAnimationDone();
