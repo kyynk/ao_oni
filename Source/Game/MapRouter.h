@@ -19,6 +19,8 @@ namespace game_framework {
 			return _record[nowID];
 		}
 		void BlockPath(int x,int y);
+		void UnblockPath(int x,int y);
+		bool IsPathBlocked(int x,int y);
 	private:
 		MapNode _data[65][6];
 		bool _pathblocked[65][6];

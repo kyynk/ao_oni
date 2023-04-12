@@ -19,7 +19,13 @@ namespace game_framework {
 	void MapRouter::init()
 	{
 		memset(_record, 0, sizeof(_record));
+		for (int i = 0;i < 65;i++) {
+			for (int j = 0;j < 6;j++) {
+				_pathblocked[i][j] = false;
+			}
+		}
 		
+
 	}
 	void MapRouter::Load(string filename)
 	{
@@ -78,6 +84,14 @@ namespace game_framework {
 	void MapRouter::BlockPath(int x, int y)
 	{
 		_pathblocked[x][y] = true;
+	}
+	void MapRouter::UnblockPath(int x, int y)
+	{
+		_pathblocked[x][y] = false;
+	}
+	bool MapRouter::IsPathBlocked(int x, int y)
+	{
+		return _pathblocked[x][y];
 	}
 
 }

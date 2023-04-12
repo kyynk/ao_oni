@@ -429,6 +429,9 @@ namespace game_framework {
 	bool Item::IsFixed() {
 		return _fixed;
 	}
+	bool Item::IsTake() {
+		return _take;
+	}
 	bool Item::IsAnimationDone() {
 		return bitmap.IsAnimationDone();
 	}

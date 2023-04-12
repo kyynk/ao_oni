@@ -59,6 +59,7 @@ namespace game_framework {
 		void Reset(); // all control reset
 		bool IsPick();
 		bool IsFixed();
+		bool IsTake();
 		bool IsAnimationDone();
 
 	private:

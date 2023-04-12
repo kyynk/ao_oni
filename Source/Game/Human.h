@@ -26,9 +26,12 @@ namespace game_framework{
 		};
 		Human();
 
+		void SetXYAndCol(int x, int y);
+
 		void init(int step,int offset,Direction dir);
 		
 		void OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&, vector<vector<int>>&, vector<vector<int>>&) ;
+		void OnMove();
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
