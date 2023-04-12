@@ -19,7 +19,7 @@ namespace game_framework {
 		_txtX, _txtY, _headX, _headY,
 		_nameX, _nameY, _nBoxX, _nBoxY,
 		_lineSpacing = 0;
-		_isClose = true;
+		_isShow = false;
 		_isChoose = false;
 		
 	}
@@ -137,28 +137,26 @@ namespace game_framework {
 			_choice.ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}
-	bool Dialog::isClose() {
-		return _isClose;
+	bool Dialog::isShow() {
+		return _isShow;
 	}
-	void Dialog::Show() {
-		_isClose = false;
-	}
-	void Dialog::Close() {
-		_isClose = true;
+	void Dialog::SetShow(bool close)
+	{
+		_isShow = close;
 	}
 	bool Dialog::isChoose() {
 		return _isChoose;
 	}
 	void Dialog::GetSelect(UINT nChar) {
 		_choice.OnMovingCursor(nChar);
-		if (nChar == VK_RETURN) {
+		if (nChar == VK_SPACE) {
 			switch (_choice.GetSelection()) {
 			case 0:
-				Close();
+				SetShow(false);
 				// will be done in future
 				break;
 			case 1:
-				Close();
+				SetShow(false);
 				// will be done in future
 				break;
 			}

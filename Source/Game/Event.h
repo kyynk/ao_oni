@@ -6,15 +6,20 @@ namespace game_framework {
 	public:
 		Event();
 		void debug ();
-		void SetConditionTrue();
-		void SetEvents(string evts);
+		void SetCondition(bool con);
+		void SetParam(string evtname, vector<vector<int> > blockpath, int firstindex,int count);
 		bool IsTriggered();
 		void SetTriggered(bool triggered);
 		vector<vector<int> >& GetBlockPath();
+		int GetDialogIndex();
+		int GetDialogCount();
+
 	private:
-		string _prereq;
+		string _evtname;
 		bool _condition;
 		bool _triggered;
-		vector<vector<int> > blockpath;
+		vector<vector<int> > _blockpath; // 0 = map0, 1 = map1
+		int _dialogindex;
+		int _dialogcount;
 	};
 }

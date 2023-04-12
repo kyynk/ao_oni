@@ -30,7 +30,6 @@
 namespace game_framework{
 
 	Human::Human() :Entity() {
-		SetXY(12 * TILE, 11 * TILE + TILE / 2);
 		
 		_step = 0;
 		_walkiter = true;
@@ -49,14 +48,17 @@ namespace game_framework{
 		_nowmove = none;
 		_pressing = none;
 	}
-	void Human::init(int step,int offset,Direction dir) {
-		_step = step;
-		_coroffset = offset;
-		_direction = dir;
+	void Human::SetXYAndCol(int x,int y) {
+		SetXY(x * TILE, y * TILE + TILE / 2);
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
 		_rx = _pos_x + TILE;
+	}
+	void Human::init(int step,int offset,Direction dir) {
+		_step = step;
+		_coroffset = offset;
+		_direction = dir;
 	}
 
 	void Human::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
@@ -65,27 +67,18 @@ namespace game_framework{
 			if (_pressing == isup) {
 				_pos_x = map.GetX() + _nextmapx ;
 				_pos_y = map.GetY() + _nextmapy - _coroffset - TILE;
-				//TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,1);
-				//TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,1);
-					
 			}
 			else if (_pressing == isdown) {
 				_pos_x = map.GetX() + _nextmapx;
 				_pos_y = map.GetY() + _nextmapy - _coroffset + TILE;
-				//TRACE("%d %d %d \n",_pos_x/TILE,_pos_y / TILE,2);
-				//TRACE("%d %d %d \n",_pos_x%TILE,_pos_y % TILE,2);
 			}
 			else if (_pressing == isleft) {
 				_pos_x = map.GetX() + _nextmapx - TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
-				//TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,3);
-				//TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,3);
 			}
 			else if (_pressing == isright) {
 				_pos_x = map.GetX() + _nextmapx + TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
-				//TRACE("%d %d %d \n",_pos_x / TILE,_pos_y / TILE,4);
-				//TRACE("%d %d %d \n",_pos_x % TILE,_pos_y % TILE,4);
 			}
 			_uy = _pos_y - TILE;
 			_dy = _pos_y + TILE;
@@ -194,7 +187,7 @@ namespace game_framework{
 						_lx = _pos_x - TILE;
 						_rx = _pos_x + TILE;
 						bitmap.SetTopLeft(_pos_x, _pos_y);
-						TRACE("return to grid\n");
+						//TRACE("return to grid\n");
 					}
 					_walkiter = !_walkiter;
 				}
@@ -245,6 +238,7 @@ namespace game_framework{
 			if (itercheck) {
 				for (int i = 0; i < router.GetRecord(nowID); i++) {
 					for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
+						if(router.IsPathBlocked(nowID, j)) continue;
 						if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 							NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 							_direction == left &&
@@ -295,16 +289,17 @@ namespace game_framework{
 		}
 		
 	}
+	void Human::OnMove() {
+			bitmap.SetTopLeft(_pos_x, _pos_y);
+
+	}
 	void Human::OnKeyDown(UINT nChar) {
-		//TRACE("%d %d \n", _premove, _pressing);
-		
 		if (nChar == VK_LEFT) {
 			_direction = left;
 			if (_isMapChanged) {
 				_switchMapCheck = true;
 			}
 			else {
-				//_premove = _nowmove;
 				_pressing = isleft;
 				_isleft = true;
 			}
@@ -315,7 +310,6 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				//_premove = _nowmove;
 				_pressing = isup;
 				_isup = true;
 			}
@@ -326,7 +320,6 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				//_premove = _nowmove;
 				_pressing = isright;
 				_isright = true;
 			}
@@ -338,7 +331,6 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				//_premove = _nowmove;
 				_pressing = isdown;
 				_isdown = true;
 			}

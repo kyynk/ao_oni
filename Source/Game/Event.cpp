@@ -6,22 +6,24 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include <bitset>
+#include "ChoiceMenu.h"
+#include"Dialog.h"
 #include "Event.h"
 namespace game_framework {
 	Event::Event()	{
 		_condition = false;
-		_prereq = "";
+		_evtname = "";
+		_triggered = false;
+		_dialogindex = 0;
+		_dialogcount = 0;
 	}
 	void Event::debug()	{
 		
 	}
-	void Event::SetConditionTrue() {
-		_condition = true;;
+	void Event::SetCondition(bool con) {
+		_condition = con;
 	}
-	void Event::SetEvents(string evts) {
-		_condition = false;
-		_prereq = evts;
-	}
+
 	void Event::SetTriggered(bool triggered) {
 		_triggered = triggered;
 	}
@@ -29,6 +31,18 @@ namespace game_framework {
 		return _triggered;
 	}
 	vector<vector<int> >& Event::GetBlockPath() {
-		return blockpath;
+		return _blockpath;
+	}
+	void Event::SetParam(string evtname, vector<vector<int> > blockpath, int firstindex, int count) {
+		_evtname = evtname;
+		_blockpath = blockpath;
+		_dialogindex = firstindex;
+		_dialogcount = count;
+	}
+	int Event::GetDialogIndex() {
+		return _dialogindex;
+	}
+	int Event::GetDialogCount() {
+		return _dialogcount;
 	}
 }

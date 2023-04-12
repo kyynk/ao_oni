@@ -26,6 +26,7 @@ namespace game_framework {
 		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 		//
+		_substate = startmenustate;
 		startmenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp","img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/animation/big_face.bmp" }, RGB(0, 0, 0), RGB(204, 255, 0));
 		startmenu.SetParam(SIZE_X / 2 - 75, SIZE_Y / 2 - 75, 0, 0, SIZE_X / 2 - 75 - 5, SIZE_Y / 2 - 75, 50, { "Start","Load","Close" });
 		ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
@@ -36,64 +37,87 @@ namespace game_framework {
 		}
 		start_animation.LoadBitmapByString(tmp);
 		start_animation.SetTopLeft(SIZE_X / 2 - start_animation.GetWidth() / 2, SIZE_Y / 2 - start_animation.GetHeight() / 2);
-		
+		story.SetNow(Dialog::character::none);
+		story.SetParam({ "We heard rumors about the mansion",
+			"they say on the outskirts of town...",
+			"there is a monster living here...!" }, false);
 		
 		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	}
 
 	void CGameStateInit::OnBeginState()
 	{
-		flag = 0;
+		_substate = 0;
 		start_animation.ToggleAnimation();
 	}
 
 	void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		// asdw 0x41 0x53 0x44 0x57
-		if (nChar == VK_RETURN) {
-		}
+		
 	}
 	void CGameStateInit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+		switch (_substate)
+		{
+		case startmenustate:
+			startmenu.OnMovingCursor(nChar);		
+			if (nChar == VK_RETURN) {
+				switch (startmenu.GetSelection()) {
+				case 0:
+					_substate = animationstate;
 
-		startmenu.OnMovingCursor(nChar);
-		TRACE("%x\n", nChar);
-		if (nChar == VK_RETURN) {
-			switch (startmenu.GetSelection()) {
-			case 0:
-				flag = 1;
+					break;
+				case 1:
 
-				break;
-			case 1:
+					break;
+				case 2:
 
-				break;
-			case 2:
-				//exit(0);
-
-				break;
+					break;
+				}
 			}
+			break;
+		case showstorydialogstate:
+			if (nChar == VK_ENTER) {
+				if (story.isShow()) {
+					story.SetShow(false);
+					_substate = jumpstate;
+				}
+			}
+			
+			break;
+		default:
+			break;
 		}
 	}
-
 	void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 
 	}
 	void CGameStateInit::OnShow()
 	{
-		if (flag) {
+		if (_substate == animationstate) {
 			start_animation.SetAnimation(1, true);
 			start_animation.ShowBitmap();
 			if (start_animation.IsAnimationDone()) {
-				GotoGameState(GAME_STATE_RUN);
+				_substate = showstorydialogstate;
 			}
 		}
-		else {
-			//startmenu.ShowBitmap();
+		else if (startmenustate == _substate) {
 			startmenu.ShowCursor();
-			CDC *pDC = CDDraw::GetBackCDC();
+			CDC* pDC = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 			startmenu.ShowText(pDC);
 			CDDraw::ReleaseBackCDC();
 		}
+		else if (_substate == showstorydialogstate) {
+			story.SetShow(true);
+			story.ShowTotal();
+
+		}
+		else if (jumpstate) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+	
+
+	
 	}
 }

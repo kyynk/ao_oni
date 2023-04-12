@@ -95,3 +95,4 @@ space :  when input box is enable, escape input box.
 		otherwise, if input is in the range of map index, teleport to to corresponding map
 
 */
+#define BROKEN_DISH_E 0

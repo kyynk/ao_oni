@@ -7,21 +7,14 @@
 #include "../Library/gamecore.h"
 #include <bitset>
 #include <fstream>
-#include <filesystem>
-#include <olebind.h>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
 #include "MapNode.h"
 #include "GameMap.h"
 #include "MapRouter.h"
-
 #include "mygame.h"
 
 namespace game_framework {
-
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-	/////////////////////////////////////////////////////////////////////////////
 
 	CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 	{
@@ -34,14 +27,7 @@ namespace game_framework {
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
 		ShowInitProgress(33, "loading game mid");
-		// main character
-		vector<string> playervec;
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
-			}
-		}
-		// player map x, player map y, map ID
+		// player map x, player map y, map ID bulk of craps
 		blockLeftCor.push_back({ 8,5,13 });
 		blockLeftCor.push_back({ 5,4,7 });
 		blockLeftCor.push_back({ 8,11,7 });
@@ -51,7 +37,6 @@ namespace game_framework {
 		blockLeftCor.push_back({ 10,6,23 });
 		blockLeftCor.push_back({ 2,13,54 });
 		blockLeftCor.push_back({ 2,5,56 });
-
 
 		blockRightCor.push_back({ 4,4,7 });
 		blockRightCor.push_back({ 7,11,7 });
@@ -75,17 +60,44 @@ namespace game_framework {
 		blockTeleportCor.push_back({ 4,4,55 });
 		blockTeleportCor.push_back({ 4,3,46 });
 		blockTeleportCor.push_back({ 3,2,46 });
-
-		//specialblockTN.push_back({3,9,16});
-
+		// thank god
+		// main character
+		vector<string> playervec;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
+			}
+		}
 		player.Load(playervec, RGB(204, 255, 0));
+		// other players
+		playervec.clear();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				playervec.push_back("img/mika_move/Mika_" + to_string(i) + to_string(j) + ".bmp");
+			}
+		}
+		player2.Load(playervec, RGB(204, 255, 0));
+		playervec.clear();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				playervec.push_back("img/takeshi_move/Takeshi_" + to_string(i) + to_string(j) + ".bmp");
+			}
+		}
+		player3.Load(playervec, RGB(204, 255, 0));
+		playervec.clear();
+		for (int i = 0; i < 4; i++){
+			for (int j = 0; j < 3; j++) {
+				playervec.push_back("img/takurou_move/Takuruo_" + to_string(i) + to_string(j) + ".bmp");
+			}
+		}
+		player4.Load(playervec, RGB(204, 255, 0));
 		// map resources
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
 		int count;
 		for (int i = 0; i < 12; i++) {
 			mapres_in >> name >> count;
-			ShowInitProgress(33 + i, name);
+			ShowInitProgress(33 + 2*i, name);
 			MapRes::GetInstance()->Load(name, count);
 		}
 		// map data
@@ -105,16 +117,13 @@ namespace game_framework {
 			indexlayer >> i2;
 			mapoverlayindex.push_back(i2);
 		}
-		// dialog
-		story.SetNow(Dialog::character::none);
-		story.SetParam({ "We heard rumors about the mansion",
-			"they say on the outskirts of town...",
-			"there is a monster living here...!" }, false);
-		story.Show();
-		talk.SetNow(Dialog::character::mika);
-		talk.SetParam({ "Hi", "how", "r u?" }, false);
-		useItem.SetNow(Dialog::character::hirosi);
-		useItem.SetParam({ "Do u want to use that?" }, true);
+		// dialogtest
+		
+		//talk.SetNow(Dialog::character::mika);
+		//talk.SetParam({ "Hi", "how", "r u?" }, false);
+		//useItem.SetNow(Dialog::character::hirosi);
+		//useItem.SetParam({ "Do u want to use that?" }, true);
+
 		// item
 		items.resize(30);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::itemName::toilet);
@@ -127,34 +136,23 @@ namespace game_framework {
 		items.at(KEY_LIB).SetParam(100, 0, 0, Item::itemName::key_lib);
 		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::itemName::door_knob);
 		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::itemName::door_no_knob);
+		//events
 		events.resize(30);
-		events.at(0).SetEvents( "get_dish" );
-	/*	toilet
-		tub_once
-		phillips
-		tub_fixed
-		broken_dish
-		lib_book
-		key_3F_L
-		key_lib
-		door_knob
-		door_no_knob*/
+		/*events.at(0).SetEvents( "get_dish" );
+		events.at(0).SetBlockPath({{5,12},{5,13}});
+		events.at(0).SetDialogIndexes({ 0,1 });*/
+		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
+		//dialogs
+		dialogs.resize(30);
+		dialogs.at(0).SetNow(Dialog::character::hirosi);
+		dialogs.at(0).SetParam({ "A broken plate... " }, false);
+		dialogs.at(1).SetNow(Dialog::character::hirosi);
+		dialogs.at(1).SetParam({"Get the broken plate"},false);
 
 		// objMove
 		redChair.SetParam(ObjMove::ObjType::red_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
 			16 * TILE, 9 * TILE);
-		
-		/*items.push_back(move(toilet));
-		items.push_back(move(tub_once));
-		items.push_back(move(phillips));
-		items.push_back(move(tub_fixed));
-		items.push_back(move(broken_dish));
-		items.push_back(move(lib_book));
-		items.push_back(move(key_3F_L));
-		items.push_back(move(key_lib));
-		items.push_back(move(door_knob));
-		items.push_back(move(door_no_knob));*/
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -163,13 +161,13 @@ namespace game_framework {
 		// map link data
 		router.init();
 		router.Load("map_bmp/maplink.txt");
-		router.debug();
+		//router.debug();
 
 
 	}
 	void CGameStateRun::OnBeginState()
 	{
-
+		_substate = OnWalking;
 		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
@@ -180,7 +178,15 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		_nowID = 13;
+		_dialogID = 0;
+		_dialogcount = 0;
+		_eventID = 0;
 		player.init(4, 16, Human::down);
+		player.SetXYAndCol(12, 11);
+		player2.init(-1, 16,Human::down);
+		player2.SetXYAndCol(8,15);
+
+		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
 		//items
@@ -233,6 +239,10 @@ namespace game_framework {
 		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BROKEN_DISH).OnMove();
+			
+		}
+		else if (_nowID == 20) {
+			player2.OnMove();
 		}
 		else if (_nowID == 12) {
 			items.at(LIB_BOOK).GetPlayerPos(player.GetX(), player.GetY());
@@ -276,21 +286,27 @@ namespace game_framework {
 		else {
 			oni1.OnMove(gamemaps.at(_nowID));
 		}
-		for (auto f : events) {
-			bool checkevent = true;
-					
-		}
+		
 	}
 
 
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-
-		if (inputbox.IsWrite()) {
+		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
+			if (nChar == VK_SPACE) { // press "space" close dialog
+				if (inputbox.isInteger()) {
+					int index = stoi(string(inputbox.GetString()));
+					if (index >= 0 && index <= 64) {
+						_nowID = index;
+					}
+				}
+				_substate = OnWalking;
+			}
 		}
-		else {
+		
+		else if(_substate == OnWalking){
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
 					//TRACE("%d %d \n", player.GetX(), player.GetY());
@@ -335,48 +351,40 @@ namespace game_framework {
 					}
 
 				}
+				if (nChar == KEY_W) {
+					_substate = OnInputBox;
+					inputbox.ClearBuffer();
+					inputbox.TimerStart();
+					inputbox.ToggleBox();
+				}
 			}
 			if (nChar == KEY_Y) {
 				isdebugmode = !isdebugmode;
 			}
-			if (nChar == KEY_W) {
-				inputbox.ClearBuffer();
-				inputbox.TimerStart();
-				inputbox.ToggleBox();
-			}
 			if (nChar == KEY_Q) {
 				GotoGameState(GAME_STATE_OVER);
 			}
-			if (nChar == KEY_U) { // press "U" show dialog -> if finish item control will optimize
-				talk.Show();
-			}
-			if (nChar == KEY_P) { // press "P" show dialog -> if finish item control will optimize
-				useItem.Show();
-			}
-			if (nChar == VK_SPACE) { // press "space" close dialog
-				if (inputbox.isInteger()) {
-					int index = stoi(string(inputbox.GetString()));
-					if (index >= 0 && index <= 64) {
-						_nowID = index;
-					}
-				}
-				if (!story.isClose()) {
-					story.Close();
-				}
-				talk.Close();
-
-			}
-		}
-		if (talk.isClose() && useItem.isClose()) { // if dialog is on, player can't move
+			
 			player.OnKeyDown(nChar);
+			
+				/*if (story.isShow()) {
+					story.SetShow(false);
+				}*/
+				/*if (talk.isShow()) {
+					talk.SetShow(false);
+				}
 
-			//test Item
+				if (dialogs.at(_dialogID).isShow()) {
+					dialogs.at(_dialogID).SetShow(false);
+				}*/
+		//if (!talk.isShow() && !useItem.isShow()) { // if dialog is on, player can't move
+
+		//test Item
 			if (_nowID == 19) {
 				items.at(TOILET).OnKeyDown(nChar);
 			}
 			else if (_nowID == 18) {
 				if (!items.at(TUB_ONCE).IsFixed()) {
-					//TRACE("\n\nhhhhh\n\n");
 					items.at(TUB_ONCE).OnKeyDown(nChar);
 					if (nChar != VK_SPACE)
 						items.at(PHILLIPS).OnKeyDown(nChar);
@@ -416,22 +424,46 @@ namespace game_framework {
 					items.at(DOOR_NO_KNOB).OnKeyDown(nChar);
 			}
 		}
-		if (!useItem.isClose()) {
-			useItem.GetSelect(nChar);
-		}
+		else if (_substate == OnDialogs) {
+			if (nChar == VK_SPACE){
+				//dialogs.at(_dialogID).isShow() ? TRACE("a\n") : TRACE("b\n");
+				TRACE("%d %d  %d\n", events.at(_eventID).GetDialogCount(), _dialogcount,_dialogID);
+				if (events.at(_eventID).GetDialogCount() == _dialogcount) {
+					dialogs.at(_dialogID).SetShow(false);
+					//TRACE("end\n");
+					_substate = OnWalking;
+				}
+				else {
+					dialogs.at(_dialogID).SetShow(false);
+					_dialogID += 1;
+					_dialogcount += 1;
+					if (events.at(_eventID).GetDialogCount() != _dialogcount) {
+						dialogs.at(_dialogID).SetShow(true);
+					}
+					else {
+						dialogs.at(_dialogID).SetShow(false);
+						//TRACE("end\n");
+						_substate = OnWalking;
+					}
 
+					TRACE("next\n");
+				}
+			}
+		}
 	}
 
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		if (talk.isClose() && useItem.isClose()) {
+		//if (!talk.isShow() && !useItem.isShow()) {
+		if (_substate == OnWalking) {
 			player.OnKeyUp(nChar);
 			if (_nowID == 14) {
 				redChair.OnKeyUp(nChar);
 			}
 		}
 	}
+	//}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
@@ -443,11 +475,8 @@ namespace game_framework {
 				tileplaceholder.SetTopLeft(mousex_foc * TILE, mousey_foc * TILE);
 				if (istwoway != 0) {
 					twowayvec.push_back(istwoway);
-					//bsvec.push_back(isbs);
 					(istwoway == 1) ? TRACE("push twoway {%d} true\n", istwoway) : TRACE("push twoway {%d} false\n", istwoway);
-					//(isbs == 1) ? TRACE("push bs {%d} true \n", isbs) : TRACE("push bs {%d} false \n", isbs);
 					istwoway = 0;
-					//isbs = 0;
 				}
 				pointvec.push_back(_nowID);
 				pointvec.push_back(mousex_foc * TILE - gamemaps.at(_nowID).GetX());
@@ -500,174 +529,174 @@ namespace game_framework {
 	{
 
 	}
-
-
-
 	void CGameStateRun::OnShow()
 	{
-		if (!story.isClose()) {
-			story.ShowTotal();
-		}
-		if (story.isClose()) {
-			///////////////////// debug section
-			//
-			string maplink = "map_bmp/maplink.txt";
-			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
-			// test Item
-			if (_nowID == 19) {
-				items.at(TOILET).OnShow();
-			}
-			else if (_nowID == 18) {
-				if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
-					//(items.at(TUB_ONCE).IsAnimationDone()) ? TRACE("\n\n\naaaaaaaaaaa\n\n") : TRACE("\n\n\asdsdfdfdsadfsdfdd\n\n");
-					items.at(TUB_ONCE).OnShow();
-				}
-				if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
-					items.at(PHILLIPS).OnShow();
-				}
-				if (items.at(PHILLIPS).IsPick()) {
-					items.at(TUB_FIXED).OnShow();
-				}
-			}
-			else if (_nowID == 11) {
-				items.at(BROKEN_DISH).OnShow();
-			}
-			else if (_nowID == 12) {
-				items.at(LIB_BOOK).OnShow();
-				if (items.at(LIB_BOOK).IsFixed())
-					items.at(KEY_3F_L).OnShow();
-			}
-			else if (_nowID == 14) {
-				redChair.OnShow();
-				if (redChair.IsFixed())
-					items.at(KEY_LIB).OnShow();
-			}
-			else if (_nowID == 15) {
-				if (!items.at(DOOR_KNOB).IsPick())
-					items.at(DOOR_KNOB).OnShow();
-				if (items.at(DOOR_KNOB).IsPick())
-					items.at(DOOR_NO_KNOB).OnShow();
-			}
-			// test Item end
-			if (isedit && !ofs.is_open()) {
-				ofs.open(maplink, std::ios::app);
-				if (!ofs.is_open()) {
-					TRACE("Failed to open file.\n");
-					throw std::invalid_argument("open failed");
-				}
-				TRACE("open maplink.txt\n");
-			}
-			if (ofs.is_open() && !isedit) {
-
-				int i = 1;
-				int j = 0;
-				int k = 0;
-				for (auto f : pointvec) {
-					if (i % 6 == 1) {
-						ofs << twowayvec[j++];
-						ofs << " ";
-						//ofs << bsvec[k++];
-						//ofs << " ";
-					}
-					ofs << f;
-					if (i % 6 == 0) {
-						ofs << "\n";
-					}
-					else {
-						ofs << " ";
-					}
-					i++;
-				}
-				ofs.close();
-				twowayvec.clear();
-				pointvec.clear();
-				//bsvec.clear();
-				TRACE("twowayvec & pointtmp & bsvec cleared \n");
-				ifstream file(maplink);
-				string content;
-				string line;
-				int lineNumber = 0;
-				while (getline(file, line)) {
-					lineNumber++;
-					if(lineNumber!=1)content += line + "\n";
-				}
-				file.close();
-				TRACE("link number : %d\n", lineNumber-1);
-				// Write the modified content back to the file
-				ofstream outputFile(maplink,ios::trunc);
-				outputFile << lineNumber -1 <<"\n";
-				outputFile << content;
-				outputFile.close();
-				TRACE("close\n");
-			}
-
-			inputbox.Show();
-			if (isteleportblock) {
-				for (int i = 0; i < router.GetRecord(_nowID); i++) {
-					for (int j = 0; j < router.GetNowMapPortal(_nowID)[i].GetSize(); j++) {
-						tileplaceholder.SetTopLeft(router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetW()+gamemaps.at(_nowID).GetX(), router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetX() + gamemaps.at(_nowID).GetY());
-						tileplaceholder.ShowBitmap();
-					}
-				}
-			}
-			gamemaps.at(_nowID).ShowTileIndexLayer();
-			if (isgrid) {
-				grid.ShowBitmap();
-			}
-			if (isedit) {
-				tileplaceholder.ShowBitmap();
-			}
-
-			CDC *pDC = CDDraw::GetBackCDC();
-			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			if (!isdebugmode) {
-				CTextDraw::Print(pDC, 0, 0, "use KEY_Y to activate debug mode" );
-			}
-			else {
-				CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID) + "  " + gamemaps.at(_nowID).GetName());
-				(isedit) ? CTextDraw::Print(pDC, 0, TILE, "edit mode: true") : CTextDraw::Print(pDC, 0, TILE, "edit mode: false");
-
-				CTextDraw::Print(pDC, 0, TILE * 2, "mouse window tile coordinate : " + to_string(mousex) + "  " + to_string(mousey));
-				CTextDraw::Print(pDC, 0, TILE * 3, "mouse map tile coordinate : " + to_string(mousex - gamemaps.at(_nowID).GetX() / TILE) + "  " + to_string(mousey - gamemaps.at(_nowID).GetY() / TILE));
-
-				CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE));
-				CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX() / TILE) + " " + to_string(player.GetY() / TILE));
-				CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
-				CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
-				CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
-					to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +
-					"    " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetR() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)
-					));
-				CTextDraw::Print(pDC, 0, TILE * 19, "    down           :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE)));
-				(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
-				//(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
-
-				int len = int(pointvec.size());
-				if (len % 6 == 0 && len != 0) {
-					CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 6]) + "  " + to_string(pointvec[len - 5]) + "  " + to_string(pointvec[len - 4]) + "  tile x:  " + to_string(pointvec[len - 5] / TILE) + "  tile y:  " + to_string(pointvec[len - 4] / TILE));
-					CTextDraw::Print(pDC, 0, TILE * 21, "point2  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
-
-				}
-				else if (len % 3 == 0 && len != 0) {
-					CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
-				}
-			}
-			CDDraw::ReleaseBackCDC();
-			//////////////////////// debug section end
-			
-			//oni1.OnShow();
+		gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
 		
-
-			if (!talk.isClose()) {
-				talk.ShowTotal();
-			}
-			if (!talk.isClose()) {
-				talk.ShowTotal();
-			}
-			if (!useItem.isClose()) {
-				useItem.ShowTotal();
+		if (_nowID == 11) {
+			items.at(BROKEN_DISH).OnShow();
+			if (items.at(BROKEN_DISH).IsTake()&& !events.at(BROKEN_DISH_E).IsTriggered()) {
+				events.at(BROKEN_DISH_E).SetTriggered(true);
+				dialogs.at(_dialogID).SetShow(true);
+				_substate = OnDialogs;
 			}
 		}
-	}
+		else if (_nowID == 12) {
+			items.at(LIB_BOOK).OnShow();
+			if (items.at(LIB_BOOK).IsFixed()) {
+				items.at(KEY_3F_L).OnShow();
+			}
+		}
+		else if (_nowID == 14) {
+			redChair.OnShow();
+			if (redChair.IsFixed())
+				items.at(KEY_LIB).OnShow();
+		}
+		else if (_nowID == 15) {
+			if (!items.at(DOOR_KNOB).IsPick())
+				items.at(DOOR_KNOB).OnShow();
+			if (items.at(DOOR_KNOB).IsPick())
+				items.at(DOOR_NO_KNOB).OnShow();
+		}
+		else if (_nowID == 18) {
+			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(TUB_ONCE).OnShow();
+			}
+			if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(PHILLIPS).OnShow();
+			}
+			if (items.at(PHILLIPS).IsPick()) {
+				items.at(TUB_FIXED).OnShow();
+			}
+		}
+		else if (_nowID == 19) {
+			items.at(TOILET).OnShow();
+		}
+		else if (_nowID == 20) {
+			player2.OnShow();
+		}
+		
+		for (int i = 0;i < 30;i++) {
+			if (dialogs.at(i).isShow()) {
+				dialogs.at(i).ShowTotal();
+			}
+		}
+		
+		/*if (talk.isShow()) {
+			talk.ShowTotal();
+		}
+		
+		if (useItem.isShow()) {
+			useItem.ShowTotal();
+		}*/
+		DeBugRecursive();
 
+	}
+	void CGameStateRun::DeBugRecursive() {
+		string maplink = "map_bmp/maplink.txt";
+		if (isedit && !ofs.is_open()) {
+			ofs.open(maplink, std::ios::app);
+			if (!ofs.is_open()) {
+				TRACE("Failed to open file.\n");
+				throw std::invalid_argument("open failed");
+			}
+			TRACE("open maplink.txt\n");
+		}
+		if (ofs.is_open() && !isedit) {
+
+			int i = 1;
+			int j = 0;
+			int k = 0;
+			for (auto f : pointvec) {
+				if (i % 6 == 1) {
+					ofs << twowayvec[j++];
+					ofs << " ";
+					//ofs << bsvec[k++];
+					//ofs << " ";
+				}
+				ofs << f;
+				if (i % 6 == 0) {
+					ofs << "\n";
+				}
+				else {
+					ofs << " ";
+				}
+				i++;
+			}
+			ofs.close();
+			twowayvec.clear();
+			pointvec.clear();
+			//bsvec.clear();
+			TRACE("twowayvec & pointtmp & bsvec cleared \n");
+			ifstream file(maplink);
+			string content;
+			string line;
+			int lineNumber = 0;
+			while (getline(file, line)) {
+				lineNumber++;
+				if (lineNumber != 1)content += line + "\n";
+			}
+			file.close();
+			TRACE("link number : %d\n", lineNumber - 1);
+			// Write the modified content back to the file
+			ofstream outputFile(maplink, ios::trunc);
+			outputFile << lineNumber - 1 << "\n";
+			outputFile << content;
+			outputFile.close();
+			TRACE("close\n");
+		}
+
+		inputbox.Show();
+		if (isteleportblock) {
+			for (int i = 0; i < router.GetRecord(_nowID); i++) {
+				for (int j = 0; j < router.GetNowMapPortal(_nowID)[i].GetSize(); j++) {
+					tileplaceholder.SetTopLeft(router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetW() + gamemaps.at(_nowID).GetX(), router.GetNowMapPortal(_nowID)[i].GetPointByIndex(j).GetX() + gamemaps.at(_nowID).GetY());
+					tileplaceholder.ShowBitmap();
+				}
+			}
+		}
+		gamemaps.at(_nowID).ShowTileIndexLayer();
+		if (isgrid) {
+			grid.ShowBitmap();
+		}
+		if (isedit) {
+			tileplaceholder.ShowBitmap();
+		}
+		CDC* pDC = CDDraw::GetBackCDC();
+		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+		if (!isdebugmode) {
+			CTextDraw::Print(pDC, 0, 0, "use KEY_Y to activate debug mode");
+		}
+		else {
+			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID) + "  " + gamemaps.at(_nowID).GetName());
+			(isedit) ? CTextDraw::Print(pDC, 0, TILE, "edit mode: true") : CTextDraw::Print(pDC, 0, TILE, "edit mode: false");
+
+			CTextDraw::Print(pDC, 0, TILE * 2, "mouse window tile coordinate : " + to_string(mousex) + "  " + to_string(mousey));
+			CTextDraw::Print(pDC, 0, TILE * 3, "mouse map tile coordinate : " + to_string(mousex - gamemaps.at(_nowID).GetX() / TILE) + "  " + to_string(mousey - gamemaps.at(_nowID).GetY() / TILE));
+
+			CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE));
+			CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX() / TILE) + " " + to_string(player.GetY() / TILE));
+			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
+			CTextDraw::Print(pDC, 0, TILE * 7, "player tile coordinate on window: " + to_string(player2.GetX() / TILE) + " " + to_string(player2.GetY() / TILE));
+			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
+			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
+				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +
+				"    " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetR() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)
+				));
+			CTextDraw::Print(pDC, 0, TILE * 19, "    down           :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE)));
+			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
+			//(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
+
+			int len = int(pointvec.size());
+			if (len % 6 == 0 && len != 0) {
+				CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 6]) + "  " + to_string(pointvec[len - 5]) + "  " + to_string(pointvec[len - 4]) + "  tile x:  " + to_string(pointvec[len - 5] / TILE) + "  tile y:  " + to_string(pointvec[len - 4] / TILE));
+				CTextDraw::Print(pDC, 0, TILE * 21, "point2  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
+
+			}
+			else if (len % 3 == 0 && len != 0) {
+				CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
+			}
+		}
+		CDDraw::ReleaseBackCDC();
+	}
 };

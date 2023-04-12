@@ -40,31 +40,7 @@ namespace game_framework {
 	{
 		return _istimerstart;
 	}
-	/*bool Entity::UBlocked()
-	{
-		return MapRouter::GetInstance()->IsInBanlist(_pos_x/TILE, _uy / TILE);
-	}
-	bool Entity::DBlocked()
-	{
-		return MapRouter::GetInstance()->IsInBanlist(_pos_x / TILE, _dy / TILE);
-	}
-	bool Entity::LBlocked()
-	{
-		return MapRouter::GetInstance()->IsInBanlist(_lx / TILE, _pos_y / TILE);
-	}
-	bool Entity::RBlocked()
-	{
-		return MapRouter::GetInstance()->IsInBanlist(_rx / TILE,_pos_y / TILE);
-	}*/
-	//void Entity::OnMove()
-	//{
-	//}
-	//void Entity::OnShow()
-	//{
-	//}
-	//void Entity::Load()
-	//{
-	//}
+	
 	void Entity::SelectShowBitmap(int index) {
 		bitmap.SetFrameIndexOfBitmap(index);
 	}
