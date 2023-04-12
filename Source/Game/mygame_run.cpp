@@ -87,7 +87,7 @@ namespace game_framework {
 		playervec.clear();
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/takurou_move/Takuruo_" + to_string(i) + to_string(j) + ".bmp");
+				playervec.push_back("img/takuruo_move/Takuruo_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
 		player4.Load(playervec, RGB(204, 255, 0));
@@ -185,7 +185,10 @@ namespace game_framework {
 		player.SetXYAndCol(12, 11);
 		player2.init(-1, 16,Human::down);
 		player2.SetXYAndCol(8,15);
-
+		player3.init(-1, 16, Human::down);
+		player3.SetXYAndCol(11,11);
+		player4.init(-1, 16, Human::down);
+		player4.SetXYAndCol(10, 11);
 		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
 		oni1.SetParam(Oni::OniType::normal, 4, 8);
 		redChair.Reset();
@@ -243,6 +246,10 @@ namespace game_framework {
 		}
 		else if (_nowID == 20) {
 			player2.OnMove();
+		}
+		else if (_nowID == 13) {
+			player3.OnMove();
+			player4.OnMove();
 		}
 		else if (_nowID == 12) {
 			items.at(LIB_BOOK).GetPlayerPos(player.GetX(), player.GetY());
@@ -547,6 +554,10 @@ namespace game_framework {
 				items.at(KEY_3F_L).OnShow();
 			}
 		}
+		else if (_nowID == 13) {
+			player3.OnShow();
+			player4.OnShow();
+		}
 		else if (_nowID == 14) {
 			redChair.OnShow();
 			if (redChair.IsFixed())
@@ -677,7 +688,6 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX() / TILE) + " " + to_string(player.GetY() / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
-			CTextDraw::Print(pDC, 0, TILE * 7, "player tile coordinate on window: " + to_string(player2.GetX() / TILE) + " " + to_string(player2.GetY() / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
 			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +
