@@ -35,18 +35,14 @@ namespace game_framework {
 	void GameMap::ShowMapAll(Human &humanobj,Oni &oniobj,int overlayindex) {
 		int humany = (humanobj.GetY()-_pos_y)/TILE;
 		int oniy = (oniobj.GetPosY()- _pos_y)/TILE+3;
-		int humanya = humanobj.GetY()& TILE;
-		int oniya = oniobj.GetPosY()&TILE;
-
-		//TRACE("%d %d %d %d \n",humany,oniy, humanya, oniya);
 		if (_ID == 0) {
-			bool f1 = true;
-			bool f2 = true;
+			bool ishumanshowed = true;
+			bool isonishowed = true;
 			for (int i = 1;i < _layer;i++) {
 				ShowMap(i);
 
-				if (i == 2&&(f1 ||f2)) {
-					if (humany < 8 && oniy < 8 && f1 && f2) {
+				if (i == 2&&(ishumanshowed ||isonishowed)) {
+					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -55,20 +51,20 @@ namespace game_framework {
 							oniobj.OnShow();
 							humanobj.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 8 && f1) {
+					else if (humany < 8 && ishumanshowed) {
 						humanobj.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 					}
-					else if (oniy < 8 && f2) {
+					else if (oniy < 8 && isonishowed) {
 						oniobj.OnShow();
-						f2 = false;
+						isonishowed = false;
 					}
 				}
-				else if (i == 3 && (f1 || f2)) {
-					if (humany < 13 && oniy < 13 && f1 && f2) {
+				else if (i == 3 && (ishumanshowed || isonishowed)) {
+					if (humany < 13 && oniy < 13 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -77,22 +73,22 @@ namespace game_framework {
 							oniobj.OnShow();
 							humanobj.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 13 && f1 ) {
+					else if (humany < 13 && ishumanshowed ) {
 						humanobj.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (oniy < 13 && f2) {
+					else if (oniy < 13 && isonishowed) {
 						oniobj.OnShow();
-						f2 = false;
+						isonishowed = false;
 
 					}
 				}
-				else if( i==4 && (f1 || f2)){
-					if (f1 && f2) {
+				else if( i==4 && (ishumanshowed || isonishowed)){
+					if (ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							humanobj.OnShow();
 							oniobj.OnShow();
@@ -101,17 +97,17 @@ namespace game_framework {
 							oniobj.OnShow();
 							humanobj.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (f1) {
+					else if (ishumanshowed) {
 						humanobj.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (f2) {
+					else if (isonishowed) {
 						oniobj.OnShow();
-						f2 = false;
+						isonishowed = false;
 
 					}
 				}
@@ -253,12 +249,12 @@ namespace game_framework {
 				if (i == overlayindex) {
 					if (oniobj.GetPosD() > humanobj.GetD()) {
 
-						oniobj.OnShow();
 						humanobj.OnShow();
+						oniobj.OnShow();
 					}
 					else {
-						humanobj.OnShow();
 						oniobj.OnShow();
+						humanobj.OnShow();
 
 					}
 				}
@@ -334,8 +330,6 @@ namespace game_framework {
 		
 		if (layer < 0 || layer >= _layer || bx < 0 || bx >= _width || by < 0 || by >= _height) {
 
-			// TRACE("%d %d %d out of range u fucking dunky\n", layer, bx, by);
-			// TRACE("this map %d %d %d\n", _layer, _width, _height);
 			return -87;
 		}
 		else {
