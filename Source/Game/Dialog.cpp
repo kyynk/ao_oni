@@ -149,7 +149,7 @@ namespace game_framework {
 	}
 	void Dialog::GetSelect(UINT nChar) {
 		_choice.OnMovingCursor(nChar);
-		if (nChar == VK_SPACE) {
+		if (nChar == VK_RETURN) {
 			switch (_choice.GetSelection()) {
 			case 0:
 				SetShow(false);

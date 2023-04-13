@@ -116,7 +116,7 @@ namespace game_framework {
 			bitmapName.push_back("img/item/hankati.bmp");
 		}
 		else if (_name == detergent) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) { // actually only need detergent0.bmp
 				bitmapName.push_back("img/item_animation/detergent/detergent" + to_string(i) + ".bmp");
 			}
 		}
@@ -128,7 +128,12 @@ namespace game_framework {
 		else if (_name == door_no_knob) {
 			bitmapName.push_back("img/item_animation/doorknob/nodoorknob.bmp");
 		}
-		else if (_name == tatami) {
+		else if (_name == tatami_l) {
+			for (int i = 2; i > -1; i--) {
+				bitmapName.push_back("img/item_animation/tatami/tatami" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == tatami_r) {
 			for (int i = 0; i < 3; i++) {
 				bitmapName.push_back("img/item_animation/tatami/tatami" + to_string(i) + ".bmp");
 			}
@@ -246,18 +251,16 @@ namespace game_framework {
 					utiltriggers[3] = true;
 				}
 				// tatami leftside
-				else if (_name == lighter && utiltriggers[6] && !utiltriggers[3]) {
-					if (!utiltriggers[1]) {
-						if (_playerX + TILE == _pos_x + _boxX && _playerY - TILE == _pos_y + _boxY) {
-							utiltriggers[3] = true;
-						}
+				else if (_name == lighter && !utiltriggers[3]) {
+					if (utiltriggers[1]) {
+						SetTrigger();
+						// will optimize Animation
+						Animation(0, 0); // open
+						utiltriggers[1] = false;
 					}
 					else {
-						if (utiltriggers[1]) {
-							SetTrigger();
-							// will optimize Animation
-							Animation(0, 0); // open
-							utiltriggers[1] = false;
+						if (_playerX == _pos_x + _boxX && _playerY - TILE == _pos_y + _boxY) {
+							utiltriggers[3] = true;
 						}
 						else {
 							SetTrigger();
@@ -299,17 +302,28 @@ namespace game_framework {
 					}
 				}
 				// door_no_knob only need to show, no interact
-				//tatami
-				else if (_name == tatami) {
+				// tatami_l is tatami_r reverse(bitmap order)
+				else if (_name == tatami_l) {
 					if (utiltriggers[1]) {
 						SetTrigger();
-						// will optimize Animation
+						Animation(0, 0); // close
+						utiltriggers[1] = false;
+					}
+					else {
+						SetTrigger();
+						Animation(1, 2); // open
+						utiltriggers[1] = true;
+					}
+				}
+				// tatami
+				else if (_name == tatami_r) {
+					if (utiltriggers[1]) {
+						SetTrigger();
 						Animation(0, 0); // open
 						utiltriggers[1] = false;
 					}
 					else {
 						SetTrigger();
-						// will optimize Animation
 						Animation(1, 2); // close
 						utiltriggers[1] = true;
 					}
