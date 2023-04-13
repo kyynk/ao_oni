@@ -136,6 +136,7 @@ namespace game_framework {
 		items.at(DETERGENT).SetParam(-1, 0, 0, Item::itemName::detergent);
 		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
 		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
+		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		//events
 		events.resize(30);
 		/*events.at(0).SetEvents( "get_dish" );
@@ -218,6 +219,7 @@ namespace game_framework {
 		items.at(DETERGENT).SetXY(11 * TILE, 9 * TILE);
 		items.at(KEY_BASEMENT).SetXY(12 * TILE, 11 * TILE);
 		items.at(GATE).SetXY(10 * TILE, 12 * TILE);
+		items.at(GATE2).SetXY(14 * TILE, 11 * TILE);
 		//items end
 		//event
 		
@@ -233,7 +235,11 @@ namespace game_framework {
 		}
 		player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		// Item
-		if (_nowID == 10) {
+		if (_nowID == 3) {
+			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE2).OnMove();
+		}
+		else if (_nowID == 10) {
 			items.at(TATAMI_R).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(TATAMI_R).OnMove();
 			items.at(LIGHTER).GetPlayerPos(player.GetX(), player.GetY());
@@ -404,7 +410,10 @@ namespace game_framework {
 		// if dialog is on, player can't move
 
 		// Item
-			if (_nowID == 10) {
+			if (_nowID == 3) {
+				items.at(GATE2).OnKeyDown(nChar);
+			}
+			else if (_nowID == 10) {
 				items.at(LIGHTER).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
 					items.at(TATAMI_L).OnKeyDown(nChar);
@@ -570,7 +579,10 @@ namespace game_framework {
 	void CGameStateRun::OnShow()
 	{
 		gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
-		if (_nowID == 10) {
+		if (_nowID == 3) {
+			items.at(GATE2).OnShow();
+		}
+		else if (_nowID == 10) {
 			items.at(LIGHTER).OnShow();
 			items.at(TATAMI_R).OnShow();
 			if (items.at(LIGHTER).IsPick()) {

@@ -30,7 +30,7 @@ namespace game_framework {
 			door_no_knob,
 			tatami_l,				 //v
 			tatami_r,				 //v
-			gate, 
+			gate,					 //v
 			toilet					 //v
 		};
 		Item();

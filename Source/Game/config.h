@@ -85,6 +85,7 @@
 #define DETERGENT 13
 #define KEY_BASEMENT 14
 #define GATE 15
+#define GATE2 16
 
 /*
 debug mode
