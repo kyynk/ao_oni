@@ -76,9 +76,11 @@ namespace game_framework {
 		move _pressing;
 		itemName _name;
 		// pick -> disappear, take -> leave
-		bool _triggered, _close, 
-			_press, _pick, _fixed, 
-			_take, _onCorrectPos, 
-			_useItem;
+		// index for bool (under)
+		// _triggered, _close, _press, _pick, 
+		// _fixed, _take, _onCorrectPos, _useItem
+		vector<bool> utiltriggers = {
+		false, true, false, false, false, 
+		false, false, false};
 	};
 }
