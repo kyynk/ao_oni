@@ -163,7 +163,15 @@ namespace game_framework {
 		router.Load("map_bmp/maplink.txt");
 		//router.debug();
 
-
+		// oni
+		/*
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetParam(Oni::OniType::mika, 4, 8);
+		oni1.SetParam(Oni::OniType::takesi, 4, 8);
+		oni1.SetParam(Oni::OniType::takurou, 4, 8);
+		oni1.SetParam(Oni::OniType::flat, 4, 8);
+		*/
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -190,7 +198,7 @@ namespace game_framework {
 		player4.init(-1, 16, Human::down);
 		player4.SetXYAndCol(10, 11);
 		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetPos(11 * TILE, 13 * TILE);
 		redChair.Reset();
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
