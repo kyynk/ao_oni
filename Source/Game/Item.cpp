@@ -157,6 +157,7 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int Item::GetPosY() {
+		if (_name == gate) return _pos_y + _boxY;
 		return _pos_y;
 	}
 	int Item::GetPosL() {
@@ -179,13 +180,13 @@ namespace game_framework {
 		int x = _pos_x + _boxX;
 		//TRACE("asdsad\n");
 		int y = _pos_y + _boxY;
-		if (_playerX + 32 == _pos_x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isright)
+		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isright)
 			_move = isright;
-		else if (_playerX - 32 == x && (_playerY >= _pos_y && _playerY <= y) && _pressing == isleft)
+		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isleft)
 			_move = isleft;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + 32 == _pos_y && _pressing == isdown)
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == isdown)
 			_move = isdown;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - 32 == y && _pressing == isup)
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == isup)
 			_move = isup;
 		else
 			_move = none;
@@ -198,7 +199,7 @@ namespace game_framework {
 	}
 	void Item::OnMove() { // actually is action function
 		if (utiltriggers[2]) {
-			TRACE("\n\nitem press\n\n");
+			//TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
 			if (Collide()) {
 				// on lib
 				if (_name == lib_book && !utiltriggers[4]) {
@@ -330,8 +331,11 @@ namespace game_framework {
 				}
 				// jail
 				else if (_name == gate) {
+					TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
 					if (utiltriggers[1]) {
-						if (_playerX == _pos_x && (_playerY - TILE == _pos_y + _boxY || _playerY + TILE == _pos_y + _boxY)) {
+						if (_playerX == _pos_x && 
+							(_playerY - TILE == _pos_y + _boxY || 
+								_playerY + TILE == _pos_y + _boxY)) {
 							SetTrigger();
 							// will optimize Animation
 							Animation(2, 1); // open
@@ -339,7 +343,9 @@ namespace game_framework {
 						}
 					}
 					else {
-						if (_playerX == _pos_x + _boxX && (_playerY - TILE == _pos_y + _boxY || _playerY + TILE == _pos_y + _boxY)) {
+						if (_playerX == _pos_x + _boxX && 
+							(_playerY - TILE == _pos_y + _boxY || 
+								_playerY + TILE == _pos_y + _boxY)) {
 							SetTrigger();
 							// will optimize Animation
 							Animation(2, 0); // close
