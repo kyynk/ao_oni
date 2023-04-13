@@ -76,7 +76,7 @@ namespace game_framework {
 			}
 			break;
 		case showstorydialogstate:
-			if (nChar == VK_ENTER) {
+			if (nChar == VK_SPACE) {
 				if (story.isShow()) {
 					story.SetShow(false);
 					_substate = jumpstate;
