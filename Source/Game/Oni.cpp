@@ -28,7 +28,6 @@
 
 namespace game_framework {
 	Oni::Oni() {
-		SetXY(0, 0);
 		_type = normal;
 		ResetOT();
 		_humanX, _humanY, _step, 
@@ -50,33 +49,49 @@ namespace game_framework {
 		string name;
 		if (_type == normal) {
 			name = "oni_";
-			_offsetX = 32;
+			_offsetX = 0;
 			_offsetY = 80;
 		}
 		else if (_type == mika) {
 			name = "mika_";
-			_offsetX = 32;
+			_offsetX = 0;
 			_offsetY = 80;
+		}
+		else if (_type == takesi) {
+			name = "takesi_";
+			_offsetX = 0;
+			_offsetY = 80;
+		}
+		else if (_type == takurou) {
+			name = "takurou_";
+			_offsetX = 0;
+			_offsetY = 80;
+		}
+		else if (_type == flat) {
+			name = "flat_";
+			_offsetX = 0;
+			_offsetY = 48;
 		}
 		Load(name, RGB(204, 255, 0));
 	}
 	void Oni::SetPos(int x, int y) {
-		SetXY(x, y - _offsetY);
+		SetXY(x - TILE / 2, y - _offsetY);
+
 	}
 	int Oni::GetPosX() {
-		return _pos_x;
+		return _pos_x + TILE / 2;
 	}
 	int Oni::GetPosY() {
 		return _pos_y;
 	}
 	int Oni::GetPosL() {
-		return _pos_x - TILE;
+		return _pos_x + TILE / 2 - TILE;
 	}
 	int Oni::GetPosU() {
 		return _pos_y + _offsetY - TILE;
 	}
 	int Oni::GetPosR() {
-		return _pos_x + _offsetX + TILE;
+		return _pos_x + TILE / 2 + _offsetX + TILE;
 	}
 	int Oni::GetPosD() {
 		return _pos_y + _offsetY + TILE;
@@ -151,14 +166,14 @@ namespace game_framework {
 		else { TRACE("\n\n oni no lll \n\n"); }
 		if (rightmovable) { TRACE("\n\n oni rrr \n\n"); }
 		else { TRACE("\n\n oni no rrr \n\n"); }*/
-		int xLen1 = _pos_x - _humanX;
-		int xLen2 = _pos_x + _offsetX - _humanX;
+		int xLen1 = _pos_x + TILE / 2 - _humanX;
+		int xLen2 = _pos_x + TILE / 2 + _offsetX - _humanX;
 		int yLen = _pos_y + _offsetY - _humanY;
 		int xLen;
-		if (_pos_x <= _humanX && _humanX <= _pos_x + _offsetX) xLen = 0;
+		if (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2 + _offsetX) xLen = 0;
 		else if (abs(xLen1) < abs(xLen2)) xLen = xLen1;
 		else xLen = xLen2;
-		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
+		TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
 		//xLen = xLen1;
 		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
 		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
@@ -300,7 +315,7 @@ namespace game_framework {
 		return _wait;
 	}
 	bool Oni::isCatch() {
-		return (_pos_x <= _humanX && _humanX <= _pos_x + _offsetX )
+		return (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2 + _offsetX )
 			&& _pos_y + _offsetY == _humanY;
 	}
 	void Oni::SetVanish() {
