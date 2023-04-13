@@ -1,17 +1,8 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
-#include <fstream>
-#include "ChoiceMenu.h"
-#include "Dialog.h"
-#include "MapNode.h"
-#include "GameMap.h"
-#include "MapRouter.h"
 #include "mygame.h"
 
 namespace game_framework {

@@ -1,31 +1,17 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "config.h"
-#include "MapNode.h"
-#include "GameMap.h"
-#include "MapRouter.h"
-#include <bitset>
 #include "mygame.h"
 
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// 這個class為遊戲的遊戲開頭畫面物件
-	/////////////////////////////////////////////////////////////////////////////
-
 	CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 	{
 	}
 
 	void CGameStateInit::OnInit()
 	{
-		// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
-		//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
-		//
 		_substate = startmenustate;
 		startmenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp","img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/animation/big_face.bmp" }, RGB(0, 0, 0), RGB(204, 255, 0));
 		startmenu.SetParam(SIZE_X / 2 - 75, SIZE_Y / 2 - 75, 0, 0, SIZE_X / 2 - 75 - 5, SIZE_Y / 2 - 75, 50, { "Start","Load","Close" });
@@ -42,7 +28,6 @@ namespace game_framework {
 			"they say on the outskirts of town...",
 			"there is a monster living here...!" }, false);
 		
-		// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	}
 
 	void CGameStateInit::OnBeginState()

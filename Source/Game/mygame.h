@@ -17,26 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- *	 2004-03-02 V4.0
- *      1. Add CGameStateInit, CGameStateRun, and CGameStateOver to
- *         demonstrate the use of states.
- *   2005-09-13
- *      Rewrite the codes for CBall and CEraser.
- *   2005-09-20 V4.2Beta1.
- *   2005-09-29 V4.2Beta2.
- *   2006-02-08 V4.2
- *      1. Rename OnInitialUpdate() -> OnInit().
- *      2. Replace AUDIO_CANYON as AUDIO_NTUT.
- *      3. Add help bitmap to CGameStateRun.
- *   2006-09-09 V4.3
- *      1. Rename Move() and Show() as OnMove and OnShow() to emphasize that they are
- *         event driven.
- *   2008-02-15 V4.4
- *      1. Add namespace game_framework.
- *      2. Replace the demonstration of animation as a new bouncing ball.
- *      3. Use ShowInitProgress(percent) to display loading progress.
 */
+#include <fstream>
+#include <bitset>
+#include <mmsystem.h>
 #include "config.h"
 #include "Entity.h"
 #include "GameMap.h"
@@ -44,7 +28,6 @@
 #include "Oni.h"
 #include "MapNode.h"
 #include "MapRouter.h"
-#include "MapRes.h"
 #include "ChoiceMenu.h"
 #include "Item.h"
 #include "ObjMove.h"
@@ -52,15 +35,14 @@
 #include "InputBox.h"
 #include "Human.h"
 #include "Event.h"
-#include <fstream>
-
+#include "MapRes.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
 
 	
-	enum AUDIO_ID {				// 定義各種音效的編號
+	enum AUDIO_ID {
 		AUDIO_DING,				// 0
 		AUDIO_LAKE,				// 1
 		AUDIO_NTUT				// 2
@@ -78,13 +60,13 @@ namespace game_framework {
 	};
 	public:
 		CGameStateInit(CGame *g);
-		void OnInit();  								// 遊戲的初值及圖形設定
-		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
+		void OnInit();  								
+		void OnBeginState();							
+		void OnKeyUp(UINT, UINT, UINT); 				
 		void OnKeyDown(UINT, UINT, UINT);
-		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+		void OnLButtonDown(UINT nFlags, CPoint point);  
 	protected:
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnShow();									
 	private:
 		ChoiceMenu startmenu;
 		CMovingBitmap start_animation;
@@ -103,19 +85,18 @@ namespace game_framework {
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
-		void OnBeginState();							// 設定每次重玩所需的變數
-		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnBeginState();							
+		void OnInit();  								
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
-		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnLButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
-		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
-		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		void OnLButtonDown(UINT nFlags, CPoint point);  
+		void OnLButtonUp(UINT nFlags, CPoint point);	
+		void OnMouseMove(UINT nFlags, CPoint point);	
+		void OnRButtonDown(UINT nFlags, CPoint point);  
+		void OnRButtonUp(UINT nFlags, CPoint point);	
 	protected:
 		void OnMove();
-		// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnShow();								
 	private:
 		
 		void DeBugRecursive();
@@ -164,15 +145,15 @@ namespace game_framework {
 	class CGameStateOver : public CGameState {
 	public:
 		CGameStateOver(CGame *g);
-		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnBeginState();							
 		void OnInit();
 		void OnKeyDown(UINT, UINT, UINT);
 
 	protected:
-		void OnMove();									// 移動遊戲元素
-		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove();									
+		void OnShow();									
 	private:
-		int counter;	// 倒數之計數器
+		int counter;	
 		CMovingBitmap GameOver;
 	};
 

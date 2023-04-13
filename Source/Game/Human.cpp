@@ -1,16 +1,11 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
-#include "MapData.h"
-#include "GameMap.h"
-#include "MapNode.h"
-#include "MapRouter.h"
 #include "config.h"
+#include "GameMap.h"
+#include "MapRouter.h"
 #include "Entity.h"
 #include "Human.h"
 
