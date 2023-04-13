@@ -135,6 +135,7 @@ namespace game_framework {
 		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_r);
 		items.at(DETERGENT).SetParam(-1, 0, 0, Item::itemName::detergent);
 		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
+		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		//events
 		events.resize(30);
 		/*events.at(0).SetEvents( "get_dish" );
@@ -216,6 +217,7 @@ namespace game_framework {
 		items.at(TATAMI_R).SetXY(9 * TILE, 6 * TILE);
 		items.at(DETERGENT).SetXY(11 * TILE, 9 * TILE);
 		items.at(KEY_BASEMENT).SetXY(12 * TILE, 11 * TILE);
+		items.at(GATE).SetXY(14 * TILE, 10 * TILE);
 		//items end
 		//event
 		
@@ -303,6 +305,8 @@ namespace game_framework {
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(KEY_BASEMENT).OnMove();
+			items.at(GATE).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE).OnMove();
 		}
 		// Item end
 		oni1.GetPlayerPos(player.GetX(), player.GetY());
@@ -456,6 +460,7 @@ namespace game_framework {
 			}
 			else if (_nowID == 22) {
 				items.at(KEY_BASEMENT).OnKeyDown(nChar);
+				items.at(GATE).OnKeyDown(nChar);
 			}
 		}
 		else if (_substate == OnDialogs) {
@@ -621,6 +626,7 @@ namespace game_framework {
 		}
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
+			items.at(GATE).OnShow();
 		}
 		
 		for (int i = 0;i < 30;i++) {

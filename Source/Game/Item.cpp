@@ -331,16 +331,20 @@ namespace game_framework {
 				// jail
 				else if (_name == gate) {
 					if (utiltriggers[1]) {
-						SetTrigger();
-						// will optimize Animation
-						Animation(2, 1); // open
-						utiltriggers[1] = false;
+						if (_playerX == _pos_x && (_playerY - TILE == _pos_y + _boxY || _playerY + TILE == _pos_y + _boxY)) {
+							SetTrigger();
+							// will optimize Animation
+							Animation(2, 1); // open
+							utiltriggers[1] = false;
+						}
 					}
 					else {
-						SetTrigger();
-						// will optimize Animation
-						Animation(2, 0); // close
-						utiltriggers[1] = true;
+						if (_playerX == _pos_x + _boxX && (_playerY - TILE == _pos_y + _boxY || _playerY + TILE == _pos_y + _boxY)) {
+							SetTrigger();
+							// will optimize Animation
+							Animation(2, 0); // close
+							utiltriggers[1] = true;
+						}
 					}
 				}
 				// toilet
