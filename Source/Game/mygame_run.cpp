@@ -217,7 +217,7 @@ namespace game_framework {
 		items.at(TATAMI_R).SetXY(9 * TILE, 6 * TILE);
 		items.at(DETERGENT).SetXY(11 * TILE, 9 * TILE);
 		items.at(KEY_BASEMENT).SetXY(12 * TILE, 11 * TILE);
-		items.at(GATE).SetXY(14 * TILE, 10 * TILE);
+		items.at(GATE).SetXY(10 * TILE, 12 * TILE);
 		//items end
 		//event
 		

@@ -173,7 +173,7 @@ namespace game_framework {
 		if (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2 + _offsetX) xLen = 0;
 		else if (abs(xLen1) < abs(xLen2)) xLen = xLen1;
 		else xLen = xLen2;
-		TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
+		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
 		//xLen = xLen1;
 		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
 		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
