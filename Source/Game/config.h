@@ -84,6 +84,7 @@
 #define TATAMI_R 12
 #define DETERGENT 13
 #define KEY_BASEMENT 14
+#define GATE 15
 
 /*
 debug mode
