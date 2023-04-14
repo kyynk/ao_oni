@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
 */
 #include <fstream>
 #include <bitset>
@@ -107,19 +108,21 @@ namespace game_framework {
 		//Dialog useItem;
 		vector<Dialog> dialogs;
 		Human player;
-		Human player2;
-		Human player3;
-		Human player4;
+		Human human_mika;
+		Human human_takeshi;
+		Human human_Takuruo;
 		Oni oni1;
 		ObjMove redChair;
 		vector<Event> events;
 		vector<Item> items;
 		//map related
+		CMovingBitmap mapmask;
 		vector<GameMap> gamemaps;
 		int _nowID;
 		int _dialogID;
 		int _dialogcount;
 		int _eventID;
+		vector <bool> darkroom;
 		vector<vector<int>> blockLeftCor; //x y nowID
 		vector<vector<int>> blockRightCor; //x y nowID
 		vector<vector<int>> blockTeleportCor; //x y nowID
