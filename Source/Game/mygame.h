@@ -122,8 +122,6 @@ namespace game_framework {
 		//game
 		int _substate;
 		
-		//Dialog talk;
-		//Dialog useItem;
 		vector<Dialog> dialogs;
 		Human player;
 		Human player2;

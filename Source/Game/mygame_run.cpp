@@ -117,13 +117,7 @@ namespace game_framework {
 			indexlayer >> i2;
 			mapoverlayindex.push_back(i2);
 		}
-		// dialogtest
 		
-		//talk.SetNow(Dialog::character::mika);
-		//talk.SetParam({ "Hi", "how", "r u?" }, false);
-		//useItem.SetNow(Dialog::character::hirosi);
-		//useItem.SetParam({ "Do u want to use that?" }, true);
-
 		// item
 		items.resize(30);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::itemName::toilet);
@@ -136,6 +130,13 @@ namespace game_framework {
 		items.at(KEY_LIB).SetParam(100, 0, 0, Item::itemName::key_lib);
 		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::itemName::door_knob);
 		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::itemName::door_no_knob);
+		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::itemName::lighter);
+		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_l);
+		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_r);
+		items.at(DETERGENT).SetParam(-1, 0, 0, Item::itemName::detergent);
+		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
+		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
+		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		//events
 		events.resize(30);
 		/*events.at(0).SetEvents( "get_dish" );
@@ -143,6 +144,7 @@ namespace game_framework {
 		events.at(0).SetDialogIndexes({ 0,1 });*/
 		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
 		//dialogs
+		TRACE("%d\n", int(dialogs.size()));
 		dialogs.resize(30);
 		dialogs.at(0).SetNow(Dialog::character::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
@@ -163,7 +165,15 @@ namespace game_framework {
 		router.Load("map_bmp/maplink.txt");
 		//router.debug();
 
-
+		// oni
+		/*
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetParam(Oni::OniType::mika, 4, 8);
+		oni1.SetParam(Oni::OniType::takesi, 4, 8);
+		oni1.SetParam(Oni::OniType::takurou, 4, 8);
+		oni1.SetParam(Oni::OniType::flat, 4, 8);
+		*/
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -190,7 +200,7 @@ namespace game_framework {
 		player4.init(-1, 16, Human::down);
 		player4.SetXYAndCol(10, 11);
 		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetPos(11 * TILE, 13 * TILE);
 		redChair.Reset();
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
@@ -206,6 +216,10 @@ namespace game_framework {
 		items.at(LIGHTER).SetXY(6 * TILE, 6 * TILE);
 		items.at(TATAMI_L).SetXY(6 * TILE, 6 * TILE);
 		items.at(TATAMI_R).SetXY(9 * TILE, 6 * TILE);
+		items.at(DETERGENT).SetXY(11 * TILE, 9 * TILE);
+		items.at(KEY_BASEMENT).SetXY(12 * TILE, 11 * TILE);
+		items.at(GATE).SetXY(10 * TILE, 12 * TILE);
+		items.at(GATE2).SetXY(14 * TILE, 11 * TILE);
 		//items end
 		//event
 		
@@ -220,36 +234,25 @@ namespace game_framework {
 			_nowID = player.NextMapID();
 		}
 		player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
-		// test Item
-		if (_nowID == 19) {
-			items.at(TOILET).GetPlayerPos(player.GetX(), player.GetY());
-			items.at(TOILET).OnMove();
+		// Item
+		if (_nowID == 3) {
+			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE2).OnMove();
 		}
-		else if (_nowID == 18) {
-			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
-				items.at(TUB_ONCE).GetPlayerPos(player.GetX(), player.GetY());
-				items.at(TUB_ONCE).OnMove();
-			}
-			else if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
-				items.at(PHILLIPS).GetPlayerPos(player.GetX(), player.GetY());
-				items.at(PHILLIPS).OnMove();
-			}
-			else if (items.at(PHILLIPS).IsPick()) {
-				items.at(TUB_FIXED).GetPlayerPos(player.GetX(), player.GetY());
-				items.at(TUB_FIXED).OnMove();
+		else if (_nowID == 10) {
+			items.at(TATAMI_R).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(TATAMI_R).OnMove();
+			items.at(LIGHTER).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(LIGHTER).OnMove();
+			if (items.at(LIGHTER).IsPick()) {
+				items.at(TATAMI_L).GetPlayerPos(player.GetX(), player.GetY());
+				items.at(TATAMI_L).OnMove();
 			}
 		}
 		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BROKEN_DISH).OnMove();
-			
-		}
-		else if (_nowID == 20) {
-			player2.OnMove();
-		}
-		else if (_nowID == 13) {
-			player3.OnMove();
-			player4.OnMove();
+
 		}
 		else if (_nowID == 12) {
 			items.at(LIB_BOOK).GetPlayerPos(player.GetX(), player.GetY());
@@ -259,13 +262,9 @@ namespace game_framework {
 				items.at(KEY_3F_L).OnMove();
 			}
 		}
-		else if (_nowID == 10) {
-			items.at(TATAMI_R).GetPlayerPos(player.GetX(), player.GetY());
-			items.at(TATAMI_R).OnMove();
-			/*lighter.GetPlayerPos(player.GetX1(), player.GetY1());
-			lighter.OnMove();
-			tatami_L.GetPlayerPos(player.GetX1(), player.GetY1());
-			tatami_L.OnMove();*/
+		else if (_nowID == 13) {
+			player3.OnMove();
+			player4.OnMove();
 		}
 		else if (_nowID == 14) {
 			redChair.GetPlayerPos(player.GetX(), player.GetY());
@@ -285,7 +284,37 @@ namespace game_framework {
 				items.at(DOOR_NO_KNOB).OnMove();
 			}
 		}
-		// test Item end
+		else if (_nowID == 18) {
+			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(TUB_ONCE).GetPlayerPos(player.GetX(), player.GetY());
+				items.at(TUB_ONCE).OnMove();
+			}
+			else if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
+				items.at(PHILLIPS).GetPlayerPos(player.GetX(), player.GetY());
+				items.at(PHILLIPS).OnMove();
+			}
+			else if (items.at(PHILLIPS).IsPick()) {
+				items.at(TUB_FIXED).GetPlayerPos(player.GetX(), player.GetY());
+				items.at(TUB_FIXED).OnMove();
+			}
+		}
+		else if (_nowID == 19) {
+			items.at(TOILET).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(TOILET).OnMove();
+
+			items.at(DETERGENT).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(DETERGENT).OnMove();
+		}
+		else if (_nowID == 20) {
+			player2.OnMove();
+		}
+		else if (_nowID == 22) {
+			items.at(KEY_BASEMENT).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(KEY_BASEMENT).OnMove();
+			items.at(GATE).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE).OnMove();
+		}
+		// Item end
 		oni1.GetPlayerPos(player.GetX(), player.GetY());
 		if (oni1.isCatch()) {
 			//GotoGameState(GAME_STATE_OVER);
@@ -374,34 +403,25 @@ namespace game_framework {
 			
 			player.OnKeyDown(nChar);
 			
-				/*if (story.isShow()) {
-					story.SetShow(false);
-				}*/
-				/*if (talk.isShow()) {
-					talk.SetShow(false);
-				}
+			/*
+			if (dialogs.at(_dialogID).isShow()) {
+				dialogs.at(_dialogID).SetShow(false);
+			}*/
+		// if dialog is on, player can't move
 
-				if (dialogs.at(_dialogID).isShow()) {
-					dialogs.at(_dialogID).SetShow(false);
-				}*/
-		//if (!talk.isShow() && !useItem.isShow()) { // if dialog is on, player can't move
-
-		//test Item
-			if (_nowID == 19) {
-				items.at(TOILET).OnKeyDown(nChar);
+		// Item
+			if (_nowID == 3) {
+				items.at(GATE2).OnKeyDown(nChar);
 			}
-			else if (_nowID == 18) {
-				if (!items.at(TUB_ONCE).IsFixed()) {
-					items.at(TUB_ONCE).OnKeyDown(nChar);
-					if (nChar != VK_SPACE)
-						items.at(PHILLIPS).OnKeyDown(nChar);
+			else if (_nowID == 10) {
+				items.at(LIGHTER).OnKeyDown(nChar);
+				if (nChar != VK_SPACE) {
+					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
-				if (items.at(TUB_ONCE).IsFixed()) {
-					items.at(PHILLIPS).OnKeyDown(nChar);
+				if (items.at(LIGHTER).IsPick()) {
+					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
-				if (items.at(PHILLIPS).IsPick()) {
-					items.at(TUB_FIXED).OnKeyDown(nChar);
-				}
+				items.at(TATAMI_R).OnKeyDown(nChar);
 			}
 			else if (_nowID == 11) {
 				items.at(BROKEN_DISH).OnKeyDown(nChar);
@@ -429,6 +449,27 @@ namespace game_framework {
 				}
 				if (items.at(DOOR_KNOB).IsPick())
 					items.at(DOOR_NO_KNOB).OnKeyDown(nChar);
+			}
+			else if (_nowID == 18) {
+				if (!items.at(TUB_ONCE).IsFixed()) {
+					items.at(TUB_ONCE).OnKeyDown(nChar);
+					if (nChar != VK_SPACE)
+						items.at(PHILLIPS).OnKeyDown(nChar);
+				}
+				if (items.at(TUB_ONCE).IsFixed()) {
+					items.at(PHILLIPS).OnKeyDown(nChar);
+				}
+				if (items.at(PHILLIPS).IsPick()) {
+					items.at(TUB_FIXED).OnKeyDown(nChar);
+				}
+			}
+			else if (_nowID == 19) {
+				items.at(TOILET).OnKeyDown(nChar);
+				items.at(DETERGENT).OnKeyDown(nChar);
+			}
+			else if (_nowID == 22) {
+				items.at(KEY_BASEMENT).OnKeyDown(nChar);
+				items.at(GATE).OnKeyDown(nChar);
 			}
 		}
 		else if (_substate == OnDialogs) {
@@ -462,7 +503,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		//if (!talk.isShow() && !useItem.isShow()) {
 		if (_substate == OnWalking) {
 			player.OnKeyUp(nChar);
 			if (_nowID == 14) {
@@ -470,7 +510,7 @@ namespace game_framework {
 			}
 		}
 	}
-	//}
+	
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 	{
@@ -539,8 +579,17 @@ namespace game_framework {
 	void CGameStateRun::OnShow()
 	{
 		gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
-		
-		if (_nowID == 11) {
+		if (_nowID == 3) {
+			items.at(GATE2).OnShow();
+		}
+		else if (_nowID == 10) {
+			items.at(LIGHTER).OnShow();
+			items.at(TATAMI_R).OnShow();
+			if (items.at(LIGHTER).IsPick()) {
+				items.at(TATAMI_L).OnShow();
+			}
+		}
+		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).OnShow();
 			if (items.at(BROKEN_DISH).IsTake()&& !events.at(BROKEN_DISH_E).IsTriggered()) {
 				events.at(BROKEN_DISH_E).SetTriggered(true);
@@ -582,9 +631,14 @@ namespace game_framework {
 		}
 		else if (_nowID == 19) {
 			items.at(TOILET).OnShow();
+			items.at(DETERGENT).OnShow();
 		}
 		else if (_nowID == 20) {
 			player2.OnShow();
+		}
+		else if (_nowID == 22) {
+			items.at(KEY_BASEMENT).OnShow();
+			items.at(GATE).OnShow();
 		}
 		
 		for (int i = 0;i < 30;i++) {
@@ -593,13 +647,6 @@ namespace game_framework {
 			}
 		}
 		
-		/*if (talk.isShow()) {
-			talk.ShowTotal();
-		}
-		
-		if (useItem.isShow()) {
-			useItem.ShowTotal();
-		}*/
 		DeBugRecursive();
 
 	}
