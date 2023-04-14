@@ -137,6 +137,7 @@ namespace game_framework {
 		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
 		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
+		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::itemName::bed);
 		//events
 		events.resize(30);
 		/*events.at(0).SetEvents( "get_dish" );
@@ -152,9 +153,12 @@ namespace game_framework {
 		dialogs.at(1).SetParam({"Get the broken plate"},false);
 
 		// objMove
-		redChair.SetParam(ObjMove::ObjType::red_chair,
+		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
 			16 * TILE, 9 * TILE);
+		house1_2F_TL_chair.SetParam(ObjMove::ObjType::house1_2F_TL_chair,
+			8, 4, 0, 16, 14 * TILE, 15 * TILE,
+			13 * TILE, 9 * TILE);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -201,7 +205,8 @@ namespace game_framework {
 		player4.SetXYAndCol(10, 11);
 		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
 		oni1.SetPos(11 * TILE, 13 * TILE);
-		redChair.Reset();
+		house1_2F_TR_chair.Reset();
+		house1_2F_TL_chair.Reset();
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
@@ -220,6 +225,7 @@ namespace game_framework {
 		items.at(KEY_BASEMENT).SetXY(12 * TILE, 11 * TILE);
 		items.at(GATE).SetXY(10 * TILE, 12 * TILE);
 		items.at(GATE2).SetXY(14 * TILE, 11 * TILE);
+		items.at(BED).SetXY(8 * TILE, 14 * TILE + TILE / 2);
 		//items end
 		//event
 		
@@ -267,9 +273,9 @@ namespace game_framework {
 			player4.OnMove();
 		}
 		else if (_nowID == 14) {
-			redChair.GetPlayerPos(player.GetX(), player.GetY());
-			redChair.OnMove(gamemaps.at(_nowID));
-			if (redChair.IsFixed()) {
+			house1_2F_TR_chair.GetPlayerPos(player.GetX(), player.GetY());
+			house1_2F_TR_chair.OnMove(gamemaps.at(_nowID));
+			if (house1_2F_TR_chair.IsFixed()) {
 				items.at(KEY_LIB).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(KEY_LIB).OnMove();
 			}
@@ -283,6 +289,10 @@ namespace game_framework {
 				items.at(DOOR_NO_KNOB).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(DOOR_NO_KNOB).OnMove();
 			}
+		}
+		else if (_nowID == 16) {
+			items.at(BED).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(BED).OnMove();
 		}
 		else if (_nowID == 18) {
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
@@ -307,6 +317,8 @@ namespace game_framework {
 		}
 		else if (_nowID == 20) {
 			player2.OnMove();
+			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
+			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
 		}
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).GetPlayerPos(player.GetX(), player.GetY());
@@ -435,10 +447,10 @@ namespace game_framework {
 					items.at(KEY_3F_L).OnKeyDown(nChar);
 			}
 			else if (_nowID == 14) {
-				redChair.OnKeyDown(nChar);
+				house1_2F_TR_chair.OnKeyDown(nChar);
 				if (nChar != VK_SPACE)
 					items.at(KEY_LIB).OnKeyDown(nChar);
-				if (redChair.IsFixed())
+				if (house1_2F_TR_chair.IsFixed())
 					items.at(KEY_LIB).OnKeyDown(nChar);
 			}
 			else if (_nowID == 15) {
@@ -449,6 +461,9 @@ namespace game_framework {
 				}
 				if (items.at(DOOR_KNOB).IsPick())
 					items.at(DOOR_NO_KNOB).OnKeyDown(nChar);
+			}
+			else if (_nowID == 16) {
+				items.at(BED).OnKeyDown(nChar);
 			}
 			else if (_nowID == 18) {
 				if (!items.at(TUB_ONCE).IsFixed()) {
@@ -466,6 +481,9 @@ namespace game_framework {
 			else if (_nowID == 19) {
 				items.at(TOILET).OnKeyDown(nChar);
 				items.at(DETERGENT).OnKeyDown(nChar);
+			}
+			else if (_nowID == 20) {
+				house1_2F_TL_chair.OnKeyDown(nChar);
 			}
 			else if (_nowID == 22) {
 				items.at(KEY_BASEMENT).OnKeyDown(nChar);
@@ -506,7 +524,10 @@ namespace game_framework {
 		if (_substate == OnWalking) {
 			player.OnKeyUp(nChar);
 			if (_nowID == 14) {
-				redChair.OnKeyUp(nChar);
+				house1_2F_TR_chair.OnKeyUp(nChar);
+			}
+			else if (_nowID == 20) {
+				house1_2F_TL_chair.OnKeyUp(nChar);
 			}
 		}
 	}
@@ -608,8 +629,8 @@ namespace game_framework {
 			player4.OnShow();
 		}
 		else if (_nowID == 14) {
-			redChair.OnShow();
-			if (redChair.IsFixed())
+			house1_2F_TR_chair.OnShow();
+			if (house1_2F_TR_chair.IsFixed())
 				items.at(KEY_LIB).OnShow();
 		}
 		else if (_nowID == 15) {
@@ -617,6 +638,9 @@ namespace game_framework {
 				items.at(DOOR_KNOB).OnShow();
 			if (items.at(DOOR_KNOB).IsPick())
 				items.at(DOOR_NO_KNOB).OnShow();
+		}
+		else if (_nowID == 16) {
+			items.at(BED).OnShow();
 		}
 		else if (_nowID == 18) {
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
@@ -635,6 +659,7 @@ namespace game_framework {
 		}
 		else if (_nowID == 20) {
 			player2.OnShow();
+			house1_2F_TL_chair.OnShow();
 		}
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
