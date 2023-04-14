@@ -10,27 +10,28 @@ namespace game_framework {
 			isright
 		};
 		enum itemName {
-			lib_book,
-			key_lib,
-			key_3F_L,
+			lib_book,				 //v
+			key_lib,				 //v
+			key_3F_L,				 //v
 			key_2F_TL,
-			key_basement,
+			key_basement,			 //v
 			key_jail,
 			key_annexe,
-			broken_dish,
-			tub_once,
-			phillips, //screwdriver
-			tub_fixed,
+			broken_dish,			 //v
+			tub_once,				 //v
+			phillips, //screwdriver  //v
+			tub_fixed,				 //v
 			flathead, //screwdriver
-			lighter,
+			lighter,				 //v
 			oil,
 			handkerchief,
-			detergent, //wash
+			detergent, //wash		 //v
 			door_knob,
 			door_no_knob,
-			tatami,
-			gate, 
-			toilet
+			tatami_l,				 //v
+			tatami_r,				 //v
+			gate,					 //v
+			toilet					 //v
 		};
 		Item();
 		~Item();
@@ -76,9 +77,11 @@ namespace game_framework {
 		move _pressing;
 		itemName _name;
 		// pick -> disappear, take -> leave
-		bool _triggered, _close, 
-			_press, _pick, _fixed, 
-			_take, _onCorrectPos, 
-			_useItem;
+		// index for bool (under)
+		// _triggered, _close, _press, _pick, 
+		// _fixed, _take, _onCorrectPos, _useItem
+		vector<bool> utiltriggers = {
+		false, true, false, false, false, 
+		false, false, false};
 	};
 }
