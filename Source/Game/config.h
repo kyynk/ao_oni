@@ -86,6 +86,10 @@
 #define KEY_BASEMENT 14
 #define GATE 15
 #define GATE2 16
+#define BED 17
+#define BOOKCASE_L 18
+#define BOOKCASE_R 19
+
 
 /*
 debug mode

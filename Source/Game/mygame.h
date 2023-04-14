@@ -128,7 +128,8 @@ namespace game_framework {
 		Human player3;
 		Human player4;
 		Oni oni1;
-		ObjMove redChair;
+		ObjMove house1_2F_TR_chair;
+		ObjMove house1_2F_TL_chair;
 		vector<Event> events;
 		vector<Item> items;
 		//map related
