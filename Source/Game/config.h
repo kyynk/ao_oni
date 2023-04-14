@@ -89,7 +89,9 @@
 #define BED 17
 #define BOOKCASE_L 18
 #define BOOKCASE_R 19
-
+#define WHITE_BOOKCASE 20
+#define BOOKCASE_MAP21 21
+#define HANDKERCHIEF 22
 
 /*
 debug mode
