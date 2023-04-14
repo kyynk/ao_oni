@@ -41,8 +41,11 @@ namespace game_framework {
 		_fixedX = fixedX;
 		_fixedY = fixedY;
 		string bitmapName;
-		if (_type == red_chair) {
-			bitmapName = "darkBrown_chair";
+		if (_type == house1_2F_TR_chair) {
+			bitmapName = "darkBrown_chair0";
+		}
+		else if (_type == house1_2F_TL_chair) {
+			bitmapName = "darkBrown_chair1";
 		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
@@ -55,12 +58,14 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int ObjMove::GetPosY() {
+		if (_type == house1_2F_TL_chair) return _pos_y + _offsetY;
 		return _pos_y;
 	}
 	int ObjMove::GetPosL() {
 		return _pos_x - TILE;
 	}
 	int ObjMove::GetPosU() {
+		if (_type == house1_2F_TL_chair) return _pos_y + _offsetY - TILE;
 		return _pos_y - TILE;
 	}
 	int ObjMove::GetPosR() {
@@ -135,8 +140,9 @@ namespace game_framework {
 	void ObjMove::OnMove(GameMap &map) {	// every time obj move, will track first
 		Fixed(); // to check isFixed or not
 		if (_press && !_isFixedPos) {
+			TRACE("\n\n playerX %d playerY %d objX %d objY %d\n\n", _humanX, _humanY, _pos_x, _pos_y);
 			if (isCollide()) {
-				//TRACE("\n\n\n obj isCollide \n");
+				TRACE("\n\n\n obj isCollide \n");
 				Track(map);
 			}
 			_press = false;
@@ -195,10 +201,10 @@ namespace game_framework {
 		bitmap.ShowBitmap();
 	}
 	void ObjMove::Reset() {
-		SetXY(_resetX, _resetY);
+		SetXY(_resetX - _offsetX, _resetY - _offsetY);
 	}
 	void ObjMove::Fixed() {
-		if (_pos_x == _fixedX && _pos_y == _fixedY)
+		if (GetPosX() == _fixedX && GetPosY() == _fixedY)
 			_isFixedPos = true;
 		if (_isFixedPos) {
 			_resetX = _fixedX;
@@ -208,10 +214,10 @@ namespace game_framework {
 	bool ObjMove::isCollide() {
 		int x = _pos_x + _offsetX;
 		int y = _pos_y + _offsetY;
-		if ((_humanX + 32 == _pos_x && (_humanY >= _pos_y || _humanY <= y) && _pressing == isright)
-			|| (_humanX - 32 == x && (_humanY >= _pos_y || _humanY <= y) && _pressing == isleft)
-			|| ((_humanX >= _pos_x || _humanX <= x) && _humanY + 32 == _pos_y && _pressing == isdown)
-			|| ((_humanX >= _pos_x || _humanX <= x) && _humanY - 32 == y) && _pressing == isup)
+		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() || _humanY <= y) && _pressing == isright)
+			|| (_humanX - TILE == x && (_humanY >= GetPosY() || _humanY <= y) && _pressing == isleft)
+			|| ((_humanX >= GetPosX() || _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == isdown)
+			|| ((_humanX >= GetPosX() || _humanX <= x) && _humanY - TILE == y) && _pressing == isup)
 			_collide = true;
 		else
 			_collide = false;
