@@ -378,7 +378,9 @@ namespace game_framework {
 				}
 				// house1 3F L bed
 				else if (_name == bed && !utiltriggers[4]) {
-					utiltriggers[4] = true;
+					if (_playerX == 10 * TILE) {
+						utiltriggers[4] = true;
+					}
 				}
 				// house1 basement1
 				else if (_name == bookcase_l && !utiltriggers[4]) {
