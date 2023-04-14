@@ -148,6 +148,15 @@ namespace game_framework {
 				bitmapName.push_back("img/item_animation/toilet/toilet" + to_string(i) + ".bmp");
 			}
 		}
+		else if (_name == bed) {	
+			bitmapName.push_back("img/item_animation/bed/bed.bmp");
+		}
+		else if (_name == bookcase_l) {
+			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
+		}
+		else if (_name == bookcase_r) {
+			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -199,8 +208,10 @@ namespace game_framework {
 	}
 	void Item::OnMove() { // actually is action function
 		if (utiltriggers[2]) {
-			//TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
+			TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
 			if (Collide()) {
+				TRACE("collide\n\n");
+				//TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
 				// on lib
 				if (_name == lib_book && !utiltriggers[4]) {
 					SetXY(_pos_x, _pos_y - TILE);
@@ -331,7 +342,6 @@ namespace game_framework {
 				}
 				// jail
 				else if (_name == gate) {
-					TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
 					if (utiltriggers[1]) {
 						if (_playerX == _pos_x && 
 							(_playerY - TILE == _pos_y + _boxY || 
@@ -366,10 +376,54 @@ namespace game_framework {
 						utiltriggers[1] = true;
 					}
 				}
+				// house1 3F L bed
+				else if (_name == bed && !utiltriggers[4]) {
+					if (_playerX == 10 * TILE) {
+						utiltriggers[4] = true;
+					}
+				}
+				// house1 basement1
+				else if (_name == bookcase_l && !utiltriggers[4]) {
+					if (_playerY == 7 * TILE) {
+						utiltriggers[4] = true;
+					}
+				}
+				// house1 basement1
+				else if (_name == bookcase_r && !utiltriggers[4]) {
+					if (_playerY == 7 * TILE) {
+						utiltriggers[4] = true;
+					}
+				}
 			}
 		}
 		/*else
 			TRACE("\n\nno press\n\n");*/
+		if (_name == bed) {
+			if (utiltriggers[4] && !utiltriggers[6]) {
+				TimerStart();
+			}
+			if (TimerGetCount() == 8) {
+				TimerStop();
+				utiltriggers[6] = true;
+			}
+			if (IsTimerStart()) {
+				_pos_x -= 4;
+				TimerUpdate();
+			}
+		}
+		else if (_name == bookcase_l || _name == bookcase_r) {
+			if (utiltriggers[4] && !utiltriggers[6]) {
+				TimerStart();
+			}
+			if (TimerGetCount() == 24) {
+				TimerStop();
+				utiltriggers[6] = true;
+			}
+			if (IsTimerStart()) {
+				_pos_x -= 4;
+				TimerUpdate();
+			}
+		}
 	}
 	void Item::OnKeyDown(UINT nChar) {
 		//TRACE("\n\niiiiiiiiii\n\n");

@@ -31,7 +31,10 @@ namespace game_framework {
 			tatami_l,				 //v
 			tatami_r,				 //v
 			gate,					 //v
-			toilet					 //v
+			toilet,					 //v
+			bed, 
+			bookcase_l,
+			bookcase_r,
 		};
 		Item();
 		~Item();
