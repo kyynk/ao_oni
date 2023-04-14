@@ -154,7 +154,7 @@ namespace game_framework {
 		else if (_name == bookcase_l) {
 			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
 		}
-		else if (_name == bookcase_l) {
+		else if (_name == bookcase_r) {
 			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
 		}
 		Load(bitmapName, RGB(204, 255, 0));
@@ -384,11 +384,15 @@ namespace game_framework {
 				}
 				// house1 basement1
 				else if (_name == bookcase_l && !utiltriggers[4]) {
-					utiltriggers[4] = true;
+					if (_playerY == 7 * TILE) {
+						utiltriggers[4] = true;
+					}
 				}
 				// house1 basement1
 				else if (_name == bookcase_r && !utiltriggers[4]) {
-					utiltriggers[4] = true;
+					if (_playerY == 7 * TILE) {
+						utiltriggers[4] = true;
+					}
 				}
 			}
 		}

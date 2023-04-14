@@ -138,6 +138,8 @@ namespace game_framework {
 		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
 		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::itemName::bed);
+		items.at(BOOKCASE_L).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_l);
+		items.at(BOOKCASE_R).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_r);
 		//events
 		events.resize(30);
 		/*events.at(0).SetEvents( "get_dish" );
@@ -226,6 +228,8 @@ namespace game_framework {
 		items.at(GATE).SetXY(10 * TILE, 12 * TILE);
 		items.at(GATE2).SetXY(14 * TILE, 11 * TILE);
 		items.at(BED).SetXY(8 * TILE, 14 * TILE + TILE / 2);
+		items.at(BOOKCASE_L).SetXY(12 * TILE, 3 * TILE + TILE / 2);
+		items.at(BOOKCASE_R).SetXY(15 * TILE, 3 * TILE + TILE / 2);
 		//items end
 		//event
 		
@@ -241,7 +245,15 @@ namespace game_framework {
 		}
 		player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		// Item
-		if (_nowID == 3) {
+		if (_nowID == 0) {
+			items.at(BOOKCASE_L).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(BOOKCASE_L).OnMove();
+			if (items.at(BOOKCASE_L).IsFixed()) {
+				items.at(BOOKCASE_R).GetPlayerPos(player.GetX(), player.GetY());
+				items.at(BOOKCASE_R).OnMove();
+			}
+		}
+		else if (_nowID == 3) {
 			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(GATE2).OnMove();
 		}
@@ -422,7 +434,16 @@ namespace game_framework {
 		// if dialog is on, player can't move
 
 		// Item
-			if (_nowID == 3) {
+			if (_nowID == 0) {
+				items.at(BOOKCASE_L).OnKeyDown(nChar);
+				if (nChar != VK_SPACE) {
+					items.at(BOOKCASE_R).OnKeyDown(nChar);
+				}
+				if (items.at(BOOKCASE_L).IsFixed()) {
+					items.at(BOOKCASE_R).OnKeyDown(nChar);
+				}
+			}
+			else if (_nowID == 3) {
 				items.at(GATE2).OnKeyDown(nChar);
 			}
 			else if (_nowID == 10) {
@@ -600,7 +621,11 @@ namespace game_framework {
 	void CGameStateRun::OnShow()
 	{
 		gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
-		if (_nowID == 3) {
+		if (_nowID == 0) {
+			items.at(BOOKCASE_L).OnShow();
+			items.at(BOOKCASE_R).OnShow();
+		}
+		else if (_nowID == 3) {
 			items.at(GATE2).OnShow();
 		}
 		else if (_nowID == 10) {
