@@ -11,6 +11,7 @@ namespace game_framework {
 		_triggered = false;
 		_dialogindex = 0;
 		_dialogcount = 0;
+		_transmap = false;
 	}
 	void Event::debug()	{
 		

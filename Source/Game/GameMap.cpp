@@ -272,6 +272,11 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 		}
 	}
+	void GameMap::ShowMapAll() {
+		for (int i = 1;i < _layer;i++) {
+			ShowMap(i);
+		}
+	}
 	void GameMap::SetTopLeftMap(int x,int y)
 	{
 		_pos_x = x;

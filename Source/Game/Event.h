@@ -13,6 +13,7 @@ namespace game_framework {
 		vector<vector<int> >& GetBlockPath();
 		int GetDialogIndex();
 		int GetDialogCount();
+		bool &IsTransMap() { return _transmap; }
 
 	private:
 		string _evtname;
@@ -21,5 +22,6 @@ namespace game_framework {
 		vector<vector<int> > _blockpath; // 0 = map0, 1 = map1
 		int _dialogindex;
 		int _dialogcount;
+		bool _transmap;
 	};
 }

@@ -39,7 +39,7 @@ namespace game_framework{
 		_nextmapy = 0;
 		_nextMapID = 0;
 		TimerReset();
-		_premove = none;
+		//_premove = none;
 		_nowmove = none;
 		_pressing = none;
 	}
@@ -54,26 +54,35 @@ namespace game_framework{
 		_step = step;
 		_coroffset = offset;
 		_direction = dir;
+		machine_count = 0;
 	}
 
 	void Human::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
-			//TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
-			if (_pressing == isup) {
+			TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
+			
+			if (_nowmove == isup) {
 				_pos_x = map.GetX() + _nextmapx ;
 				_pos_y = map.GetY() + _nextmapy - _coroffset - TILE;
 			}
-			else if (_pressing == isdown) {
+			else if (_nowmove == isdown) {
 				_pos_x = map.GetX() + _nextmapx;
 				_pos_y = map.GetY() + _nextmapy - _coroffset + TILE;
 			}
-			else if (_pressing == isleft) {
+			else if (_nowmove == isleft) {
 				_pos_x = map.GetX() + _nextmapx - TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
 			}
-			else if (_pressing == isright) {
+			else if (_nowmove == isright) {
 				_pos_x = map.GetX() + _nextmapx + TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
+			}
+			else if (_nowmove == machinetransmap) {
+				_pos_x = map.GetX() + _nextmapx;
+				_pos_y = map.GetY() + _nextmapy - _coroffset;
+			}
+			if (_nowmove == none) {
+				TRACE("In player default on move _nowmove= none\n");
 			}
 			_uy = _pos_y - TILE;
 			_dy = _pos_y + TILE;
@@ -284,9 +293,90 @@ namespace game_framework{
 		}
 		
 	}
-	void Human::OnMove() {
-			bitmap.SetTopLeft(_pos_x, _pos_y);
 
+	void Human::OnMoveBySettings(int countblock){
+		if (_isup || _isdown || _isleft || _isright) {
+			TimerStart();
+		}
+		else {
+			if (TimerGetCount() == 8) {
+				TimerStop();				
+				_walkiter = !_walkiter;
+			}
+		}
+		if (IsTimerStart()) {
+			if (TimerGetCount() % 8 == 0) {
+				_nowmove = _pressing;
+			}
+			if (TimerGetCount() == 8) {
+				TimerReset();
+				machine_count += 1;
+				if (machine_count == countblock) {
+					TimerStop();
+					_isright = false;
+					_pressing = none;
+					_nowmove = none;
+					//SetNextMap(0, 3, 5);
+				}
+				_walkiter = !_walkiter;
+			}
+			if (TimerGetCount() < 4) {
+				_bstate = s1;
+			}
+			else {
+				_bstate = s2;
+			}
+			if (_nowmove == isup) {
+				_pos_y -= _step;
+				_uy -= _step;
+				_dy -= _step;
+			}
+			else if (_nowmove == isdown) {
+				_pos_y += _step;
+				_uy += _step;
+				_dy += _step;
+			}
+			else if (_nowmove == isleft) {
+				_pos_x -= _step;
+				_lx -= _step;
+				_rx -= _step;
+			}
+			else if (_nowmove == isright) {
+				_pos_x += _step;
+				_lx += _step;
+				_rx += _step;
+			}
+			TimerUpdate();
+		}
+		bitmap.SetTopLeft(_pos_x, _pos_y);
+
+	}
+	void Human::OnMove() {
+		if (_direction == up) {
+			bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
+		}
+		else if (_direction == down) {
+			bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN);
+		}
+		else if (_direction == left) {
+			bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT);
+		}
+		else if (_direction == right) {
+			bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
+		}
+		bitmap.SetTopLeft(_pos_x, _pos_y);
+
+	}
+	void Human::SetAllMoveFalse() {
+		_isup = false;
+		_isdown = false;
+		_isleft = false;
+		_isright = false;
+		_nowmove = none;
+		_pressing = none;
+	}
+	void Human::SetNowmove(move m) {
+		_nowmove = m;
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
@@ -335,23 +425,26 @@ namespace game_framework{
 
 	void Human::OnKeyUp(UINT nChar){
 		if (nChar == VK_LEFT) {
-			_premove = isleft;
 			_isleft = false;
 		}
 		else if (nChar == VK_UP) {
-			_premove = isup;
 			_isup = false;
 		}
 		else if (nChar == VK_RIGHT) {
-			_premove = isright;
 			_isright = false;
 		}
 		else if (nChar == VK_DOWN) {
-			_premove = isdown;
 			_isdown = false;
 		}
 	}
+	void Human::SetNextMap(int x,int y,int NextID) {
+		_nextmapx = x*TILE;
+		_nextmapy = y*TILE;
+		_nextMapID = NextID;
+		_isMapChanged = true;
+		_switchMapCheck = true;
 
+	}
 	void Human::OnShow() {
 		
 
@@ -400,6 +493,28 @@ namespace game_framework{
 	void Human::Load(vector<string> filenames, COLORREF color) {
 		bitmap.LoadBitmapByString(filenames,color );
 
+	}
+
+	void Human::SetIsMachine(bool isMachine, move pressing)
+	{
+		_pressing = pressing;
+		if (pressing == isup) {
+			_direction = up;
+			_isup = true;
+		}
+		else if (pressing == isdown) {
+			_direction = down;
+			_isdown = true;
+		}
+		else if (pressing == isleft) {
+			_direction = left;
+			_isleft = true;
+		}
+		else if (pressing == isright) {
+			_direction = right;
+			_isright = true;
+		}
+		_isMachine = false;
 	}
 
 }

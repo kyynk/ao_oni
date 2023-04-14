@@ -22,7 +22,8 @@ namespace game_framework{
 			isup,
 			isdown,
 			isleft,
-			isright
+			isright,
+			machinetransmap
 		};
 		Human();
 
@@ -32,6 +33,7 @@ namespace game_framework{
 		
 		void OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&, vector<vector<int>>&, vector<vector<int>>&) ;
 		void OnMove();
+		void OnMoveBySettings(int block);
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
@@ -56,15 +58,21 @@ namespace game_framework{
 		int NextMapID() { return _nextMapID; }
 		bool &IsMapChanged() { return _isMapChanged; }
 		bool IsSwitchMap() { return _switchMapCheck; }
+		void SetIsMachine(bool isMachine, move pressing);
+		void SetNextMap(int x, int y, int mapID);
+		void SetAllMoveFalse();
+		void SetNowmove(move m);
+		int machine_count;
 	private:
 		int _coroffset;
 		bool _pressed;
 		bool _walkiter;
 		Direction _direction;
 		bstate _bstate;
-		move _premove;
+		//move _premove;
 		move _nowmove;
 		move _pressing;
+		bool _isMachine;
 		int _step;
 		bool _isup;
 		bool _isdown;
@@ -75,5 +83,6 @@ namespace game_framework{
 		int _nextMapID;
 		bool _isMapChanged;
 		bool _switchMapCheck;
+
 	};
 }
