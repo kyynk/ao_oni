@@ -1,17 +1,8 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
-#include <fstream>
-#include "ChoiceMenu.h"
-#include "Dialog.h"
-#include "MapNode.h"
-#include "GameMap.h"
-#include "MapRouter.h"
 #include "mygame.h"
 
 namespace game_framework {
@@ -61,6 +52,7 @@ namespace game_framework {
 		blockTeleportCor.push_back({ 4,3,46 });
 		blockTeleportCor.push_back({ 3,2,46 });
 		// thank god
+		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
 		// main character
 		vector<string> playervec;
 		for (int i = 0; i < 4; i++) {
@@ -76,21 +68,21 @@ namespace game_framework {
 				playervec.push_back("img/mika_move/Mika_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		player2.Load(playervec, RGB(204, 255, 0));
+		human_mika.Load(playervec, RGB(204, 255, 0));
 		playervec.clear();
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 3; j++) {
 				playervec.push_back("img/takeshi_move/Takeshi_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		player3.Load(playervec, RGB(204, 255, 0));
+		human_takeshi.Load(playervec, RGB(204, 255, 0));
 		playervec.clear();
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 3; j++) {
 				playervec.push_back("img/takuruo_move/Takuruo_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		player4.Load(playervec, RGB(204, 255, 0));
+		human_Takuruo.Load(playervec, RGB(204, 255, 0));
 		// map resources
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
@@ -117,45 +109,59 @@ namespace game_framework {
 			indexlayer >> i2;
 			mapoverlayindex.push_back(i2);
 		}
-		
 		// item
 		items.resize(30);
-		items.at(TOILET).SetParam(-1, 0, 0, Item::itemName::toilet);
-		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::itemName::tub_once);
-		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::itemName::phillips);
-		items.at(TUB_FIXED).SetParam(-1, 0, TILE, Item::itemName::tub_fixed);
-		items.at(BROKEN_DISH).SetParam(-1, 0, 0, Item::itemName::broken_dish);
-		items.at(LIB_BOOK).SetParam(-1, 0, 0, Item::itemName::lib_book);
-		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::itemName::key_3F_L);
-		items.at(KEY_LIB).SetParam(100, 0, 0, Item::itemName::key_lib);
-		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::itemName::door_knob);
-		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::itemName::door_no_knob);
-		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::itemName::lighter);
-		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_l);
-		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_r);
-		items.at(DETERGENT).SetParam(-1, 0, 0, Item::itemName::detergent);
-		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
-		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
-		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
-		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::itemName::bed);
-		items.at(BOOKCASE_L).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_l);
-		items.at(BOOKCASE_R).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_r);
-		items.at(WHITE_BOOKCASE).SetParam(-1, 0, TILE / 2, Item::itemName::white_bookcase);
-		items.at(BOOKCASE_MAP21).SetParam(-1, 2 * TILE, TILE, Item::itemName::bookcase_map21);
-		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::itemName::handkerchief);
+		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
+		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
+		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
+		items.at(TUB_FIXED).SetParam(-1, 0, TILE, Item::tub_fixed);
+		items.at(BROKEN_DISH).SetParam(-1, 0, 0, Item::broken_dish);
+		items.at(LIB_BOOK).SetParam(-1, 0, 0, Item::lib_book);
+		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::key_3F_L);
+		items.at(KEY_LIB).SetParam(100, 0, 0, Item::key_lib);
+		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::door_knob);
+		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::door_no_knob);
+		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::lighter);
+		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::tatami_l);
+		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::tatami_r);
+		items.at(DETERGENT).SetParam(-1, 0, 0, Item::detergent);
+		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::key_basement);
+		items.at(GATE).SetParam(-1, TILE, TILE, Item::gate);
+		items.at(GATE2).SetParam(-1, TILE, TILE, Item::gate);
+		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::bed);
+		items.at(BOOKCASE_L).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::bookcase_l);
+		items.at(BOOKCASE_R).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::bookcase_r);
+		items.at(WHITE_BOOKCASE).SetParam(-1, 0, TILE / 2, Item::white_bookcase);
+		items.at(BOOKCASE_MAP21).SetParam(-1, 2 * TILE, TILE, Item::bookcase_map21);
+		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::handkerchief);
 		//events
 		events.resize(30);
-		/*events.at(0).SetEvents( "get_dish" );
-		events.at(0).SetBlockPath({{5,12},{5,13}});
-		events.at(0).SetDialogIndexes({ 0,1 });*/
 		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
+		events.at(1).SetParam("startevent", { },2,8);
 		//dialogs
 		TRACE("%d\n", int(dialogs.size()));
 		dialogs.resize(30);
-		dialogs.at(0).SetNow(Dialog::character::hirosi);
+
+		dialogs.at(0).SetNow(Dialog::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetNow(Dialog::character::hirosi);
+		dialogs.at(1).SetNow(Dialog::hirosi);
 		dialogs.at(1).SetParam({"Get the broken plate"},false);
+		dialogs.at(2).SetNow(Dialog::takurou);
+		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
+		dialogs.at(3).SetNow(Dialog::mika);
+		dialogs.at(3).SetParam({ "I feel a bit cold.  " }, false);
+		dialogs.at(4).SetNow(Dialog::takesi);
+		dialogs.at(4).SetParam({ "h..","hey","I think we should go home. "}, false);
+		dialogs.at(5).SetNow(Dialog::takurou);
+		dialogs.at(5).SetParam({ "What’s wrong with you takesi,"," are you afraid ? "}, false);
+		dialogs.at(6).SetNow(Dialog::takesi);
+		dialogs.at(6).SetParam({ "!!!!!" }, false);
+		dialogs.at(7).SetNow(Dialog::takesi);
+		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
+		dialogs.at(8).SetNow(Dialog::hirosi);
+		dialogs.at(8).SetParam({ "what a fool!","there is no ghost in the world."}, false);
+		dialogs.at(9).SetNow(Dialog::takesi);
+		dialogs.at(9).SetParam({ "hey","careful hirosi" }, false);
 
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
@@ -173,16 +179,16 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		//router.debug();
+		darkroom.resize(65);
+		for (int i = 0;i < 65;i++) {
+			if(i ==21){
+				darkroom.at(i) = true;
+			}
+			else
+			darkroom.at(i) = false;
+		}
 
-		// oni
-		/*
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
-		oni1.SetParam(Oni::OniType::mika, 4, 8);
-		oni1.SetParam(Oni::OniType::takesi, 4, 8);
-		oni1.SetParam(Oni::OniType::takurou, 4, 8);
-		oni1.SetParam(Oni::OniType::flat, 4, 8);
-		*/
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
+	 
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -197,18 +203,19 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		_nowID = 13;
-		_dialogID = 0;
+		_dialogID = -1;
 		_dialogcount = 0;
 		_eventID = 0;
-		player.init(4, 16, Human::down);
-		player.SetXYAndCol(12, 11);
-		player2.init(-1, 16,Human::down);
-		player2.SetXYAndCol(8,15);
-		player3.init(-1, 16, Human::down);
-		player3.SetXYAndCol(11,11);
-		player4.init(-1, 16, Human::down);
-		player4.SetXYAndCol(10, 11);
-		//player2.SetXY(12 * TILE, 11 * TILE + TILE / 2);
+		player.init(4, 16, Human::left);
+		player.SetXYAndCol(14, 13);
+		human_mika.init(-1, 16,Human::right);
+		human_mika.SetXYAndCol(10,12);
+		human_takeshi.init(-1, 16, Human::up);
+		human_takeshi.SetXYAndCol(13,14);
+		human_Takuruo.init(-1, 16, Human::down);
+		human_Takuruo.SetXYAndCol(12, 12);
+		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		house1_2F_TR_chair.Reset();
 		house1_2F_TL_chair.Reset();
@@ -244,13 +251,19 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()							// 移動遊戲元素
 	{
-		inputbox.OnMove();
-		if (player.IsMapChanged() && player.IsSwitchMap()) {
+		mapmask.SetTopLeft(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
 
+		inputbox.OnMove();
+		if (events.at(START_EVENT).IsTransMap()) {
+			_nowID = player.NextMapID();
+			events.at(START_EVENT).IsTransMap() = false;
+		}
+		if ((player.IsMapChanged() && player.IsSwitchMap())) {
 			_nowID = player.NextMapID();
 		}
-		player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
-		// Item
+		if (_substate != OnDialogs) {
+			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
+		}
 		if (_nowID == 0) {
 			items.at(BOOKCASE_L).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BOOKCASE_L).OnMove();
@@ -287,8 +300,15 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 13) {
-			player3.OnMove();
-			player4.OnMove();
+			
+			player.OnMove();
+			human_takeshi.OnMove();
+			human_Takuruo.OnMove();
+			human_mika.OnMove();
+			
+			if (_dialogID == 8) {
+				player.OnMoveBySettings(4);
+			}
 		}
 		else if (_nowID == 14) {
 			house1_2F_TR_chair.GetPlayerPos(player.GetX(), player.GetY());
@@ -340,7 +360,9 @@ namespace game_framework {
 			items.at(DETERGENT).OnMove();
 		}
 		else if (_nowID == 20) {
-			player2.OnMove();
+			human_mika.SetDirection(Human::up);
+			human_mika.SetXYAndCol(8,15);
+			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
 		}
@@ -362,8 +384,8 @@ namespace game_framework {
 		else {
 			oni1.OnMove(gamemaps.at(_nowID));
 		}
-		
 	}
+	
 
 
 
@@ -381,8 +403,8 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-		
-		else if(_substate == OnWalking){
+
+		else if (_substate == OnWalking) {
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
 					//TRACE("%d %d \n", player.GetX(), player.GetY());
@@ -440,16 +462,8 @@ namespace game_framework {
 			if (nChar == KEY_Q) {
 				GotoGameState(GAME_STATE_OVER);
 			}
-			
-			player.OnKeyDown(nChar);
-			
-			/*
-			if (dialogs.at(_dialogID).isShow()) {
-				dialogs.at(_dialogID).SetShow(false);
-			}*/
-		// if dialog is on, player can't move
 
-		// Item
+			player.OnKeyDown(nChar);
 			if (_nowID == 0) {
 				items.at(BOOKCASE_L).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
@@ -535,12 +549,9 @@ namespace game_framework {
 			}
 		}
 		else if (_substate == OnDialogs) {
-			if (nChar == VK_SPACE){
-				//dialogs.at(_dialogID).isShow() ? TRACE("a\n") : TRACE("b\n");
-				TRACE("%d %d  %d\n", events.at(_eventID).GetDialogCount(), _dialogcount,_dialogID);
+			if (nChar == VK_SPACE) {
 				if (events.at(_eventID).GetDialogCount() == _dialogcount) {
 					dialogs.at(_dialogID).SetShow(false);
-					//TRACE("end\n");
 					_substate = OnWalking;
 				}
 				else {
@@ -552,11 +563,16 @@ namespace game_framework {
 					}
 					else {
 						dialogs.at(_dialogID).SetShow(false);
-						//TRACE("end\n");
+						//TRACE("In onkeydown dialogID :%d", _dialogID);
+						if (_eventID == START_EVENT) {
+							events.at(START_EVENT).IsTransMap() = true;
+							player.SetNextMap(0, 3, 5);
+							//TRACE("START_EVENT set 0 3 5\n");
+						}
+						_dialogcount = 0;
+						_dialogID = -1;
 						_substate = OnWalking;
 					}
-
-					TRACE("next\n");
 				}
 			}
 		}
@@ -575,9 +591,9 @@ namespace game_framework {
 			}
 		}
 	}
-	
 
-	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+
+	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  
 	{
 		if (isdebugmode) {
 			if (isedit && ((istwoway != 0) || (pointvec.size() % 6 == 3))) {
@@ -601,17 +617,17 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	
 	{
 	}
 
-	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	
 	{
-		mousex = point.x / 32;
-		mousey = point.y / 32;
+		mousex = point.x / TILE;
+		mousey = point.y / TILE;
 	}
 
-	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
+	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  
 	{
 		if (isdebugmode) {
 			if (isedit) {
@@ -637,13 +653,16 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
+	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	
 	{
 
 	}
 	void CGameStateRun::OnShow()
 	{
-		gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
+		if (!(_dialogID>=2&&_dialogID<=9)) {
+			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
+			//TRACE("Showall map in On show\n");
+		}
 		if (_nowID == 0) {
 			items.at(BOOKCASE_L).OnShow();
 			items.at(BOOKCASE_R).OnShow();
@@ -660,8 +679,10 @@ namespace game_framework {
 		}
 		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).OnShow();
-			if (items.at(BROKEN_DISH).IsTake()&& !events.at(BROKEN_DISH_E).IsTriggered()) {
-				events.at(BROKEN_DISH_E).SetTriggered(true);
+			if (items.at(BROKEN_DISH).IsTake() && !events.at(BROKEN_DISH_E).IsTriggered()) {
+				_eventID = BROKEN_DISH_E;
+				events.at(_eventID).SetTriggered(true);
+				_dialogID = events.at(_eventID).GetDialogIndex();
 				dialogs.at(_dialogID).SetShow(true);
 				_substate = OnDialogs;
 			}
@@ -673,8 +694,38 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 13) {
-			player3.OnShow();
-			player4.OnShow();
+
+			if (!events.at(START_EVENT).IsTriggered()) {
+				_eventID = START_EVENT;
+				events.at(_eventID).SetTriggered(true);
+				_dialogID = events.at(_eventID).GetDialogIndex();
+				dialogs.at(_dialogID).SetShow(true);
+				_substate = OnDialogs;
+			}
+			// action based on dialogID
+			if (_dialogID == 6) {
+				player.SetDirection(Human::right);
+				human_takeshi.SetDirection(Human::right);
+				human_Takuruo.SetDirection(Human::right);
+			}
+			else if (_dialogID == 7) {
+				player.SetIsMachine(true, Human::isright);
+			}
+			else if (_dialogID == 9) {
+				player.SetAllMoveFalse();
+				player.SetNowmove(Human::machinetransmap);
+			}
+			if (_dialogID >= 2 && _dialogID <= 9) {
+				gamemaps.at(_nowID).ShowMapAll();
+				if (_dialogID != 9) {
+					player.OnShow();
+				}
+				human_mika.OnShow();
+				human_takeshi.OnShow();
+				human_Takuruo.OnShow();
+			}
+			//TRACE("%d\n",_dialogID);
+
 		}
 		else if (_nowID == 14) {
 			house1_2F_TR_chair.OnShow();
@@ -710,7 +761,7 @@ namespace game_framework {
 			items.at(DETERGENT).OnShow();
 		}
 		else if (_nowID == 20) {
-			player2.OnShow();
+			human_mika.OnShow();
 			house1_2F_TL_chair.OnShow();
 		}
 		else if (_nowID == 21) {
@@ -720,7 +771,6 @@ namespace game_framework {
 			items.at(KEY_BASEMENT).OnShow();
 			items.at(GATE).OnShow();
 		}
-		
 		for (int i = 0;i < 30;i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
@@ -757,7 +807,7 @@ namespace game_framework {
 					ofs << "\n";
 				}
 				else {
-					ofs << " ";
+					ofs << " "; 
 				}
 				i++;
 			}

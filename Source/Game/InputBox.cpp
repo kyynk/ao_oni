@@ -1,12 +1,8 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
-#include <cctype>
 #include "entity.h"
 #include "InputBox.h"
 namespace game_framework {

@@ -1,13 +1,8 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include <bitset>
-#include "ChoiceMenu.h"
-#include"Dialog.h"
 #include "Event.h"
 namespace game_framework {
 	Event::Event()	{
@@ -16,6 +11,7 @@ namespace game_framework {
 		_triggered = false;
 		_dialogindex = 0;
 		_dialogcount = 0;
+		_transmap = false;
 	}
 	void Event::debug()	{
 		

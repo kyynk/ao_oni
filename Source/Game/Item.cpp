@@ -1,13 +1,10 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "config.h"
 #include <string>
-#include <vector>
 #include "Entity.h"
 #include "Item.h"
 namespace game_framework {

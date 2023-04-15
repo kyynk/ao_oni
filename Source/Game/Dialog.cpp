@@ -1,14 +1,8 @@
 #include "stdafx.h"
-#include "../Core/Resource.h"
-#include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
-#include "config.h"
-#include <bitset>
-#include <string.h>
-#include <vector>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
 
