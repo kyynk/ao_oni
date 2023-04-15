@@ -52,7 +52,7 @@ namespace game_framework {
 		blockTeleportCor.push_back({ 4,3,46 });
 		blockTeleportCor.push_back({ 3,2,46 });
 		// thank god
-		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp" });
+		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
 		// main character
 		vector<string> playervec;
 		for (int i = 0; i < 4; i++) {
@@ -93,7 +93,6 @@ namespace game_framework {
 			MapRes::GetInstance()->Load(name, count);
 		}
 		// map data
-		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
 		for (int i = 0; i < 65; i++) {
 			GameMap tmp;
 			tmp.Load("map_bmp/map" + to_string(i) + ".txt");
@@ -112,29 +111,29 @@ namespace game_framework {
 		}
 		// item
 		items.resize(30);
-		items.at(TOILET).SetParam(-1, 0, 0, Item::itemName::toilet);
-		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::itemName::tub_once);
-		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::itemName::phillips);
-		items.at(TUB_FIXED).SetParam(-1, 0, TILE, Item::itemName::tub_fixed);
-		items.at(BROKEN_DISH).SetParam(-1, 0, 0, Item::itemName::broken_dish);
-		items.at(LIB_BOOK).SetParam(-1, 0, 0, Item::itemName::lib_book);
-		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::itemName::key_3F_L);
-		items.at(KEY_LIB).SetParam(100, 0, 0, Item::itemName::key_lib);
-		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::itemName::door_knob);
-		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::itemName::door_no_knob);
-		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::itemName::lighter);
-		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_l);
-		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::itemName::tatami_r);
-		items.at(DETERGENT).SetParam(-1, 0, 0, Item::itemName::detergent);
-		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::itemName::key_basement);
-		items.at(GATE).SetParam(-1, TILE, TILE, Item::itemName::gate);
-		items.at(GATE2).SetParam(-1, TILE, TILE, Item::itemName::gate);
-		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::itemName::bed);
-		items.at(BOOKCASE_L).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_l);
-		items.at(BOOKCASE_R).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::itemName::bookcase_r);
-		items.at(WHITE_BOOKCASE).SetParam(-1, 0, TILE / 2, Item::itemName::white_bookcase);
-		items.at(BOOKCASE_MAP21).SetParam(-1, 2 * TILE, TILE, Item::itemName::bookcase_map21);
-		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::itemName::handkerchief);
+		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
+		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
+		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
+		items.at(TUB_FIXED).SetParam(-1, 0, TILE, Item::tub_fixed);
+		items.at(BROKEN_DISH).SetParam(-1, 0, 0, Item::broken_dish);
+		items.at(LIB_BOOK).SetParam(-1, 0, 0, Item::lib_book);
+		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::key_3F_L);
+		items.at(KEY_LIB).SetParam(100, 0, 0, Item::key_lib);
+		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::door_knob);
+		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::door_no_knob);
+		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::lighter);
+		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::tatami_l);
+		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::tatami_r);
+		items.at(DETERGENT).SetParam(-1, 0, 0, Item::detergent);
+		items.at(KEY_BASEMENT).SetParam(100, 0, 0, Item::key_basement);
+		items.at(GATE).SetParam(-1, TILE, TILE, Item::gate);
+		items.at(GATE2).SetParam(-1, TILE, TILE, Item::gate);
+		items.at(BED).SetParam(-1, TILE, 2 * TILE, Item::bed);
+		items.at(BOOKCASE_L).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::bookcase_l);
+		items.at(BOOKCASE_R).SetParam(-1, 2 * TILE, 2 * TILE + TILE / 2, Item::bookcase_r);
+		items.at(WHITE_BOOKCASE).SetParam(-1, 0, TILE / 2, Item::white_bookcase);
+		items.at(BOOKCASE_MAP21).SetParam(-1, 2 * TILE, TILE, Item::bookcase_map21);
+		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::handkerchief);
 		//events
 		events.resize(30);
 		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
@@ -143,25 +142,25 @@ namespace game_framework {
 		TRACE("%d\n", int(dialogs.size()));
 		dialogs.resize(30);
 
-		dialogs.at(0).SetNow(Dialog::character::hirosi);
+		dialogs.at(0).SetNow(Dialog::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetNow(Dialog::character::hirosi);
+		dialogs.at(1).SetNow(Dialog::hirosi);
 		dialogs.at(1).SetParam({"Get the broken plate"},false);
-		dialogs.at(2).SetNow(Dialog::character::takurou);
+		dialogs.at(2).SetNow(Dialog::takurou);
 		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
-		dialogs.at(3).SetNow(Dialog::character::mika);
+		dialogs.at(3).SetNow(Dialog::mika);
 		dialogs.at(3).SetParam({ "I feel a bit cold.  " }, false);
-		dialogs.at(4).SetNow(Dialog::character::takesi);
+		dialogs.at(4).SetNow(Dialog::takesi);
 		dialogs.at(4).SetParam({ "h..","hey","I think we should go home. "}, false);
-		dialogs.at(5).SetNow(Dialog::character::takurou);
+		dialogs.at(5).SetNow(Dialog::takurou);
 		dialogs.at(5).SetParam({ "What’s wrong with you takesi,"," are you afraid ? "}, false);
-		dialogs.at(6).SetNow(Dialog::character::takesi);
+		dialogs.at(6).SetNow(Dialog::takesi);
 		dialogs.at(6).SetParam({ "!!!!!" }, false);
-		dialogs.at(7).SetNow(Dialog::character::takesi);
+		dialogs.at(7).SetNow(Dialog::takesi);
 		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
-		dialogs.at(8).SetNow(Dialog::character::hirosi);
+		dialogs.at(8).SetNow(Dialog::hirosi);
 		dialogs.at(8).SetParam({ "what a fool!","there is no ghost in the world."}, false);
-		dialogs.at(9).SetNow(Dialog::character::takesi);
+		dialogs.at(9).SetNow(Dialog::takesi);
 		dialogs.at(9).SetParam({ "hey","careful hirosi" }, false);
 
 		// objMove
@@ -256,7 +255,6 @@ namespace game_framework {
 
 		inputbox.OnMove();
 		if (events.at(START_EVENT).IsTransMap()) {
-			//TRACE("START EVENT Is tans map  in OnMove\n");
 			_nowID = player.NextMapID();
 			events.at(START_EVENT).IsTransMap() = false;
 		}
@@ -360,6 +358,8 @@ namespace game_framework {
 			items.at(DETERGENT).OnMove();
 		}
 		else if (_nowID == 20) {
+			human_mika.SetDirection(Human::up);
+			human_mika.SetXYAndCol(8,15);
 			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
@@ -621,8 +621,8 @@ namespace game_framework {
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	
 	{
-		mousex = point.x / 32;
-		mousey = point.y / 32;
+		mousex = point.x / TILE;
+		mousey = point.y / TILE;
 	}
 
 	void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  

@@ -299,7 +299,6 @@ namespace game_framework {
 	{
 		std::ifstream in(files);
 		in >> _mapname >> _ID;
-		//TRACE("%s\n", _mapname.c_str());
 		in >> _width >> _height;
 		int n;
 		in >> n;
