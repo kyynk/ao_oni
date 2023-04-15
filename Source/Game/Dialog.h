@@ -11,7 +11,7 @@ namespace game_framework {
 		};
 		Dialog();
 		~Dialog();
-		void SetNow(character a);
+		void SetFigure(character a);
 		void SetParam(vector<string>  st, bool ch);
 		void ShowTotal();
 		bool isShow();
