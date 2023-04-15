@@ -317,6 +317,8 @@ namespace game_framework {
 				items.at(KEY_LIB).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(KEY_LIB).OnMove();
 			}
+			items.at(HANDKERCHIEF).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(HANDKERCHIEF).OnMove();
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick()) {
