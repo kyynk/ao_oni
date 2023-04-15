@@ -138,31 +138,38 @@ namespace game_framework {
 		events.resize(30);
 		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
 		events.at(1).SetParam("startevent", { },2,8);
+		events.at(2).SetParam("startevent2", {}, 10,3);
 		//dialogs
-		TRACE("%d\n", int(dialogs.size()));
+		//TRACE("%d\n", int(dialogs.size()));
 		dialogs.resize(30);
 
-		dialogs.at(0).SetNow(Dialog::hirosi);
+		dialogs.at(0).SetFigure(Dialog::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetNow(Dialog::hirosi);
+		dialogs.at(1).SetFigure(Dialog::hirosi);
 		dialogs.at(1).SetParam({"Get the broken plate"},false);
-		dialogs.at(2).SetNow(Dialog::takurou);
+		dialogs.at(2).SetFigure(Dialog::takurou);
 		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
-		dialogs.at(3).SetNow(Dialog::mika);
-		dialogs.at(3).SetParam({ "I feel a bit cold.  " }, false);
-		dialogs.at(4).SetNow(Dialog::takesi);
+		dialogs.at(3).SetFigure(Dialog::mika);
+		dialogs.at(3).SetParam({ "I feel a bit cold. " }, false);
+		dialogs.at(4).SetFigure(Dialog::takesi);
 		dialogs.at(4).SetParam({ "h..","hey","I think we should go home. "}, false);
-		dialogs.at(5).SetNow(Dialog::takurou);
-		dialogs.at(5).SetParam({ "What’s wrong with you takesi,"," are you afraid ? "}, false);
-		dialogs.at(6).SetNow(Dialog::takesi);
+		dialogs.at(5).SetFigure(Dialog::takurou);
+		dialogs.at(5).SetParam({ "What is  wrong with you takesi,"," are you afraid ? "}, false);
+		dialogs.at(6).SetFigure(Dialog::takesi);
 		dialogs.at(6).SetParam({ "!!!!!" }, false);
-		dialogs.at(7).SetNow(Dialog::takesi);
+		dialogs.at(7).SetFigure(Dialog::takesi);
 		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
-		dialogs.at(8).SetNow(Dialog::hirosi);
-		dialogs.at(8).SetParam({ "what a fool!","there is no ghost in the world."}, false);
-		dialogs.at(9).SetNow(Dialog::takesi);
-		dialogs.at(9).SetParam({ "hey","careful hirosi" }, false);
-
+		dialogs.at(8).SetFigure(Dialog::hirosi);
+		dialogs.at(8).SetParam({ "what a fool!","there are no ghosts in this world."}, false);
+		dialogs.at(9).SetFigure(Dialog::takesi);
+		dialogs.at(9).SetParam({ "hey","careful Hirosi" }, false);
+		dialogs.at(10).SetFigure(Dialog::hirosi);
+		dialogs.at(10).SetParam({ "!" },false);
+		dialogs.at(11).SetFigure(Dialog::hirosi);
+		dialogs.at(11).SetParam({ "!" },false);
+		dialogs.at(12).SetFigure(Dialog::hirosi);
+		dialogs.at(12).SetParam({ "where is everyone" }, false);
+		
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
@@ -262,6 +269,7 @@ namespace game_framework {
 			_nowID = player.NextMapID();
 		}
 		if (_substate != OnDialogs) {
+			//TRACE("normal onmve player\n");
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		}
 		if (_nowID == 0) {
@@ -300,14 +308,20 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 13) {
-			
-			player.OnMove();
-			human_takeshi.OnMove();
-			human_Takuruo.OnMove();
-			human_mika.OnMove();
-			
+			if (_dialogID >= 2 && _dialogID <= 9) {
+				player.OnMove();
+				human_takeshi.OnMove();
+				human_Takuruo.OnMove();
+				human_mika.OnMove();
+			}
 			if (_dialogID == 8) {
 				player.OnMoveBySettings(4);
+			}
+			if (_dialogID >= 10 && _dialogID <= 12) {
+				player.OnMove();
+			}
+			if (_dialogID == 11) {
+				player.OnMoveBySettings(6);
 			}
 		}
 		else if (_nowID == 14) {
@@ -550,29 +564,21 @@ namespace game_framework {
 		}
 		else if (_substate == OnDialogs) {
 			if (nChar == VK_SPACE) {
-				if (events.at(_eventID).GetDialogCount() == _dialogcount) {
-					dialogs.at(_dialogID).SetShow(false);
-					_substate = OnWalking;
+				dialogs.at(_dialogID).SetShow(false);
+				_dialogID += 1;
+				_dialogcount += 1;
+				if (events.at(_eventID).GetDialogCount() != _dialogcount) {
+					dialogs.at(_dialogID).SetShow(true);
 				}
 				else {
 					dialogs.at(_dialogID).SetShow(false);
-					_dialogID += 1;
-					_dialogcount += 1;
-					if (events.at(_eventID).GetDialogCount() != _dialogcount) {
-						dialogs.at(_dialogID).SetShow(true);
+					if (_eventID == START_EVENT) {
+						events.at(START_EVENT).IsTransMap() = true;
+						player.SetNextMap(0, 3, 5);
 					}
-					else {
-						dialogs.at(_dialogID).SetShow(false);
-						//TRACE("In onkeydown dialogID :%d", _dialogID);
-						if (_eventID == START_EVENT) {
-							events.at(START_EVENT).IsTransMap() = true;
-							player.SetNextMap(0, 3, 5);
-							//TRACE("START_EVENT set 0 3 5\n");
-						}
-						_dialogcount = 0;
-						_dialogID = -1;
-						_substate = OnWalking;
-					}
+					_dialogcount = 0;
+					_dialogID = -1;
+					_substate = OnWalking;
 				}
 			}
 		}
@@ -659,9 +665,9 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID>=2&&_dialogID<=9)) {
+		//TRACE("%d\n", _dialogID);
+		if (!(_dialogID>=2&& _dialogID<=11)) {
 			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
-			//TRACE("Showall map in On show\n");
 		}
 		if (_nowID == 0) {
 			items.at(BOOKCASE_L).OnShow();
@@ -702,7 +708,13 @@ namespace game_framework {
 				dialogs.at(_dialogID).SetShow(true);
 				_substate = OnDialogs;
 			}
-			// action based on dialogID
+			if (!events.at(START_EVENT2).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
+				_eventID = START_EVENT2;
+				events.at(_eventID).SetTriggered(true);
+				_dialogID = events.at(_eventID).GetDialogIndex();
+				dialogs.at(_dialogID).SetShow(true);
+				_substate = OnDialogs;
+			}
 			if (_dialogID == 6) {
 				player.SetDirection(Human::right);
 				human_takeshi.SetDirection(Human::right);
@@ -715,6 +727,32 @@ namespace game_framework {
 				player.SetAllMoveFalse();
 				player.SetNowmove(Human::machinetransmap);
 			}
+			else if (_dialogID == 10) {
+				player.SetAllMoveFalse();
+				player.SetIsMachine(true, Human::isleft);
+			}
+			else if (_dialogID == 11) {
+				player.TimerStart();
+			}
+			else if (_dialogID == 12) {
+				player.SetAllMoveFalse();
+				if (player.IsTimerStart()) {
+					if (player.TimerGetCount() < 15) {
+						player.SetDirection(Human::up);
+					}
+					else if (player.TimerGetCount() < 30) {
+						player.SetDirection(Human::down);
+					}
+					else if (player.TimerGetCount() < 45) {
+						player.SetDirection(Human::left);
+						player.TimerStop();
+					}
+					player.TimerUpdate();
+					TRACE("%d\n", player.TimerGetCount());
+				}
+			}
+			
+			// in event situation show function is different from normal situation
 			if (_dialogID >= 2 && _dialogID <= 9) {
 				gamemaps.at(_nowID).ShowMapAll();
 				if (_dialogID != 9) {
@@ -724,7 +762,10 @@ namespace game_framework {
 				human_takeshi.OnShow();
 				human_Takuruo.OnShow();
 			}
-			//TRACE("%d\n",_dialogID);
+			if (_dialogID >= 10 && _dialogID <= 12) {
+				gamemaps.at(_nowID).ShowMapAll();
+				player.OnShow();
+			}
 
 		}
 		else if (_nowID == 14) {
