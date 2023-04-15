@@ -18,6 +18,7 @@ namespace game_framework {
 		_isFixedPos = false;
 		_press = false;
 		_collide = false;
+		_isCrossMap = false;
 		_type = no;
 		_nowmove = none;
 		_pressing = none;
@@ -43,6 +44,9 @@ namespace game_framework {
 		else if (_type == house1_2F_TL_chair) {
 			bitmapName = "darkBrown_chair1";
 		}
+		else if (_type == house1_basement_chair) {
+			bitmapName = "black_chair0";
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void ObjMove::Load(string filename, COLORREF color) {
@@ -54,14 +58,16 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int ObjMove::GetPosY() {
-		if (_type == house1_2F_TL_chair) return _pos_y + _offsetY;
+		if (_type == house1_2F_TL_chair ||
+			_type == house1_basement_chair) return _pos_y + _offsetY;
 		return _pos_y;
 	}
 	int ObjMove::GetPosL() {
 		return _pos_x - TILE;
 	}
 	int ObjMove::GetPosU() {
-		if (_type == house1_2F_TL_chair) return _pos_y + _offsetY - TILE;
+		if (_type == house1_2F_TL_chair || 
+			_type == house1_basement_chair) return _pos_y + _offsetY - TILE;
 		return _pos_y - TILE;
 	}
 	int ObjMove::GetPosR() {
@@ -210,10 +216,10 @@ namespace game_framework {
 	bool ObjMove::isCollide() {
 		int x = _pos_x + _offsetX;
 		int y = _pos_y + _offsetY;
-		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() || _humanY <= y) && _pressing == isright)
-			|| (_humanX - TILE == x && (_humanY >= GetPosY() || _humanY <= y) && _pressing == isleft)
-			|| ((_humanX >= GetPosX() || _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == isdown)
-			|| ((_humanX >= GetPosX() || _humanX <= x) && _humanY - TILE == y) && _pressing == isup)
+		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() && _humanY <= y) && _pressing == isright)
+			|| (_humanX - TILE == x && (_humanY >= GetPosY() && _humanY <= y) && _pressing == isleft)
+			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == isdown)
+			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY - TILE == y) && _pressing == isup)
 			_collide = true;
 		else
 			_collide = false;

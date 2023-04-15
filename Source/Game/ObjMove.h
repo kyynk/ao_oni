@@ -6,7 +6,7 @@ namespace game_framework {
 			no,
 			house1_2F_TL_chair,
 			house1_2F_TR_chair,
-			black_chair,
+			house1_basement_chair,
 			flower
 		};
 		enum move {
@@ -51,6 +51,7 @@ namespace game_framework {
 		bool _isFixedPos;
 		bool _press;
 		bool _collide;
+		bool _isCrossMap;
 		ObjType _type;
 		move _nowmove;
 		move _pressing;
