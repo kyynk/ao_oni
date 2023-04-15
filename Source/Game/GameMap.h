@@ -17,6 +17,7 @@ namespace game_framework {
 		~GameMap(){}
 		void ShowMap(int layer);
 		void ShowMapAll(Human &,Oni &, int overlayindex);
+		void ShowMapAll();
 		void SetTopLeftMap(int x, int y);
 		void debug();
 		void Load(string files);

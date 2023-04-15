@@ -106,3 +106,4 @@ space :  when input box is enable, escape input box.
 
 */
 #define BROKEN_DISH_E 0
+#define START_EVENT 1
