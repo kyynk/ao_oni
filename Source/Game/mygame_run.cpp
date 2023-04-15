@@ -168,8 +168,11 @@ namespace game_framework {
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
 			16 * TILE, 9 * TILE);
 		house1_2F_TL_chair.SetParam(ObjMove::ObjType::house1_2F_TL_chair,
-			8, 4, 0, 16, 14 * TILE, 15 * TILE,
+			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE,
 			13 * TILE, 9 * TILE);
+		house1_basement_chair.SetParam(ObjMove::ObjType::house1_basement_chair,
+			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE, //9 14
+			9 * TILE, 11 * TILE);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -219,6 +222,7 @@ namespace game_framework {
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		house1_2F_TR_chair.Reset();
 		house1_2F_TL_chair.Reset();
+		house1_basement_chair.Reset();
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
@@ -271,6 +275,10 @@ namespace game_framework {
 				items.at(BOOKCASE_R).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(BOOKCASE_R).OnMove();
 			}
+		}
+		if (_nowID == 1) {
+			house1_basement_chair.GetPlayerPos(player.GetX(), player.GetY());
+			house1_basement_chair.OnMove(gamemaps.at(_nowID));
 		}
 		else if (_nowID == 3) {
 			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
@@ -473,6 +481,9 @@ namespace game_framework {
 					items.at(BOOKCASE_R).OnKeyDown(nChar);
 				}
 			}
+			else if (_nowID == 1) {
+				house1_basement_chair.OnKeyDown(nChar);
+			}
 			else if (_nowID == 3) {
 				items.at(GATE2).OnKeyDown(nChar);
 			}
@@ -583,7 +594,10 @@ namespace game_framework {
 	{
 		if (_substate == OnWalking) {
 			player.OnKeyUp(nChar);
-			if (_nowID == 14) {
+			if (_nowID == 1) {
+				house1_basement_chair.OnKeyUp(nChar);
+			}
+			else if (_nowID == 14) {
 				house1_2F_TR_chair.OnKeyUp(nChar);
 			}
 			else if (_nowID == 20) {
@@ -666,6 +680,9 @@ namespace game_framework {
 		if (_nowID == 0) {
 			items.at(BOOKCASE_L).OnShow();
 			items.at(BOOKCASE_R).OnShow();
+		}
+		else if (_nowID == 1) {
+			house1_basement_chair.OnShow();
 		}
 		else if (_nowID == 3) {
 			items.at(GATE2).OnShow();
