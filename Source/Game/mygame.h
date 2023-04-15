@@ -103,16 +103,14 @@ namespace game_framework {
 		void DeBugRecursive();
 		//game
 		int _substate;
-		
-		//Dialog talk;
-		//Dialog useItem;
 		vector<Dialog> dialogs;
 		Human player;
 		Human human_mika;
 		Human human_takeshi;
 		Human human_Takuruo;
 		Oni oni1;
-		ObjMove redChair;
+		ObjMove house1_2F_TR_chair;
+		ObjMove house1_2F_TL_chair;
 		vector<Event> events;
 		vector<Item> items;
 		//map related

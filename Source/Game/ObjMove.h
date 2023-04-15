@@ -4,7 +4,8 @@ namespace game_framework {
 	public:
 		enum ObjType {
 			no,
-			red_chair,
+			house1_2F_TL_chair,
+			house1_2F_TR_chair,
 			black_chair,
 			flower
 		};

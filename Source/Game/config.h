@@ -81,7 +81,15 @@
 #define DOOR_NO_KNOB 9
 #define LIGHTER 10
 #define TATAMI_L 11
-#define TATAMI_R 11
+#define TATAMI_R 12
+#define DETERGENT 13
+#define KEY_BASEMENT 14
+#define GATE 15
+#define GATE2 16
+#define BED 17
+#define BOOKCASE_L 18
+#define BOOKCASE_R 19
+
 
 /*
 debug mode
