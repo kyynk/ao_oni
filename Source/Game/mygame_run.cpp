@@ -375,7 +375,7 @@ namespace game_framework {
 		}
 		else if (_nowID == 20) {
 			human_mika.SetDirection(Human::up);
-			human_mika.SetXYAndCol(8,15);
+			human_mika.SetXYAndCol(8,16);
 			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
@@ -737,13 +737,13 @@ namespace game_framework {
 			else if (_dialogID == 12) {
 				player.SetAllMoveFalse();
 				if (player.IsTimerStart()) {
-					if (player.TimerGetCount() < 15) {
+					if (player.TimerGetCount() < 20) {
 						player.SetDirection(Human::up);
 					}
-					else if (player.TimerGetCount() < 30) {
+					else if (player.TimerGetCount() < 40) {
 						player.SetDirection(Human::down);
 					}
-					else if (player.TimerGetCount() < 45) {
+					else if (player.TimerGetCount() < 60) {
 						player.SetDirection(Human::left);
 						player.TimerStop();
 					}
