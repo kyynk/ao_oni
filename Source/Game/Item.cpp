@@ -110,7 +110,7 @@ namespace game_framework {
 			bitmapName.push_back("img/item/oil.bmp");
 		}
 		else if (_name == handkerchief) {
-			bitmapName.push_back("img/item/hankati.bmp");
+			bitmapName.push_back("img/item_animation/handkerchief/handkerchief.bmp");
 		}
 		else if (_name == detergent) {
 			for (int i = 0; i < 2; i++) { // actually only need detergent0.bmp
@@ -154,6 +154,13 @@ namespace game_framework {
 		else if (_name == bookcase_r) {
 			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
 		}
+		else if (_name == white_bookcase) {
+			bitmapName.push_back("img/item_animation/bookcase/white_bookcase.bmp");
+		}
+		else if (_name == bookcase_map21) {
+			bitmapName.push_back("img/item_animation/bookcase/bookcase_map21.bmp");
+		}
+
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -391,11 +398,19 @@ namespace game_framework {
 						utiltriggers[4] = true;
 					}
 				}
+				// house1 2F DL
+				else if (_name == white_bookcase && !utiltriggers[4]) {
+					utiltriggers[4] = true;
+				}
+				// house1 room8 (map21)
+				else if (_name == bookcase_map21 && !utiltriggers[4]) {
+					utiltriggers[4] = true;
+				}
 			}
 		}
 		/*else
 			TRACE("\n\nno press\n\n");*/
-		if (_name == bed) {
+		if (_name == bed || _name == white_bookcase) {
 			if (utiltriggers[4] && !utiltriggers[6]) {
 				TimerStart();
 			}
@@ -418,6 +433,19 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x -= 4;
+				TimerUpdate();
+			}
+		}
+		else if (_name == bookcase_map21) {
+			if (utiltriggers[4] && !utiltriggers[6]) {
+				TimerStart();
+			}
+			if (TimerGetCount() == 16) {
+				TimerStop();
+				utiltriggers[6] = true;
+			}
+			if (IsTimerStart()) {
+				_pos_x += 4;
 				TimerUpdate();
 			}
 		}
