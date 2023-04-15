@@ -89,7 +89,9 @@
 #define BED 17
 #define BOOKCASE_L 18
 #define BOOKCASE_R 19
-
+#define WHITE_BOOKCASE 20
+#define BOOKCASE_MAP21 21
+#define HANDKERCHIEF 22
 
 /*
 debug mode
@@ -104,3 +106,4 @@ space :  when input box is enable, escape input box.
 
 */
 #define BROKEN_DISH_E 0
+#define START_EVENT 1
