@@ -7,7 +7,6 @@
 namespace game_framework {
 	Event::Event()	{
 		_condition = false;
-		_evtname = "";
 		_triggered = false;
 		_dialogindex = 0;
 		_dialogcount = 0;
@@ -29,8 +28,7 @@ namespace game_framework {
 	vector<vector<int> >& Event::GetBlockPath() {
 		return _blockpath;
 	}
-	void Event::SetParam(string evtname, vector<vector<int> > blockpath, int firstindex, int count) {
-		_evtname = evtname;
+	void Event::SetParam( vector<vector<int> > blockpath, int firstindex, int count) {
 		_blockpath = blockpath;
 		_dialogindex = firstindex;
 		_dialogcount = count;

@@ -105,3 +105,7 @@ space :  when input box is enable, escape input box.
 #define BROKEN_DISH_E 0
 #define START_EVENT 1
 #define START_EVENT2 2
+#define KEY_LIB_E 3
+#define DETERGENT_E 4
+#define PHILLIPS_E 5
+#define KEY_3F_L_E 6

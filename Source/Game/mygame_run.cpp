@@ -79,7 +79,7 @@ namespace game_framework {
 		playervec.clear();
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/takuruo_move/Takuruo_" + to_string(i) + to_string(j) + ".bmp");
+				playervec.push_back("img/takuro_move/Takuro_" + to_string(i) + to_string(j) + ".bmp");
 			}
 		}
 		human_Takuruo.Load(playervec, RGB(204, 255, 0));
@@ -136,17 +136,20 @@ namespace game_framework {
 		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::handkerchief);
 		//events
 		events.resize(30);
-		events.at(0).SetParam("get_dish", { {5,12},{5,13} }, 0,2 );
-		events.at(1).SetParam("startevent", { },2,8);
-		events.at(2).SetParam("startevent2", {}, 10,3);
+		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
+		events.at(START_EVENT).SetParam({ },2,8);
+		events.at(START_EVENT2).SetParam({}, 10,3);
+		events.at(KEY_LIB_E).SetParam({}, 13, 1);
+		events.at(DETERGENT_E).SetParam({}, 14, 1);
+		events.at(PHILLIPS_E).SetParam({}, 15, 1);
+		events.at(KEY_3F_L_E).SetParam({}, 16, 1);
 		//dialogs
-		//TRACE("%d\n", int(dialogs.size()));
 		dialogs.resize(30);
 
 		dialogs.at(0).SetFigure(Dialog::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure(Dialog::hirosi);
-		dialogs.at(1).SetParam({"Get the broken plate"},false);
+		dialogs.at(1).SetParam({"Gain the broken plate"},false);
 		dialogs.at(2).SetFigure(Dialog::takurou);
 		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
 		dialogs.at(3).SetFigure(Dialog::mika);
@@ -169,7 +172,14 @@ namespace game_framework {
 		dialogs.at(11).SetParam({ "!" },false);
 		dialogs.at(12).SetFigure(Dialog::hirosi);
 		dialogs.at(12).SetParam({ "where is everyone" }, false);
-		
+		dialogs.at(13).SetFigure(Dialog::hirosi);
+		dialogs.at(13).SetParam({ "Gain the library key " }, false);
+		dialogs.at(14).SetFigure(Dialog::hirosi);
+		dialogs.at(14).SetParam({ "Gain the detergent " }, false);
+		dialogs.at(15).SetFigure(Dialog::hirosi);
+		dialogs.at(15).SetParam({ "Gain the phillips screwdriver " }, false);
+		dialogs.at(16).SetFigure(Dialog::hirosi);
+		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE,
@@ -499,6 +509,7 @@ namespace game_framework {
 					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
 				items.at(TATAMI_R).OnKeyDown(nChar);
+
 			}
 			else if (_nowID == 11) {
 				items.at(BROKEN_DISH).OnKeyDown(nChar);
@@ -564,21 +575,26 @@ namespace game_framework {
 		}
 		else if (_substate == OnDialogs) {
 			if (nChar == VK_SPACE) {
-				dialogs.at(_dialogID).SetShow(false);
-				_dialogID += 1;
-				_dialogcount += 1;
-				if (events.at(_eventID).GetDialogCount() != _dialogcount) {
-					dialogs.at(_dialogID).SetShow(true);
+				if (_dialogID == 12 && player.IsTimerStart()) {
+
 				}
 				else {
 					dialogs.at(_dialogID).SetShow(false);
-					if (_eventID == START_EVENT) {
-						events.at(START_EVENT).IsTransMap() = true;
-						player.SetNextMap(0, 3, 5);
+					_dialogID += 1;
+					_dialogcount += 1;
+					if (events.at(_eventID).GetDialogCount() != _dialogcount) {
+						dialogs.at(_dialogID).SetShow(true);
 					}
-					_dialogcount = 0;
-					_dialogID = -1;
-					_substate = OnWalking;
+					else {
+						dialogs.at(_dialogID).SetShow(false);
+						if (_eventID == START_EVENT) {
+							events.at(START_EVENT).IsTransMap() = true;
+							player.SetNextMap(0, 3, 5);
+						}
+						_dialogcount = 0;
+						_dialogID = -1;
+						_substate = OnWalking;
+					}
 				}
 			}
 		}
@@ -698,22 +714,18 @@ namespace game_framework {
 			if (items.at(LIB_BOOK).IsFixed()) {
 				items.at(KEY_3F_L).OnShow();
 			}
+			if (items.at(KEY_3F_L).IsPick()&&!events.at(KEY_3F_L_E).IsTriggered()) {
+				SetEventTriggeredDialog(KEY_3F_L_E);
+			}
 		}
 		else if (_nowID == 13) {
 
 			if (!events.at(START_EVENT).IsTriggered()) {
-				_eventID = START_EVENT;
-				events.at(_eventID).SetTriggered(true);
-				_dialogID = events.at(_eventID).GetDialogIndex();
-				dialogs.at(_dialogID).SetShow(true);
-				_substate = OnDialogs;
+				SetEventTriggeredDialog(START_EVENT);
+
 			}
 			if (!events.at(START_EVENT2).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
-				_eventID = START_EVENT2;
-				events.at(_eventID).SetTriggered(true);
-				_dialogID = events.at(_eventID).GetDialogIndex();
-				dialogs.at(_dialogID).SetShow(true);
-				_substate = OnDialogs;
+				SetEventTriggeredDialog(START_EVENT2);
 			}
 			if (_dialogID == 6) {
 				player.SetDirection(Human::right);
@@ -751,7 +763,7 @@ namespace game_framework {
 					TRACE("%d\n", player.TimerGetCount());
 				}
 			}
-			
+
 			// in event situation show function is different from normal situation
 			if (_dialogID >= 2 && _dialogID <= 9) {
 				gamemaps.at(_nowID).ShowMapAll();
@@ -770,8 +782,12 @@ namespace game_framework {
 		}
 		else if (_nowID == 14) {
 			house1_2F_TR_chair.OnShow();
-			if (house1_2F_TR_chair.IsFixed())
+			if (house1_2F_TR_chair.IsFixed()) {
 				items.at(KEY_LIB).OnShow();
+				if (items.at(KEY_LIB).IsPick() && !events.at(KEY_LIB_E).IsTriggered()) {
+					SetEventTriggeredDialog(KEY_LIB_E);
+				}
+			}
 			items.at(HANDKERCHIEF).OnShow();
 		}
 		else if (_nowID == 15) {
@@ -796,10 +812,17 @@ namespace game_framework {
 			if (items.at(PHILLIPS).IsPick()) {
 				items.at(TUB_FIXED).OnShow();
 			}
+			if (items.at(PHILLIPS).IsPick() && !events.at(PHILLIPS_E).IsTriggered()) {
+				SetEventTriggeredDialog(PHILLIPS_E);
+				
+			}
 		}
 		else if (_nowID == 19) {
 			items.at(TOILET).OnShow();
 			items.at(DETERGENT).OnShow();
+			if (items.at(DETERGENT).IsPick() && !events.at(DETERGENT_E).IsTriggered()) {
+				SetEventTriggeredDialog(DETERGENT_E);
+			}
 		}
 		else if (_nowID == 20) {
 			human_mika.OnShow();
@@ -817,10 +840,18 @@ namespace game_framework {
 				dialogs.at(i).ShowTotal();
 			}
 		}
-		
 		DeBugRecursive();
-
 	}
+	
+	void CGameStateRun::SetEventTriggeredDialog(int eventid)
+	{
+		_eventID = eventid;
+		events.at(_eventID).SetTriggered(true);
+		_dialogID = events.at(_eventID).GetDialogIndex();
+		dialogs.at(_dialogID).SetShow(true);
+		_substate = OnDialogs;
+	}
+
 	void CGameStateRun::DeBugRecursive() {
 		string maplink = "map_bmp/maplink.txt";
 		if (isedit && !ofs.is_open()) {
@@ -840,8 +871,6 @@ namespace game_framework {
 				if (i % 6 == 1) {
 					ofs << twowayvec[j++];
 					ofs << " ";
-					//ofs << bsvec[k++];
-					//ofs << " ";
 				}
 				ofs << f;
 				if (i % 6 == 0) {
@@ -867,7 +896,6 @@ namespace game_framework {
 			}
 			file.close();
 			TRACE("link number : %d\n", lineNumber - 1);
-			// Write the modified content back to the file
 			ofstream outputFile(maplink, ios::trunc);
 			outputFile << lineNumber - 1 << "\n";
 			outputFile << content;

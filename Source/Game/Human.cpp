@@ -509,7 +509,7 @@ namespace game_framework{
 			_direction = right;
 			_isright = true;
 		}
-		_isMachine = false;
+		//_isMachine = false;
 	}
 
 }
