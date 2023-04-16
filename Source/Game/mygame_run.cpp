@@ -165,14 +165,11 @@ namespace game_framework {
 
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
-			8, 4, 0, 0, 15 * TILE, 9 * TILE,
-			16 * TILE, 9 * TILE);
+			8, 4, 0, 0, 15 * TILE, 9 * TILE);
 		house1_2F_TL_chair.SetParam(ObjMove::ObjType::house1_2F_TL_chair,
-			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE,
-			13 * TILE, 9 * TILE);
+			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE);
 		house1_basement_chair.SetParam(ObjMove::ObjType::house1_basement_chair,
-			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE, //9 14
-			9 * TILE, 11 * TILE);
+			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });

@@ -7,6 +7,7 @@ namespace game_framework {
 			house1_2F_TL_chair,
 			house1_2F_TR_chair,
 			house1_basement_chair,
+			house1_basement_chair2,
 			flower
 		};
 		enum move {
@@ -21,8 +22,7 @@ namespace game_framework {
 		// step and moveTime sould be fast with player
 		// e.g. moveTime = 4, step = 8
 		void SetParam(ObjType tp, int step, int moveTime, 
-			int offsetX, int offsetY, int resetX, int resetY,
-			int fixedX, int fixedY);
+			int offsetX, int offsetY, int resetX, int resetY);
 		void Load(string filename, COLORREF color);
 		int GetPosX();
 		int GetPosY();
@@ -46,8 +46,7 @@ namespace game_framework {
 		int _humanX, _humanY,
 			_step, _moveTime, _overTime,
 			_offsetX, _offsetY, 
-			_resetX, _resetY, 
-			_fixedX, _fixedY;
+			_resetX, _resetY;
 		bool _isFixedPos;
 		bool _press;
 		bool _collide;
