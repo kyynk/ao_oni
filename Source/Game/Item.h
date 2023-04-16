@@ -24,7 +24,7 @@ namespace game_framework {
 			flathead, //screwdriver
 			lighter,				 //v
 			oil,
-			handkerchief,
+			handkerchief,			 //v
 			detergent, //wash		 //v
 			door_knob,
 			door_no_knob,
@@ -36,7 +36,7 @@ namespace game_framework {
 			bookcase_l,				 //v
 			bookcase_r,				 //v
 			white_bookcase,			 //v
-			bookcase_map21
+			bookcase_map21			 //v
 		};
 		Item();
 		~Item();
