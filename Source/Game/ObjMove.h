@@ -6,7 +6,7 @@ namespace game_framework {
 			no,
 			house1_2F_TL_chair,
 			house1_2F_TR_chair,
-			house1_basement_chair,
+			house1_basement2_chair,
 			house1_basement_chair2,
 			flower
 		};
@@ -41,6 +41,10 @@ namespace game_framework {
 		void Fixed();
 		bool isCollide();
 		bool IsFixed();
+		// if change map, obj should be disappear
+		// and obj will check if fixed or need to teleport or reset
+		void ChangeMap();
+		bool isChangeMap();
 		
 	private:
 		int _humanX, _humanY,
@@ -51,6 +55,8 @@ namespace game_framework {
 		bool _press;
 		bool _collide;
 		bool _isCrossMap;
+		bool _1stCross;
+		bool _notShow;
 		ObjType _type;
 		move _nowmove;
 		move _pressing;

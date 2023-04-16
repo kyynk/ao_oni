@@ -111,7 +111,7 @@ namespace game_framework {
 		Oni oni1;
 		ObjMove house1_2F_TR_chair;
 		ObjMove house1_2F_TL_chair;
-		ObjMove house1_basement_chair;
+		ObjMove house1_basement2_chair;
 		vector<Event> events;
 		vector<Item> items;
 		//map related
