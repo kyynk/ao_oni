@@ -13,8 +13,7 @@ namespace game_framework {
 		_humanX, _humanY,
 			_step, _moveTime, _overTime,
 			_offsetX, _offsetY,
-			_resetX, _resetY,
-			_fixedX, _fixedY = 0;
+			_resetX, _resetY = 0;
 		_isFixedPos = false;
 		_press = false;
 		_collide = false;
@@ -26,8 +25,7 @@ namespace game_framework {
 	ObjMove::~ObjMove() {
 	}
 	void ObjMove::SetParam(ObjType tp, int step, int moveTime, 
-		int offsetX, int offsetY, int resetX, int resetY, 
-		int fixedX, int fixedY) {
+		int offsetX, int offsetY, int resetX, int resetY) {
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -35,8 +33,6 @@ namespace game_framework {
 		_offsetY = offsetY;
 		_resetX = resetX;
 		_resetY = resetY;
-		_fixedX = fixedX;
-		_fixedY = fixedY;
 		string bitmapName;
 		if (_type == house1_2F_TR_chair) {
 			bitmapName = "darkBrown_chair0";
@@ -206,11 +202,30 @@ namespace game_framework {
 		SetXY(_resetX - _offsetX, _resetY - _offsetY);
 	}
 	void ObjMove::Fixed() {
-		if (GetPosX() == _fixedX && GetPosY() == _fixedY)
-			_isFixedPos = true;
-		if (_isFixedPos) {
-			_resetX = _fixedX;
-			_resetY = _fixedY;
+		if (_type == house1_2F_TR_chair) {
+			if ((GetPosX() == 16 * TILE && GetPosY() == 9 * TILE) || 
+				(GetPosX() == 14 * TILE && GetPosY() == 9 * TILE))
+				_isFixedPos = true;
+			if (_isFixedPos) {
+				_resetX = GetPosX();
+				_resetY = GetPosY();
+			}
+		}
+		else if (_type == house1_2F_TL_chair) {
+			if (GetPosX() == 13 * TILE && GetPosY() == 9 * TILE)
+				_isFixedPos = true;
+			if (_isFixedPos) {
+				_resetX = GetPosX();
+				_resetY = GetPosY();
+			}
+		}
+		else if (_type == house1_basement_chair) {
+			if (GetPosX() == 9 * TILE && GetPosY() == 11 * TILE)
+				_isFixedPos = true;
+			if (_isFixedPos) {
+				_resetX = GetPosX();
+				_resetY = GetPosY();
+			}
 		}
 	}
 	bool ObjMove::isCollide() {
