@@ -27,8 +27,11 @@ namespace game_framework {
 	Oni::Oni() {
 		_type = normal;
 		ResetOT();
-		_humanX, _humanY, _step, 
-			_offsetX, _offsetY= 0;
+		_humanX = 0;
+		_humanY = 0;
+		_step = 0;
+		_offsetX = 0;
+		_offsetY= 0;
 		_isDisappear = false;
 		_walkiter = true;
 		_bstate = s1;
