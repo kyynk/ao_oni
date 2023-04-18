@@ -23,7 +23,7 @@ namespace game_framework {
 		void AssignValue(int x, int y, int z, int value);
 		void SetDimension(int x, int y);
 		int GetValue(int x, int y);
-		void AssignValue(int x, int y, int value);
+		//void AssignValue(int x, int y, int value);
 		int Msize();
 
 	};

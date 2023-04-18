@@ -67,6 +67,7 @@ namespace game_framework {
 		bool IsFixed();
 		bool IsTake();
 		bool IsAnimationDone();
+		bool IsClose();
 
 	private:
 		// _aniType : 

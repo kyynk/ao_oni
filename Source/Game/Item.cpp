@@ -554,4 +554,7 @@ namespace game_framework {
 	bool Item::IsAnimationDone() {
 		return bitmap.IsAnimationDone();
 	}
+	bool Item::IsClose() {
+		return utiltriggers[1];
+	}
 }
