@@ -109,3 +109,4 @@ space :  when input box is enable, escape input box.
 #define DETERGENT_E 4
 #define PHILLIPS_E 5
 #define KEY_3F_L_E 6
+#define LIGHTER_E 7
