@@ -10,7 +10,9 @@
 namespace game_framework {
 	Item::Item() {
 		SetXY(14 * TILE, 15 * TILE);
-		_anidelay, _boxX, _boxY = 0;
+		_anidelay = 0;
+		_boxX = 0;
+		_boxY = 0;
 		_move = none;
 		_pressing = none;
 		_aniType = -1;
@@ -548,5 +550,8 @@ namespace game_framework {
 	}
 	bool Item::IsAnimationDone() {
 		return bitmap.IsAnimationDone();
+	}
+	bool Item::IsClose() {
+		return utiltriggers[1];
 	}
 }

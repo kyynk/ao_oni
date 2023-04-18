@@ -10,10 +10,16 @@
 
 namespace game_framework {
 	ObjMove::ObjMove() {
-		_humanX, _humanY,
-			_step, _moveTime, _overTime,
-			_offsetX, _offsetY,
-			_resetX, _resetY = 0;
+		_preX = 0;
+		_preY = 0;
+		_humanX = 0;
+		_humanY = 0;
+		_step = 0;
+		_moveTime = 0;
+		_offsetX = 0;
+		_offsetY = 0;
+		_resetX = 0;
+		_resetY = 0;
 		_isFixedPos = false;
 		_press = false;
 		_collide = false;
@@ -215,7 +221,7 @@ namespace game_framework {
 				bitmap.ShowBitmap();
 				_1stCross = false;
 			}
-			else if (_isCrossMap && !(_pos_x == 18 * TILE && _pos_y == 8 * TILE - TILE / 2)) {
+			else if (_isCrossMap && !(_pos_x == 18 * TILE && _pos_y == 8 * TILE - TILE / 2) && !(_pos_x == 5 * TILE && _pos_y == 8 * TILE - TILE / 2)) {
 				bitmap.ShowBitmap();
 			}
 			else {
