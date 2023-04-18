@@ -92,6 +92,7 @@
 #define WHITE_BOOKCASE 20
 #define BOOKCASE_MAP21 21
 #define HANDKERCHIEF 22
+#define OIL 23
 
 /*
 debug mode
