@@ -103,10 +103,16 @@ space :  when input box is enable, escape input box.
 */
 // event id
 #define BROKEN_DISH_E 0
-#define START_EVENT 1
-#define START_EVENT2 2
+#define START_EVENT_E 1
+#define START_EVENT2_E 2
 #define KEY_LIB_E 3
 #define DETERGENT_E 4
 #define PHILLIPS_E 5
 #define KEY_3F_L_E 6
 #define LIGHTER_E 7
+#define DUMB_TAKESHI_E 8
+#define HANDKERCHIEF_E 9
+#define MIKA_SCARE_E 10
+#define MIKA_OK_E 11
+#define MIKA_NOTOK_E 12
+#define MIKA_REPEAT_E 13
