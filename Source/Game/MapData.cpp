@@ -30,6 +30,11 @@ namespace game_framework {
 	void MapData::AssignValue(int x, int y, int z, int value)
 	{
 		//if (_DimZ == 0) throw std::invalid_argument("invalid function call");
+		if (x >= _DimX || y >= _DimY || z >= _DimZ) {
+		}
+		/*TRACE("%d %d %d \n", x, y, z);
+		
+		TRACE("the value : %d", _vector.at(x * _DimY * _DimZ + y * _DimZ + z));*/
 		_vector.at(x * _DimY * _DimZ + y * _DimZ + z) = value;
 	}
 
@@ -42,11 +47,6 @@ namespace game_framework {
 	int MapData::GetValue(int x, int y)
 	{
 		return _vector.at(x * _DimY + y );
-	}
-	
-	void MapData::AssignValue(int x, int y, int value)
-	{
-		_vector.at(x * _DimY  + y ) = value;
 	}
 
 	int MapData::Msize()
