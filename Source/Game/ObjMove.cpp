@@ -12,10 +12,14 @@ namespace game_framework {
 	ObjMove::ObjMove() {
 		_preX = 0;
 		_preY = 0;
-		_humanX, _humanY,
-			_step, _moveTime, 
-			_offsetX, _offsetY,
-			_resetX, _resetY = 0;
+		_humanX = 0;
+		_humanY = 0;
+		_step = 0;
+		_moveTime = 0;
+		_offsetX = 0;
+		_offsetY = 0;
+		_resetX = 0;
+		_resetY = 0;
 		_isFixedPos = false;
 		_press = false;
 		_collide = false;
