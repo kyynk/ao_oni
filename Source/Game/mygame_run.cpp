@@ -143,6 +143,7 @@ namespace game_framework {
 		events.at(DETERGENT_E).SetParam({}, 14, 1);
 		events.at(PHILLIPS_E).SetParam({}, 15, 1);
 		events.at(KEY_3F_L_E).SetParam({}, 16, 1);
+		events.at(LIGHTER_E).SetParam({}, 17, 1);
 		//dialogs
 		dialogs.resize(30);
 
@@ -180,6 +181,9 @@ namespace game_framework {
 		dialogs.at(15).SetParam({ "Gain the phillips screwdriver " }, false);
 		dialogs.at(16).SetFigure(Dialog::hirosi);
 		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
+		dialogs.at(17).SetFigure(Dialog::hirosi);
+		dialogs.at(17).SetParam({ "Gain the lighter " }, false);
+
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE);
@@ -204,8 +208,6 @@ namespace game_framework {
 			else
 			darkroom.at(i) = false;
 		}
-
-	 
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -292,12 +294,17 @@ namespace game_framework {
 			}
 		}
 		if (_nowID == 0) {
+
 			if (house1_basement2_chair.isChangeMap()) {
 				house1_basement2_chair.GetPlayerPos(player.GetX(), player.GetY());
 				house1_basement2_chair.OnMove(gamemaps.at(_nowID));
 			}
 		}
 		else if (_nowID == 1) {
+			
+			
+			//gamemaps.at(_nowID).SetMapData(0, house1_basement2_chair.GetPosX(), house1_basement2_chair.GetPosY(),0);
+			
 			house1_basement2_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_basement2_chair.OnMove(gamemaps.at(_nowID));
 		}
@@ -591,10 +598,10 @@ namespace game_framework {
 		}
 		else if (_substate == OnDialogs) {
 			if (nChar == VK_SPACE) {
-				if (_dialogID == 12 && player.IsTimerStart()) {
+				//if (_dialogID == 12 && player.IsTimerStart()) {
 
-				}
-				else {
+				//}
+				//else {
 					dialogs.at(_dialogID).SetShow(false);
 					_dialogID += 1;
 					_dialogcount += 1;
@@ -609,9 +616,10 @@ namespace game_framework {
 						}
 						_dialogcount = 0;
 						_dialogID = -1;
+						_eventID = -1;
 						_substate = OnWalking;
 					}
-				}
+				//}
 			}
 		}
 	}
@@ -748,6 +756,10 @@ namespace game_framework {
 			items.at(TATAMI_R).OnShow();
 			if (items.at(LIGHTER).IsPick()) {
 				items.at(TATAMI_L).OnShow();
+
+			}
+			if (items.at(LIGHTER).IsPick() && !events.at(LIGHTER_E).IsTriggered()) {
+				SetEventTriggeredDialog(LIGHTER_E);
 			}
 		}
 		else if (_nowID == 11) {
