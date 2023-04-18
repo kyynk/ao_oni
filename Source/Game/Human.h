@@ -65,7 +65,6 @@ namespace game_framework{
 		int machine_count;
 	private:
 		int _coroffset;
-		bool _pressed;
 		bool _walkiter;
 		Direction _direction;
 		bstate _bstate;
