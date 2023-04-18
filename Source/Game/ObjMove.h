@@ -45,12 +45,14 @@ namespace game_framework {
 		// and obj will check if fixed or need to teleport or reset
 		void ChangeMap();
 		bool isChangeMap();
-		
+		int GetPreX() { return _prex; }
+		int GetPreY()  {return _prey;}
 	private:
 		int _humanX, _humanY,
 			_step, _moveTime, _overTime,
 			_offsetX, _offsetY, 
 			_resetX, _resetY;
+		int _prex, _prey;
 		bool _isFixedPos;
 		bool _press;
 		bool _collide;

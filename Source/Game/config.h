@@ -1,13 +1,6 @@
-/////////////////////////////////////////////////////////////////////////////
-// 定義遊戲可設定的環境與條件
-/////////////////////////////////////////////////////////////////////////////
-
 #define GAME_TITLE           "Game"
-//! 設定遊戲畫面的解析度（寬度）
 #define SIZE_X				 816	
-//! 設定遊戲畫面的解析度（高度）
 #define SIZE_Y				 820
-//! 是否以全螢幕方式開啟遊戲
 #define OPEN_AS_FULLSCREEN	 false		
 //! 是否顯示loading(OnInit)的進度
 #define SHOW_LOAD_PROGRESS   true		
@@ -31,7 +24,9 @@
 #define RESOLUTION_X     1920           
 //! 全螢幕用，請設定成目前視窗的解析度 (height)。
 #define RESOLUTION_Y     1080   
+
 #define TILE 32
+
 #define KEY_0 0x30
 #define KEY_1 0x31
 #define KEY_2 0x32
@@ -69,6 +64,7 @@
 #define KEY_Y 0x59
 #define KEY_Z 0x5a
 #define VK_ENTER VK_RETURN
+// item id
 #define TOILET 0
 #define TUB_ONCE 1
 #define PHILLIPS 2
@@ -106,5 +102,12 @@ space :  when input box is enable, escape input box.
 		otherwise, if input is in the range of map index, teleport to to corresponding map
 
 */
+// event id
 #define BROKEN_DISH_E 0
 #define START_EVENT 1
+#define START_EVENT2 2
+#define KEY_LIB_E 3
+#define DETERGENT_E 4
+#define PHILLIPS_E 5
+#define KEY_3F_L_E 6
+#define LIGHTER_E 7

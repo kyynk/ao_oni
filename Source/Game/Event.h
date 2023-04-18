@@ -7,7 +7,7 @@ namespace game_framework {
 		Event();
 		void debug ();
 		void SetCondition(bool con);
-		void SetParam(string evtname, vector<vector<int> > blockpath, int firstindex,int count);
+		void SetParam(vector<vector<int> > blockpath, int firstindex,int count);
 		bool IsTriggered();
 		void SetTriggered(bool triggered);
 		vector<vector<int> >& GetBlockPath();
@@ -16,7 +16,6 @@ namespace game_framework {
 		bool &IsTransMap() { return _transmap; }
 
 	private:
-		string _evtname;
 		bool _condition;
 		bool _triggered;
 		vector<vector<int> > _blockpath; // 0 = map0, 1 = map1

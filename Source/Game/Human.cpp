@@ -44,7 +44,7 @@ namespace game_framework{
 		_pressing = none;
 	}
 	void Human::SetXYAndCol(int x,int y) {
-		SetXY(x * TILE, y * TILE + TILE / 2);
+		SetXY(x * TILE, y * TILE - TILE / 2);
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
@@ -295,14 +295,9 @@ namespace game_framework{
 	}
 
 	void Human::OnMoveBySettings(int countblock){
+		TRACE("onmoveby setting running\n");
 		if (_isup || _isdown || _isleft || _isright) {
 			TimerStart();
-		}
-		else {
-			if (TimerGetCount() == 8) {
-				TimerStop();				
-				_walkiter = !_walkiter;
-			}
 		}
 		if (IsTimerStart()) {
 			if (TimerGetCount() % 8 == 0) {
@@ -313,10 +308,8 @@ namespace game_framework{
 				machine_count += 1;
 				if (machine_count == countblock) {
 					TimerStop();
-					_isright = false;
-					_pressing = none;
-					_nowmove = none;
-					//SetNextMap(0, 3, 5);
+					SetAllMoveFalse();
+					machine_count = 0;
 				}
 				_walkiter = !_walkiter;
 			}
@@ -374,6 +367,8 @@ namespace game_framework{
 		_isright = false;
 		_nowmove = none;
 		_pressing = none;
+		
+		TRACE("set all false\n");
 	}
 	void Human::SetNowmove(move m) {
 		_nowmove = m;
@@ -514,7 +509,7 @@ namespace game_framework{
 			_direction = right;
 			_isright = true;
 		}
-		_isMachine = false;
+		//_isMachine = false;
 	}
 
 }
