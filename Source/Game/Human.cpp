@@ -373,6 +373,10 @@ namespace game_framework{
 	void Human::SetNowmove(move m) {
 		_nowmove = m;
 	}
+	bool Human::Collide()
+	{
+		
+	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
 			_direction = left;

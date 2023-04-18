@@ -62,6 +62,7 @@ namespace game_framework{
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(move m);
+		
 		int machine_count;
 	private:
 		int _coroffset;
