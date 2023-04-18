@@ -19,7 +19,7 @@ namespace game_framework {
 	}
 	Dialog::~Dialog() {
 	}
-	void Dialog::SetNow(character a) {
+	void Dialog::SetFigure(character a) {
 		_now = a;
 		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
 		if (_now == hirosi) {

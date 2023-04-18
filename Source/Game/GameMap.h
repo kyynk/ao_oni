@@ -29,6 +29,7 @@ namespace game_framework {
 		int GetHeight() { return _height; }
 		int GetLayer() { return _layer; }
 		int GetMapData(int layer, int bx, int by);
+		void SetMapData(int layer ,int x, int y, int value);
 		bool isshowtileindex;
 		int indexlayer;
 	private:
