@@ -272,8 +272,14 @@ namespace game_framework {
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		house1_2F_TR_chair.Reset();
+		house1_2F_TR_chair._preX = house1_2F_TR_chair.GetPosX();
+		house1_2F_TR_chair._preY = house1_2F_TR_chair.GetPosY();
 		house1_2F_TL_chair.Reset();
+		house1_2F_TL_chair._preX = house1_2F_TL_chair.GetPosX();
+		house1_2F_TL_chair._preY = house1_2F_TL_chair.GetPosY();
 		house1_basement2_chair.Reset();
+		house1_basement2_chair._preX = house1_basement2_chair.GetPosX();
+		house1_basement2_chair._preY = house1_basement2_chair.GetPosY();
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
@@ -317,7 +323,6 @@ namespace game_framework {
 			_nowID = player.NextMapID();
 		}
 		if (_substate != OnDialogs) {
-			//TRACE("normal onmve player\n");
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		}
 		if (_nowID == 0) {
@@ -326,26 +331,105 @@ namespace game_framework {
 			if (items.at(BOOKCASE_L).IsFixed()) {
 				items.at(BOOKCASE_R).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(BOOKCASE_R).OnMove();
-			}
-		}
-		if (_nowID == 0) {
 
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + 3 * TILE- gamemaps.at(_nowID).GetX()) / TILE, 312);				//DL
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);		//DM
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//DR
+
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+			}
+			if (!items.at(BOOKCASE_R).IsFixed()) {
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_R).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_R).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
+				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BOOKCASE_R).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+			}
+			else {
+				if (items.at(BOOKCASE_R).IsFixed()) {		//if use "Y" and "I" will see next line first posX = 0
+					if ((items.at(BOOKCASE_R).GetPosX() + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14) {
+						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+							(items.at(BOOKCASE_R).GetPosX() + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);				//DL (reset)
+					}
+					if ((items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14 &&
+						(items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 13) {
+						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+							(items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);		//DM (reset)
+					}
+					if ((items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14 &&
+						(items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 13) {
+						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+							(items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//DR (reset)
+					}
+
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_R).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_R).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_R).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				}
+			}
 			if (house1_basement2_chair.isChangeMap()) {
 				house1_basement2_chair.GetPlayerPos(player.GetX(), player.GetY());
 				house1_basement2_chair.OnMove(gamemaps.at(_nowID));
+				gamemaps.at(_nowID).SetMapData(0, (house1_basement2_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+					(house1_basement2_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				house1_basement2_chair._preX = house1_basement2_chair.GetPosX();
+				house1_basement2_chair._preY = house1_basement2_chair.GetPosY();
+				if (!(house1_basement2_chair._preX == 18 * TILE && house1_basement2_chair._preY == 8 * TILE) && 
+					!(house1_basement2_chair._preX == 5 * TILE && house1_basement2_chair._preY == 8 * TILE)) {
+					gamemaps.at(_nowID).SetMapData(0, (house1_basement2_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+						(house1_basement2_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				}
 			}
 		}
 		else if (_nowID == 1) {
-			
-			
-			//gamemaps.at(_nowID).SetMapData(0, house1_basement2_chair.GetPosX(), house1_basement2_chair.GetPosY(),0);
-			
 			house1_basement2_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_basement2_chair.OnMove(gamemaps.at(_nowID));
+			if (!house1_basement2_chair.isChangeMap()) {
+				gamemaps.at(_nowID).SetMapData(0, (house1_basement2_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+					(house1_basement2_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				house1_basement2_chair._preX = house1_basement2_chair.GetPosX();
+				house1_basement2_chair._preY = house1_basement2_chair.GetPosY();
+				if (!(house1_basement2_chair._preX == 15 * TILE && house1_basement2_chair._preY == 12 * TILE)) {
+					gamemaps.at(_nowID).SetMapData(0, (house1_basement2_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+						(house1_basement2_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				}
+			}
 		}
 		else if (_nowID == 3) {
 			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(GATE2).OnMove();
+			if (items.at(GATE2).IsClose()) {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE2).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE2).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE2).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE2).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
 		}
 		else if (_nowID == 10) {
 			items.at(TATAMI_R).GetPlayerPos(player.GetX(), player.GetY());
@@ -390,12 +474,37 @@ namespace game_framework {
 		else if (_nowID == 14) {
 			house1_2F_TR_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TR_chair.OnMove(gamemaps.at(_nowID));
+			
+			gamemaps.at(_nowID).SetMapData(0, (house1_2F_TR_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+				(house1_2F_TR_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
+
+			house1_2F_TR_chair._preX = house1_2F_TR_chair.GetPosX();
+			house1_2F_TR_chair._preY = house1_2F_TR_chair.GetPosY();
+			gamemaps.at(_nowID).SetMapData(0, (house1_2F_TR_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+				(house1_2F_TR_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			
 			if (house1_2F_TR_chair.IsFixed()) {
 				items.at(KEY_LIB).GetPlayerPos(player.GetX(), player.GetY());
 				items.at(KEY_LIB).OnMove();
+				if (!items.at(KEY_LIB).IsPick()){
+					gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_LIB).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(KEY_LIB).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				}
+				else {
+					gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_LIB).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(KEY_LIB).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				}
 			}
 			items.at(HANDKERCHIEF).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(HANDKERCHIEF).OnMove();
+			if (!items.at(HANDKERCHIEF).IsPick()) {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			}
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick()) {
@@ -410,6 +519,29 @@ namespace game_framework {
 		else if (_nowID == 16) {
 			items.at(BED).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BED).OnMove();
+			if (!items.at(BED).IsFixed()) {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//TL
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//DL
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//TR
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() + TILE + TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//TR (reset)
+
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//TL
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//DL
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//TR
+				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+			}
 		}
 		else if (_nowID == 17) {
 			items.at(WHITE_BOOKCASE).GetPlayerPos(player.GetX(), player.GetY());
@@ -442,6 +574,15 @@ namespace game_framework {
 			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
+
+			gamemaps.at(_nowID).SetMapData(0, (house1_2F_TL_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+				(house1_2F_TL_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			house1_2F_TL_chair._preX = house1_2F_TL_chair.GetPosX();
+			house1_2F_TL_chair._preY = house1_2F_TL_chair.GetPosY();
+			if (!(house1_2F_TL_chair._preX == 12 * TILE && house1_2F_TL_chair._preY == 17 * TILE)) {
+				gamemaps.at(_nowID).SetMapData(0, (house1_2F_TL_chair._preY - gamemaps.at(_nowID).GetY()) / TILE,
+					(house1_2F_TL_chair._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
 		}
 		else if (_nowID == 21) {
 			items.at(BOOKCASE_MAP21).GetPlayerPos(player.GetX(), player.GetY());
@@ -450,8 +591,28 @@ namespace game_framework {
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(KEY_BASEMENT).OnMove();
+			if (!items.at(KEY_BASEMENT).IsPick()) {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_BASEMENT).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(KEY_BASEMENT).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_BASEMENT).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(KEY_BASEMENT).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			}
 			items.at(GATE).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(GATE).OnMove();
+			if (items.at(GATE).IsClose()) {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(items.at(GATE).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
 		}
 		// Item end
 		oni1.GetPlayerPos(player.GetX(), player.GetY());
