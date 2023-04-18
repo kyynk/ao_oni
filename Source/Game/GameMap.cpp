@@ -272,6 +272,9 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 		}
 	}
+	void GameMap::SetMapData( int layer, int x, int y, int value) {
+		_gamemapdata.AssignValue(layer, x, y, value);
+	}
 	void GameMap::ShowMapAll() {
 		for (int i = 1;i < _layer;i++) {
 			ShowMap(i);
