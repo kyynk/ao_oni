@@ -162,7 +162,38 @@ namespace game_framework {
 		else if (_name == bookcase_map21) {
 			bitmapName.push_back("img/item_animation/bookcase/bookcase_map21.bmp");
 		}
-
+		else if (_name == closet_shake) {
+			for (int i = 0; i < 3; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_shake_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == closet_takesi_0) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_takesi_open_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == closet_takesi_1) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_takesi_shake_" + to_string(i) + ".bmp");
+			}
+			SetTrigger();
+			Animation(3, 0);
+		}
+		else if (_name == closet_hirosi_R) {
+			for (int i = 0; i < 6; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_hirosi_R_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == closet_hirosi_L) {
+			for (int i = 0; i < 6; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_hirosi_L_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == closet_mika_out) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/closet/closet_mika_" + to_string(i) + ".bmp");
+			}
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -272,7 +303,6 @@ namespace game_framework {
 				else if (_name == lighter && !utiltriggers[3]) {
 					if (utiltriggers[1]) {
 						SetTrigger();
-						// will optimize Animation
 						Animation(0, 0); // open
 						utiltriggers[1] = false;
 					}
@@ -282,7 +312,6 @@ namespace game_framework {
 						}
 						else {
 							SetTrigger();
-							// will optimize Animation
 							Animation(1, 2); // close
 							utiltriggers[1] = true;
 						}
@@ -307,13 +336,11 @@ namespace game_framework {
 					else {
 						if (utiltriggers[1]) {
 							SetTrigger();
-							// will optimize Animation
 							Animation(0, 1); // open
 							utiltriggers[1] = false;
 						}
 						else {
 							SetTrigger();
-							// will optimize Animation
 							Animation(1, 3); // close
 							utiltriggers[1] = true;
 						}
@@ -353,7 +380,6 @@ namespace game_framework {
 							(_playerY - TILE == _pos_y + _boxY || 
 								_playerY + TILE == _pos_y + _boxY)) {
 							SetTrigger();
-							// will optimize Animation
 							Animation(2, 1); // open
 							utiltriggers[1] = false;
 						}
@@ -363,7 +389,6 @@ namespace game_framework {
 							(_playerY - TILE == _pos_y + _boxY || 
 								_playerY + TILE == _pos_y + _boxY)) {
 							SetTrigger();
-							// will optimize Animation
 							Animation(2, 0); // close
 							utiltriggers[1] = true;
 						}
@@ -406,6 +431,52 @@ namespace game_framework {
 				}
 				// house1 room8 (map21)
 				else if (_name == bookcase_map21 && !utiltriggers[4]) {
+					utiltriggers[4] = true;
+				}
+				// house1 2F TR (once), event triggered
+				else if (_name == closet_shake) {
+					SetTrigger();
+					Animation(0, 0);
+					utiltriggers[4] = true;
+				}
+				// house1 2F TR, takesi open (once)
+				else if (_name == closet_takesi_0) {
+					SetTrigger();
+					Animation(0, 0);
+					utiltriggers[4] = true;
+				}
+				// house1 2F TR, takesi shake
+				// takesi shake should be use event unshow
+				// house1 2F TR
+				else if (_name == closet_hirosi_R) {
+					if (utiltriggers[1]) {
+						SetTrigger();
+						Animation(0, 1); // in
+						utiltriggers[1] = false;
+					}
+					else {
+						SetTrigger();
+						Animation(1, 3); // out
+						utiltriggers[1] = true;
+					}
+				}
+				// house1 basement3 map2
+				else if (_name == closet_hirosi_L) {
+					if (utiltriggers[1]) {
+						SetTrigger();
+						Animation(0, 1); // in
+						utiltriggers[1] = false;
+					}
+					else {
+						SetTrigger();
+						Animation(1, 3); // out
+						utiltriggers[1] = true;
+					}
+				}
+				// house1 basement3 map2 (once), event triggered
+				else if (_name == closet_mika_out) {
+					SetTrigger();
+					Animation(0, 0);
 					utiltriggers[4] = true;
 				}
 			}
