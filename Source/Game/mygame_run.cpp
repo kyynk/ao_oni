@@ -134,6 +134,12 @@ namespace game_framework {
 		items.at(WHITE_BOOKCASE).SetParam(-1, 0, TILE / 2, Item::white_bookcase);
 		items.at(BOOKCASE_MAP21).SetParam(-1, 2 * TILE, TILE, Item::bookcase_map21);
 		items.at(HANDKERCHIEF).SetParam(-1, 0, 0, Item::handkerchief);
+		items.at(CLOSET_SHAKE).SetParam(100, TILE / 2, TILE, Item::closet_shake);
+		items.at(CLOSET_TAKESI_0).SetParam(100, 0, TILE / 2, Item::closet_takesi_0);
+		items.at(CLOSET_TAKESI_1).SetParam(100, 0, TILE / 2, Item::closet_takesi_1);
+		items.at(CLOSET_HIROSI_R).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
+		items.at(CLOSET_HIROSI_L).SetParam(100, TILE / 2, TILE / 2, Item::closet_hirosi_L);
+		items.at(CLOSET_MIKA_OUT).SetParam(100, 0, 0, Item::closet_mika_out);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -269,6 +275,12 @@ namespace game_framework {
 		items.at(WHITE_BOOKCASE).SetXY(16 * TILE, 6 * TILE + TILE / 2);
 		items.at(BOOKCASE_MAP21).SetXY(8 * TILE, 7 * TILE);
 		items.at(HANDKERCHIEF).SetXY(8 * TILE, 11 * TILE);
+		items.at(CLOSET_SHAKE).SetXY(7 * TILE + TILE / 2, 7 * TILE);  // 7 7
+		items.at(CLOSET_TAKESI_0).SetXY(8 * TILE, 7 * TILE + TILE / 2);
+		items.at(CLOSET_TAKESI_1).SetXY(8 * TILE, 7 * TILE + TILE / 2);
+		items.at(CLOSET_HIROSI_R).SetXY(8 * TILE, 7 * TILE + TILE / 2);
+		items.at(CLOSET_HIROSI_L).SetXY(15 * TILE + TILE / 2, 7 * TILE + TILE / 2);
+		items.at(CLOSET_MIKA_OUT).SetXY(15 * TILE + TILE / 2, 6 * TILE + TILE / 2);
 		//items end
 		//event
 		
@@ -380,6 +392,10 @@ namespace game_framework {
 				}
 			}
 		}
+		else if (_nowID == 2) {
+			items.at(CLOSET_HIROSI_L).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_HIROSI_L).OnMove();
+		}
 		else if (_nowID == 3) {
 			items.at(GATE2).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(GATE2).OnMove();
@@ -470,6 +486,13 @@ namespace game_framework {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
+			/*items.at(CLOSET_SHAKE).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_SHAKE).OnMove();
+			items.at(CLOSET_TAKESI_0).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_TAKESI_0).OnMove();
+			// CLOSET_TAKESI_1 not have on move*/
+			items.at(CLOSET_HIROSI_R).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_HIROSI_R).OnMove();
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick()) {
@@ -681,6 +704,9 @@ namespace game_framework {
 			else if (_nowID == 1) {
 				house1_basement2_chair.OnKeyDown(nChar);
 			}
+			else if (_nowID == 2) {
+				items.at(CLOSET_HIROSI_L).OnKeyDown(nChar);
+			}
 			else if (_nowID == 3) {
 				items.at(GATE2).OnKeyDown(nChar);
 			}
@@ -713,6 +739,12 @@ namespace game_framework {
 				if (house1_2F_TR_chair.IsFixed())
 					items.at(KEY_LIB).OnKeyDown(nChar);
 				items.at(HANDKERCHIEF).OnKeyDown(nChar);
+				/*items.at(CLOSET_SHAKE).OnKeyDown(nChar);
+				if (!items.at(CLOSET_TAKESI_0).IsFixed()) {
+					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
+				}
+				// CLOSET_TAKESI_1 not have on key down*/
+				items.at(CLOSET_HIROSI_R).OnKeyDown(nChar);
 			}
 			else if (_nowID == 15) {
 				if (!items.at(DOOR_KNOB).IsPick()) {
@@ -899,6 +931,7 @@ namespace game_framework {
 			if (house1_basement2_chair.isChangeMap()) {
 				house1_basement2_chair.ChangeMap();
 			}
+			items.at(CLOSET_HIROSI_L).OnShow();
 		}
 		else if (_nowID == 3) {
 			items.at(GATE2).OnShow();
@@ -1013,6 +1046,16 @@ namespace game_framework {
 				}
 			}
 			items.at(HANDKERCHIEF).OnShow();
+			/*if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
+				items.at(CLOSET_SHAKE).OnShow();
+			}
+			if (!items.at(CLOSET_TAKESI_0).IsFixed() || !items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
+				items.at(CLOSET_TAKESI_0).OnShow();
+			}
+			if (items.at(CLOSET_TAKESI_0).IsFixed() && items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
+				items.at(CLOSET_TAKESI_1).OnShow();
+			}*/
+			items.at(CLOSET_HIROSI_R).OnShow();
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick())
