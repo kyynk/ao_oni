@@ -88,7 +88,12 @@
 #define WHITE_BOOKCASE 20
 #define BOOKCASE_MAP21 21
 #define HANDKERCHIEF 22
-#define OIL 23
+#define CLOSET_SHAKE 23
+#define CLOSET_TAKESI_0 24
+#define CLOSET_TAKESI_1 25
+#define CLOSET_HIROSI_R 26
+#define CLOSET_HIROSI_L 27
+#define CLOSET_MIKA_OUT 28
 
 /*
 debug mode

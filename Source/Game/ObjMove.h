@@ -51,7 +51,6 @@ namespace game_framework {
 			_step, _moveTime, 
 			_offsetX, _offsetY, 
 			_resetX, _resetY;
-		int _prex, _prey;
 		bool _isFixedPos;
 		bool _press;
 		bool _collide;

@@ -10,33 +10,39 @@ namespace game_framework {
 			isright
 		};
 		enum itemName {
-			lib_book,				 //v
-			key_lib,				 //v
-			key_3F_L,				 //v
+			lib_book,					 //v
+			key_lib,					 //v
+			key_3F_L,					 //v
 			key_2F_TL,
-			key_basement,			 //v
+			key_basement,				 //v
 			key_jail,
 			key_annexe,
-			broken_dish,			 //v
-			tub_once,				 //v
-			phillips, //screwdriver  //v
-			tub_fixed,				 //v
+			broken_dish,				 //v
+			tub_once,					 //v
+			phillips, //screwdriver		 //v
+			tub_fixed,					 //v
 			flathead, //screwdriver
-			lighter,				 //v
+			lighter,					 //v
 			oil,
-			handkerchief,			 //v
-			detergent, //wash		 //v
+			handkerchief,				 //v
+			detergent, //wash			 //v
 			door_knob,
 			door_no_knob,
-			tatami_l,				 //v
-			tatami_r,				 //v
-			gate,					 //v
-			toilet,					 //v
-			bed,					 //v
-			bookcase_l,				 //v
-			bookcase_r,				 //v
-			white_bookcase,			 //v
-			bookcase_map21			 //v
+			tatami_l,					 //v
+			tatami_r,					 //v
+			gate,						 //v
+			toilet,						 //v
+			bed,						 //v
+			bookcase_l,					 //v
+			bookcase_r,					 //v
+			white_bookcase,				 //v
+			bookcase_map21,			     //v
+			closet_shake,				 //v need event
+			closet_takesi_0, // open	 //v
+			closet_takesi_1, // shaking  //v
+			closet_hirosi_R,			 //v
+			closet_hirosi_L,			 //v
+			closet_mika_out, // oni
 		};
 		Item();
 		~Item();
