@@ -224,7 +224,6 @@ namespace game_framework {
 	}
 	void Item::CheckMoveDirection() {
 		int x = _pos_x + _boxX;
-		//TRACE("asdsad\n");
 		int y = _pos_y + _boxY;
 		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isright)
 			_move = isright;
@@ -481,8 +480,7 @@ namespace game_framework {
 				}
 			}
 		}
-		/*else
-			TRACE("\n\nno press\n\n");*/
+
 		if (_name == bed || _name == white_bookcase) {
 			if (utiltriggers[4] && !utiltriggers[6]) {
 				TimerStart();
@@ -632,5 +630,19 @@ namespace game_framework {
 	}
 	int Item::GetBitMapIndex() {
 		return bitmap.GetFrameIndexOfBitmap();
+	}
+	void Item::EventTrigger() {
+		// house1 2F TR (once), event triggered
+		if (_name == closet_shake && !utiltriggers[4]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[4] = true;
+		}
+		// house1 basement3 map2 (once), event triggered
+		else if (_name == closet_mika_out && !utiltriggers[4]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[4] = true;
+		}
 	}
 }
