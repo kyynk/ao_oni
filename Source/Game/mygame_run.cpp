@@ -521,7 +521,7 @@ namespace game_framework {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
-			/*items.at(CLOSET_SHAKE).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_SHAKE).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_SHAKE).OnMove();
 			items.at(CLOSET_TAKESI_0).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
@@ -774,11 +774,11 @@ namespace game_framework {
 				if (house1_2F_TR_chair.IsFixed())
 					items.at(KEY_LIB).OnKeyDown(nChar);
 				items.at(HANDKERCHIEF).OnKeyDown(nChar);
-				/*items.at(CLOSET_SHAKE).OnKeyDown(nChar);
+				items.at(CLOSET_SHAKE).OnKeyDown(nChar);
 				if (!items.at(CLOSET_TAKESI_0).IsFixed()) {
 					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
 				}
-				// CLOSET_TAKESI_1 not have on key down*/
+				//CLOSET_TAKESI_1 not have on key down*/
 				items.at(CLOSET_HIROSI_R).OnKeyDown(nChar);
 			}
 			else if (_nowID == 15) {
@@ -1084,6 +1084,16 @@ namespace game_framework {
 			if (items.at(HANDKERCHIEF).IsPick() && !events.at(HANDKERCHIEF_E).IsTriggered()) {
 				SetEventTriggeredDialog(HANDKERCHIEF_E);
 			}
+			 if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
+				items.at(CLOSET_SHAKE).OnShow();
+			}
+			if (!items.at(CLOSET_TAKESI_0).IsFixed() || !items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
+				items.at(CLOSET_TAKESI_0).OnShow();
+			}
+			if (items.at(CLOSET_TAKESI_0).IsFixed() && items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
+				items.at(CLOSET_TAKESI_1).OnShow();
+			}
+				//items.at(CLOSET_HIROSI_R).OnShow();
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick())
