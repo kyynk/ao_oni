@@ -110,7 +110,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(30);
+		items.resize(35);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -140,6 +140,7 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_R).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		items.at(CLOSET_HIROSI_L).SetParam(100, TILE / 2, TILE / 2, Item::closet_hirosi_L);
 		items.at(CLOSET_MIKA_OUT).SetParam(100, 0, 0, Item::closet_mika_out);
+		items.at(KEY_JAIL).SetParam(100, 0, 0, Item::key_jail);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -281,6 +282,7 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_R).SetXY(8 * TILE, 7 * TILE + TILE / 2);
 		items.at(CLOSET_HIROSI_L).SetXY(15 * TILE + TILE / 2, 7 * TILE + TILE / 2);
 		items.at(CLOSET_MIKA_OUT).SetXY(15 * TILE + TILE / 2, 6 * TILE + TILE / 2);
+		items.at(KEY_JAIL).SetXY(13 * TILE, 19 * TILE);
 		//items end
 		//event
 		
@@ -303,6 +305,8 @@ namespace game_framework {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		}
 		if (_nowID == 0) {
+			items.at(KEY_JAIL).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(KEY_JAIL).OnMove();
 			items.at(BOOKCASE_L).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BOOKCASE_L).OnMove();
 			if (items.at(BOOKCASE_L).IsFixed()) {
@@ -691,6 +695,7 @@ namespace game_framework {
 
 			player.OnKeyDown(nChar);
 			if (_nowID == 0) {
+				items.at(KEY_JAIL).OnKeyDown(nChar);
 				items.at(BOOKCASE_L).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
 					items.at(BOOKCASE_R).OnKeyDown(nChar);
@@ -910,6 +915,7 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
+			items.at(KEY_JAIL).OnShow();
 			items.at(BOOKCASE_L).OnShow();
 			items.at(BOOKCASE_R).OnShow();
 			if (house1_basement2_chair.isChangeMap()) {
@@ -1056,6 +1062,7 @@ namespace game_framework {
 				items.at(CLOSET_TAKESI_1).OnShow();
 			}*/
 			items.at(CLOSET_HIROSI_R).OnShow();
+			TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick())

@@ -74,6 +74,7 @@ namespace game_framework {
 		bool IsTake();
 		bool IsAnimationDone();
 		bool IsClose();
+		int GetBitMapIndex();
 
 	private:
 		// _aniType : 
