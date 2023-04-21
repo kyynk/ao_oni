@@ -488,7 +488,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x -= 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 		else if (_name == bookcase_l || _name == bookcase_r) {
@@ -501,7 +501,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x -= 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 		else if (_name == bookcase_map21) {
@@ -514,7 +514,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x += 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 	}

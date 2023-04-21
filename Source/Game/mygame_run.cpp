@@ -51,7 +51,6 @@ namespace game_framework {
 		blockTeleportCor.push_back({ 4,4,55 });
 		blockTeleportCor.push_back({ 4,3,46 });
 		blockTeleportCor.push_back({ 3,2,46 });
-		// thank god
 		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
 		// main character
 		vector<string> playervec;
@@ -1014,8 +1013,7 @@ namespace game_framework {
 		else if (_nowID == 13) {
 
 			if (!events.at(START_EVENT_E).IsTriggered()) {
-				SetEventTriggeredDialog(START_EVENT_E);
-
+				//SetEventTriggeredDialog(START_EVENT_E);
 			}
 			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT2_E);
@@ -1052,7 +1050,7 @@ namespace game_framework {
 						player.SetDirection(Human::left);
 						player.TimerStop();
 					}
-					player.TimerUpdate();
+					player.TimerUpdate(clock());
 					TRACE("%d\n", player.TimerGetCount());
 				}
 			}

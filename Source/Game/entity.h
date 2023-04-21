@@ -9,17 +9,45 @@ namespace game_framework {
 		
 		void SetXY(int x, int y);
 		void SelectShowBitmap(int index);
-		bool CheckInVec(int n,vector<int> vec);
+		void TimerUpdate(clock_t start) {
+			if (_istimerstart){
+				if (getClockInterval(_timer)) {
+					_counter++;
+					_timer = clock();
+				}
+			}
 
-		void TimerUpdate();
-		void TimerReset();
-		void TimerStop();
-		int TimerGetCount();
-		void TimerStart();
-		bool IsTimerStart(); 
+		}
+		void TimerReset() {
+			_timer = clock();
+			_counter = 0;
+		}
+		void TimerStop() {
+			_counter = 0;
+			_timer = clock();
+			_istimerstart = false;
+		}
+		int TimerGetCount() {
+			return _counter;
+
+		}
+		void TimerStart() {
+			_istimerstart = true;
+
+		}
+		bool IsTimerStart() {
+			return _istimerstart;
+		}
 
 		CMovingBitmap bitmap;
 	protected:
+		void SetClock(clock_t timer) { _timer = timer; }
+		clock_t GetClock() { return _timer; }
+		double getClockInterval(clock_t start) {
+			return (clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
+		}
+		clock_t _timer = clock();
+		bool _clockstart;
 		int _pos_x, _pos_y;
 		int _uy;
 		int _dy;
@@ -29,5 +57,6 @@ namespace game_framework {
 	private:
 		int _counter;
 		bool _istimerstart;
+		
 	};
 }
