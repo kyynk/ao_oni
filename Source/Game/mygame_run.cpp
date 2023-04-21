@@ -109,7 +109,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(30);
+		items.resize(35);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -139,6 +139,9 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_R).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		items.at(CLOSET_HIROSI_L).SetParam(100, TILE / 2, TILE / 2, Item::closet_hirosi_L);
 		items.at(CLOSET_MIKA_OUT).SetParam(100, 0, 0, Item::closet_mika_out);
+		items.at(KEY_JAIL).SetParam(100, 0, 0, Item::key_jail);
+		items.at(FLATHEAD).SetParam(-1, 0, 0, Item::flathead);
+		items.at(OIL).SetParam(-1, 0, 0, Item::oil);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -315,6 +318,9 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_R).SetXY(8 * TILE, 7 * TILE + TILE / 2);
 		items.at(CLOSET_HIROSI_L).SetXY(15 * TILE + TILE / 2, 7 * TILE + TILE / 2);
 		items.at(CLOSET_MIKA_OUT).SetXY(15 * TILE + TILE / 2, 6 * TILE + TILE / 2);
+		items.at(KEY_JAIL).SetXY(13 * TILE, 19 * TILE);
+		items.at(FLATHEAD).SetXY(9 * TILE, 9 * TILE);
+		items.at(OIL).SetXY(13 * TILE, 7 * TILE);
 		//items end
 		//event
 		
@@ -337,6 +343,8 @@ namespace game_framework {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		}
 		if (_nowID == 0) {
+			items.at(KEY_JAIL).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(KEY_JAIL).OnMove();
 			items.at(BOOKCASE_L).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(BOOKCASE_L).OnMove();
 			if (items.at(BOOKCASE_L).IsFixed()) {
@@ -413,6 +421,8 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 1) {
+			items.at(FLATHEAD).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(FLATHEAD).OnMove();
 			house1_basement2_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_basement2_chair.OnMove(gamemaps.at(_nowID));
 			if (!house1_basement2_chair.isChangeMap()) {
@@ -591,6 +601,9 @@ namespace game_framework {
 			items.at(DETERGENT).OnMove();
 		}
 		else if (_nowID == 20) {
+			items.at(OIL).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(OIL).OnMove();
+			
 			human_mika.SetDirection(Human::up);
 			human_mika.SetXYAndCol(8,16);
 			human_mika.OnMove();
@@ -725,6 +738,7 @@ namespace game_framework {
 
 			player.OnKeyDown(nChar);
 			if (_nowID == 0) {
+				items.at(KEY_JAIL).OnKeyDown(nChar);
 				items.at(BOOKCASE_L).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
 					items.at(BOOKCASE_R).OnKeyDown(nChar);
@@ -736,6 +750,7 @@ namespace game_framework {
 					house1_basement2_chair.OnKeyDown(nChar);
 			}
 			else if (_nowID == 1) {
+				items.at(FLATHEAD).OnKeyDown(nChar);
 				house1_basement2_chair.OnKeyDown(nChar);
 			}
 			else if (_nowID == 2) {
@@ -813,6 +828,7 @@ namespace game_framework {
 				items.at(DETERGENT).OnKeyDown(nChar);
 			}
 			else if (_nowID == 20) {
+				items.at(OIL).OnKeyDown(nChar);
 				house1_2F_TL_chair.OnKeyDown(nChar);
 			}
 			else if (_nowID == 21) {
@@ -945,6 +961,7 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
+			items.at(KEY_JAIL).OnShow();
 			items.at(BOOKCASE_L).OnShow();
 			items.at(BOOKCASE_R).OnShow();
 			if (house1_basement2_chair.isChangeMap()) {
@@ -955,6 +972,7 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 1) {
+			items.at(FLATHEAD).OnShow();
 			if (!house1_basement2_chair.isChangeMap()) {
 				house1_basement2_chair.OnShow();
 			}
@@ -1091,7 +1109,8 @@ namespace game_framework {
 			if (items.at(CLOSET_TAKESI_0).IsFixed() && items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
 				items.at(CLOSET_TAKESI_1).OnShow();
 			}
-				//items.at(CLOSET_HIROSI_R).OnShow();
+			items.at(CLOSET_HIROSI_R).OnShow();
+			TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick())
@@ -1128,6 +1147,7 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 20) {
+			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			house1_2F_TL_chair.OnShow();
 			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::yes) {
