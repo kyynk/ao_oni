@@ -95,6 +95,8 @@
 #define CLOSET_HIROSI_L 27
 #define CLOSET_MIKA_OUT 28
 #define KEY_JAIL 29
+#define FLATHEAD 30
+
 
 /*
 debug mode

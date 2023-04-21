@@ -13,21 +13,21 @@ namespace game_framework {
 			lib_book,					 //v
 			key_lib,					 //v
 			key_3F_L,					 //v
-			key_2F_TL,
+			key_2F_TL, //need password
 			key_basement,				 //v
-			key_jail,
-			key_annexe,
+			key_jail, //on chair
+			key_annexe, //need password
 			broken_dish,				 //v
 			tub_once,					 //v
 			phillips, //screwdriver		 //v
 			tub_fixed,					 //v
-			flathead, //screwdriver
+			flathead, //screwdriver on chair
 			lighter,					 //v
-			oil,
+			oil, //on chair
 			handkerchief,				 //v
 			detergent, //wash			 //v
-			door_knob,
-			door_no_knob,
+			door_knob,					 //v
+			door_no_knob, //use item
 			tatami_l,					 //v
 			tatami_r,					 //v
 			gate,						 //v
