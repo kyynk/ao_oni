@@ -194,6 +194,24 @@ namespace game_framework {
 				bitmapName.push_back("img/item_animation/closet/closet_mika_" + to_string(i) + ".bmp");
 			}
 		}
+		else if (_name == door_oni) {
+			for (int i = 0; i < 16; i++) {
+				bitmapName.push_back("img/item_animation/door_wash/door_oni_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == door_open) {
+			for (int i = 0; i < 3; i++) {
+				bitmapName.push_back("img/item_animation/door_wash/door_open_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == door_die) {
+			for (int i = 0; i < 2; i++) {
+				bitmapName.push_back("img/item_animation/door_wash/door_die_" + to_string(i) + ".bmp");
+			}
+		}
+		else if (_name == door_half) {
+			bitmapName.push_back("img/item_animation/door_wash/door_half.bmp");
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -433,13 +451,13 @@ namespace game_framework {
 					utiltriggers[4] = true;
 				}
 				// house1 2F TR (once), event triggered
-				else if (_name == closet_shake) {
+				else if (_name == closet_shake && !utiltriggers[4]) {
 					SetTrigger();
 					Animation(0, 0);
 					utiltriggers[4] = true;
 				}
 				// house1 2F TR, takesi open (once)
-				else if (_name == closet_takesi_0) {
+				else if (_name == closet_takesi_0 && !utiltriggers[4]) {
 					SetTrigger();
 					Animation(0, 0);
 					utiltriggers[4] = true;
@@ -478,6 +496,26 @@ namespace game_framework {
 					Animation(0, 0);
 					utiltriggers[4] = true;
 				}
+				// house1 shower door
+				else if (_name == door_oni && !utiltriggers[4]) {
+					SetTrigger();
+					Animation(0, 0);
+					utiltriggers[4] = true;
+				}
+				// house1 shower door
+				else if (_name == door_open && !utiltriggers[4]) {
+					SetTrigger();
+					Animation(0, 0);
+					utiltriggers[4] = true;
+				}
+				// house1 shower door
+				else if (_name == door_die && !utiltriggers[4]) {
+					SetTrigger();
+					Animation(0, 0);
+					utiltriggers[4] = true;
+				}
+				// house1 shower door
+				// door_half only 1 frame, need event to control to show
 			}
 		}
 
@@ -640,6 +678,24 @@ namespace game_framework {
 		}
 		// house1 basement3 map2 (once), event triggered
 		else if (_name == closet_mika_out && !utiltriggers[4]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[4] = true;
+		}
+		// house1 shower door
+		else if (_name == door_oni && !utiltriggers[4]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[4] = true;
+		}
+		// house1 shower door
+		else if (_name == door_open && !utiltriggers[4]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[4] = true;
+		}
+		// house1 shower door
+		else if (_name == door_die && !utiltriggers[4]) {
 			SetTrigger();
 			Animation(0, 0);
 			utiltriggers[4] = true;
