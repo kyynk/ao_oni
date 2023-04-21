@@ -96,7 +96,7 @@
 #define CLOSET_MIKA_OUT 28
 #define KEY_JAIL 29
 #define FLATHEAD 30
-
+#define OIL 31
 
 /*
 debug mode

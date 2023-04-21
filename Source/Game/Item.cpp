@@ -109,7 +109,7 @@ namespace game_framework {
 			}
 		}
 		else if (_name == oil) {
-			bitmapName.push_back("img/item/oil.bmp");
+			bitmapName.push_back("img/item_animation/oil/oil.bmp");
 		}
 		else if (_name == handkerchief) {
 			bitmapName.push_back("img/item_animation/handkerchief/handkerchief.bmp");
