@@ -142,6 +142,7 @@ namespace game_framework {
 		items.at(CLOSET_MIKA_OUT).SetParam(100, 0, 0, Item::closet_mika_out);
 		items.at(KEY_JAIL).SetParam(100, 0, 0, Item::key_jail);
 		items.at(FLATHEAD).SetParam(-1, 0, 0, Item::flathead);
+		items.at(OIL).SetParam(-1, 0, 0, Item::oil);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -285,6 +286,7 @@ namespace game_framework {
 		items.at(CLOSET_MIKA_OUT).SetXY(15 * TILE + TILE / 2, 6 * TILE + TILE / 2);
 		items.at(KEY_JAIL).SetXY(13 * TILE, 19 * TILE);
 		items.at(FLATHEAD).SetXY(9 * TILE, 9 * TILE);
+		items.at(OIL).SetXY(13 * TILE, 7 * TILE);
 		//items end
 		//event
 		
@@ -565,6 +567,9 @@ namespace game_framework {
 			items.at(DETERGENT).OnMove();
 		}
 		else if (_nowID == 20) {
+			items.at(OIL).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(OIL).OnMove();
+			
 			human_mika.SetDirection(Human::up);
 			human_mika.SetXYAndCol(8,16);
 			human_mika.OnMove();
@@ -789,6 +794,7 @@ namespace game_framework {
 				items.at(DETERGENT).OnKeyDown(nChar);
 			}
 			else if (_nowID == 20) {
+				items.at(OIL).OnKeyDown(nChar);
 				house1_2F_TL_chair.OnKeyDown(nChar);
 			}
 			else if (_nowID == 21) {
@@ -1105,6 +1111,7 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 20) {
+			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			house1_2F_TL_chair.OnShow();
 		}
