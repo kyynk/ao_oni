@@ -630,4 +630,7 @@ namespace game_framework {
 	bool Item::IsClose() {
 		return utiltriggers[1];
 	}
+	int Item::GetBitMapIndex() {
+		return bitmap.GetFrameIndexOfBitmap();
+	}
 }

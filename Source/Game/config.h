@@ -94,6 +94,7 @@
 #define CLOSET_HIROSI_R 26
 #define CLOSET_HIROSI_L 27
 #define CLOSET_MIKA_OUT 28
+#define KEY_JAIL 29
 
 /*
 debug mode
