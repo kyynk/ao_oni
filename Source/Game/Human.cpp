@@ -230,7 +230,7 @@ namespace game_framework{
 					_lx += _step;
 					_rx += _step;
 				}
-				TRACE("%d\n", TimerGetCount());
+				//TRACE("%d\n", TimerGetCount());
 				TimerUpdate(clock());
 
 			}
