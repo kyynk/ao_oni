@@ -56,7 +56,26 @@ namespace game_framework{
 		_direction = dir;
 		machine_count = 0;
 	}
-
+	void Human::ResetToGrid() {
+		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
+			int dx = 0;
+			int dy = 1;
+			if (this->GetX() % TILE >= TILE / 2) {
+				dx = 1;
+			}
+			if (this->GetY() % TILE < TILE / 2) {
+				dy = 0;
+			}
+			_pos_x = (_pos_x / TILE + dx) * TILE;
+			_pos_y = ((_pos_y + _coroffset) / TILE + dy) * TILE - _coroffset;
+			_uy = _pos_y - TILE;
+			_dy = _pos_y + TILE;
+			_lx = _pos_x - TILE;
+			_rx = _pos_x + TILE;
+			bitmap.SetTopLeft(_pos_x, _pos_y);
+			//TRACE("return to grid\n");
+		}
+	}
 	void Human::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
 			TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
@@ -165,40 +184,21 @@ namespace game_framework{
 				}
 			}
 			itercheck = true;
-			
-			
-			
 			if (_isup || _isdown || _isleft || _isright) {
 				TimerStart();
 			}
 			else {
 				if (TimerGetCount() == 8) {
 					TimerStop();
-					if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
-						int dx = 0;
-						int dy = 1;
-						if (this->GetX() % TILE >= TILE / 2) {
-							dx = 1;
-
-						}
-						if (this->GetY() % TILE < TILE / 2) {
-							dy = 0;
-						}
-						_pos_x = (_pos_x / TILE + dx)*TILE;
-						_pos_y = ((_pos_y + _coroffset) / TILE + dy)*TILE - _coroffset;
-						_uy = _pos_y - TILE;
-						_dy = _pos_y + TILE;
-						_lx = _pos_x - TILE;
-						_rx = _pos_x + TILE;
-						bitmap.SetTopLeft(_pos_x, _pos_y);
-						//TRACE("return to grid\n");
-					}
+					ResetToGrid();
 					_walkiter = !_walkiter;
 				}
 			}
 			if (IsTimerStart()) {
 				if (TimerGetCount() % 8 == 0) {
 					_nowmove = _pressing;
+					ResetToGrid();
+
 				}
 				if (TimerGetCount() == 8) {
 					TimerReset();
@@ -230,7 +230,8 @@ namespace game_framework{
 					_lx += _step;
 					_rx += _step;
 				}
-				TimerUpdate();
+				//TRACE("%d\n", TimerGetCount());
+				TimerUpdate(clock());
 
 			}
 			for (auto f : TN) {
@@ -339,7 +340,7 @@ namespace game_framework{
 				_lx += _step;
 				_rx += _step;
 			}
-			TimerUpdate();
+			TimerUpdate(clock());
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
