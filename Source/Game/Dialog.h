@@ -9,16 +9,22 @@ namespace game_framework {
 			takesi,
 			takurou
 		};
+		enum option {
+			undefined,
+			yes,
+			no
+		};
 		Dialog();
 		~Dialog();
 		void SetFigure(character a);
 		void SetParam(vector<string>  st, bool ch);
+		void SetOption(string str1, string str2);
 		void ShowTotal();
 		bool isShow();
 		void SetShow(bool close);
 		bool isChoose();
 		void GetSelect(UINT nChar);
-
+		int &isYes(){ return _yes;}
 	private:
 		void ShowBox();
 		void ShowHead();
@@ -39,6 +45,6 @@ namespace game_framework {
 		vector<string> _name;
 		vector<string> _store;
 		ChoiceMenu _choice;
-
+		int _yes;
 	};
 }
