@@ -43,6 +43,10 @@ namespace game_framework {
 			closet_hirosi_R,			 //v
 			closet_hirosi_L,			 //v
 			closet_mika_out, // oni
+			door_oni, // event
+			door_open, // event
+			door_die, //open -> die
+			door_half, //first in
 		};
 		Item();
 		~Item();

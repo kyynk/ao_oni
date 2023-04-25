@@ -109,7 +109,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(35);
+		items.resize(50);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -142,6 +142,10 @@ namespace game_framework {
 		items.at(KEY_JAIL).SetParam(100, 0, 0, Item::key_jail);
 		items.at(FLATHEAD).SetParam(-1, 0, 0, Item::flathead);
 		items.at(OIL).SetParam(-1, 0, 0, Item::oil);
+		items.at(DOOR_ONI).SetParam(100, 0, TILE, Item::door_oni);
+		items.at(DOOR_OPEN).SetParam(100, 0, TILE, Item::door_open);
+		items.at(DOOR_DIE).SetParam(100, 0, TILE, Item::door_die);
+		items.at(DOOR_HALF).SetParam(-1, 0, TILE, Item::door_half);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -321,6 +325,10 @@ namespace game_framework {
 		items.at(KEY_JAIL).SetXY(13 * TILE, 19 * TILE);
 		items.at(FLATHEAD).SetXY(9 * TILE, 9 * TILE);
 		items.at(OIL).SetXY(13 * TILE, 7 * TILE);
+		items.at(DOOR_ONI).SetXY(10 * TILE, 10 * TILE);
+		items.at(DOOR_OPEN).SetXY(10 * TILE, 10 * TILE);
+		items.at(DOOR_DIE).SetXY(10 * TILE, 10 * TILE);
+		items.at(DOOR_HALF).SetXY(10 * TILE, 10 * TILE);
 		//items end
 		//event
 		
