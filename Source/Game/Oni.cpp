@@ -231,7 +231,7 @@ namespace game_framework {
 				else if (_nowmove == isright) {
 					_pos_x += _step;
 				}
-				TimerUpdate();
+				TimerUpdate(clock());
 				Countdown();
 			}
 			bitmap.SetTopLeft(_pos_x, _pos_y);
@@ -308,7 +308,7 @@ namespace game_framework {
 			if (a == hallway)
 				if (TimerGetCount() == 15)
 					_wait = false;
-			TimerUpdate();
+			TimerUpdate(clock());
 		}
 	}
 	bool Oni::WaitOver() {

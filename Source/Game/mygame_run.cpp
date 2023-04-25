@@ -51,7 +51,6 @@ namespace game_framework {
 		blockTeleportCor.push_back({ 4,4,55 });
 		blockTeleportCor.push_back({ 4,3,46 });
 		blockTeleportCor.push_back({ 3,2,46 });
-		// thank god
 		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
 		// main character
 		vector<string> playervec;
@@ -150,16 +149,21 @@ namespace game_framework {
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
-		events.at(START_EVENT).SetParam({ },2,8);
-		events.at(START_EVENT2).SetParam({}, 10,3);
+		events.at(START_EVENT_E).SetParam({ },2,8);
+		events.at(START_EVENT2_E).SetParam({}, 10,3);
 		events.at(KEY_LIB_E).SetParam({}, 13, 1);
 		events.at(DETERGENT_E).SetParam({}, 14, 1);
 		events.at(PHILLIPS_E).SetParam({}, 15, 1);
 		events.at(KEY_3F_L_E).SetParam({}, 16, 1);
 		events.at(LIGHTER_E).SetParam({}, 17, 1);
+		events.at(DUMB_TAKESHI_E).SetParam({}, 18, 6);
+		events.at(HANDKERCHIEF_E).SetParam({}, 24, 1);
+		events.at(MIKA_SCARE_E).SetParam({}, 25, 4);
+		events.at(MIKA_NOTOK_E).SetParam({}, 29, 4);
+		events.at(MIKA_OK_E).SetParam({}, 33, 1);
+		events.at(MIKA_REPEAT_E).SetParam({}, 34, 1);
 		//dialogs
-		dialogs.resize(30);
-
+		dialogs.resize(50);
 		dialogs.at(0).SetFigure(Dialog::hirosi);
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure(Dialog::hirosi);
@@ -196,7 +200,37 @@ namespace game_framework {
 		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
 		dialogs.at(17).SetFigure(Dialog::hirosi);
 		dialogs.at(17).SetParam({ "Gain the lighter " }, false);
-
+		dialogs.at(18).SetFigure(Dialog::takesi);
+		dialogs.at(18).SetParam({ "Trembling........................." }, false);
+		dialogs.at(19).SetFigure(Dialog::hirosi);
+		dialogs.at(19).SetParam({ "Takashi?" }, false);
+		dialogs.at(20).SetFigure(Dialog::takesi);
+		dialogs.at(20).SetParam({ "Trembling........................." }, false);
+		dialogs.at(21).SetFigure(Dialog::hirosi);
+		dialogs.at(21).SetParam({ "where is everyone?" }, false);
+		dialogs.at(22).SetFigure(Dialog::takesi);
+		dialogs.at(22).SetParam({ "Trembling........................." }, false);
+		dialogs.at(23).SetFigure(Dialog::hirosi);
+		dialogs.at(23).SetParam({ "......................................................." }, false);
+		dialogs.at(24).SetFigure(Dialog::hirosi);
+		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
+		dialogs.at(25).SetFigure(Dialog::mika);
+		dialogs.at(25).SetParam({ "Hiroshi you..." }, false);
+		dialogs.at(26).SetFigure(Dialog::hirosi);
+		dialogs.at(26).SetParam({ "Are you ok?"," where are the others ?" }, false);
+		dialogs.at(27).SetFigure(Dialog::mika);
+		dialogs.at(27).SetParam({ "i don't know. "," mabye hinding somewhere" }, false);
+		dialogs.at(28).SetFigure(Dialog::hirosi);
+		dialogs.at(28).SetParam({ "Okay." }, true);
+		dialogs.at(28).SetOption("come with me ", "stay here for now");
+		dialogs.at(29).SetFigure(Dialog::mika);
+		dialogs.at(29).SetParam({ "WhAt?"," there's a MONSTER wondering in this house." }, false);
+		dialogs.at(30).SetFigure(Dialog::hirosi);
+		dialogs.at(30).SetParam({ "Alright..."}, false);
+		dialogs.at(31).SetFigure(Dialog::mika);
+		dialogs.at(31).SetParam({ "ok." }, false);
+		dialogs.at(32).SetFigure(Dialog::mika);
+		dialogs.at(32).SetParam({ "takuro................" }, false);
 		// objMove
 		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE);
@@ -306,9 +340,9 @@ namespace game_framework {
 		mapmask.SetTopLeft(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
 
 		inputbox.OnMove();
-		if (events.at(START_EVENT).IsTransMap()) {
+		if (events.at(START_EVENT_E).IsTransMap()) {
 			_nowID = player.NextMapID();
-			events.at(START_EVENT).IsTransMap() = false;
+			events.at(START_EVENT_E).IsTransMap() = false;
 		}
 		if ((player.IsMapChanged() && player.IsSwitchMap())) {
 			_nowID = player.NextMapID();
@@ -504,7 +538,7 @@ namespace game_framework {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
-			/*items.at(CLOSET_SHAKE).GetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_SHAKE).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_SHAKE).OnMove();
 			items.at(CLOSET_TAKESI_0).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
@@ -762,11 +796,11 @@ namespace game_framework {
 				if (house1_2F_TR_chair.IsFixed())
 					items.at(KEY_LIB).OnKeyDown(nChar);
 				items.at(HANDKERCHIEF).OnKeyDown(nChar);
-				/*items.at(CLOSET_SHAKE).OnKeyDown(nChar);
+				items.at(CLOSET_SHAKE).OnKeyDown(nChar);
 				if (!items.at(CLOSET_TAKESI_0).IsFixed()) {
 					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
 				}
-				// CLOSET_TAKESI_1 not have on key down*/
+				//CLOSET_TAKESI_1 not have on key down*/
 				items.at(CLOSET_HIROSI_R).OnKeyDown(nChar);
 			}
 			else if (_nowID == 15) {
@@ -827,10 +861,11 @@ namespace game_framework {
 					}
 					else {
 						dialogs.at(_dialogID).SetShow(false);
-						if (_eventID == START_EVENT) {
-							events.at(START_EVENT).IsTransMap() = true;
+						if (_eventID == START_EVENT_E) {
+							events.at(START_EVENT_E).IsTransMap() = true;
 							player.SetNextMap(0, 3, 5);
 						}
+
 						_dialogcount = 0;
 						_dialogID = -1;
 						_eventID = -1;
@@ -1003,12 +1038,11 @@ namespace game_framework {
 		}
 		else if (_nowID == 13) {
 
-			if (!events.at(START_EVENT).IsTriggered()) {
-				SetEventTriggeredDialog(START_EVENT);
-
+			if (!events.at(START_EVENT_E).IsTriggered()) {
+				//SetEventTriggeredDialog(START_EVENT_E);
 			}
-			if (!events.at(START_EVENT2).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
-				SetEventTriggeredDialog(START_EVENT2);
+			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
+				SetEventTriggeredDialog(START_EVENT2_E);
 			}
 			if (_dialogID == 6) {
 				player.SetDirection(Human::right);
@@ -1042,7 +1076,7 @@ namespace game_framework {
 						player.SetDirection(Human::left);
 						player.TimerStop();
 					}
-					player.TimerUpdate();
+					player.TimerUpdate(clock());
 					TRACE("%d\n", player.TimerGetCount());
 				}
 			}
@@ -1061,7 +1095,6 @@ namespace game_framework {
 				gamemaps.at(_nowID).ShowMapAll();
 				player.OnShow();
 			}
-
 		}
 		else if (_nowID == 14) {
 			house1_2F_TR_chair.OnShow();
@@ -1072,7 +1105,10 @@ namespace game_framework {
 				}
 			}
 			items.at(HANDKERCHIEF).OnShow();
-			/*if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
+			if (items.at(HANDKERCHIEF).IsPick() && !events.at(HANDKERCHIEF_E).IsTriggered()) {
+				SetEventTriggeredDialog(HANDKERCHIEF_E);
+			}
+			 if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
 				items.at(CLOSET_SHAKE).OnShow();
 			}
 			if (!items.at(CLOSET_TAKESI_0).IsFixed() || !items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
@@ -1080,7 +1116,7 @@ namespace game_framework {
 			}
 			if (items.at(CLOSET_TAKESI_0).IsFixed() && items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
 				items.at(CLOSET_TAKESI_1).OnShow();
-			}*/
+			}
 			items.at(CLOSET_HIROSI_R).OnShow();
 			TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
@@ -1122,6 +1158,14 @@ namespace game_framework {
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			house1_2F_TL_chair.OnShow();
+			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::yes) {
+				SetEventTriggeredDialog(MIKA_NOTOK_E);
+				dialogs.at(28).isYes() = Dialog::undefined;
+			}
+			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::no) {
+				SetEventTriggeredDialog(MIKA_OK_E);
+				dialogs.at(28).isYes() = Dialog::undefined;
+			}
 		}
 		else if (_nowID == 21) {
 			items.at(BOOKCASE_MAP21).OnShow();

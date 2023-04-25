@@ -253,11 +253,6 @@ namespace game_framework {
 			_move = isup;
 		else
 			_move = none;
-		//if (_move == isright) TRACE("\n\nmove is RRR\n\n");
-		//if (_move == isleft) TRACE("\n\nmove is LLL\n\n");
-		//if (_move == isdown) TRACE("\n\nmove is DDD\n\n");
-		//if (_move == isup) TRACE("\n\nmove is UUU\n\n");
-		//if (_move == none) TRACE("\n\nmove is NNN\n\n");
 		utiltriggers[2] = false;
 	}
 	void Item::OnMove() { // actually is action function
@@ -529,7 +524,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x -= 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 		else if (_name == bookcase_l || _name == bookcase_r) {
@@ -542,7 +537,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x -= 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 		else if (_name == bookcase_map21) {
@@ -555,7 +550,7 @@ namespace game_framework {
 			}
 			if (IsTimerStart()) {
 				_pos_x += 4;
-				TimerUpdate();
+				TimerUpdate(clock());
 			}
 		}
 	}
