@@ -97,6 +97,10 @@
 #define KEY_JAIL 29
 #define FLATHEAD 30
 #define OIL 31
+#define DOOR_ONI 32
+#define DOOR_OPEN 33
+#define DOOR_DIE 34
+#define DOOR_HALF 35
 
 /*
 debug mode
