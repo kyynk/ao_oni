@@ -77,10 +77,13 @@ namespace game_framework {
 		_lineSpacing = 35; //font gap
 		_store = st;
 		_isChoose = ch;
+	}
+	void Dialog::SetOption(string str1,string str2) {
 		if (_isChoose)
 			_choice.SetParam(_txtX, _txtY + _store.size() * _lineSpacing,
 				0, 0, _txtX - 5, _txtY + _store.size() * _lineSpacing,
-				45, { "Yes","No" });
+				45, { str1,str2 });
+		_yes = undefined;
 	}
 	void Dialog::ShowBox() {
 		_box.SetTopLeft(_boxX, _boxY);
@@ -147,11 +150,12 @@ namespace game_framework {
 			switch (_choice.GetSelection()) {
 			case 0:
 				SetShow(false);
-				// will be done in future
+				_yes = yes;
 				break;
 			case 1:
+				
 				SetShow(false);
-				// will be done in future
+				_yes = no;
 				break;
 			}
 		}

@@ -30,6 +30,8 @@ namespace game_framework{
 		void SetXYAndCol(int x, int y);
 
 		void init(int step,int offset,Direction dir);
+
+		void ResetToGrid();
 		
 		void OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&, vector<vector<int>>&, vector<vector<int>>&) ;
 		void OnMove();
@@ -62,6 +64,7 @@ namespace game_framework{
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(move m);
+		
 		int machine_count;
 	private:
 		int _coroffset;
