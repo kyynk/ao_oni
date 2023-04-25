@@ -460,20 +460,8 @@ namespace game_framework {
 				// house1 2F TR, takesi shake
 				// takesi shake should be use event unshow
 				// house1 2F TR
-				else if (_name == closet_hirosi_R) {
-					if (utiltriggers[1]) {
-						SetTrigger();
-						Animation(0, 1); // in
-						utiltriggers[1] = false;
-					}
-					else {
-						SetTrigger();
-						Animation(1, 3); // out
-						utiltriggers[1] = true;
-					}
-				}
 				// house1 basement3 map2
-				else if (_name == closet_hirosi_L) {
+				else if (_name == closet_hirosi_R || _name == closet_hirosi_L) {
 					if (utiltriggers[1]) {
 						SetTrigger();
 						Animation(0, 1); // in
@@ -492,24 +480,11 @@ namespace game_framework {
 					utiltriggers[4] = true;
 				}
 				// house1 shower door
-				else if (_name == door_oni && !utiltriggers[4]) {
+				else if (_name == door_oni || _name == door_open || _name == door_die && !utiltriggers[4]) {
 					SetTrigger();
 					Animation(0, 0);
 					utiltriggers[4] = true;
 				}
-				// house1 shower door
-				else if (_name == door_open && !utiltriggers[4]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[4] = true;
-				}
-				// house1 shower door
-				else if (_name == door_die && !utiltriggers[4]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[4] = true;
-				}
-				// house1 shower door
 				// door_half only 1 frame, need event to control to show
 			}
 		}
@@ -678,19 +653,7 @@ namespace game_framework {
 			utiltriggers[4] = true;
 		}
 		// house1 shower door
-		else if (_name == door_oni && !utiltriggers[4]) {
-			SetTrigger();
-			Animation(0, 0);
-			utiltriggers[4] = true;
-		}
-		// house1 shower door
-		else if (_name == door_open && !utiltriggers[4]) {
-			SetTrigger();
-			Animation(0, 0);
-			utiltriggers[4] = true;
-		}
-		// house1 shower door
-		else if (_name == door_die && !utiltriggers[4]) {
+		else if (_name == door_oni || _name == door_open || _name == door_die && !utiltriggers[4]) {
 			SetTrigger();
 			Animation(0, 0);
 			utiltriggers[4] = true;
