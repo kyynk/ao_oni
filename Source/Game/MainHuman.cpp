@@ -39,7 +39,6 @@ namespace game_framework{
 		_nextmapy = 0;
 		_nextMapID = 0;
 		TimerReset();
-		//_premove = none;
 		_nowmove = none;
 		_pressing = none;
 	}
@@ -50,7 +49,7 @@ namespace game_framework{
 		_lx = _pos_x - TILE;
 		_rx = _pos_x + TILE;
 	}
-	void MainHuman::init(int step,int offset,Direction dir) {
+	void MainHuman::init(int step,int offset,direction dir) {
 		_step = step;
 		_coroffset = offset;
 		_direction = dir;

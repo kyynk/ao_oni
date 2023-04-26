@@ -12,12 +12,6 @@ namespace game_framework {
 			muscle,
 			strange
 		};
-		enum bstate {
-			s1,
-			s2,
-			s3,
-			s4
-		};
 		enum move {
 			none,
 			isup,

@@ -38,15 +38,11 @@
 #include "Event.h"
 #include "MapRes.h"
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// Constants
-	/////////////////////////////////////////////////////////////////////////////
-
 	
 	enum AUDIO_ID {
-		AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
+		AUDIO_DING,			
+		AUDIO_LAKE,			
+		AUDIO_NTUT			
 	};
 
 

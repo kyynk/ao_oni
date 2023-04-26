@@ -13,27 +13,18 @@ namespace game_framework {
 		_anidelay = 0;
 		_boxX = 0;
 		_boxY = 0;
-		_move = none;
 		_pressing = none;
 		_aniType = -1;
 		_aniFrame = -1;
-		utiltriggers[2] = false;
-		utiltriggers[0] = false;
-		utiltriggers[3] = false; // will disappear
-		utiltriggers[1] = true; // door, toilet, ...
-		utiltriggers[4] = false; // will not do anything if _fixed == true
-		utiltriggers[5] = false; // will leave
-		utiltriggers[7] = false; // will use screwdriver or lighter ...
+		Reset();
 	}
-	Item::~Item() {
-	}
+	
 	void Item::SetParam(int delay, int boxX, int boxY, 
-		itemName name) {
+		ItemName name) {
 		_anidelay = delay;
 		_boxX = boxX;
 		_boxY = boxY;
 		_name = name;
-
 		vector<string> bitmapName;
 		if (_name == lib_book) {
 			bitmapName.push_back("img/item_animation/lib_book/lib_book.bmp");
@@ -115,9 +106,7 @@ namespace game_framework {
 			bitmapName.push_back("img/item_animation/handkerchief/handkerchief.bmp");
 		}
 		else if (_name == detergent) {
-			for (int i = 0; i < 2; i++) { // actually only need detergent0.bmp
-				bitmapName.push_back("img/item_animation/detergent/detergent" + to_string(i) + ".bmp");
-			}
+			bitmapName.push_back("img/item_animation/detergent/detergent0.bmp");
 		}
 		else if (_name == door_knob) {
 			for (int i = 0; i < 4; i++) {
@@ -515,26 +504,20 @@ namespace game_framework {
 		}
 	}
 	void Item::OnKeyDown(UINT nChar) {
-		//TRACE("\n\niiiiiiiiii\n\n");
 		if (nChar == VK_SPACE) {
 			utiltriggers[2] = true;
-			//TRACE("\n\npresssssss\n\n");
 		}
 		if (nChar == VK_LEFT) {
-			_pressing = isleft;
-			//TRACE("\n\n press L \n\n");
+			_pressing = left;
 		}
 		else if (nChar == VK_UP) {
-			_pressing = isup;
-			//TRACE("\n\n press U \n\n");
+			_pressing = up;
 		}
 		else if (nChar == VK_RIGHT) {
-			_pressing = isright;
-			//TRACE("\n\n press R \n\n");
+			_pressing = right;
 		}
 		else if (nChar == VK_DOWN) {
-			_pressing = isdown;
-			//TRACE("\n\n press D \n\n");
+			_pressing = down;
 		}
 	}
 	void Item::OnKeyUp(UINT nChar) {
@@ -552,18 +535,18 @@ namespace game_framework {
 	bool Item::Collide() {
 		int x = _pos_x + _boxX;
 		int y = _pos_y + _boxY;
-		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isright)
-			_move = isright;
-		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isleft)
-			_move = isleft;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == isdown)
-			_move = isdown;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == isup)
-			_move = isup;
+		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right)
+			_pressing = right;
+		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
+			_pressing = left;
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
+			_pressing = down;
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up)
+			_pressing = up;
 		else
-			_move = none;
+			_pressing = none;
 		utiltriggers[2] = false;
-		return _move != none;
+		return _pressing != none;
 	}
 	void Item::Animation(int n, int frame) {
 		if (utiltriggers[0]) {
@@ -610,13 +593,10 @@ namespace game_framework {
 		utiltriggers[6] = a;
 	}
 	void Item::Reset() {
-		utiltriggers[2] = false;
-		utiltriggers[0] = false;
-		utiltriggers[3] = false; // will disappear
-		utiltriggers[1] = true; // door, toilet, ...
-		utiltriggers[4] = false; // will not do anything if _fixed == true
-		utiltriggers[5] = false; // will leave
-		utiltriggers[7] = false; // will use screwdriver or lighter ...
+		for (int i = 0;i < 8;i++) {
+			utiltriggers[i] = false;
+		}
+		utiltriggers[1] = true; 
 	}
 	bool Item::IsPick() {
 		return utiltriggers[3];
