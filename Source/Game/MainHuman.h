@@ -8,7 +8,9 @@ namespace game_framework{
 		void SetXYAndCol(int x, int y);
 		void init(int step,int offset,Direction dir);
 		void ResetToGrid();
-		void OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&, vector<vector<int>>&, vector<vector<int>>&) ;
+		void SwitchMap(GameMap& map);
+		void OnMove(GameMap &map, MapRouter &router, int nowID, const vector<vector<int>>&, const vector<vector<int>>&, const vector<vector<int>>&) ;
+		void RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID);
 		void OnMove();
 		void OnMoveBySettings(int block);
 		void OnKeyDown(UINT nChar);
@@ -18,36 +20,50 @@ namespace game_framework{
 		void SetDirection(Direction d) {
 			_direction = d;
 		}
-		int GetDirection() {
+		const int GetDirection() {
 			return _direction;
 		}
 		
-		int GetOffset() { return _coroffset; }
-		int GetU() { return _uy + _coroffset; }
-		int GetD() { return _dy + _coroffset; }
-		int GetL() { return _lx; }
-		int GetR() { return _rx; }
-		int GetX() { return _pos_x; };
-		int GetY() { return _pos_y+_coroffset; }
-		int NextX() { return _nextmapx; }
-		int NextY() { return _nextmapy; }
-		int NextMapID() { return _nextMapID; }
+		const int GetOffset() { return _coroffset; }
+		const int GetU() { return _uy + _coroffset; }
+		const int GetD() { return _dy + _coroffset; }
+		const int GetL() { return _lx; }
+		const int GetR() { return _rx; }
+		const int GetX() { return _pos_x; };
+		const int GetY() { return _pos_y+_coroffset; }
+		const int NextX() { return _nextmapx; }
+		const int NextY() { return _nextmapy; }
+		const int NextMapID() { return _nextMapID; }
 		bool &IsMapChanged() { return _isMapChanged; }
-		bool IsSwitchMap() { return _switchMapCheck; }
-		void SetIsMachine(bool isMachine, Direction pressing);
+		const bool IsSwitchMap() { return _switchMapCheck; }
+
+		void SetMachine(Direction pressing);
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(Direction m);
 		
-		int machine_count;
 	private:
+		enum {
+			HUMAN_DOWN =  0,
+			HUMAN_DOWN_1 = 1,
+			HUMAN_DOWN_2 = 2,
+			HUMAN_UP = 9,
+			HUMAN_UP_1 = 10,
+			HUMAN_UP_2 = 11,
+			HUMAN_LEFT = 3,
+			HUMAN_LEFT_1 = 4,
+			HUMAN_LEFT_2 = 5,
+			HUMAN_RIGHT = 6,
+			HUMAN_RIGHT_1 = 7,
+			HUMAN_RIGHT_2 = 8 
+		};
+		int machine_count;
 		int _coroffset;
 		bool _walkiter;
 		bstate _bstate;
 		Direction _direction;
 		Direction _nowmove;
 		Direction _pressing;
-		bool _isMachine;
 		int _step;
 		bool _isup;
 		bool _isdown;
