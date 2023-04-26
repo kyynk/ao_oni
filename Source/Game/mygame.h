@@ -25,7 +25,7 @@
 #include "config.h"
 #include "Entity.h"
 #include "GameMap.h"
-#include "Human.h"
+#include "MainHuman.h"
 #include "Oni.h"
 #include "MapNode.h"
 #include "MapRouter.h"
@@ -34,19 +34,15 @@
 #include "ObjMove.h"
 #include "Dialog.h"
 #include "InputBox.h"
-#include "Human.h"
+#include "MainHuman.h"
 #include "Event.h"
 #include "MapRes.h"
 namespace game_framework {
-	/////////////////////////////////////////////////////////////////////////////
-	// Constants
-	/////////////////////////////////////////////////////////////////////////////
-
 	
 	enum AUDIO_ID {
-		AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2
+		AUDIO_DING,			
+		AUDIO_LAKE,			
+		AUDIO_NTUT			
 	};
 
 
@@ -104,10 +100,10 @@ namespace game_framework {
 		//game
 		int _substate;
 		vector<Dialog> dialogs;
-		Human player;
-		Human human_mika;
-		Human human_takeshi;
-		Human human_Takuruo;
+		MainHuman player;
+		MainHuman human_mika;
+		MainHuman human_takeshi;
+		MainHuman human_Takuruo;
 		Oni oni1;
 		ObjMove house1_2F_TR_chair;
 		ObjMove house1_2F_TL_chair;
@@ -139,10 +135,8 @@ namespace game_framework {
 		bool isedit;
 		int istwoway;
 		bool isdebugmode;
-		//int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;
-		//vector<int> bsvec;
 	};
 	class CGameStateOver : public CGameState {
 	public:

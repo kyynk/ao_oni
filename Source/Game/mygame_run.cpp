@@ -232,11 +232,11 @@ namespace game_framework {
 		dialogs.at(32).SetFigure(Dialog::mika);
 		dialogs.at(32).SetParam({ "takuro................" }, false);
 		// objMove
-		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
+		house1_2F_TR_chair.SetParam(ObjMove::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE);
-		house1_2F_TL_chair.SetParam(ObjMove::ObjType::house1_2F_TL_chair,
+		house1_2F_TL_chair.SetParam(ObjMove::house1_2F_TL_chair,
 			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE); // 14 15
-		house1_basement2_chair.SetParam(ObjMove::ObjType::house1_basement2_chair,
+		house1_basement2_chair.SetParam(ObjMove::house1_basement2_chair,
 			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE); // 9 14
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
@@ -272,15 +272,15 @@ namespace game_framework {
 		_dialogID = -1;
 		_dialogcount = 0;
 		_eventID = 0;
-		player.init(4, 16, Human::left);
+		player.init(4, 16, MainHuman::left);
 		player.SetXYAndCol(14, 13);
-		human_mika.init(-1, 16,Human::right);
+		human_mika.init(-1, 16,MainHuman::right);
 		human_mika.SetXYAndCol(10,12);
-		human_takeshi.init(-1, 16, Human::up);
+		human_takeshi.init(-1, 16, MainHuman::up);
 		human_takeshi.SetXYAndCol(13,14);
-		human_Takuruo.init(-1, 16, Human::down);
+		human_Takuruo.init(-1, 16, MainHuman::down);
 		human_Takuruo.SetXYAndCol(12, 12);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetParam(Oni::normal, 4, 8);
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		house1_2F_TR_chair.Reset();
@@ -612,7 +612,7 @@ namespace game_framework {
 			items.at(OIL).GetPlayerPos(player.GetX(), player.GetY());
 			items.at(OIL).OnMove();
 			
-			human_mika.SetDirection(Human::up);
+			human_mika.SetDirection(MainHuman::up);
 			human_mika.SetXYAndCol(8,16);
 			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
@@ -1045,20 +1045,20 @@ namespace game_framework {
 				SetEventTriggeredDialog(START_EVENT2_E);
 			}
 			if (_dialogID == 6) {
-				player.SetDirection(Human::right);
-				human_takeshi.SetDirection(Human::right);
-				human_Takuruo.SetDirection(Human::right);
+				player.SetDirection(MainHuman::right);
+				human_takeshi.SetDirection(MainHuman::right);
+				human_Takuruo.SetDirection(MainHuman::right);
 			}
 			else if (_dialogID == 7) {
-				player.SetIsMachine(true, Human::isright);
+				player.SetIsMachine(true, MainHuman::right);
 			}
 			else if (_dialogID == 9) {
 				player.SetAllMoveFalse();
-				player.SetNowmove(Human::machinetransmap);
+				player.SetNowmove(MainHuman::machinetransmap);
 			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
-				player.SetIsMachine(true, Human::isleft);
+				player.SetIsMachine(true, MainHuman::left);
 			}
 			else if (_dialogID == 11) {
 				player.TimerStart();
@@ -1067,13 +1067,13 @@ namespace game_framework {
 				player.SetAllMoveFalse();
 				if (player.IsTimerStart()) {
 					if (player.TimerGetCount() < 20) {
-						player.SetDirection(Human::up);
+						player.SetDirection(MainHuman::up);
 					}
 					else if (player.TimerGetCount() < 40) {
-						player.SetDirection(Human::down);
+						player.SetDirection(MainHuman::down);
 					}
 					else if (player.TimerGetCount() < 60) {
-						player.SetDirection(Human::left);
+						player.SetDirection(MainHuman::left);
 						player.TimerStop();
 					}
 					player.TimerUpdate(clock());

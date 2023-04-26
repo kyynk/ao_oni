@@ -2,7 +2,7 @@
 namespace game_framework {
 	class ObjMove : public Entity {
 	public:
-		enum ObjType {
+		enum ObjName {
 			no,
 			house1_2F_TL_chair,
 			house1_2F_TR_chair,
@@ -10,18 +10,11 @@ namespace game_framework {
 			house1_basement_chair2,
 			flower
 		};
-		enum move {
-			none,
-			isup,
-			isdown,
-			isleft,
-			isright
-		};
 		ObjMove();
 		~ObjMove();
 		// step and moveTime sould be fast with player
 		// e.g. moveTime = 4, step = 8
-		void SetParam(ObjType tp, int step, int moveTime, 
+		void SetParam(ObjName tp, int step, int moveTime, 
 			int offsetX, int offsetY, int resetX, int resetY);
 		void Load(string filename, COLORREF color);
 		int GetPosX();
@@ -58,8 +51,8 @@ namespace game_framework {
 		bool _isCrossMap;
 		bool _1stCross;
 		bool _notShow;
-		ObjType _type;
-		move _nowmove;
-		move _pressing;
+		ObjName _type;
+		Direction _nowmove;
+		Direction _pressing;
 	};
 }
