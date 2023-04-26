@@ -135,10 +135,8 @@ namespace game_framework {
 		bool isedit;
 		int istwoway;
 		bool isdebugmode;
-		//int isbs;
 		vector<int> twowayvec;
 		vector<int> pointvec;
-		//vector<int> bsvec;
 	};
 	class CGameStateOver : public CGameState {
 	public:

@@ -49,7 +49,7 @@ namespace game_framework{
 		_lx = _pos_x - TILE;
 		_rx = _pos_x + TILE;
 	}
-	void MainHuman::init(int step,int offset,direction dir) {
+	void MainHuman::init(int step,int offset,Direction dir) {
 		_step = step;
 		_coroffset = offset;
 		_direction = dir;
@@ -72,26 +72,25 @@ namespace game_framework{
 			_lx = _pos_x - TILE;
 			_rx = _pos_x + TILE;
 			bitmap.SetTopLeft(_pos_x, _pos_y);
-			//TRACE("return to grid\n");
 		}
 	}
 	void MainHuman::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
-			TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
+			//TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
 			
-			if (_nowmove == isup) {
+			if (_nowmove == up) {
 				_pos_x = map.GetX() + _nextmapx ;
 				_pos_y = map.GetY() + _nextmapy - _coroffset - TILE;
 			}
-			else if (_nowmove == isdown) {
+			else if (_nowmove == down) {
 				_pos_x = map.GetX() + _nextmapx;
 				_pos_y = map.GetY() + _nextmapy - _coroffset + TILE;
 			}
-			else if (_nowmove == isleft) {
+			else if (_nowmove == left) {
 				_pos_x = map.GetX() + _nextmapx - TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
 			}
-			else if (_nowmove == isright) {
+			else if (_nowmove == right) {
 				_pos_x = map.GetX() + _nextmapx + TILE;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
 			}
@@ -99,9 +98,9 @@ namespace game_framework{
 				_pos_x = map.GetX() + _nextmapx;
 				_pos_y = map.GetY() + _nextmapy - _coroffset;
 			}
-			if (_nowmove == none) {
+			/*if (_nowmove == none) {
 				TRACE("In player default on move _nowmove= none\n");
-			}
+			}*/
 			_uy = _pos_y - TILE;
 			_dy = _pos_y + TILE;
 			_lx = _pos_x - TILE;
@@ -209,22 +208,22 @@ namespace game_framework{
 				else {
 					_bstate = s2;
 				}
-				if (_nowmove == isup && upmovable) {
+				if (_nowmove == up && upmovable) {
 					_pos_y -= _step;
 					_uy -= _step;
 					_dy -= _step;
 				}
-				else if (_nowmove == isdown && downmovable) {
+				else if (_nowmove == down && downmovable) {
 					_pos_y += _step;
 					_uy += _step;
 					_dy += _step;
 				}
-				else if (_nowmove == isleft && leftmovable) {
+				else if (_nowmove == left && leftmovable) {
 					_pos_x -= _step;
 					_lx -= _step;
 					_rx -= _step;
 				}
-				else if (_nowmove == isright && rightmovable) {
+				else if (_nowmove == right && rightmovable) {
 					_pos_x += _step;
 					_lx += _step;
 					_rx += _step;
@@ -246,7 +245,7 @@ namespace game_framework{
 						if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 							NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 							_direction == left &&
-							_nowmove == isleft) {
+							_nowmove == left) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -256,7 +255,7 @@ namespace game_framework{
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 							NodeData(this->GetR() - map.GetX(), this->GetY() - map.GetY()) &&
 							_direction == right &&
-							_nowmove == isright) {
+							_nowmove == right) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -266,7 +265,7 @@ namespace game_framework{
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 							NodeData(this->GetX() - map.GetX(), this->GetU() - map.GetY()) &&
 							_direction == up &&
-							_nowmove == isup) {
+							_nowmove == up) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -276,7 +275,7 @@ namespace game_framework{
 						else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 							NodeData(this->GetX() - map.GetX(), this->GetD() - map.GetY()) &&
 							_direction == down &&
-							_nowmove == isdown) {
+							_nowmove == down) {
 							_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 							_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 							_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -319,22 +318,22 @@ namespace game_framework{
 			else {
 				_bstate = s2;
 			}
-			if (_nowmove == isup) {
+			if (_nowmove == up) {
 				_pos_y -= _step;
 				_uy -= _step;
 				_dy -= _step;
 			}
-			else if (_nowmove == isdown) {
+			else if (_nowmove == down) {
 				_pos_y += _step;
 				_uy += _step;
 				_dy += _step;
 			}
-			else if (_nowmove == isleft) {
+			else if (_nowmove == left) {
 				_pos_x -= _step;
 				_lx -= _step;
 				_rx -= _step;
 			}
-			else if (_nowmove == isright) {
+			else if (_nowmove == right) {
 				_pos_x += _step;
 				_lx += _step;
 				_rx += _step;
@@ -370,7 +369,7 @@ namespace game_framework{
 		
 		TRACE("set all false\n");
 	}
-	void MainHuman::SetNowmove(move m) {
+	void MainHuman::SetNowmove(Direction m) {
 		_nowmove = m;
 	}
 	void MainHuman::OnKeyDown(UINT nChar) {
@@ -380,7 +379,7 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				_pressing = isleft;
+				_pressing = left;
 				_isleft = true;
 			}
 		}
@@ -390,7 +389,7 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				_pressing = isup;
+				_pressing = up;
 				_isup = true;
 			}
 		}
@@ -400,7 +399,7 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				_pressing = isright;
+				_pressing = right;
 				_isright = true;
 			}
 			
@@ -411,7 +410,7 @@ namespace game_framework{
 				_switchMapCheck = true;
 			}
 			else {
-				_pressing = isdown;
+				_pressing = down;
 				_isdown = true;
 			}
 		}
@@ -443,7 +442,7 @@ namespace game_framework{
 	void MainHuman::OnShow() {
 		
 
-		if (_nowmove == isup) {
+		if (_nowmove == up) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : 
 					bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
@@ -452,7 +451,7 @@ namespace game_framework{
 				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
 			}
 		}
-		else if (_nowmove == isdown) {
+		else if (_nowmove == down) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_1) : 
 					bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_2);
@@ -462,7 +461,7 @@ namespace game_framework{
 			}
 		}
 
-		else if (_nowmove == isleft) {
+		else if (_nowmove == left) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_1) :
 					bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_2);
@@ -472,7 +471,7 @@ namespace game_framework{
 			}
 		}
 
-		else if (_nowmove == isright) {
+		else if (_nowmove == right) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_1) :
 					bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_2);
@@ -490,26 +489,25 @@ namespace game_framework{
 
 	}
 
-	void MainHuman::SetIsMachine(bool isMachine, move pressing)
+	void MainHuman::SetIsMachine(bool isMachine, Direction pressing)
 	{
 		_pressing = pressing;
-		if (pressing == isup) {
+		if (pressing == up) {
 			_direction = up;
 			_isup = true;
 		}
-		else if (pressing == isdown) {
+		else if (pressing == down) {
 			_direction = down;
 			_isdown = true;
 		}
-		else if (pressing == isleft) {
+		else if (pressing == left) {
 			_direction = left;
 			_isleft = true;
 		}
-		else if (pressing == isright) {
+		else if (pressing == right) {
 			_direction = right;
 			_isright = true;
 		}
-		//_isMachine = false;
 	}
 
 }

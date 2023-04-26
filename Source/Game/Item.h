@@ -83,7 +83,7 @@ namespace game_framework {
 			_playerX, _playerY,
 			_boxX, _boxY, 
 			_aniType, _aniFrame;
-		direction _pressing;
+		Direction _pressing;
 		ItemName _name;
 		// pick -> disappear, take -> a bitmap is leaved
 		// index for bool (under)

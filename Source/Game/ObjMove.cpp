@@ -94,7 +94,7 @@ namespace game_framework {
 			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosU() - map.GetY()) % TILE == 0 ||  
-			_pressing != isup) {
+			_pressing != up) {
 			upmovable = false;
 		}
 		else {
@@ -104,7 +104,7 @@ namespace game_framework {
 			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosD() - map.GetY()) % TILE == 0 || 
-			_pressing != isdown) {
+			_pressing != down) {
 			downmovable = false;
 		}
 		else {
@@ -114,7 +114,7 @@ namespace game_framework {
 			map.GetMapData(0, (this->GetPosL() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
 			(this->GetPosL() - map.GetX()) % TILE == 0 &&
 			(this->GetPosY() - map.GetY()) % TILE == 0 || 
-			_pressing != isleft) {
+			_pressing != left) {
 			leftmovable = false;
 		}
 		else {
@@ -124,31 +124,25 @@ namespace game_framework {
 			map.GetMapData(0, (this->GetPosR() - map.GetX()) / TILE, (this->GetPosY() - map.GetY()) / TILE) == -87) &&
 			(this->GetPosR() - map.GetX()) % TILE == 0 &&
 			(this->GetPosY() - map.GetY()) % TILE == 0 || 
-			_pressing != isright) {
+			_pressing != right) {
 			rightmovable = false;
 		}
 		else {
 			rightmovable = true;
 		}
-		if (leftmovable) _nowmove = isleft;
-		else if (upmovable) _nowmove = isup;
-		else if (rightmovable) _nowmove = isright;
-		else if (downmovable) _nowmove = isdown;
+		if (leftmovable) _nowmove = left;
+		else if (upmovable) _nowmove = up;
+		else if (rightmovable) _nowmove = right;
+		else if (downmovable) _nowmove = down;
 		else _nowmove = none;
-
-		/*if (_pressing == isleft) { TRACE("\n\n lll \n\n"); }
-		if (_pressing == isup) { TRACE("\n\n uuu \n\n"); }
-		if (_pressing == isright) { TRACE("\n\n rrr \n\n"); }
-		if (_pressing == isdown) { TRACE("\n\n ddd \n\n"); }*/
-
 		_pressing = none;
 	}
 	void ObjMove::OnMove(GameMap &map) {	// every time obj move, will track first
 		Fixed(); // to check isFixed or not
 		if (_press && !_isFixedPos) {
-			TRACE("\n\n playerX %d playerY %d objX %d objY %d\n\n", _humanX, _humanY, _pos_x, _pos_y);
+			//TRACE("\n\n playerX %d playerY %d objX %d objY %d\n\n", _humanX, _humanY, _pos_x, _pos_y);
 			if (isCollide()) {
-				TRACE("\n\n\n obj isCollide \n");
+				//TRACE("\n\n\n obj isCollide \n");
 				Track(map);
 			}
 			_press = false;
@@ -161,16 +155,16 @@ namespace game_framework {
 			_nowmove = none;
 		}
 		if (IsTimerStart()) {
-			if (_nowmove == isup) {
+			if (_nowmove == up) {
 				_pos_y -= _step;
 			}
-			else if (_nowmove == isdown) {
+			else if (_nowmove == down) {
 				_pos_y += _step;
 			}
-			else if (_nowmove == isleft) {
+			else if (_nowmove == left) {
 				_pos_x -= _step;
 			}
-			else if (_nowmove == isright) {
+			else if (_nowmove == right) {
 				_pos_x += _step;
 			}
 			TimerUpdate(clock());
@@ -182,19 +176,19 @@ namespace game_framework {
 			_press = true;
 		}
 		if (nChar == VK_LEFT) {			
-			_pressing = isleft;
+			_pressing = left;
 			//TRACE("\n\n press L \n\n");
 		}
 		else if (nChar == VK_UP) {			
-			_pressing = isup;
+			_pressing = up;
 			//TRACE("\n\n press U \n\n");
 		}
 		else if (nChar == VK_RIGHT) {			
-			_pressing = isright;
+			_pressing = right;
 			//TRACE("\n\n press R \n\n");
 		}
 		else if (nChar == VK_DOWN) {			
-			_pressing = isdown;
+			_pressing = down;
 			//TRACE("\n\n press D \n\n");
 		}
 	}
@@ -279,10 +273,10 @@ namespace game_framework {
 	bool ObjMove::isCollide() {
 		int x = _pos_x + _offsetX;
 		int y = _pos_y + _offsetY;
-		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() && _humanY <= y) && _pressing == isright)
-			|| (_humanX - TILE == x && (_humanY >= GetPosY() && _humanY <= y) && _pressing == isleft)
-			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == isdown)
-			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY - TILE == y) && _pressing == isup)
+		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() && _humanY <= y) && _pressing == right)
+			|| (_humanX - TILE == x && (_humanY >= GetPosY() && _humanY <= y) && _pressing == left)
+			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == down)
+			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY - TILE == y) && _pressing == up)
 			_collide = true;
 		else
 			_collide = false;
