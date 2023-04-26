@@ -2,14 +2,7 @@
 namespace game_framework {
 	class Item : public Entity {
 	public:
-		enum move {
-			none,
-			isup,
-			isdown,
-			isleft,
-			isright
-		};
-		enum itemName {
+		enum ItemName {
 			lib_book,					 //v
 			key_lib,					 //v
 			key_3F_L,					 //v
@@ -49,9 +42,9 @@ namespace game_framework {
 			door_half, //first in
 		};
 		Item();
-		~Item();
+		~Item() {};
 		void SetParam(int delay, int boxX, int boxY, 
-			itemName name);
+			ItemName name);
 		void Load(vector<string> filename, COLORREF color);
 		int GetPosX();
 		int GetPosY();
@@ -90,10 +83,9 @@ namespace game_framework {
 			_playerX, _playerY,
 			_boxX, _boxY, 
 			_aniType, _aniFrame;
-		move _move;
-		move _pressing;
-		itemName _name;
-		// pick -> disappear, take -> leave
+		direction _pressing;
+		ItemName _name;
+		// pick -> disappear, take -> a bitmap is leaved
 		// index for bool (under)
 		// _triggered, _close, _press, _pick, 
 		// _fixed, _take, _onCorrectPos, _useItem

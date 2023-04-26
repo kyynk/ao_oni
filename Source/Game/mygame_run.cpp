@@ -232,11 +232,11 @@ namespace game_framework {
 		dialogs.at(32).SetFigure(Dialog::mika);
 		dialogs.at(32).SetParam({ "takuro................" }, false);
 		// objMove
-		house1_2F_TR_chair.SetParam(ObjMove::ObjType::house1_2F_TR_chair,
+		house1_2F_TR_chair.SetParam(ObjMove::house1_2F_TR_chair,
 			8, 4, 0, 0, 15 * TILE, 9 * TILE);
-		house1_2F_TL_chair.SetParam(ObjMove::ObjType::house1_2F_TL_chair,
+		house1_2F_TL_chair.SetParam(ObjMove::house1_2F_TL_chair,
 			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE); // 14 15
-		house1_basement2_chair.SetParam(ObjMove::ObjType::house1_basement2_chair,
+		house1_basement2_chair.SetParam(ObjMove::house1_basement2_chair,
 			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE); // 9 14
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
@@ -280,7 +280,7 @@ namespace game_framework {
 		human_takeshi.SetXYAndCol(13,14);
 		human_Takuruo.init(-1, 16, MainHuman::down);
 		human_Takuruo.SetXYAndCol(12, 12);
-		oni1.SetParam(Oni::OniType::normal, 4, 8);
+		oni1.SetParam(Oni::normal, 4, 8);
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		house1_2F_TR_chair.Reset();
