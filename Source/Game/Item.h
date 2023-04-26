@@ -60,7 +60,6 @@ namespace game_framework {
 		int GetPosR();
 		int GetPosD();
 		void GetPlayerPos(int x, int y);
-		void CheckMoveDirection();
 		void OnMove();
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
