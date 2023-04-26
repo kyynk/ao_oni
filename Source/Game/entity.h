@@ -21,7 +21,7 @@ namespace game_framework {
 		};
 		void SetXY(int x, int y);
 		void SelectShowBitmap(int index);
-		void TimerUpdate(clock_t start) {
+		void TimerUpdate() {
 			if (_istimerstart){
 				if (getClockInterval(_timer)>=0.001) {
 					_counter++;
