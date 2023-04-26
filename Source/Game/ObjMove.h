@@ -10,13 +10,6 @@ namespace game_framework {
 			house1_basement_chair2,
 			flower
 		};
-		enum move {
-			none,
-			isup,
-			isdown,
-			isleft,
-			isright
-		};
 		ObjMove();
 		~ObjMove();
 		// step and moveTime sould be fast with player
@@ -59,7 +52,7 @@ namespace game_framework {
 		bool _1stCross;
 		bool _notShow;
 		ObjName _type;
-		move _nowmove;
-		move _pressing;
+		Direction _nowmove;
+		Direction _pressing;
 	};
 }

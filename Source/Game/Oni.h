@@ -2,7 +2,7 @@
 namespace game_framework {
 	class Oni : public Entity{
 	public:
-		enum OniType {
+		enum OniName {
 			normal,
 			mika,
 			takesi,
@@ -12,20 +12,13 @@ namespace game_framework {
 			muscle,
 			strange
 		};
-		enum move {
-			none,
-			isup,
-			isdown,
-			isleft,
-			isright
-		};
 		enum changeMap {
 			room,
 			hallway
 		};
 		Oni();
-		~Oni();
-		void SetParam(OniType tp, int step, int moveTime);
+		~Oni() {}
+		void SetParam(OniName tp, int step, int moveTime);
 		void SetPos(int x, int y);
 		int GetPosX();
 		int GetPosY();
@@ -60,9 +53,9 @@ namespace game_framework {
 		bool _isDisappear;
 		bool _walkiter;
 		bool _wait;
-		OniType _type;
+		OniName _type;
 		bstate _bstate;
-		move _nowmove;
-		move _tracking;
+		Direction _nowmove;
+		Direction _tracking;
 	};
 }

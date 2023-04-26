@@ -1050,7 +1050,7 @@ namespace game_framework {
 				human_Takuruo.SetDirection(MainHuman::right);
 			}
 			else if (_dialogID == 7) {
-				player.SetIsMachine(true, MainHuman::isright);
+				player.SetIsMachine(true, MainHuman::right);
 			}
 			else if (_dialogID == 9) {
 				player.SetAllMoveFalse();
@@ -1058,7 +1058,7 @@ namespace game_framework {
 			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
-				player.SetIsMachine(true, MainHuman::isleft);
+				player.SetIsMachine(true, MainHuman::left);
 			}
 			else if (_dialogID == 11) {
 				player.TimerStart();
