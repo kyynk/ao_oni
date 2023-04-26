@@ -5,8 +5,19 @@ namespace game_framework {
 	class Entity {
 	public:
 		Entity();
-		//getter
-		
+		enum bstate {
+			s1,
+			s2,
+			s3,
+			s4
+		};
+		enum direction {
+			none,
+			up,
+			down,
+			left,
+			right
+		};
 		void SetXY(int x, int y);
 		void SelectShowBitmap(int index);
 		void TimerUpdate(clock_t start) {

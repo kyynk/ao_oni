@@ -4,19 +4,13 @@ namespace game_framework{
 	class MapRouter;
 	class MainHuman : public Entity {
 	public:
-		enum Direction {
-			up,
-			down, 
-			left,
-			right
-		};
+		
 		enum bstate {
 			s1,
 			s2,
 			s3,
 			s4
 		};
-		
 		enum move {
 			none,
 			isup,
@@ -29,7 +23,7 @@ namespace game_framework{
 
 		void SetXYAndCol(int x, int y);
 
-		void init(int step,int offset,Direction dir);
+		void init(int step,int offset,direction dir);
 
 		void ResetToGrid();
 		
@@ -41,7 +35,7 @@ namespace game_framework{
 		void OnShow();
 		void Load(vector<string> filenames,COLORREF color );
 
-		void SetDirection(Direction d) {
+		void SetDirection(direction d) {
 			_direction = d;
 		}
 		int GetDirection() {
@@ -69,7 +63,7 @@ namespace game_framework{
 	private:
 		int _coroffset;
 		bool _walkiter;
-		Direction _direction;
+		direction _direction;
 		bstate _bstate;
 		//move _premove;
 		move _nowmove;

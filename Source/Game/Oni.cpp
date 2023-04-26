@@ -42,7 +42,7 @@ namespace game_framework {
 	}
 	Oni::~Oni() {
 	}
-	void Oni::SetParam(Oni::OniType tp, int step, int moveTime) {
+	void Oni::SetParam(OniType tp, int step, int moveTime) {
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -280,15 +280,11 @@ namespace game_framework {
 		_overTime = 10*30;
 	}
 	void Oni::Countdown() {
-		//_time--
-		//if _time == 0
-		//_isDisappear = true
+		
 		if (_overTime == 0) _isDisappear = true;
 		else _overTime--;
 	}
 	void Oni::ChangeMap() {
-		//SetPos
-		//_time ++
 		_overTime++;
 	}
 	void Oni::SetWait() {
