@@ -76,6 +76,9 @@
     <ClCompile Include="Source\Game\ObjMove.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Human.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\ChoiceMenu.h">
@@ -151,6 +154,9 @@
       <Filter>Maps</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\ObjMove.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Human.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

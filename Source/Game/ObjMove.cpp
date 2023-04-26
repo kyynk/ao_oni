@@ -32,7 +32,7 @@ namespace game_framework {
 	}
 	ObjMove::~ObjMove() {
 	}
-	void ObjMove::SetParam(ObjType tp, int step, int moveTime, 
+	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
 		int offsetX, int offsetY, int resetX, int resetY) {
 		_type = tp;
 		_step = step;
