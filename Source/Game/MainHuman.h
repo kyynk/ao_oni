@@ -20,22 +20,22 @@ namespace game_framework{
 		void SetDirection(Direction d) {
 			_direction = d;
 		}
-		const int GetDirection() {
+		int GetDirection() const  {
 			return _direction;
 		}
 		
-		const int GetOffset() { return _coroffset; }
-		const int GetU() { return _uy + _coroffset; }
-		const int GetD() { return _dy + _coroffset; }
-		const int GetL() { return _lx; }
-		const int GetR() { return _rx; }
-		const int GetX() { return _pos_x; };
-		const int GetY() { return _pos_y+_coroffset; }
-		const int NextX() { return _nextmapx; }
-		const int NextY() { return _nextmapy; }
-		const int NextMapID() { return _nextMapID; }
+		int GetOffset() const { return _coroffset; }
+		int GetU() const { return _uy + _coroffset; }
+		int GetD() const { return _dy + _coroffset; }
+		int GetL() const { return _lx; }
+		int GetR() const { return _rx; }
+		int GetX() const { return _pos_x; };
+		int GetY() const { return _pos_y+_coroffset; }
+		int NextX() const { return _nextmapx; }
+		int NextY() const { return _nextmapy; }
+		int NextMapID() const { return _nextMapID; }
 		bool &IsMapChanged() { return _isMapChanged; }
-		const bool IsSwitchMap() { return _switchMapCheck; }
+		bool IsSwitchMap() const { return _switchMapCheck; }
 
 		void SetMachine(Direction pressing);
 		void SetNextMap(int x, int y, int mapID);
