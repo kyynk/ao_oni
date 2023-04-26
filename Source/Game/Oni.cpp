@@ -40,9 +40,8 @@ namespace game_framework {
 		_nowmove = none;
 		_tracking = none;
 	}
-	Oni::~Oni() {
-	}
-	void Oni::SetParam(Oni::OniType tp, int step, int moveTime) {
+	
+	void Oni::SetParam(OniName tp, int step, int moveTime) {
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -175,18 +174,18 @@ namespace game_framework {
 		else xLen = xLen2;
 		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
 		//xLen = xLen1;
-		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
-		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
-		else if (abs(xLen) > abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
-		else if (abs(xLen) > abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
+		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = down;
+		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = up;
+		else if (abs(xLen) > abs(yLen) && xLen < 0 && rightmovable) _tracking = right;
+		else if (abs(xLen) > abs(yLen) && xLen > 0 && leftmovable) _tracking = left;
 		// if block the longest LENGTH, then we need to choose other chance
-		else if (abs(xLen) < abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
-		else if (abs(xLen) < abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
-		else if (abs(xLen) > abs(yLen) && yLen < 0 && downmovable) _tracking = isdown;
-		else if (abs(xLen) > abs(yLen) && yLen > 0 && upmovable) _tracking = isup;
+		else if (abs(xLen) < abs(yLen) && xLen < 0 && rightmovable) _tracking = right;
+		else if (abs(xLen) < abs(yLen) && xLen > 0 && leftmovable) _tracking = left;
+		else if (abs(xLen) > abs(yLen) && yLen < 0 && downmovable) _tracking = down;
+		else if (abs(xLen) > abs(yLen) && yLen > 0 && upmovable) _tracking = up;
 		// if abs xLen == abs yLen, then choose xLen first
-		else if (abs(xLen) == abs(yLen) && xLen < 0 && rightmovable) _tracking = isright;
-		else if (abs(xLen) == abs(yLen) && xLen > 0 && leftmovable) _tracking = isleft;
+		else if (abs(xLen) == abs(yLen) && xLen < 0 && rightmovable) _tracking = right;
+		else if (abs(xLen) == abs(yLen) && xLen > 0 && leftmovable) _tracking = left;
 		else _tracking = none;
 	}
 	void Oni::OnMove(GameMap &map) {
@@ -219,16 +218,16 @@ namespace game_framework {
 				else {
 					_bstate = s2;
 				}
-				if (_nowmove == isup) {
+				if (_nowmove == up) {
 					_pos_y -= _step;
 				}
-				else if (_nowmove == isdown) {
+				else if (_nowmove == down) {
 					_pos_y += _step;
 				}
-				else if (_nowmove == isleft) {
+				else if (_nowmove == left) {
 					_pos_x -= _step;
 				}
-				else if (_nowmove == isright) {
+				else if (_nowmove == right) {
 					_pos_x += _step;
 				}
 				TimerUpdate(clock());
@@ -238,9 +237,7 @@ namespace game_framework {
 		}
 	}
 	void Oni::OnShow() {
-		//if (!_isDisappear)
-		//show...
-		if (_nowmove == isup) {
+		if (_nowmove == up) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_UP_1) : bitmap.SetFrameIndexOfBitmap(ONI_UP_2);
 			}
@@ -248,7 +245,7 @@ namespace game_framework {
 				bitmap.SetFrameIndexOfBitmap(ONI_UP);
 			}
 		}
-		else if (_nowmove == isdown) {
+		else if (_nowmove == down) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_DOWN_1) : bitmap.SetFrameIndexOfBitmap(ONI_DOWN_2);
 			}
@@ -257,7 +254,7 @@ namespace game_framework {
 			}
 		}
 
-		else if (_nowmove == isleft) {
+		else if (_nowmove == left) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_LEFT_1) : bitmap.SetFrameIndexOfBitmap(ONI_LEFT_2);
 			}
@@ -266,7 +263,7 @@ namespace game_framework {
 			}
 		}
 
-		else if (_nowmove == isright) {
+		else if (_nowmove == right) {
 			if (_bstate == s1) {
 				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(ONI_RIGHT_2);
 			}
@@ -280,15 +277,11 @@ namespace game_framework {
 		_overTime = 10*30;
 	}
 	void Oni::Countdown() {
-		//_time--
-		//if _time == 0
-		//_isDisappear = true
+		
 		if (_overTime == 0) _isDisappear = true;
 		else _overTime--;
 	}
 	void Oni::ChangeMap() {
-		//SetPos
-		//_time ++
 		_overTime++;
 	}
 	void Oni::SetWait() {
