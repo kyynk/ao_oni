@@ -240,21 +240,6 @@ namespace game_framework {
 		_playerX = x;
 		_playerY = y;
 	}
-	void Item::CheckMoveDirection() {
-		int x = _pos_x + _boxX;
-		int y = _pos_y + _boxY;
-		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isright)
-			_move = isright;
-		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isleft)
-			_move = isleft;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == isdown)
-			_move = isdown;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == isup)
-			_move = isup;
-		else
-			_move = none;
-		utiltriggers[2] = false;
-	}
 	void Item::OnMove() { // actually is action function
 		if (utiltriggers[2]) {
 			TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
@@ -565,7 +550,19 @@ namespace game_framework {
 			bitmap.ShowBitmap(_aniType);
 	}
 	bool Item::Collide() {
-		CheckMoveDirection();
+		int x = _pos_x + _boxX;
+		int y = _pos_y + _boxY;
+		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isright)
+			_move = isright;
+		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == isleft)
+			_move = isleft;
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == isdown)
+			_move = isdown;
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == isup)
+			_move = isup;
+		else
+			_move = none;
+		utiltriggers[2] = false;
 		return _move != none;
 	}
 	void Item::Animation(int n, int frame) {
