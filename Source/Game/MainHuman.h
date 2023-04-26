@@ -2,7 +2,7 @@
 namespace game_framework{
 	class GameMap;
 	class MapRouter;
-	class Human : public Entity {
+	class MainHuman : public Entity {
 	public:
 		enum Direction {
 			up,
@@ -25,7 +25,7 @@ namespace game_framework{
 			isright,
 			machinetransmap
 		};
-		Human();
+		MainHuman();
 
 		void SetXYAndCol(int x, int y);
 

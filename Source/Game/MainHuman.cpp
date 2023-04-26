@@ -7,7 +7,7 @@
 #include "GameMap.h"
 #include "MapRouter.h"
 #include "Entity.h"
-#include "Human.h"
+#include "MainHuman.h"
 
 #define HUMAN_DOWN 0
 #define HUMAN_DOWN_1 1
@@ -24,7 +24,7 @@
 
 namespace game_framework{
 
-	Human::Human() :Entity() {
+	MainHuman::MainHuman() :Entity() {
 		
 		_step = 0;
 		_walkiter = true;
@@ -43,20 +43,20 @@ namespace game_framework{
 		_nowmove = none;
 		_pressing = none;
 	}
-	void Human::SetXYAndCol(int x,int y) {
+	void MainHuman::SetXYAndCol(int x,int y) {
 		SetXY(x * TILE, y * TILE - TILE / 2);
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
 		_rx = _pos_x + TILE;
 	}
-	void Human::init(int step,int offset,Direction dir) {
+	void MainHuman::init(int step,int offset,Direction dir) {
 		_step = step;
 		_coroffset = offset;
 		_direction = dir;
 		machine_count = 0;
 	}
-	void Human::ResetToGrid() {
+	void MainHuman::ResetToGrid() {
 		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
 			int dx = 0;
 			int dy = 1;
@@ -76,7 +76,7 @@ namespace game_framework{
 			//TRACE("return to grid\n");
 		}
 	}
-	void Human::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
+	void MainHuman::OnMove(GameMap &map, MapRouter &router, int nowID, vector<vector<int>>&VL, vector<vector<int>>&VR, vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
 			TRACE("posx:%d posy:%d tilex:%d tiley:%d \n", _pos_x, _pos_y, _pos_x/TILE, _pos_y/TILE);
 			
@@ -295,7 +295,7 @@ namespace game_framework{
 		
 	}
 
-	void Human::OnMoveBySettings(int countblock){
+	void MainHuman::OnMoveBySettings(int countblock){
 		TRACE("onmoveby setting running\n");
 		if (_isup || _isdown || _isleft || _isright) {
 			TimerStart();
@@ -345,7 +345,7 @@ namespace game_framework{
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
 	}
-	void Human::OnMove() {
+	void MainHuman::OnMove() {
 		if (_direction == up) {
 			bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
 		}
@@ -361,7 +361,7 @@ namespace game_framework{
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
 	}
-	void Human::SetAllMoveFalse() {
+	void MainHuman::SetAllMoveFalse() {
 		_isup = false;
 		_isdown = false;
 		_isleft = false;
@@ -371,10 +371,10 @@ namespace game_framework{
 		
 		TRACE("set all false\n");
 	}
-	void Human::SetNowmove(move m) {
+	void MainHuman::SetNowmove(move m) {
 		_nowmove = m;
 	}
-	void Human::OnKeyDown(UINT nChar) {
+	void MainHuman::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
 			_direction = left;
 			if (_isMapChanged) {
@@ -419,7 +419,7 @@ namespace game_framework{
 	}
 	
 
-	void Human::OnKeyUp(UINT nChar){
+	void MainHuman::OnKeyUp(UINT nChar){
 		if (nChar == VK_LEFT) {
 			_isleft = false;
 		}
@@ -433,7 +433,7 @@ namespace game_framework{
 			_isdown = false;
 		}
 	}
-	void Human::SetNextMap(int x,int y,int NextID) {
+	void MainHuman::SetNextMap(int x,int y,int NextID) {
 		_nextmapx = x*TILE;
 		_nextmapy = y*TILE;
 		_nextMapID = NextID;
@@ -441,7 +441,7 @@ namespace game_framework{
 		_switchMapCheck = true;
 
 	}
-	void Human::OnShow() {
+	void MainHuman::OnShow() {
 		
 
 		if (_nowmove == isup) {
@@ -486,12 +486,12 @@ namespace game_framework{
 		bitmap.ShowBitmap();
 
 	}
-	void Human::Load(vector<string> filenames, COLORREF color) {
+	void MainHuman::Load(vector<string> filenames, COLORREF color) {
 		bitmap.LoadBitmapByString(filenames,color );
 
 	}
 
-	void Human::SetIsMachine(bool isMachine, move pressing)
+	void MainHuman::SetIsMachine(bool isMachine, move pressing)
 	{
 		_pressing = pressing;
 		if (pressing == isup) {

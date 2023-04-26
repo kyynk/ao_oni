@@ -13,7 +13,7 @@
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Human.cpp">
+    <ClCompile Include="Source\Game\MainHuman.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\InputBox.cpp">
@@ -90,7 +90,7 @@
     <ClInclude Include="Source\Game\Event.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Human.h">
+    <ClInclude Include="Source\Game\MainHuman.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\InputBox.h">
