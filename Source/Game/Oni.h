@@ -46,7 +46,7 @@ namespace game_framework {
 		void SetVanish();
 		void ResetOni();
 		void SetMapID(int id);
-		int GetMapID();
+		int GetMapID() const ;
 		
 	private:
 		

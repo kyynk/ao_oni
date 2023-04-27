@@ -7,8 +7,7 @@
 #include "Dialog.h"
 
 namespace game_framework {
-	Dialog::Dialog() {
-	}
+	Dialog::Dialog() = default;
 	Dialog::~Dialog() = default;
 	void Dialog::SetFigure(character a) {
 		_now = a;
