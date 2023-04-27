@@ -10,21 +10,18 @@
 namespace game_framework {
 	Item::Item() {
 		SetXY(14 * TILE, 15 * TILE);
-		_anidelay = 0;
-		_boxX = 0;
-		_boxY = 0;
-		_pressing = none;
-		_aniType = -1;
-		_aniFrame = -1;
 		Reset();
 	}
-	
+	Item::~Item() = default;
 	void Item::SetParam(int delay, int boxX, int boxY, 
 		ItemName name) {
+		_pressing = none;
 		_anidelay = delay;
 		_boxX = boxX;
 		_boxY = boxY;
 		_name = name;
+		_aniType = -1;
+		_aniFrame = -1;
 		vector<string> bitmapName;
 		if (_name == lib_book) {
 			bitmapName.push_back("img/item_animation/lib_book/lib_book.bmp");
@@ -228,7 +225,7 @@ namespace game_framework {
 	int Item::GetPosY_offset() {
 		return _pos_y + _boxY;
 	}
-	void Item::GetPlayerPos(int x, int y) {
+	void Item::SetPlayerPos(int x, int y) {
 		_playerX = x;
 		_playerY = y;
 	}
@@ -457,7 +454,7 @@ namespace game_framework {
 					utiltriggers[4] = true;
 				}
 				// house1 shower door
-				else if (_name == door_oni || _name == door_open || _name == door_die && !utiltriggers[4]) {
+				else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[4]) {
 					SetTrigger();
 					Animation(0, 0);
 					utiltriggers[4] = true;
@@ -633,7 +630,7 @@ namespace game_framework {
 			utiltriggers[4] = true;
 		}
 		// house1 shower door
-		else if (_name == door_oni || _name == door_open || _name == door_die && !utiltriggers[4]) {
+		else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[4]) {
 			SetTrigger();
 			Animation(0, 0);
 			utiltriggers[4] = true;
