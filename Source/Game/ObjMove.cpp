@@ -167,7 +167,7 @@ namespace game_framework {
 			else if (_nowmove == right) {
 				_pos_x += _step;
 			}
-			TimerUpdate(clock());
+			TimerUpdate();
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}

@@ -273,13 +273,13 @@ namespace game_framework {
 		_dialogcount = 0;
 		_eventID = 0;
 		player.init(4, 16, MainHuman::left);
-		player.SetXYAndCol(14, 13);
+		player.SetXYAndCol(14*TILE, 13 * TILE);
 		human_mika.init(-1, 16,MainHuman::right);
-		human_mika.SetXYAndCol(10,12);
+		human_mika.SetXYAndCol(10 * TILE,12 * TILE);
 		human_takeshi.init(-1, 16, MainHuman::up);
-		human_takeshi.SetXYAndCol(13,14);
+		human_takeshi.SetXYAndCol(13 * TILE,14 * TILE);
 		human_Takuruo.init(-1, 16, MainHuman::down);
-		human_Takuruo.SetXYAndCol(12, 12);
+		human_Takuruo.SetXYAndCol(12 * TILE, 12 * TILE);
 		oni1.SetParam(Oni::normal, 4, 8);
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
@@ -613,7 +613,7 @@ namespace game_framework {
 			items.at(OIL).OnMove();
 			
 			human_mika.SetDirection(MainHuman::up);
-			human_mika.SetXYAndCol(8,16);
+			human_mika.SetXYAndCol(8 * TILE,16 * TILE);
 			human_mika.OnMove();
 			house1_2F_TL_chair.GetPlayerPos(player.GetX(), player.GetY());
 			house1_2F_TL_chair.OnMove(gamemaps.at(_nowID));
@@ -1050,7 +1050,7 @@ namespace game_framework {
 				human_Takuruo.SetDirection(MainHuman::right);
 			}
 			else if (_dialogID == 7) {
-				player.SetIsMachine(true, MainHuman::right);
+				player.SetMachine(MainHuman::right);
 			}
 			else if (_dialogID == 9) {
 				player.SetAllMoveFalse();
@@ -1058,7 +1058,7 @@ namespace game_framework {
 			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
-				player.SetIsMachine(true, MainHuman::left);
+				player.SetMachine(MainHuman::left);
 			}
 			else if (_dialogID == 11) {
 				player.TimerStart();
@@ -1076,7 +1076,7 @@ namespace game_framework {
 						player.SetDirection(MainHuman::left);
 						player.TimerStop();
 					}
-					player.TimerUpdate(clock());
+					player.TimerUpdate();
 					TRACE("%d\n", player.TimerGetCount());
 				}
 			}
