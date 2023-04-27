@@ -17,7 +17,7 @@ namespace game_framework {
 			hallway
 		};
 		Oni();
-		~Oni() {}
+		~Oni() = default;
 		void SetParam(OniName tp, int step, int moveTime);
 		void SetPos(int x, int y);
 		int GetPosX();

@@ -48,7 +48,7 @@ namespace game_framework {
 				}
 				_toggleplaceholder = !_toggleplaceholder;
 			}
-			TimerUpdate(clock());
+			TimerUpdate();
 		}
 	}
 	void InputBox::ClearBuffer() {
