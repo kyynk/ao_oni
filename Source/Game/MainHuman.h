@@ -5,6 +5,7 @@ namespace game_framework{
 	class MainHuman : public Entity {
 	public:
 		MainHuman();
+		~MainHuman() = default;
 		void SetXYAndCol(int x, int y);
 		void init(int step,int offset,Direction dir);
 		void ResetToGrid();
@@ -21,13 +22,13 @@ namespace game_framework{
 			_direction = d;
 		}
 		int GetDirection() const  {	return _direction; }
-		int GetOffset() const { return _coroffset; }
-		int GetU() const { return _uy + _coroffset; }
-		int GetD() const { return _dy + _coroffset; }
+		int GetOffset() const { return _offsetY; }
+		int GetU() const { return _uy + _offsetY; }
+		int GetD() const { return _dy + _offsetY; }
 		int GetL() const { return _lx; }
 		int GetR() const { return _rx; }
 		int GetX() const { return _pos_x; };
-		int GetY() const { return _pos_y+_coroffset; }
+		int GetY() const { return _pos_y+_offsetY; }
 		int NextX() const { return _nextmapx; }
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
@@ -41,7 +42,7 @@ namespace game_framework{
 		
 	private:
 		int _machine_count;
-		int _coroffset;
+		int _offsetY;
 		bool _walkiter;
 		bstate _bstate;
 		Direction _direction;

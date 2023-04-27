@@ -633,7 +633,7 @@ namespace game_framework {
 			utiltriggers[4] = true;
 		}
 		// house1 shower door
-		else if (_name == door_oni || _name == door_open || _name == door_die && !utiltriggers[4]) {
+		else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[4]) {
 			SetTrigger();
 			Animation(0, 0);
 			utiltriggers[4] = true;
