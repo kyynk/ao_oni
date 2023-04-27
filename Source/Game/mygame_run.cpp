@@ -285,14 +285,14 @@ namespace game_framework {
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		objs.at(obj_move::house1_2F_TR_chair).Reset();
-		objs.at(obj_move::house1_2F_TR_chair)._preX = objs.at(obj_move::house1_2F_TR_chair).GetPosX();
-		objs.at(obj_move::house1_2F_TR_chair)._preY = objs.at(obj_move::house1_2F_TR_chair).GetPosY();
+		objs.at(obj_move::house1_2F_TR_chair).SetPreX(objs.at(obj_move::house1_2F_TR_chair).GetPosX());
+		objs.at(obj_move::house1_2F_TR_chair).SetPreY(objs.at(obj_move::house1_2F_TR_chair).GetPosY());
 		objs.at(obj_move::house1_2F_TL_chair).Reset();
-		objs.at(obj_move::house1_2F_TL_chair)._preX = objs.at(obj_move::house1_2F_TL_chair).GetPosX();
-		objs.at(obj_move::house1_2F_TL_chair)._preY = objs.at(obj_move::house1_2F_TL_chair).GetPosY();
+		objs.at(obj_move::house1_2F_TL_chair).SetPreX(objs.at(obj_move::house1_2F_TL_chair).GetPosX());
+		objs.at(obj_move::house1_2F_TL_chair).SetPreY(objs.at(obj_move::house1_2F_TL_chair).GetPosY());
 		objs.at(obj_move::house1_basement2_chair).Reset();
-		objs.at(obj_move::house1_basement2_chair)._preX = objs.at(obj_move::house1_basement2_chair).GetPosX();
-		objs.at(obj_move::house1_basement2_chair)._preY = objs.at(obj_move::house1_basement2_chair).GetPosY();
+		objs.at(obj_move::house1_basement2_chair).SetPreX(objs.at(obj_move::house1_basement2_chair).GetPosX());
+		objs.at(obj_move::house1_basement2_chair).SetPreY(objs.at(obj_move::house1_basement2_chair).GetPosY());
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
@@ -418,14 +418,15 @@ namespace game_framework {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).GetPlayerPos(player.GetX(), player.GetY());
 				objs.at(obj_move::house1_basement2_chair).OnMove(gamemaps.at(_nowID));
-				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-					(objs.at(obj_move::house1_basement2_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
-				objs.at(obj_move::house1_basement2_chair)._preX = objs.at(obj_move::house1_basement2_chair).GetPosX();
-				objs.at(obj_move::house1_basement2_chair)._preY = objs.at(obj_move::house1_basement2_chair).GetPosY();
-				if (!(objs.at(obj_move::house1_basement2_chair)._preX == 18 * TILE && objs.at(obj_move::house1_basement2_chair)._preY == 8 * TILE) &&
-					!(objs.at(obj_move::house1_basement2_chair)._preX == 5 * TILE && objs.at(obj_move::house1_basement2_chair)._preY == 8 * TILE)) {
-					gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-						(objs.at(obj_move::house1_basement2_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				
+				objs.at(obj_move::house1_basement2_chair).SetPrePos();
+
+				if (!(objs.at(obj_move::house1_basement2_chair).GetPreX() == 18 * TILE && objs.at(obj_move::house1_basement2_chair).GetPreY() == 8 * TILE) &&
+					!(objs.at(obj_move::house1_basement2_chair).GetPreX() == 5 * TILE && objs.at(obj_move::house1_basement2_chair).GetPreY() == 8 * TILE)) {
+					gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+						(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 				}
 			}
 		}
@@ -435,13 +436,14 @@ namespace game_framework {
 			objs.at(obj_move::house1_basement2_chair).GetPlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_basement2_chair).OnMove(gamemaps.at(_nowID));
 			if (!objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
-				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-					(objs.at(obj_move::house1_basement2_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
-				objs.at(obj_move::house1_basement2_chair)._preX = objs.at(obj_move::house1_basement2_chair).GetPosX();
-				objs.at(obj_move::house1_basement2_chair)._preY = objs.at(obj_move::house1_basement2_chair).GetPosY();
-				if (!(objs.at(obj_move::house1_basement2_chair)._preX == 15 * TILE && objs.at(obj_move::house1_basement2_chair)._preY == 12 * TILE)) {
-					gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-						(objs.at(obj_move::house1_basement2_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				
+				objs.at(obj_move::house1_basement2_chair).SetPrePos();
+
+				if (!(objs.at(obj_move::house1_basement2_chair).GetPreX() == 15 * TILE && objs.at(obj_move::house1_basement2_chair).GetPreY() == 12 * TILE)) {
+					gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+						(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 				}
 			}
 		}
@@ -509,13 +511,13 @@ namespace game_framework {
 			objs.at(obj_move::house1_2F_TR_chair).GetPlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_2F_TR_chair).OnMove(gamemaps.at(_nowID));
 
-			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TR_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-				(objs.at(obj_move::house1_2F_TR_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TR_chair).GetPreY()- gamemaps.at(_nowID).GetY()) / TILE,
+				(objs.at(obj_move::house1_2F_TR_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 
-			objs.at(obj_move::house1_2F_TR_chair)._preX = objs.at(obj_move::house1_2F_TR_chair).GetPosX();
-			objs.at(obj_move::house1_2F_TR_chair)._preY = objs.at(obj_move::house1_2F_TR_chair).GetPosY();
-			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TR_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-				(objs.at(obj_move::house1_2F_TR_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			objs.at(obj_move::house1_2F_TR_chair).SetPrePos();
+
+			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TR_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+				(objs.at(obj_move::house1_2F_TR_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 
 			if (objs.at(obj_move::house1_2F_TR_chair).IsFixed()) {
 				items.at(KEY_LIB).GetPlayerPos(player.GetX(), player.GetY());
@@ -619,13 +621,14 @@ namespace game_framework {
 			objs.at(obj_move::house1_2F_TL_chair).GetPlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
 
-			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-				(objs.at(obj_move::house1_2F_TL_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 312);
-			objs.at(obj_move::house1_2F_TL_chair)._preX = objs.at(obj_move::house1_2F_TL_chair).GetPosX();
-			objs.at(obj_move::house1_2F_TL_chair)._preY = objs.at(obj_move::house1_2F_TL_chair).GetPosY();
-			if (!(objs.at(obj_move::house1_2F_TL_chair)._preX == 12 * TILE && objs.at(obj_move::house1_2F_TL_chair)._preY == 17 * TILE)) {
-				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair)._preY - gamemaps.at(_nowID).GetY()) / TILE,
-					(objs.at(obj_move::house1_2F_TL_chair)._preX - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+				(objs.at(obj_move::house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			
+			objs.at(obj_move::house1_2F_TL_chair).SetPrePos();
+
+			if (!(objs.at(obj_move::house1_2F_TL_chair).GetPreX() == 12 * TILE && objs.at(obj_move::house1_2F_TL_chair).GetPreY() == 17 * TILE)) {
+				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(objs.at(obj_move::house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 			}
 		}
 		else if (_nowID == 21) {
