@@ -79,6 +79,49 @@ namespace game_framework {
 		OnWalking,
 		OnInputBox
 	};
+	enum obj_move {
+		house1_2F_TR_chair,
+		house1_2F_TL_chair,
+		house1_basement2_chair
+	};
+	enum item_name {
+		TOILET,
+		TUB_ONCE,
+		PHILLIPS,
+		TUB_FIXED,
+		BROKEN_DISH,
+		LIB_BOOK,
+		KEY_3F_L,
+		KEY_LIB,
+		DOOR_KNOB,
+		DOOR_NO_KNOB,
+		LIGHTER,
+		TATAMI_L,
+		TATAMI_R,
+		DETERGENT,
+		KEY_BASEMENT,
+		GATE,
+		GATE2,
+		BED,
+		BOOKCASE_L,
+		BOOKCASE_R,
+		WHITE_BOOKCASE,
+		BOOKCASE_MAP21,
+		HANDKERCHIEF,
+		CLOSET_SHAKE,
+		CLOSET_TAKESI_0,
+		CLOSET_TAKESI_1,
+		CLOSET_HIROSI_R,
+		CLOSET_HIROSI_L,
+		CLOSET_MIKA_OUT,
+		KEY_JAIL,
+		FLATHEAD,
+		OIL,
+		DOOR_ONI,
+		DOOR_OPEN,
+		DOOR_DIE,
+		DOOR_HALF,
+	};
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
@@ -103,11 +146,9 @@ namespace game_framework {
 		MainHuman player;
 		MainHuman human_mika;
 		MainHuman human_takeshi;
-		MainHuman human_Takuruo;
+		MainHuman human_takuro;
 		Oni oni1;
-		ObjMove house1_2F_TR_chair;
-		ObjMove house1_2F_TL_chair;
-		ObjMove house1_basement2_chair;
+		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
 		//map related
