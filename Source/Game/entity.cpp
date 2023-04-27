@@ -6,8 +6,7 @@
 #include "Entity.h"
 namespace game_framework {
 	Entity::Entity() {
-		_counter = 0;		//initialize
-		_istimerstart = false;	
+		TimerStop();		//initialize
 	}
 	void Entity::SetXY(int x, int y) {
 		_pos_x = x;
@@ -16,10 +15,4 @@ namespace game_framework {
 	void Entity::SelectShowBitmap(int index) {
 		bitmap.SetFrameIndexOfBitmap(index);
 	}
-
-
-
-	
-
 }
-

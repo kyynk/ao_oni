@@ -27,7 +27,7 @@ namespace game_framework {
 		int GetPosR() const;
 		int GetPosD() const;
 		void Load(string filename, COLORREF color);
-		void GetPlayerPos(int playerX, int playerY);
+		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);	// every time oni move, will track first
 		void OnShow();
@@ -45,12 +45,14 @@ namespace game_framework {
 		bool isCatch();  // collide
 		void SetVanish();
 		void ResetOni();
+		void SetMapID(int id);
+		int GetMapID();
 		
 	private:
 		
 		int _humanX, _humanY, 
 			_step, _moveTime, _overTime, 
-			_offsetX, _offsetY;
+			_offsetX, _offsetY, _mapID;
 		bool _isDisappear;
 		bool _walkiter;
 		bool _wait;

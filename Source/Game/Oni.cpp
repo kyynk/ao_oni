@@ -12,9 +12,7 @@
 namespace game_framework {
 	Oni::Oni() {
 		ResetOT();
-		TimerReset();
 	}
-	
 	void Oni::SetParam(OniName tp, int step, int moveTime) {
 		_isDisappear = false;
 		_walkiter = true;
@@ -86,7 +84,7 @@ namespace game_framework {
 		
 		bitmap.LoadBitmapByString(oniVec, color);
 	}
-	void Oni::GetPlayerPos(int playerX, int playerY) {
+	void Oni::SetPlayerPos(int playerX, int playerY) {
 		_humanX = playerX;
 		_humanY = playerY;
 	}
@@ -289,5 +287,11 @@ namespace game_framework {
 	void Oni::ResetOni() {
 		_isDisappear = false;
 		ResetOT();
+	}
+	void Oni::SetMapID(int id) {
+		_mapID = id;
+	}
+	int Oni::GetMapID() {
+		return _mapID;
 	}
 }
