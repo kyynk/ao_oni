@@ -9,31 +9,19 @@
 #include "ObjMove.h"
 
 namespace game_framework {
-	ObjMove::ObjMove() {
-		_preX = 0;
-		_preY = 0;
-		_humanX = 0;
-		_humanY = 0;
-		_step = 0;
-		_moveTime = 0;
-		_offsetX = 0;
-		_offsetY = 0;
-		_resetX = 0;
-		_resetY = 0;
+	ObjMove::ObjMove() = default;
+	ObjMove::~ObjMove() = default;
+	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
+		int offsetX, int offsetY, int resetX, int resetY) {
 		_isFixedPos = false;
 		_press = false;
 		_collide = false;
 		_isCrossMap = false;
 		_notShow = false;
 		_1stCross = false;
-		_type = no;
 		_nowmove = none;
 		_pressing = none;
-	}
-	ObjMove::~ObjMove() {
-	}
-	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
-		int offsetX, int offsetY, int resetX, int resetY) {
+
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -83,7 +71,7 @@ namespace game_framework {
 	int ObjMove::GetPosY_offset() {
 		return _pos_y + _offsetY;
 	}
-	void ObjMove::GetPlayerPos(int playerX, int playerY) {
+	void ObjMove::SetPlayerPos(int playerX, int playerY) {
 		_humanX = playerX;
 		_humanY = playerY;
 	}
@@ -180,19 +168,15 @@ namespace game_framework {
 		}
 		if (nChar == VK_LEFT) {			
 			_pressing = left;
-			//TRACE("\n\n press L \n\n");
 		}
 		else if (nChar == VK_UP) {			
 			_pressing = up;
-			//TRACE("\n\n press U \n\n");
 		}
 		else if (nChar == VK_RIGHT) {			
 			_pressing = right;
-			//TRACE("\n\n press R \n\n");
 		}
 		else if (nChar == VK_DOWN) {			
 			_pressing = down;
-			//TRACE("\n\n press D \n\n");
 		}
 	}
 	void ObjMove::OnKeyUp(UINT nChar) {
