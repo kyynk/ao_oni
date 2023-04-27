@@ -23,6 +23,7 @@ namespace game_framework {
 		int GetPosU();
 		int GetPosR();
 		int GetPosD();
+		int GetPosY_offset();
 		void GetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);
