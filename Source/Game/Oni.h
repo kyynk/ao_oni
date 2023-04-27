@@ -47,6 +47,7 @@ namespace game_framework {
 		void ResetOni();
 		
 	private:
+		
 		int _humanX, _humanY, 
 			_step, _moveTime, _overTime, 
 			_offsetX, _offsetY;
