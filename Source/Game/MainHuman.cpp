@@ -12,12 +12,12 @@
 namespace game_framework{
 
 	MainHuman::MainHuman() :Entity() {
-		TimerReset();
+
 		_nowmove = none;
 		_pressing = none;
 	}
 	void MainHuman::SetXYAndCol(int x,int y) {
-		SetXY(x , y - _coroffset);
+		SetXY(x , y - _offsetY);
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
@@ -25,7 +25,7 @@ namespace game_framework{
 	}
 	void MainHuman::init(int step,int offset,Direction dir) {
 		_step = step;
-		_coroffset = offset;
+		_offsetY = offset;
 		_direction = dir;
 		_machine_count = 0;
 		_walkiter = true;
@@ -50,7 +50,7 @@ namespace game_framework{
 			if (this->GetY() % TILE < TILE / 2) {
 				dy = 0;
 			}
-			SetXYAndCol((_pos_x / TILE + dx) * TILE, ((_pos_y + _coroffset) / TILE + dy)* TILE);
+			SetXYAndCol((_pos_x / TILE + dx) * TILE, ((_pos_y + _offsetY) / TILE + dy)* TILE);
 			bitmap.SetTopLeft(_pos_x, _pos_y);
 		}
 	}
@@ -79,28 +79,21 @@ namespace game_framework{
 			SwitchMap(map);
 		}
 		else{
-			bool itercheck = true;
-			bool upmovable = false;
-			bool downmovable = false;
-			bool leftmovable = false;
-			bool rightmovable = false;
+			bool upmovable = true;
+			bool downmovable = true;
+			bool leftmovable = true;
+			bool rightmovable = true;
 			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
 				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
 				(this->GetX() - map.GetX()) % TILE == 0 &&
 				(this->GetU() - map.GetY()) % TILE == 0) {
 				upmovable = false;
 			}
-			else {
-				upmovable = true;
-			}
 			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0 ||
 				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
 				(this->GetX() - map.GetX()) % TILE == 0 &&
 				(this->GetD() - map.GetY()) % TILE == 0) {
 				downmovable = false;
-			}
-			else {
-				downmovable = true;
 			}
 			for (auto &f : VL) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
@@ -109,24 +102,18 @@ namespace game_framework{
 					(this->GetY() - map.GetY()) % TILE == 0 &&
 					nowID == f[2]) {
 					leftmovable = false;
-					itercheck = false;
 					break;
 				}
 			}
-
-			if (itercheck) {
-				if ((map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
-					map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87) &&
-					(this->GetL() - map.GetX()) % TILE == 0 &&
-					(this->GetY() - map.GetY()) % TILE == 0) {
-					leftmovable = false;
-				}
-
-				else {
-					leftmovable = true;
-				}
+			if (leftmovable && 
+				(this->GetL() - map.GetX()) % TILE == 0&&
+				(this->GetY() - map.GetY()) % TILE == 0&&
+				(map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
+				{
+				leftmovable = false;
 			}
-			itercheck = true;
+
 			for (auto &f : VR) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
 					(this->GetX() - map.GetX()) % TILE == 0 &&
@@ -134,22 +121,17 @@ namespace game_framework{
 					(this->GetY() - map.GetY()) % TILE == 0 &&
 					nowID == f[2]) {
 					rightmovable = false;
-					itercheck = false;
 					break;
 				}
 			}
-			if (itercheck) {
-				if ((map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
-					map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87) &&
-					(this->GetR() - map.GetX()) % TILE == 0 &&
-					(this->GetY() - map.GetY()) % TILE == 0) {
-					rightmovable = false;
-				}
-				else {
-					rightmovable = true;
-				}
+			if (rightmovable&&
+				(this->GetR() - map.GetX()) % TILE == 0&&
+				(this->GetY() - map.GetY()) % TILE == 0&&
+				(map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
+				 {
+				rightmovable = false;
 			}
-			itercheck = true;
 			if (_isup || _isdown || _isleft || _isright) {
 				TimerStart();
 			}

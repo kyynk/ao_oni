@@ -671,9 +671,6 @@ namespace game_framework {
 		}
 	}
 
-
-
-
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (_substate == OnInputBox) {
@@ -880,7 +877,6 @@ namespace game_framework {
 		}
 	}
 
-
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (_substate == OnWalking) {
@@ -900,7 +896,6 @@ namespace game_framework {
 			}
 		}
 	}
-
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)
 	{
@@ -962,10 +957,6 @@ namespace game_framework {
 		}
 	}
 
-	void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)
-	{
-
-	}
 	void CGameStateRun::OnShow()
 	{
 		//TRACE("%d\n", _dialogID);
@@ -1000,6 +991,10 @@ namespace game_framework {
 		}
 		else if (_nowID == 3) {
 			items.at(GATE2).OnShow();
+		}
+		else if (_nowID == 6) {
+			items.at(DOOR_ONI).EventTrigger();
+			items.at(DOOR_ONI).OnShow();
 		}
 		else if (_nowID == 7) {
 			objs.at(obj_move::house1_2F_TR_chair).ChangeMap();

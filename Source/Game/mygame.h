@@ -133,7 +133,6 @@ namespace game_framework {
 		void OnLButtonUp(UINT nFlags, CPoint point);	
 		void OnMouseMove(UINT nFlags, CPoint point);	
 		void OnRButtonDown(UINT nFlags, CPoint point);  
-		void OnRButtonUp(UINT nFlags, CPoint point);	
 	protected:
 		void OnMove();
 		void OnShow();								
