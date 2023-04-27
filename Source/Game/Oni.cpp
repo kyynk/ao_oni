@@ -11,73 +11,68 @@
 
 namespace game_framework {
 	Oni::Oni() {
-		_type = normal;
 		ResetOT();
-		_humanX = 0;
-		_humanY = 0;
-		_step = 0;
-		_offsetX = 0;
-		_offsetY= 0;
+		TimerReset();
+	}
+	
+	void Oni::SetParam(OniName tp, int step, int moveTime) {
 		_isDisappear = false;
 		_walkiter = true;
 		_bstate = s1;
 		_wait = false;
-		TimerReset();
 		_nowmove = none;
 		_tracking = none;
-	}
-	
-	void Oni::SetParam(OniName tp, int step, int moveTime) {
+
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
 		string name;
 		if (_type == normal) {
 			name = "oni_";
-			_offsetX = 0;
+			_offsetX = TILE / 2;
 			_offsetY = 80;
 		}
 		else if (_type == mika) {
 			name = "mika_";
-			_offsetX = 0;
+			_offsetX = TILE / 2;
 			_offsetY = 80;
 		}
 		else if (_type == takesi) {
 			name = "takesi_";
-			_offsetX = 0;
+			_offsetX = TILE / 2;
 			_offsetY = 80;
 		}
 		else if (_type == takurou) {
 			name = "takurou_";
-			_offsetX = 0;
+			_offsetX = TILE / 2;
 			_offsetY = 80;
 		}
 		else if (_type == flat) {
 			name = "flat_";
-			_offsetX = 0;
+			_offsetX = TILE / 2;
 			_offsetY = 48;
 		}
 		Load(name, RGB(204, 255, 0));
 	}
 	void Oni::SetPos(int x, int y) {
-		SetXY(x - TILE / 2, y - _offsetY);
+		SetXY(x - _offsetX, y - _offsetY);
 	}
-	int Oni::GetPosX() {
-		return _pos_x + TILE / 2;
+	int Oni::GetPosX() const {
+		return _pos_x + _offsetX;
 	}
-	int Oni::GetPosY() {
+	int Oni::GetPosY() const {
 		return _pos_y;
 	}
-	int Oni::GetPosL() {
-		return _pos_x + TILE / 2 - TILE;
+	int Oni::GetPosL() const {
+		return _pos_x + _offsetX - TILE;
 	}
-	int Oni::GetPosU() {
+	int Oni::GetPosU() const {
 		return _pos_y + _offsetY - TILE;
 	}
-	int Oni::GetPosR() {
-		return _pos_x + TILE / 2 + _offsetX + TILE;
+	int Oni::GetPosR() const {
+		return _pos_x + _offsetX + TILE;
 	}
-	int Oni::GetPosD() {
+	int Oni::GetPosD() const {
 		return _pos_y + _offsetY + TILE;
 	}
 	void Oni::Load(string filename, COLORREF color) {
@@ -103,8 +98,8 @@ namespace game_framework {
 
 		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
 			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) ||
-			(map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
+			(map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
 				(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosU() - map.GetY()) % TILE == 0) {
 			upmovable = false;
@@ -114,8 +109,8 @@ namespace game_framework {
 		}
 		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
 			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) ||
-			(map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetPosX() + _offsetX - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
+			(map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
+				map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosD() - map.GetY()) % TILE == 0) {
 			downmovable = false;
@@ -141,13 +136,10 @@ namespace game_framework {
 		else {
 			rightmovable = true;
 		}
-		int xLen1 = _pos_x + TILE / 2 - _humanX;
-		int xLen2 = _pos_x + TILE / 2 + _offsetX - _humanX;
+		int xLen = _pos_x + _offsetX - _humanX;
 		int yLen = _pos_y + _offsetY - _humanY;
-		int xLen;
-		if (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2 + _offsetX) xLen = 0;
-		else if (abs(xLen1) < abs(xLen2)) xLen = xLen1;
-		else xLen = xLen2;
+		if (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2) xLen = 0;
+		
 		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
 		//xLen = xLen1;
 		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = down;
@@ -283,7 +275,7 @@ namespace game_framework {
 		return _wait;
 	}
 	bool Oni::isCatch() {
-		return (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2 + _offsetX )
+		return _pos_x + _offsetX == _humanX
 			&& _pos_y + _offsetY == _humanY;
 	}
 	void Oni::SetVanish() {
