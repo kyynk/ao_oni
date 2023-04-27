@@ -9,20 +9,6 @@
 #include "Entity.h"
 #include "Oni.h"
 
-
-#define ONI_DOWN 0
-#define ONI_DOWN_1 1
-#define ONI_DOWN_2 2
-#define ONI_UP 9
-#define ONI_UP_1 10
-#define ONI_UP_2 11
-#define ONI_LEFT 3
-#define ONI_LEFT_1 4
-#define ONI_LEFT_2 5
-#define ONI_RIGHT 6
-#define ONI_RIGHT_1 7
-#define ONI_RIGHT_2 8
-
 namespace game_framework {
 	Oni::Oni() {
 		_type = normal;
@@ -75,7 +61,6 @@ namespace game_framework {
 	}
 	void Oni::SetPos(int x, int y) {
 		SetXY(x - TILE / 2, y - _offsetY);
-
 	}
 	int Oni::GetPosX() {
 		return _pos_x + TILE / 2;
@@ -156,15 +141,6 @@ namespace game_framework {
 		else {
 			rightmovable = true;
 		}
-
-		/*if (downmovable) { TRACE("\n\n oni ddd \n\n"); }
-		else { TRACE("\n\n oni no ddd \n\n"); }
-		if (upmovable) { TRACE("\n\n oni uuu \n\n"); }
-		else { TRACE("\n\n oni no uuu \n\n"); }
-		if (leftmovable) { TRACE("\n\n oni lll \n\n"); }
-		else { TRACE("\n\n oni no lll \n\n"); }
-		if (rightmovable) { TRACE("\n\n oni rrr \n\n"); }
-		else { TRACE("\n\n oni no rrr \n\n"); }*/
 		int xLen1 = _pos_x + TILE / 2 - _humanX;
 		int xLen2 = _pos_x + TILE / 2 + _offsetX - _humanX;
 		int yLen = _pos_y + _offsetY - _humanY;
@@ -190,8 +166,7 @@ namespace game_framework {
 	}
 	void Oni::OnMove(GameMap &map) {
 		//according humanXY
-		//we find the abs((human - pos)X) abs((human - pos)Y)
-		//which is bigger than the other
+		//we find max( abs((human - pos)X), abs((human - pos)Y) )
 		//we will choose it
 		//and move it first
 		if (isCatch()) {
@@ -239,36 +214,36 @@ namespace game_framework {
 	void Oni::OnShow() {
 		if (_nowmove == up) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_UP_1) : bitmap.SetFrameIndexOfBitmap(ONI_UP_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(ONI_UP);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 			}
 		}
 		else if (_nowmove == down) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_DOWN_1) : bitmap.SetFrameIndexOfBitmap(ONI_DOWN_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(ONI_DOWN);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
 			}
 		}
 
 		else if (_nowmove == left) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_LEFT_1) : bitmap.SetFrameIndexOfBitmap(ONI_LEFT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(ONI_LEFT);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
 			}
 		}
 
 		else if (_nowmove == right) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(ONI_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(ONI_RIGHT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(ONI_RIGHT);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
 			}
 		}
 		bitmap.ShowBitmap();
