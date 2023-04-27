@@ -225,6 +225,9 @@ namespace game_framework {
 	int Item::GetPosD() {
 		return _pos_y + _boxY + TILE;
 	}
+	int Item::GetPosY_offset() {
+		return _pos_y + _boxY;
+	}
 	void Item::GetPlayerPos(int x, int y) {
 		_playerX = x;
 		_playerY = y;

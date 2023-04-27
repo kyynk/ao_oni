@@ -52,6 +52,7 @@ namespace game_framework {
 		int GetPosU();
 		int GetPosR();
 		int GetPosD();
+		int GetPosY_offset();
 		void GetPlayerPos(int x, int y);
 		void OnMove();
 		void OnKeyDown(UINT nChar);
