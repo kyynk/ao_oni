@@ -80,6 +80,9 @@ namespace game_framework {
 	int ObjMove::GetPosD() {
 		return _pos_y + _offsetY + TILE;
 	}
+	int ObjMove::GetPosY_offset() {
+		return _pos_y + _offsetY;
+	}
 	void ObjMove::GetPlayerPos(int playerX, int playerY) {
 		_humanX = playerX;
 		_humanY = playerY;

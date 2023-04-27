@@ -79,6 +79,11 @@ namespace game_framework {
 		OnWalking,
 		OnInputBox
 	};
+	enum obj_move {
+		house1_2F_TR_chair,
+		house1_2F_TL_chair,
+		house1_basement2_chair
+	};
 	public:
 		CGameStateRun(CGame *g);
 		~CGameStateRun();
@@ -103,11 +108,9 @@ namespace game_framework {
 		MainHuman player;
 		MainHuman human_mika;
 		MainHuman human_takeshi;
-		MainHuman human_Takuruo;
+		MainHuman human_takuro;
 		Oni oni1;
-		ObjMove house1_2F_TR_chair;
-		ObjMove house1_2F_TL_chair;
-		ObjMove house1_basement2_chair;
+		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
 		//map related
