@@ -94,8 +94,8 @@ namespace game_framework {
 		bool leftmovable = false;
 		bool rightmovable = false;
 
-		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
+		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) &&
 				(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosU() - map.GetY()) % TILE == 0) {
 			upmovable = false;
@@ -103,8 +103,8 @@ namespace game_framework {
 		else {
 			upmovable = true;
 		}
-		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
+		if ((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosD() - map.GetY()) % TILE == 0) {
 			downmovable = false;
