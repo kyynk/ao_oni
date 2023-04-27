@@ -1,9 +1,10 @@
 #pragma once
 #include "MapData.h"
-
 #include "entity.h"
 #include "MainHuman.h"
 #include "Oni.h"
+#include "Item.h"
+#include "ObjMove.h"
 
 namespace game_framework {
 	
@@ -17,6 +18,8 @@ namespace game_framework {
 		~GameMap(){}
 		void ShowMap(int layer);
 		void ShowMapAll(MainHuman &,Oni &, int overlayindex);
+		void ShowItem(MainHuman& human_obj, Oni& oni_obj, vector<Item> item_vec);
+		void ShowObjMove(MainHuman& human_obj, Oni& oni_obj, ObjMove obj_move);
 		void ShowMapAll();
 		void SetTopLeftMap(int x, int y);
 		void debug();
