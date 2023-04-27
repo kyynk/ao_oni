@@ -19,6 +19,21 @@ namespace game_framework {
 			right,
 			machinetransmap
 		};
+		enum BitmapMove{
+			BITMAP_DOWN = 0,
+			BITMAP_DOWN_1 = 1,
+			BITMAP_DOWN_2 = 2,
+			BITMAP_UP = 9,
+			BITMAP_UP_1 = 10,
+			BITMAP_UP_2 = 11,
+			BITMAP_LEFT = 3,
+			BITMAP_LEFT_1 = 4,
+			BITMAP_LEFT_2 = 5,
+			BITMAP_RIGHT = 6,
+			BITMAP_RIGHT_1 = 7,
+			BITMAP_RIGHT_2 = 8
+		};
+		
 		void SetXY(int x, int y);
 		void SelectShowBitmap(int index);
 		void TimerUpdate() {
