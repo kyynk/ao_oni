@@ -9,8 +9,7 @@
 #include "ObjMove.h"
 
 namespace game_framework {
-	ObjMove::ObjMove() {
-	}
+	ObjMove::ObjMove() = default;
 	ObjMove::~ObjMove() = default;
 	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
 		int offsetX, int offsetY, int resetX, int resetY) {

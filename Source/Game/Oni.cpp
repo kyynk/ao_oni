@@ -286,7 +286,7 @@ namespace game_framework {
 	void Oni::SetMapID(int id) {
 		_mapID = id;
 	}
-	int Oni::GetMapID() {
+	int Oni::GetMapID() const {
 		return _mapID;
 	}
 }
