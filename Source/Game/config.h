@@ -53,43 +53,6 @@
 #define KEY_Y 0x59
 #define KEY_Z 0x5a
 #define VK_ENTER VK_RETURN
-//// item id
-//#define TOILET 0
-//#define TUB_ONCE 1
-//#define PHILLIPS 2
-//#define TUB_FIXED 3
-//#define BROKEN_DISH 4
-//#define LIB_BOOK 5
-//#define KEY_3F_L 6
-//#define KEY_LIB 7
-//#define DOOR_KNOB 8
-//#define DOOR_NO_KNOB 9
-//#define LIGHTER 10
-//#define TATAMI_L 11
-//#define TATAMI_R 12
-//#define DETERGENT 13
-//#define KEY_BASEMENT 14
-//#define GATE 15
-//#define GATE2 16
-//#define BED 17
-//#define BOOKCASE_L 18
-//#define BOOKCASE_R 19
-//#define WHITE_BOOKCASE 20
-//#define BOOKCASE_MAP21 21
-//#define HANDKERCHIEF 22
-//#define CLOSET_SHAKE 23
-//#define CLOSET_TAKESI_0 24
-//#define CLOSET_TAKESI_1 25
-//#define CLOSET_HIROSI_R 26
-//#define CLOSET_HIROSI_L 27
-//#define CLOSET_MIKA_OUT 28
-//#define KEY_JAIL 29
-//#define FLATHEAD 30
-//#define OIL 31
-//#define DOOR_ONI 32
-//#define DOOR_OPEN 33
-//#define DOOR_DIE 34
-//#define DOOR_HALF 35
 
 /*
 debug mode
