@@ -27,7 +27,7 @@ namespace game_framework{
 		_step = step;
 		_coroffset = offset;
 		_direction = dir;
-		machine_count = 0;
+		_machine_count = 0;
 		_walkiter = true;
 		_bstate = s1;
 		_isup = false;
@@ -102,7 +102,7 @@ namespace game_framework{
 			else {
 				downmovable = true;
 			}
-			for (auto f : VL) {
+			for (auto &f : VL) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
 					(this->GetX() - map.GetX()) % TILE == 0 &&
 					(this->GetY() - map.GetY()) / TILE == f[1] &&
@@ -127,7 +127,7 @@ namespace game_framework{
 				}
 			}
 			itercheck = true;
-			for (auto f : VR) {
+			for (auto &f : VR) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
 					(this->GetX() - map.GetX()) % TILE == 0 &&
 					(this->GetY() - map.GetY()) / TILE == f[1] &&
@@ -200,7 +200,7 @@ namespace game_framework{
 
 			}
 			bool canchangemap = true;
-			for (auto f : TN) {
+			for (auto &f : TN) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] && (this->GetY() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
 					canchangemap = false;
 					break;
@@ -273,11 +273,11 @@ namespace game_framework{
 			}
 			if (TimerGetCount() == 8) {
 				TimerReset();
-				machine_count += 1;
-				if (machine_count == countblock) {
+				_machine_count += 1;
+				if (_machine_count == countblock) {
 					TimerStop();
 					SetAllMoveFalse();
-					machine_count = 0;
+					_machine_count = 0;
 				}
 				_walkiter = !_walkiter;
 			}
@@ -314,16 +314,16 @@ namespace game_framework{
 	}
 	void MainHuman::OnMove() {
 		if (_direction == up) {
-			bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
+			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 		}
 		else if (_direction == down) {
-			bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN);
+			bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
 		}
 		else if (_direction == left) {
-			bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT);
+			bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
 		}
 		else if (_direction == right) {
-			bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
+			bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
@@ -413,40 +413,40 @@ namespace game_framework{
 
 		if (_nowmove == up) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_UP_1) : 
-					bitmap.SetFrameIndexOfBitmap(HUMAN_UP_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : 
+					bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_UP);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 			}
 		}
 		else if (_nowmove == down) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_1) : 
-					bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : 
+					bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_DOWN);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
 			}
 		}
 
 		else if (_nowmove == left) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_1) :
-					bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) :
+					bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_LEFT);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
 			}
 		}
 
 		else if (_nowmove == right) {
 			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_1) :
-					bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT_2);
+				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) :
+					bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(HUMAN_RIGHT);
+				bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
 			}
 		}
 

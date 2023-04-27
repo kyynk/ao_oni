@@ -20,10 +20,7 @@ namespace game_framework{
 		void SetDirection(Direction d) {
 			_direction = d;
 		}
-		int GetDirection() const  {
-			return _direction;
-		}
-		
+		int GetDirection() const  {	return _direction; }
 		int GetOffset() const { return _coroffset; }
 		int GetU() const { return _uy + _coroffset; }
 		int GetD() const { return _dy + _coroffset; }
@@ -34,8 +31,8 @@ namespace game_framework{
 		int NextX() const { return _nextmapx; }
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
-		bool &IsMapChanged() { return _isMapChanged; }
 		bool IsSwitchMap() const { return _switchMapCheck; }
+		bool &IsMapChanged() { return _isMapChanged; }
 
 		void SetMachine(Direction pressing);
 		void SetNextMap(int x, int y, int mapID);
@@ -43,21 +40,7 @@ namespace game_framework{
 		void SetNowmove(Direction m);
 		
 	private:
-		enum {
-			HUMAN_DOWN =  0,
-			HUMAN_DOWN_1 = 1,
-			HUMAN_DOWN_2 = 2,
-			HUMAN_UP = 9,
-			HUMAN_UP_1 = 10,
-			HUMAN_UP_2 = 11,
-			HUMAN_LEFT = 3,
-			HUMAN_LEFT_1 = 4,
-			HUMAN_LEFT_2 = 5,
-			HUMAN_RIGHT = 6,
-			HUMAN_RIGHT_1 = 7,
-			HUMAN_RIGHT_2 = 8 
-		};
-		int machine_count;
+		int _machine_count;
 		int _coroffset;
 		bool _walkiter;
 		bstate _bstate;
