@@ -95,9 +95,7 @@ namespace game_framework {
 		bool rightmovable = false;
 
 		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87) ||
-			(map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosU() - map.GetY()) / TILE) == -87)) &&
 				(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosU() - map.GetY()) % TILE == 0) {
 			upmovable = false;
@@ -106,9 +104,7 @@ namespace game_framework {
 			upmovable = true;
 		}
 		if (((map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
-			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87) ||
-			(map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
+			map.GetMapData(0, (this->GetPosX() - map.GetX()) / TILE, (this->GetPosD() - map.GetY()) / TILE) == -87)) &&
 			(this->GetPosX() - map.GetX()) % TILE == 0 &&
 			(this->GetPosD() - map.GetY()) % TILE == 0) {
 			downmovable = false;
@@ -139,7 +135,6 @@ namespace game_framework {
 		if (_pos_x + TILE / 2 <= _humanX && _humanX <= _pos_x + TILE / 2) xLen = 0;
 		
 		//TRACE("\n\n   xLen %d     yLen %d \n\n", xLen, yLen);
-		//xLen = xLen1;
 		if (abs(xLen) < abs(yLen) && yLen < 0 && downmovable) _tracking = down;
 		else if (abs(xLen) < abs(yLen) && yLen > 0 && upmovable) _tracking = up;
 		else if (abs(xLen) > abs(yLen) && xLen < 0 && rightmovable) _tracking = right;
