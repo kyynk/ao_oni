@@ -8,17 +8,8 @@
 
 namespace game_framework {
 	Dialog::Dialog() {
-		_now = none;
-		_cursorX, _cursorY, _boxX, _boxY,
-		_txtX, _txtY, _headX, _headY,
-		_nameX, _nameY, _nBoxX, _nBoxY,
-		_lineSpacing = 0;
-		_isShow = false;
-		_isChoose = false;
-		
 	}
-	Dialog::~Dialog() {
-	}
+	Dialog::~Dialog() = default;
 	void Dialog::SetFigure(character a) {
 		_now = a;
 		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
@@ -48,6 +39,7 @@ namespace game_framework {
 			RGB(0, 0, 0), RGB(204, 255, 0));
 	}
 	void Dialog::SetParam(vector<string>  st, bool ch) {
+		_isShow = false;
 		int _posX, _posY;
 		_posX, _posY = 0;
 		if (_now != none) {

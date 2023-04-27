@@ -42,7 +42,7 @@ namespace game_framework {
 			door_half, //first in
 		};
 		Item();
-		~Item() {};
+		~Item();
 		void SetParam(int delay, int boxX, int boxY, 
 			ItemName name);
 		void Load(vector<string> filename, COLORREF color);
@@ -53,7 +53,7 @@ namespace game_framework {
 		int GetPosR();
 		int GetPosD();
 		int GetPosY_offset();
-		void GetPlayerPos(int x, int y);
+		void SetPlayerPos(int x, int y);
 		void OnMove();
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
