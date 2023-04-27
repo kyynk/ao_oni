@@ -313,7 +313,24 @@ namespace game_framework {
 		}
 		
 	}
+
 	bool ObjMove::isChangeMap() {
 		return _isCrossMap;
+	}
+	void ObjMove::SetPrePos() {
+		_preX = GetPosX();
+		_preY = GetPosY();
+	}
+	void ObjMove::SetPreX(int x) {
+		_preX = x;
+	}
+	void ObjMove::SetPreY(int y) {
+		_preY = y;
+	}
+	int ObjMove::GetPreX() {
+		return _preX;
+	}
+	int ObjMove::GetPreY() {
+		return _preY;
 	}
 }
