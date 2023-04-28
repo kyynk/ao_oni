@@ -239,6 +239,14 @@ namespace game_framework {
 			8, 4, 0, TILE / 2, 14 * TILE, 15 * TILE); // 14 15
 		objs.at(obj_move::house1_basement2_chair).SetParam(ObjMove::house1_basement2_chair,
 			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE); // 9 14
+		// password
+		pwds.resize(2);
+		pwds.at(piano).SetParam("1234"); // should change
+		pwds.at(piano).SetShow(false);
+		pwds.at(basement).SetParam("1234"); // should change
+		pwds.at(basement).SetShow(false);
+		
+
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -676,6 +684,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		// test pwd
+		/*if (pwds.at(piano).IsShow()) {
+			pwds.at(piano).OnKeyDown(nChar);
+		}*/
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -1184,6 +1196,10 @@ namespace game_framework {
 			}
 		}
 		DeBugRecursive();
+		// test pwd
+		/*if (pwds.at(piano).IsShow()) {
+			pwds.at(piano).ShowTotal();
+		}*/
 	}
 	
 	void CGameStateRun::SetEventTriggeredDialog(int eventid)
