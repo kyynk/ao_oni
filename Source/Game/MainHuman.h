@@ -33,6 +33,7 @@ namespace game_framework{
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
 		bool IsSwitchMap() const { return _switchMapCheck; }
+		bool  IsMachineDone() const { return _machine_done; }
 		bool &IsMapChanged() { return _isMapChanged; }
 
 		void SetMachine(Direction pressing);
@@ -42,6 +43,7 @@ namespace game_framework{
 		
 	private:
 		int _machine_count;
+		bool _machine_done;
 		int _offsetY;
 		bool _walkiter;
 		bstate _bstate;
