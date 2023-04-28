@@ -327,51 +327,38 @@ namespace game_framework{
 		_nowmove = m;
 	}
 	void MainHuman::OnKeyDown(UINT nChar) {
+		if (_isMapChanged) {
+			_switchMapCheck = true;
+		}
 		if (nChar == VK_LEFT) {
 			_direction = left;
-			if (_isMapChanged) {
-				_switchMapCheck = true;
-			}
-			else {
-				_pressing = left;
-				_isleft = true;
-			}
+			
+			_pressing = left;
+			_isleft = true;
 		}
 		else if (nChar == VK_UP) {
 			_direction = up;
-			if (_isMapChanged) {
-				_switchMapCheck = true;
-			}
-			else {
-				_pressing = up;
-				_isup = true;
-			}
+			_pressing = up;
+			_isup = true;
 		}
 		else if (nChar == VK_RIGHT) {
 			_direction = right;
-			if (_isMapChanged) {
-				_switchMapCheck = true;
-			}
-			else {
-				_pressing = right;
-				_isright = true;
-			}
+			_pressing = right;
+			_isright = true;
 			
 		}
 		else if (nChar == VK_DOWN) {
 			_direction = down;
-			if (_isMapChanged) {
-				_switchMapCheck = true;
-			}
-			else {
-				_pressing = down;
-				_isdown = true;
-			}
+			_pressing = down;
+			_isdown = true;
 		}
 	}
 	
 
 	void MainHuman::OnKeyUp(UINT nChar){
+		if (_isMapChanged) {
+			_switchMapCheck = true;
+		}
 		if (nChar == VK_LEFT) {
 			_isleft = false;
 		}
