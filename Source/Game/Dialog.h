@@ -2,13 +2,6 @@
 namespace game_framework {
 	class Dialog {
 	public:
-		enum character {
-			none,
-			hirosi,
-			mika,
-			takesi,
-			takurou
-		};
 		enum option {
 			undefined,
 			yes,
@@ -16,7 +9,7 @@ namespace game_framework {
 		};
 		Dialog();
 		~Dialog();
-		void SetFigure(character a);
+		void SetFigure(string name);
 		void SetParam(vector<string>  st, bool ch);
 		void SetOption(string str1, string str2);
 		void ShowTotal();
@@ -25,6 +18,8 @@ namespace game_framework {
 		bool isChoose();
 		void GetSelect(UINT nChar);
 		int &isYes(){ return _yes;}
+		string GetFigureName() { return _figurename; }
+		vector<string> &GetStore() { return _store; }
 	private:
 		void ShowBox();
 		void ShowHead();
@@ -37,12 +32,12 @@ namespace game_framework {
 			_lineSpacing;
 		bool _isShow;
 		bool _isChoose;
-		character _now;
+		string _figurename;
 		CMovingBitmap _cursor;
 		CMovingBitmap _box;
 		CMovingBitmap _head;
 		CMovingBitmap _nameBox;
-		vector<string> _name;
+		//vector<string> _name;
 		vector<string> _store;
 		ChoiceMenu _choice;
 		int _yes;

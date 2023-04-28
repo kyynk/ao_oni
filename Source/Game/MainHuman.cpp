@@ -36,6 +36,7 @@ namespace game_framework{
 		_isright = false;
 		_isMapChanged = false;
 		_switchMapCheck = false;
+		_machine_done = false;
 		_nextmapx = 0;
 		_nextmapy = 0;
 		_nextMapID = 0;
@@ -245,9 +246,10 @@ namespace game_framework{
 		}
 	}
 	void MainHuman::OnMoveBySettings(int countblock){
-		TRACE("onmoveby setting running\n");
+		//TRACE("onmoveby setting running\n");
 		if (_isup || _isdown || _isleft || _isright) {
 			TimerStart();
+			_machine_done = false;
 		}
 		if (IsTimerStart()) {
 			if (TimerGetCount() % 8 == 0) {
@@ -257,6 +259,7 @@ namespace game_framework{
 				TimerReset();
 				_machine_count += 1;
 				if (_machine_count == countblock) {
+					_machine_done = true;
 					TimerStop();
 					SetAllMoveFalse();
 					_machine_count = 0;

@@ -86,9 +86,9 @@ namespace game_framework {
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
 		int count;
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 10; i++) {
 			mapres_in >> name >> count;
-			ShowInitProgress(33 + 2*i, name);
+			ShowInitProgress(33 + 5*i, name);
 			MapRes::GetInstance()->Load(name, count);
 		}
 		// map data
@@ -163,74 +163,106 @@ namespace game_framework {
 		events.at(MIKA_OK_E).SetParam({}, 33, 1);
 		events.at(MIKA_REPEAT_E).SetParam({}, 34, 1);
 		//dialogs
-		dialogs.resize(50);
-		dialogs.at(0).SetFigure(Dialog::hirosi);
+		dialogs.resize(33);
+		/*ifstream ifs("data/dialogs.txt");
+		string str;
+		vector<string> lines;
+		int line_num = 0;
+		int num = 0;
+		bool choose = false;
+		int i = 0;
+		for (int i = 0;i < 33;i++) {
+			ifs >> str;
+			dialogs.at(i).SetFigure(str);
+			ifs >> num;
+			(num == 1) ? choose = true : choose = false;
+			ifs >> num;
+			for (int i = 0;i < num;i++) {
+				getline(ifs, str);
+				lines.push_back(str);
+			}
+			dialogs.at(i).SetParam(lines, choose);
+			lines.clear();
+		}*/
+		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetFigure(Dialog::hirosi);
+		dialogs.at(1).SetFigure("hirosi");
 		dialogs.at(1).SetParam({"Gain the broken plate"},false);
-		dialogs.at(2).SetFigure(Dialog::takurou);
+		dialogs.at(2).SetFigure("takurou");
 		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
-		dialogs.at(3).SetFigure(Dialog::mika);
+		dialogs.at(3).SetFigure("mika");
 		dialogs.at(3).SetParam({ "I feel a bit cold. " }, false);
-		dialogs.at(4).SetFigure(Dialog::takesi);
+		dialogs.at(4).SetFigure("takesi");
 		dialogs.at(4).SetParam({ "h..","hey","I think we should go home. "}, false);
-		dialogs.at(5).SetFigure(Dialog::takurou);
+		dialogs.at(5).SetFigure("takurou");
 		dialogs.at(5).SetParam({ "What is  wrong with you takesi,"," are you afraid ? "}, false);
-		dialogs.at(6).SetFigure(Dialog::takesi);
+		dialogs.at(6).SetFigure("takesi");
 		dialogs.at(6).SetParam({ "!!!!!" }, false);
-		dialogs.at(7).SetFigure(Dialog::takesi);
+		dialogs.at(7).SetFigure("takesi");
 		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
-		dialogs.at(8).SetFigure(Dialog::hirosi);
+		dialogs.at(8).SetFigure("hirosi");
 		dialogs.at(8).SetParam({ "what a fool!","there are no ghosts in this world."}, false);
-		dialogs.at(9).SetFigure(Dialog::takesi);
+		dialogs.at(9).SetFigure("takesi");
 		dialogs.at(9).SetParam({ "hey","careful Hirosi" }, false);
-		dialogs.at(10).SetFigure(Dialog::hirosi);
+		dialogs.at(10).SetFigure("hirosi");
 		dialogs.at(10).SetParam({ "!" },false);
-		dialogs.at(11).SetFigure(Dialog::hirosi);
+		dialogs.at(11).SetFigure("hirosi");
 		dialogs.at(11).SetParam({ "!" },false);
-		dialogs.at(12).SetFigure(Dialog::hirosi);
+		dialogs.at(12).SetFigure("hirosi");
 		dialogs.at(12).SetParam({ "where is everyone" }, false);
-		dialogs.at(13).SetFigure(Dialog::hirosi);
+		dialogs.at(13).SetFigure("hirosi");
 		dialogs.at(13).SetParam({ "Gain the library key " }, false);
-		dialogs.at(14).SetFigure(Dialog::hirosi);
+		dialogs.at(14).SetFigure("hirosi");
 		dialogs.at(14).SetParam({ "Gain the detergent " }, false);
-		dialogs.at(15).SetFigure(Dialog::hirosi);
+		dialogs.at(15).SetFigure("hirosi");
 		dialogs.at(15).SetParam({ "Gain the phillips screwdriver " }, false);
-		dialogs.at(16).SetFigure(Dialog::hirosi);
+		dialogs.at(16).SetFigure("hirosi");
 		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
-		dialogs.at(17).SetFigure(Dialog::hirosi);
+		dialogs.at(17).SetFigure("hirosi");
 		dialogs.at(17).SetParam({ "Gain the lighter " }, false);
-		dialogs.at(18).SetFigure(Dialog::takesi);
+		dialogs.at(18).SetFigure("takesi");
 		dialogs.at(18).SetParam({ "Trembling........................." }, false);
-		dialogs.at(19).SetFigure(Dialog::hirosi);
+		dialogs.at(19).SetFigure("hirosi");
 		dialogs.at(19).SetParam({ "Takashi?" }, false);
-		dialogs.at(20).SetFigure(Dialog::takesi);
+		dialogs.at(20).SetFigure("takesi");
 		dialogs.at(20).SetParam({ "Trembling........................." }, false);
-		dialogs.at(21).SetFigure(Dialog::hirosi);
+		dialogs.at(21).SetFigure("hirosi");
 		dialogs.at(21).SetParam({ "where is everyone?" }, false);
-		dialogs.at(22).SetFigure(Dialog::takesi);
+		dialogs.at(22).SetFigure("takesi");
 		dialogs.at(22).SetParam({ "Trembling........................." }, false);
-		dialogs.at(23).SetFigure(Dialog::hirosi);
+		dialogs.at(23).SetFigure("hirosi");
 		dialogs.at(23).SetParam({ "......................................................." }, false);
-		dialogs.at(24).SetFigure(Dialog::hirosi);
+		dialogs.at(24).SetFigure("hirosi");
 		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
-		dialogs.at(25).SetFigure(Dialog::mika);
+		dialogs.at(25).SetFigure("mika");
 		dialogs.at(25).SetParam({ "Hiroshi you..." }, false);
-		dialogs.at(26).SetFigure(Dialog::hirosi);
+		dialogs.at(26).SetFigure("hirosi");
 		dialogs.at(26).SetParam({ "Are you ok?"," where are the others ?" }, false);
-		dialogs.at(27).SetFigure(Dialog::mika);
+		dialogs.at(27).SetFigure("mika");
 		dialogs.at(27).SetParam({ "i don't know. "," mabye hinding somewhere" }, false);
-		dialogs.at(28).SetFigure(Dialog::hirosi);
+		dialogs.at(28).SetFigure("hirosi");
 		dialogs.at(28).SetParam({ "Okay." }, true);
 		dialogs.at(28).SetOption("come with me ", "stay here for now");
-		dialogs.at(29).SetFigure(Dialog::mika);
+		dialogs.at(29).SetFigure("mika");
 		dialogs.at(29).SetParam({ "WhAt?"," there's a MONSTER wondering in this house." }, false);
-		dialogs.at(30).SetFigure(Dialog::hirosi);
+		dialogs.at(30).SetFigure("hirosi");
 		dialogs.at(30).SetParam({ "Alright..."}, false);
-		dialogs.at(31).SetFigure(Dialog::mika);
+		dialogs.at(31).SetFigure("mika");
 		dialogs.at(31).SetParam({ "ok." }, false);
-		dialogs.at(32).SetFigure(Dialog::mika);
+		dialogs.at(32).SetFigure("mika");
 		dialogs.at(32).SetParam({ "takuro................" }, false);
+		/*ofstream sa;
+		sa.open("save.txt");
+
+		for (auto& f : dialogs) {
+			sa << f.GetFigureName()<<"\n";
+			(f.isChoose())?sa << 1:sa << 0;
+			sa << "\n";
+			sa <<f.GetStore().size()<<"\n";
+			for (auto&ff : f.GetStore()) 
+				sa << ff<<"\n";
+		}
+		sa.close();*/
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -263,7 +295,7 @@ namespace game_framework {
 		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
-		isdebugmode = false;
+		isdebugmode = true;
 		//isbs = 0;
 		istwoway = 0;
 		isteleportblock = false;
@@ -499,12 +531,16 @@ namespace game_framework {
 			}
 			if (_dialogID == 8) {
 				player.OnMoveBySettings(4);
+				
 			}
 			if (_dialogID >= 10 && _dialogID <= 12) {
 				player.OnMove();
 			}
+
 			if (_dialogID == 11) {
-				player.OnMoveBySettings(6);
+				//if (!player.IsMachineDone()) {
+					player.OnMoveBySettings(6);
+				//}
 			}
 		}
 		else if (_nowID == 14) {
@@ -850,10 +886,7 @@ namespace game_framework {
 		}
 		else if (_substate == OnDialogs) {
 			if (nChar == VK_SPACE) {
-				if (_dialogID == 12 && player.IsTimerStart()) {
-
-				}
-				else {
+				if (!((_dialogID == 12 || _dialogID == 8)&& player.IsTimerStart())) {
 					dialogs.at(_dialogID).SetShow(false);
 					_dialogID += 1;
 					_dialogcount += 1;
@@ -872,7 +905,11 @@ namespace game_framework {
 						_eventID = -1;
 						_substate = OnWalking;
 					}
+					if (_dialogID == 28) {
+						dialogs.at(_dialogID).GetSelect(nChar);
+					}
 				}
+				
 			}
 		}
 	}
@@ -1038,7 +1075,7 @@ namespace game_framework {
 		else if (_nowID == 13) {
 
 			if (!events.at(START_EVENT_E).IsTriggered()) {
-				//SetEventTriggeredDialog(START_EVENT_E);
+				SetEventTriggeredDialog(START_EVENT_E);
 			}
 			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT2_E);
@@ -1055,12 +1092,12 @@ namespace game_framework {
 				player.SetAllMoveFalse();
 				player.SetNowmove(MainHuman::machinetransmap);
 			}
+			else if (_dialogID == 11) {
+				player.TimerStart();
+			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
 				player.SetMachine(MainHuman::left);
-			}
-			else if (_dialogID == 11) {
-				player.TimerStart();
 			}
 			else if (_dialogID == 12) {
 				player.SetAllMoveFalse();
@@ -1076,7 +1113,7 @@ namespace game_framework {
 						player.TimerStop();
 					}
 					player.TimerUpdate();
-					TRACE("%d\n", player.TimerGetCount());
+					//TRACE("%d\n", player.TimerGetCount());
 				}
 			}
 
@@ -1157,6 +1194,15 @@ namespace game_framework {
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			objs.at(obj_move::house1_2F_TL_chair).OnShow();
+			if ((player.GetX()-gamemaps.at(_nowID).GetX()) / TILE == 0 && 
+				(player.GetY()-gamemaps.at(_nowID).GetY()) / TILE == 8 && 
+				!events.at(MIKA_SCARE_E).IsTriggered()&&
+				(player.GetX() - gamemaps.at(_nowID).GetX()) % TILE == 0&&
+				(player.GetY() - gamemaps.at(_nowID).GetY()) % TILE == 0
+				) {
+				SetEventTriggeredDialog(MIKA_SCARE_E);
+				
+			}
 			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::yes) {
 				SetEventTriggeredDialog(MIKA_NOTOK_E);
 				dialogs.at(28).isYes() = Dialog::undefined;
@@ -1272,6 +1318,8 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX() / TILE) + " " + to_string(player.GetY() / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
+			CTextDraw::Print(pDC, 0, TILE * 7, to_string(_dialogID));
+			player.IsTimerStart()? CTextDraw::Print(pDC, 0, TILE * 8, "timer start") : CTextDraw::Print(pDC, 0, TILE * 8, "timer stop");
 			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
 			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +

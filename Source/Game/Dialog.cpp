@@ -9,25 +9,24 @@
 namespace game_framework {
 	Dialog::Dialog() = default;
 	Dialog::~Dialog() = default;
-	void Dialog::SetFigure(character a) {
-		_now = a;
-		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
-		if (_now == hirosi) {
+	void Dialog::SetFigure(string name) {
+		_figurename = name;
+		if (name == "hirosi") {
 			_head.LoadBitmapByString({ "img/dialog/hirosi_default.bmp" }, RGB(204, 255, 0));
 		}
-		else if (_now == mika) {
+		else if (name == "mika") {
 			_head.LoadBitmapByString({ "img/dialog/mika_default.bmp" }, RGB(204, 255, 0));
 		}
-		else if (_now == takesi) {
+		else if (name == "takesi") {
 			_head.LoadBitmapByString({ "img/dialog/takesi_default.bmp" }, RGB(204, 255, 0));
 		}
-		else if (_now == takurou) {
+		else if (name == "takurou") {
 			_head.LoadBitmapByString({ "img/dialog/takurou_default.bmp" }, RGB(204, 255, 0));
 		}
 		else {
 			_head.LoadBitmapByString({ "img/dialog/none.bmp" }, RGB(204, 255, 0));
 		}
-		if (_now != none)
+		if (name != "")
 			_box.LoadBitmapByString({ "img/dialog/box.bmp" }, RGB(204, 255, 0));
 		else
 			_box.LoadBitmapByString({ "img/dialog/box2.bmp" }, RGB(204, 255, 0));
@@ -41,7 +40,7 @@ namespace game_framework {
 		_isShow = false;
 		int _posX, _posY;
 		_posX, _posY = 0;
-		if (_now != none) {
+		if (_figurename != "") {
 			_posX = 64;
 			_posY = 608;
 			_cursorX = _posX + 672 - 16; // 672 = width of box 
@@ -94,9 +93,9 @@ namespace game_framework {
 		for (int i = 0; i < int(_store.size()); i++) {
 			CTextDraw::Print(pDC, _txtX, _txtY + i * _lineSpacing, _store.at(i));
 		}
-		if (_now != none) {
+		if (_figurename != "") {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
-			CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
+			CTextDraw::Print(pDC, _nameX, _nameY, _figurename);
 		}
 		if (_isChoose) {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
@@ -109,7 +108,7 @@ namespace game_framework {
 	}
 	void Dialog::ShowTotal() {
 		ShowBox();
-		if (_now != none) {
+		if (_figurename != "") {
 			ShowHead();
 			ShowNameBox();
 		}
@@ -137,6 +136,7 @@ namespace game_framework {
 	}
 	void Dialog::GetSelect(UINT nChar) {
 		_choice.OnMovingCursor(nChar);
+		TRACE("getselect\n");
 		if (nChar == VK_RETURN) {
 			switch (_choice.GetSelection()) {
 			case 0:
