@@ -18,7 +18,7 @@ namespace game_framework {
 		};
 		Oni();
 		~Oni() = default;
-		void SetParam(OniName tp, int step, int moveTime);
+		void init(OniName tp, int step, int moveTime);
 		void SetPos(int x, int y);
 		int GetPosX() const;
 		int GetPosY() const;
