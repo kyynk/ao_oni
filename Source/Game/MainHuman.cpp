@@ -7,23 +7,25 @@
 #include "GameMap.h"
 #include "MapRouter.h"
 #include "Entity.h"
+#include "Human.h"
 #include "MainHuman.h"
 
 namespace game_framework{
 
-	MainHuman::MainHuman() :Entity() {
+	MainHuman::MainHuman() :Human() {
 
 		_nowmove = none;
 		_pressing = none;
 	}
-	void MainHuman::SetXYAndCol(int x,int y) {
+	/*void MainHuman::SetPos(int x,int y) {
 		SetXY(x , y - _offsetY);
 		_uy = _pos_y - TILE;
 		_dy = _pos_y + TILE;
 		_lx = _pos_x - TILE;
 		_rx = _pos_x + TILE;
-	}
+	}*/
 	void MainHuman::init(int step,int offset,Direction dir) {
+		//TRACE("geyyy");
 		_step = step;
 		_offsetY = offset;
 		_direction = dir;
@@ -51,31 +53,31 @@ namespace game_framework{
 			if (this->GetY() % TILE < TILE / 2) {
 				dy = 0;
 			}
-			SetXYAndCol((_pos_x / TILE + dx) * TILE, ((_pos_y + _offsetY) / TILE + dy)* TILE);
+			SetPos((_pos_x / TILE + dx) * TILE, ((_pos_y + _offsetY) / TILE + dy)* TILE);
 			bitmap.SetTopLeft(_pos_x, _pos_y);
 		}
 	}
 	void MainHuman::SwitchMap(GameMap& map) {
 		if (_nowmove == up) {
-			SetXYAndCol(map.GetX() + _nextmapx, map.GetY() + _nextmapy - TILE);
+			SetPos(map.GetX() + _nextmapx, map.GetY() + _nextmapy - TILE);
 		}
 		else if (_nowmove == down) {
-			SetXYAndCol(map.GetX() + _nextmapx, map.GetY() + _nextmapy + TILE);
+			SetPos(map.GetX() + _nextmapx, map.GetY() + _nextmapy + TILE);
 		}
 		else if (_nowmove == left) {
-			SetXYAndCol(map.GetX() + _nextmapx - TILE, map.GetY() + _nextmapy);
+			SetPos(map.GetX() + _nextmapx - TILE, map.GetY() + _nextmapy);
 		}
 		else if (_nowmove == right) {
-			SetXYAndCol(map.GetX() + _nextmapx + TILE, map.GetY() + _nextmapy);
+			SetPos(map.GetX() + _nextmapx + TILE, map.GetY() + _nextmapy);
 		}
 		else if (_nowmove == machinetransmap) {
-			SetXYAndCol(map.GetX() + _nextmapx, map.GetY() + _nextmapy);
+			SetPos(map.GetX() + _nextmapx, map.GetY() + _nextmapy);
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 		_isMapChanged = false;
 		_switchMapCheck = false;
 	}
-	void MainHuman::OnMove(GameMap &map, MapRouter &router, int nowID, const vector<vector<int>>&VL,const vector<vector<int>>&VR, const vector<vector<int>>&TN) {
+	void MainHuman::OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&VL,const vector<vector<int>>&VR, const vector<vector<int>>&TN) {
 		if (_isMapChanged && _switchMapCheck) {
 			SwitchMap(map);
 		}
@@ -161,23 +163,16 @@ namespace game_framework{
 				}
 				if (_nowmove == up && upmovable) {
 					_pos_y -= _step;
-					_uy -= _step;
-					_dy -= _step;
+					
 				}
 				else if (_nowmove == down && downmovable) {
 					_pos_y += _step;
-					_uy += _step;
-					_dy += _step;
 				}
 				else if (_nowmove == left && leftmovable) {
 					_pos_x -= _step;
-					_lx -= _step;
-					_rx -= _step;
 				}
 				else if (_nowmove == right && rightmovable) {
 					_pos_x += _step;
-					_lx += _step;
-					_rx += _step;
 				}
 				TimerUpdate();
 
@@ -245,8 +240,23 @@ namespace game_framework{
 			}
 		}
 	}
+	void MainHuman::OnMove() {
+		if (_direction == up) {
+			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
+		}
+		else if (_direction == down) {
+			bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
+		}
+		else if (_direction == left) {
+			bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
+		}
+		else if (_direction == right) {
+			bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
+		}
+		bitmap.SetTopLeft(_pos_x, _pos_y);
+
+	}
 	void MainHuman::OnMoveBySettings(int countblock){
-		//TRACE("onmoveby setting running\n");
 		if (_isup || _isdown || _isleft || _isright) {
 			TimerStart();
 			_machine_done = false;
@@ -274,45 +284,26 @@ namespace game_framework{
 			}
 			if (_nowmove == up) {
 				_pos_y -= _step;
-				_uy -= _step;
-				_dy -= _step;
+
 			}
 			else if (_nowmove == down) {
 				_pos_y += _step;
-				_uy += _step;
-				_dy += _step;
+				
 			}
 			else if (_nowmove == left) {
 				_pos_x -= _step;
-				_lx -= _step;
-				_rx -= _step;
+			
 			}
 			else if (_nowmove == right) {
 				_pos_x += _step;
-				_lx += _step;
-				_rx += _step;
+		
 			}
 			TimerUpdate();
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
 	}
-	void MainHuman::OnMove() {
-		if (_direction == up) {
-			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
-		}
-		else if (_direction == down) {
-			bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
-		}
-		else if (_direction == left) {
-			bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
-		}
-		else if (_direction == right) {
-			bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
-		}
-		bitmap.SetTopLeft(_pos_x, _pos_y);
-
-	}
+	
 	void MainHuman::SetAllMoveFalse() {
 		_isup = false;
 		_isdown = false;
@@ -327,9 +318,6 @@ namespace game_framework{
 		_nowmove = m;
 	}
 	void MainHuman::OnKeyDown(UINT nChar) {
-		if (_isMapChanged) {
-			_switchMapCheck = true;
-		}
 		if (nChar == VK_LEFT) {
 			_direction = left;
 			
@@ -352,13 +340,13 @@ namespace game_framework{
 			_pressing = down;
 			_isdown = true;
 		}
+		if (_isMapChanged) {
+			_switchMapCheck = true;
+		}
 	}
 	
 
 	void MainHuman::OnKeyUp(UINT nChar){
-		if (_isMapChanged) {
-			_switchMapCheck = true;
-		}
 		if (nChar == VK_LEFT) {
 			_isleft = false;
 		}
@@ -371,6 +359,9 @@ namespace game_framework{
 		else if (nChar == VK_DOWN) {
 			_isdown = false;
 		}
+		if (_isMapChanged) {
+			_switchMapCheck = true;
+		}
 	}
 	void MainHuman::SetNextMap(int x,int y,int NextID) {
 		_nextmapx = x*TILE;
@@ -380,55 +371,10 @@ namespace game_framework{
 		_switchMapCheck = true;
 
 	}
-	void MainHuman::OnShow() {
-		
-
-		if (_nowmove == up) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : 
-					bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
-			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
-			}
-		}
-		else if (_nowmove == down) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : 
-					bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
-			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
-			}
-		}
-
-		else if (_nowmove == left) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) :
-					bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
-			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
-			}
-		}
-
-		else if (_nowmove == right) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) :
-					bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
-			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
-			}
-		}
-
-		bitmap.ShowBitmap();
-
-	}
-	void MainHuman::Load(vector<string> filenames, COLORREF color) {
+	
+	/*void MainHuman::Load(vector<string> filenames, COLORREF color) {
 		bitmap.LoadBitmapByString(filenames,color );
-
-	}
+	}*/
 
 	void MainHuman::SetMachine(Direction pressing)
 	{

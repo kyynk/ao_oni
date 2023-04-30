@@ -280,18 +280,11 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		//router.debug();
-		darkroom.resize(65);
-		for (int i = 0;i < 65;i++) {
-			if(i ==21){
-				darkroom.at(i) = true;
-			}
-			else
-			darkroom.at(i) = false;
-		}
 	}
 	void CGameStateRun::OnBeginState()
 	{
 		_substate = OnWalking;
+		boolpspace = true;
 		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
@@ -306,14 +299,14 @@ namespace game_framework {
 		_dialogcount = 0;
 		_eventID = 0;
 		player.init(4, 16, MainHuman::left);
-		player.SetXYAndCol(14*TILE, 13 * TILE);
+		player.SetPos(14*TILE, 13 * TILE);
 		human_mika.init(-1, 16,MainHuman::right);
-		human_mika.SetXYAndCol(10 * TILE,12 * TILE);
+		human_mika.SetPos(10 * TILE,12 * TILE);
 		human_takeshi.init(-1, 16, MainHuman::up);
-		human_takeshi.SetXYAndCol(13 * TILE,14 * TILE);
+		human_takeshi.SetPos(13 * TILE,14 * TILE);
 		human_takuro.init(-1, 16, MainHuman::down);
-		human_takuro.SetXYAndCol(12 * TILE, 12 * TILE);
-		oni1.SetParam(Oni::normal, 4, 8);
+		human_takuro.SetPos(12 * TILE, 12 * TILE);
+		oni1.init(Oni::normal, 4, 8);
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
 		objs.at(obj_move::house1_2F_TR_chair).Reset();
@@ -523,7 +516,7 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 13) {
-			if (_dialogID >= 2 && _dialogID <= 9) {
+			if (_dialogID >= 2 && _dialogID <= 12) {
 				player.OnMove();
 				human_takeshi.OnMove();
 				human_takuro.OnMove();
@@ -533,14 +526,9 @@ namespace game_framework {
 				player.OnMoveBySettings(4);
 				
 			}
-			if (_dialogID >= 10 && _dialogID <= 12) {
-				player.OnMove();
-			}
 
 			if (_dialogID == 11) {
-				//if (!player.IsMachineDone()) {
-					player.OnMoveBySettings(6);
-				//}
+				player.OnMoveBySettings(6);
 			}
 		}
 		else if (_nowID == 14) {
@@ -651,8 +639,8 @@ namespace game_framework {
 			items.at(OIL).SetPlayerPos(player.GetX(), player.GetY());
 			items.at(OIL).OnMove();
 
-			human_mika.SetDirection(MainHuman::up);
-			human_mika.SetXYAndCol(8 * TILE, 16 * TILE);
+			human_mika.SetDirection(Entity::up);
+			human_mika.SetXY(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
 			objs.at(obj_move::house1_2F_TL_chair).SetPlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
@@ -721,7 +709,6 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-
 		else if (_substate == OnWalking) {
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
@@ -899,17 +886,15 @@ namespace game_framework {
 							events.at(START_EVENT_E).IsTransMap() = true;
 							player.SetNextMap(0, 3, 5);
 						}
-
 						_dialogcount = 0;
 						_dialogID = -1;
 						_eventID = -1;
 						_substate = OnWalking;
 					}
-					if (_dialogID == 28) {
-						dialogs.at(_dialogID).GetSelect(nChar);
-					}
 				}
-				
+			}
+			if (_dialogID == 28) {
+				dialogs.at(_dialogID).GetSelect(nChar);
 			}
 		}
 	}
@@ -996,7 +981,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		//TRACE("%d\n", _dialogID);
 		if (!(_dialogID >= 2 && _dialogID <= 11)) {
 			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
 		}
@@ -1089,16 +1073,14 @@ namespace game_framework {
 				player.SetMachine(MainHuman::right);
 			}
 			else if (_dialogID == 9) {
-				player.SetAllMoveFalse();
+				//player.SetAllMoveFalse();
 				player.SetNowmove(MainHuman::machinetransmap);
-			}
-			else if (_dialogID == 11) {
-				player.TimerStart();
 			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
 				player.SetMachine(MainHuman::left);
 			}
+			
 			else if (_dialogID == 12) {
 				player.SetAllMoveFalse();
 				if (player.IsTimerStart()) {
@@ -1113,7 +1095,6 @@ namespace game_framework {
 						player.TimerStop();
 					}
 					player.TimerUpdate();
-					//TRACE("%d\n", player.TimerGetCount());
 				}
 			}
 
@@ -1154,7 +1135,7 @@ namespace game_framework {
 				items.at(CLOSET_TAKESI_1).OnShow();
 			}
 			items.at(CLOSET_HIROSI_R).OnShow();
-			TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
+			//TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick())
@@ -1203,13 +1184,13 @@ namespace game_framework {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
 				
 			}
-			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::yes) {
+			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::yes) {
 				SetEventTriggeredDialog(MIKA_NOTOK_E);
-				dialogs.at(28).isYes() = Dialog::undefined;
+				dialogs.at(28).Choice() = Dialog::undefined;
 			}
-			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).isYes() == Dialog::no) {
+			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::no) {
 				SetEventTriggeredDialog(MIKA_OK_E);
-				dialogs.at(28).isYes() = Dialog::undefined;
+				dialogs.at(28).Choice() = Dialog::undefined;
 			}
 		}
 		else if (_nowID == 21) {

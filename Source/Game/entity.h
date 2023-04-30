@@ -68,14 +68,13 @@ namespace game_framework {
 		clock_t _timer = clock();
 		bool _clockstart;
 		int _pos_x, _pos_y;
-		int _uy;
+		/*int _uy;
 		int _dy;
 		int _lx;
-		int _rx;
-
-	private:
+		int _rx;*/
 		int _counter;
 		bool _istimerstart;
+
 		
 	};
 }
