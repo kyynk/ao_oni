@@ -9,39 +9,26 @@
 namespace game_framework {
 	Dialog::Dialog() = default;
 	Dialog::~Dialog() = default;
-	void Dialog::SetFigure(character a) {
-		_now = a;
-		_name = { "", "Hirosi", "Mika", "Takesi", "Takurou" };
-		if (_now == hirosi) {
-			_head.LoadBitmapByString({ "img/dialog/hirosi_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (_now == mika) {
-			_head.LoadBitmapByString({ "img/dialog/mika_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (_now == takesi) {
-			_head.LoadBitmapByString({ "img/dialog/takesi_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (_now == takurou) {
-			_head.LoadBitmapByString({ "img/dialog/takurou_default.bmp" }, RGB(204, 255, 0));
-		}
-		else {
-			_head.LoadBitmapByString({ "img/dialog/none.bmp" }, RGB(204, 255, 0));
-		}
-		if (_now != none)
-			_box.LoadBitmapByString({ "img/dialog/box.bmp" }, RGB(204, 255, 0));
+	void Dialog::SetFigure(string&& name) {
+		_figurename = name;
+		_head.LoadBitmapByString({ "dialog/"+name+".bmp" }, RGB(204, 255, 0));
+		
+		
+		if (name != "none")
+			_box.LoadBitmapByString({ "dialog/box.bmp" }, RGB(204, 255, 0));
 		else
-			_box.LoadBitmapByString({ "img/dialog/box2.bmp" }, RGB(204, 255, 0));
+			_box.LoadBitmapByString({ "dialog/box2.bmp" }, RGB(204, 255, 0));
 		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
-		_nameBox.LoadBitmapByString({ "img/dialog/name_box.bmp" }, RGB(204, 255, 0));
-		_choice.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
-			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/dialog/none.bmp" },
+		_nameBox.LoadBitmapByString({ "dialog/name_box.bmp" }, RGB(204, 255, 0));
+		_choicemenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
+			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "dialog/none.bmp" },
 			RGB(0, 0, 0), RGB(204, 255, 0));
 	}
 	void Dialog::SetParam(vector<string>  st, bool ch) {
 		_isShow = false;
 		int _posX, _posY;
 		_posX, _posY = 0;
-		if (_now != none) {
+		if (_figurename != "none") {
 			_posX = 64;
 			_posY = 608;
 			_cursorX = _posX + 672 - 16; // 672 = width of box 
@@ -71,10 +58,10 @@ namespace game_framework {
 	}
 	void Dialog::SetOption(string str1,string str2) {
 		if (_isChoose)
-			_choice.SetParam(_txtX, _txtY + _store.size() * _lineSpacing,
+			_choicemenu.SetParam(_txtX, _txtY + _store.size() * _lineSpacing,
 				0, 0, _txtX - 5, _txtY + _store.size() * _lineSpacing,
 				45, { str1,str2 });
-		_yes = undefined;
+		_choice = undefined;
 	}
 	void Dialog::ShowBox() {
 		_box.SetTopLeft(_boxX, _boxY);
@@ -94,13 +81,13 @@ namespace game_framework {
 		for (int i = 0; i < int(_store.size()); i++) {
 			CTextDraw::Print(pDC, _txtX, _txtY + i * _lineSpacing, _store.at(i));
 		}
-		if (_now != none) {
+		if (_figurename != "") {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
-			CTextDraw::Print(pDC, _nameX, _nameY, _name.at(_now));
+			CTextDraw::Print(pDC, _nameX, _nameY, _figurename);
 		}
 		if (_isChoose) {
 			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
-			_choice.ShowText(pDC);
+			_choicemenu.ShowText(pDC);
 		}
 	}
 	void Dialog::ShowNameBox() {
@@ -109,7 +96,7 @@ namespace game_framework {
 	}
 	void Dialog::ShowTotal() {
 		ShowBox();
-		if (_now != none) {
+		if (_figurename != "none") {
 			ShowHead();
 			ShowNameBox();
 		}
@@ -117,12 +104,12 @@ namespace game_framework {
 			ShowCursor();
 		}
 		else {
-			_choice.ShowCursor();
+		_choicemenu.ShowCursor();
 		}
 		CDC *pDC = CDDraw::GetBackCDC();
 		ShowText(pDC);
 		if (_isChoose)
-			_choice.ShowText(pDC);
+			_choicemenu.ShowText(pDC);
 		CDDraw::ReleaseBackCDC();
 	}
 	bool Dialog::isShow() {
@@ -136,18 +123,13 @@ namespace game_framework {
 		return _isChoose;
 	}
 	void Dialog::GetSelect(UINT nChar) {
-		_choice.OnMovingCursor(nChar);
+		_choicemenu.OnMovingCursor(nChar);
 		if (nChar == VK_RETURN) {
-			switch (_choice.GetSelection()) {
-			case 0:
-				SetShow(false);
-				_yes = yes;
-				break;
-			case 1:
-				
-				SetShow(false);
-				_yes = no;
-				break;
+			if (_choicemenu.GetSelection() == 0) {
+				_choice = yes;
+			}
+			else{
+				_choice = no;
 			}
 		}
 	}

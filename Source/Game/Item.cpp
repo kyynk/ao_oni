@@ -10,7 +10,7 @@
 namespace game_framework {
 	Item::Item() {
 		SetXY(14 * TILE, 15 * TILE);
-		Reset();
+		ResetUtil();
 	}
 	Item::~Item() = default;
 	void Item::SetParam(int delay, int boxX, int boxY, 
@@ -592,7 +592,7 @@ namespace game_framework {
 	void Item::IsOnTriPos(bool a) {
 		utiltriggers[6] = a;
 	}
-	void Item::Reset() {
+	void Item::ResetUtil() {
 		for (int i = 0;i < 8;i++) {
 			utiltriggers[i] = false;
 		}

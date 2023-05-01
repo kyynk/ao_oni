@@ -24,6 +24,7 @@
 #include <mmsystem.h>
 #include "config.h"
 #include "Entity.h"
+#include "Human.h"
 #include "GameMap.h"
 #include "MainHuman.h"
 #include "Oni.h"
@@ -84,6 +85,22 @@ namespace game_framework {
 		house1_2F_TL_chair,
 		house1_basement2_chair
 	};
+	enum {
+		BROKEN_DISH_E,
+		START_EVENT_E,
+		START_EVENT2_E,
+		KEY_LIB_E,
+		DETERGENT_E,
+		PHILLIPS_E,
+		KEY_3F_L_E,
+		LIGHTER_E,
+		DUMB_TAKESHI_E,
+		HANDKERCHIEF_E,
+		MIKA_SCARE_E,
+		MIKA_OK_E,
+		MIKA_NOTOK_E,
+		MIKA_REPEAT_E
+	};
 	enum item_name {
 		TOILET,
 		TUB_ONCE,
@@ -133,7 +150,6 @@ namespace game_framework {
 		void OnLButtonUp(UINT nFlags, CPoint point);	
 		void OnMouseMove(UINT nFlags, CPoint point);	
 		void OnRButtonDown(UINT nFlags, CPoint point);  
-		void OnRButtonUp(UINT nFlags, CPoint point);	
 	protected:
 		void OnMove();
 		void OnShow();								
@@ -141,12 +157,13 @@ namespace game_framework {
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
 		//game
+		bool boolpspace;
 		int _substate;
 		vector<Dialog> dialogs;
 		MainHuman player;
-		MainHuman human_mika;
-		MainHuman human_takeshi;
-		MainHuman human_takuro;
+		Human human_mika;
+		Human human_takeshi;
+		Human human_takuro;
 		Oni oni1;
 		vector<ObjMove> objs;
 		vector<Event> events;
@@ -158,7 +175,6 @@ namespace game_framework {
 		int _dialogID;
 		int _dialogcount;
 		int _eventID;
-		vector <bool> darkroom;
 		vector<vector<int>> blockLeftCor; //x y nowID
 		vector<vector<int>> blockRightCor; //x y nowID
 		vector<vector<int>> blockTeleportCor; //x y nowID
