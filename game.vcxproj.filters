@@ -7,31 +7,10 @@
     <ClCompile Include="Source\Game\Dialog.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Entity.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\MainHuman.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\InputBox.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Item.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\mygame_initialize.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\mygame_run.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\mygame_over.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Oni.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Library\gameutil.cpp">
@@ -73,11 +52,32 @@
     <ClCompile Include="Source\Game\MapNode.cpp">
       <Filter>Maps</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\mygame_run.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\mygame_over.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\mygame_initialize.cpp">
+      <Filter>MyGame</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Game\ObjMove.cpp">
-      <Filter>Game</Filter>
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Oni.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Item.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\MainHuman.cpp">
+      <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Human.cpp">
-      <Filter>Game</Filter>
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Entity.cpp">
+      <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Password.cpp">
       <Filter>Game</Filter>
@@ -90,25 +90,10 @@
     <ClInclude Include="Source\Game\Dialog.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Entity.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Event.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\MainHuman.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\InputBox.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Item.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\mygame.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Oni.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Library\gameutil.h">
@@ -116,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="Source\Library\audio.h">
       <Filter>Library</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\config.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Library\gamecore.h">
       <Filter>Core</Filter>
@@ -156,11 +138,29 @@
     <ClInclude Include="Source\Game\MapNode.h">
       <Filter>Maps</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\mygame.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\config.h">
+      <Filter>MyGame</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Game\ObjMove.h">
-      <Filter>Game</Filter>
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\MainHuman.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Item.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Oni.h">
+      <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Human.h">
-      <Filter>Game</Filter>
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Entity.h">
+      <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Password.h">
       <Filter>Game</Filter>
@@ -181,6 +181,12 @@
     </Filter>
     <Filter Include="Maps">
       <UniqueIdentifier>{604bedc7-c4c1-40c2-8253-98b303139cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGame">
+      <UniqueIdentifier>{7574a661-d3d1-4dd8-9b49-b9ae5ad9f973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{80e1c513-59e4-4264-b00c-cd435332f684}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
