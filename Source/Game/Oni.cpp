@@ -13,7 +13,7 @@ namespace game_framework {
 	Oni::Oni() {
 		ResetOT();
 	}
-	void Oni::SetParam(OniName tp, int step, int moveTime) {
+	void Oni::init(OniName tp, int step, int moveTime) {
 		_isDisappear = false;
 		_walkiter = true;
 		_bstate = s1;

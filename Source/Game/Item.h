@@ -65,7 +65,7 @@ namespace game_framework {
 		// e.g. 
 		// if player on chair a = true, else a = false
 		void IsOnTriPos(bool a);
-		void Reset(); // all control reset
+		void ResetUtil(); // all control reset
 		bool IsPick();
 		bool IsFixed();
 		bool IsTake();

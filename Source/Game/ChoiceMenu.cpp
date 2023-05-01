@@ -15,7 +15,6 @@ namespace game_framework {
 	}
 	
 	void ChoiceMenu::ShowBitmap(){
-		//TRACE("%d\n", _focus);
 		_bitmap.ShowBitmap();
 	}
 	void ChoiceMenu::ShowCursor()
