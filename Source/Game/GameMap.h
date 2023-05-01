@@ -1,6 +1,7 @@
 #pragma once
 #include "MapData.h"
-#include "entity.h"
+#include "Entity.h"
+#include "Human.h"
 #include "MainHuman.h"
 #include "Oni.h"
 #include "Item.h"
