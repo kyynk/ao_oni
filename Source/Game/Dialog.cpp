@@ -9,38 +9,26 @@
 namespace game_framework {
 	Dialog::Dialog() = default;
 	Dialog::~Dialog() = default;
-	void Dialog::SetFigure(string name) {
+	void Dialog::SetFigure(string&& name) {
 		_figurename = name;
-		if (name == "hirosi") {
-			_head.LoadBitmapByString({ "img/dialog/hirosi_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (name == "mika") {
-			_head.LoadBitmapByString({ "img/dialog/mika_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (name == "takesi") {
-			_head.LoadBitmapByString({ "img/dialog/takesi_default.bmp" }, RGB(204, 255, 0));
-		}
-		else if (name == "takurou") {
-			_head.LoadBitmapByString({ "img/dialog/takurou_default.bmp" }, RGB(204, 255, 0));
-		}
-		else {
-			_head.LoadBitmapByString({ "img/dialog/none.bmp" }, RGB(204, 255, 0));
-		}
-		if (name != "")
-			_box.LoadBitmapByString({ "img/dialog/box.bmp" }, RGB(204, 255, 0));
+		_head.LoadBitmapByString({ "dialog/"+name+".bmp" }, RGB(204, 255, 0));
+		
+		
+		if (name != "none")
+			_box.LoadBitmapByString({ "dialog/box.bmp" }, RGB(204, 255, 0));
 		else
-			_box.LoadBitmapByString({ "img/dialog/box2.bmp" }, RGB(204, 255, 0));
-		//_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
-		_nameBox.LoadBitmapByString({ "img/dialog/name_box.bmp" }, RGB(204, 255, 0));
+			_box.LoadBitmapByString({ "dialog/box2.bmp" }, RGB(204, 255, 0));
+		_cursor.LoadBitmapByString({ "img/cursor/tri2_1.bmp", "img/cursor/tri2_2.bmp" }, RGB(0, 0, 0));
+		_nameBox.LoadBitmapByString({ "dialog/name_box.bmp" }, RGB(204, 255, 0));
 		_choicemenu.Load({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
-			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "img/dialog/none.bmp" },
+			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, { "dialog/none.bmp" },
 			RGB(0, 0, 0), RGB(204, 255, 0));
 	}
 	void Dialog::SetParam(vector<string>  st, bool ch) {
 		_isShow = false;
 		int _posX, _posY;
 		_posX, _posY = 0;
-		if (_figurename != "") {
+		if (_figurename != "none") {
 			_posX = 64;
 			_posY = 608;
 			_cursorX = _posX + 672 - 16; // 672 = width of box 
@@ -83,11 +71,11 @@ namespace game_framework {
 		_head.SetTopLeft(_headX, _headY);
 		_head.ShowBitmap();
 	}
-	//void Dialog::ShowCursor() {
-		//_cursor.SetTopLeft(_cursorX, _cursorY + _lineSpacing);
-		//_cursor.SetAnimation(200, false);
-		//_cursor.ShowBitmap();
-	//}
+	void Dialog::ShowCursor() {
+		_cursor.SetTopLeft(_cursorX, _cursorY + _lineSpacing);
+		_cursor.SetAnimation(200, false);
+		_cursor.ShowBitmap();
+	}
 	void Dialog::ShowText(CDC *pDC) {
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		for (int i = 0; i < int(_store.size()); i++) {
@@ -108,16 +96,16 @@ namespace game_framework {
 	}
 	void Dialog::ShowTotal() {
 		ShowBox();
-		if (_figurename != "") {
+		if (_figurename != "none") {
 			ShowHead();
 			ShowNameBox();
 		}
-		/*if (!_isChoose) { 
+		if (!_isChoose) { 
 			ShowCursor();
 		}
-		else {*/
+		else {
 		_choicemenu.ShowCursor();
-		//}
+		}
 		CDC *pDC = CDDraw::GetBackCDC();
 		ShowText(pDC);
 		if (_isChoose)
@@ -137,13 +125,11 @@ namespace game_framework {
 	void Dialog::GetSelect(UINT nChar) {
 		_choicemenu.OnMovingCursor(nChar);
 		if (nChar == VK_RETURN) {
-			switch (_choicemenu.GetSelection()) {
-			case 0:
+			if (_choicemenu.GetSelection() == 0) {
 				_choice = yes;
-				break;
-			case 1:				
+			}
+			else{
 				_choice = no;
-				break;
 			}
 		}
 	}

@@ -6,11 +6,9 @@ namespace game_framework {
 		void SetPos(int x, int y);
 		void init(int step, int offset, Direction dir);
 		void OnMove();
-		void SetDirection(Direction d) {
-			_direction = d;
-		}
+		void SetDirection(Direction d) { _direction = d;}
 		int GetDirection() const { return _direction; }
-		void Load(vector<string> filenames, COLORREF color);
+		void Load(vector<string> &filenames, COLORREF color);
 		void OnShow();
 	protected:
 		Direction _direction;
