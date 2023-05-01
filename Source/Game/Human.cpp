@@ -20,7 +20,6 @@ namespace game_framework {
 		_walkiter = true;
 		_bstate = s1;
 		_machine_done = false;
-		
 	}
 	void Human::OnMove() {
 		if (_direction == up) {
@@ -38,7 +37,7 @@ namespace game_framework {
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 
 	}
-	void Human::Load(vector<string> filenames, COLORREF color) {
+	void Human::Load(vector<string> &filenames, COLORREF color) {
 		bitmap.LoadBitmapByString(filenames, color);
 	}
 	void Human::OnShow() {

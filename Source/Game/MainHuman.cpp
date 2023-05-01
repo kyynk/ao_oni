@@ -17,15 +17,8 @@ namespace game_framework{
 		_nowmove = none;
 		_pressing = none;
 	}
-	/*void MainHuman::SetPos(int x,int y) {
-		SetXY(x , y - _offsetY);
-		_uy = _pos_y - TILE;
-		_dy = _pos_y + TILE;
-		_lx = _pos_x - TILE;
-		_rx = _pos_x + TILE;
-	}*/
+	
 	void MainHuman::init(int step,int offset,Direction dir) {
-		//TRACE("geyyy");
 		_step = step;
 		_offsetY = offset;
 		_direction = dir;
@@ -38,7 +31,7 @@ namespace game_framework{
 		_isright = false;
 		_isMapChanged = false;
 		_switchMapCheck = false;
-		_machine_done = false;
+		_machine_done = true;
 		_nextmapx = 0;
 		_nextmapy = 0;
 		_nextMapID = 0;
@@ -284,19 +277,15 @@ namespace game_framework{
 			}
 			if (_nowmove == up) {
 				_pos_y -= _step;
-
 			}
 			else if (_nowmove == down) {
 				_pos_y += _step;
-				
 			}
 			else if (_nowmove == left) {
 				_pos_x -= _step;
-			
 			}
 			else if (_nowmove == right) {
 				_pos_x += _step;
-		
 			}
 			TimerUpdate();
 		}
@@ -372,9 +361,7 @@ namespace game_framework{
 
 	}
 	
-	/*void MainHuman::Load(vector<string> filenames, COLORREF color) {
-		bitmap.LoadBitmapByString(filenames,color );
-	}*/
+
 
 	void MainHuman::SetMachine(Direction pressing)
 	{

@@ -23,7 +23,7 @@ namespace game_framework {
 		}
 		start_animation.LoadBitmapByString(tmp);
 		start_animation.SetTopLeft(SIZE_X / 2 - start_animation.GetWidth() / 2, SIZE_Y / 2 - start_animation.GetHeight() / 2);
-		story.SetFigure("");
+		story.SetFigure("none");
 		story.SetParam({ "We heard rumors about the mansion",
 			"they say on the outskirts of town...",
 			"there is a monster living here...!" }, false);

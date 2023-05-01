@@ -164,26 +164,7 @@ namespace game_framework {
 		events.at(MIKA_REPEAT_E).SetParam({}, 34, 1);
 		//dialogs
 		dialogs.resize(33);
-		/*ifstream ifs("data/dialogs.txt");
-		string str;
-		vector<string> lines;
-		int line_num = 0;
-		int num = 0;
-		bool choose = false;
-		int i = 0;
-		for (int i = 0;i < 33;i++) {
-			ifs >> str;
-			dialogs.at(i).SetFigure(str);
-			ifs >> num;
-			(num == 1) ? choose = true : choose = false;
-			ifs >> num;
-			for (int i = 0;i < num;i++) {
-				getline(ifs, str);
-				lines.push_back(str);
-			}
-			dialogs.at(i).SetParam(lines, choose);
-			lines.clear();
-		}*/
+		
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -251,18 +232,7 @@ namespace game_framework {
 		dialogs.at(31).SetParam({ "ok." }, false);
 		dialogs.at(32).SetFigure("mika");
 		dialogs.at(32).SetParam({ "takuro................" }, false);
-		/*ofstream sa;
-		sa.open("save.txt");
-
-		for (auto& f : dialogs) {
-			sa << f.GetFigureName()<<"\n";
-			(f.isChoose())?sa << 1:sa << 0;
-			sa << "\n";
-			sa <<f.GetStore().size()<<"\n";
-			for (auto&ff : f.GetStore()) 
-				sa << ff<<"\n";
-		}
-		sa.close();*/
+		
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -355,13 +325,9 @@ namespace game_framework {
 		items.at(DOOR_OPEN).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_DIE).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_HALF).SetXY(10 * TILE, 10 * TILE);
-		//items end
-		//event
-
-
 	}
 
-	void CGameStateRun::OnMove()							// 移動遊戲元素
+	void CGameStateRun::OnMove()
 	{
 		mapmask.SetTopLeft(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
 
@@ -524,7 +490,6 @@ namespace game_framework {
 			}
 			if (_dialogID == 8) {
 				player.OnMoveBySettings(4);
-				
 			}
 
 			if (_dialogID == 11) {
@@ -873,7 +838,7 @@ namespace game_framework {
 		}
 		else if (_substate == OnDialogs) {
 			if (nChar == VK_SPACE) {
-				if (!((_dialogID == 12 || _dialogID == 8)&& player.IsTimerStart())) {
+				if (!((_dialogID == 12 || _dialogID == 11 || _dialogID == 8)&& !player.IsMachineDone())) {
 					dialogs.at(_dialogID).SetShow(false);
 					_dialogID += 1;
 					_dialogcount += 1;
@@ -1080,10 +1045,14 @@ namespace game_framework {
 				player.SetAllMoveFalse();
 				player.SetMachine(MainHuman::left);
 			}
-			
+			else if (_dialogID == 11) {
+				if (player.IsMachineDone()) {
+					player.TimerStart();
+				}
+			}
 			else if (_dialogID == 12) {
-				player.SetAllMoveFalse();
 				if (player.IsTimerStart()) {
+					player.IsMachineDone() = false;
 					if (player.TimerGetCount() < 20) {
 						player.SetDirection(MainHuman::up);
 					}
@@ -1095,6 +1064,9 @@ namespace game_framework {
 						player.TimerStop();
 					}
 					player.TimerUpdate();
+				}
+				else {
+					player.IsMachineDone() = true;
 				}
 			}
 
@@ -1301,14 +1273,14 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
 			CTextDraw::Print(pDC, 0, TILE * 7, to_string(_dialogID));
 			player.IsTimerStart()? CTextDraw::Print(pDC, 0, TILE * 8, "timer start") : CTextDraw::Print(pDC, 0, TILE * 8, "timer stop");
+			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
+			player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
 			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
 			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +
 				"    " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetR() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)
 				));
 			CTextDraw::Print(pDC, 0, TILE * 19, "    down           :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetD() - gamemaps.at(_nowID).GetY()) / TILE)));
-			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
-			//(isbs != 0) ? ((isbs == 1) ? CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : yes" ): CTextDraw::Print(pDC, 0, TILE * 10, "is block sensitive : no")): CTextDraw::Print(pDC,0, TILE * 10, "is block sensitive : none");
 
 			int len = int(pointvec.size());
 			if (len % 6 == 0 && len != 0) {
