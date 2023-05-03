@@ -41,6 +41,16 @@ namespace game_framework {
 			door_die, //open -> die
 			door_half, //first in
 		};
+		enum TriggerType {
+			triggered, 
+			close, 
+			press, 
+			pick, 
+			fixed, 
+			take, 
+			onCorrectPos, 
+			useItem
+		};
 		Item();
 		~Item();
 		void SetParam(int delay, int boxX, int boxY, 
