@@ -41,6 +41,16 @@ namespace game_framework {
 			door_die, //open -> die
 			door_half, //first in
 		};
+		enum TriggerType {
+			triggered, 
+			close, 
+			press, 
+			pick, 
+			fixed, 
+			take, 
+			onCorrectPos, 
+			useItem
+		};
 		Item();
 		~Item();
 		void SetParam(int delay, int boxX, int boxY, 
@@ -53,7 +63,7 @@ namespace game_framework {
 		int GetPosR();
 		int GetPosD();
 		int GetPosY_offset();
-		void SetPlayerPos(int x, int y);
+		void StorePlayerPos(int x, int y);
 		void OnMove();
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
