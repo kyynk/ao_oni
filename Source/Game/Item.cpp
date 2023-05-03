@@ -9,7 +9,7 @@
 #include "Item.h"
 namespace game_framework {
 	Item::Item() {
-		SetXY(14 * TILE, 15 * TILE);
+		//SetXY(14 * TILE, 15 * TILE);
 		ResetUtil();
 	}
 	Item::~Item() = default;
@@ -230,128 +230,68 @@ namespace game_framework {
 		_playerY = y;
 	}
 	void Item::OnMove() { // actually is action function
-		if (utiltriggers[press]) {
+		if (utiltriggers[press] && Collide()) {
 			//TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
-			if (Collide()) {
-				//TRACE("collide\n\n");
-				//TRACE("\n\nitem press human X:%d item X:%d human Y:%d item Y:%d\n\n", _playerX, _pos_x, _playerY, _pos_y);
-				// on lib
-				if (_name == lib_book && !utiltriggers[fixed]) {
-					SetXY(_pos_x, _pos_y - TILE);
-					utiltriggers[fixed] = true;
-				}
-				// chair move to fixed pos
-				else if (_name == key_lib && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// lib_book move to fixed pos
-				else if (_name == key_3F_L && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// password box in 2F_D unlock
-				else if (_name == key_2F_TL && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// in the jail room (near tatami)
-				else if (_name == key_basement && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// basement onChair can pick
-				else if (_name == key_jail && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// password box in basement1 unlock
-				else if (_name == key_annexe && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// on kitchen
-				else if (_name == broken_dish && !utiltriggers[take]) {
-					utiltriggers[take] = true;
+			// on lib
+			if (_name == lib_book && !utiltriggers[fixed]) {
+				SetXY(_pos_x, _pos_y - TILE);
+				utiltriggers[fixed] = true;
+			}
+			// chair move to fixed pos
+			else if (_name == key_lib && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// lib_book move to fixed pos
+			else if (_name == key_3F_L && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// password box in 2F_D unlock
+			else if (_name == key_2F_TL && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// in the jail room (near tatami)
+			else if (_name == key_basement && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// basement onChair can pick
+			else if (_name == key_jail && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// password box in basement1 unlock
+			else if (_name == key_annexe && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// on kitchen
+			else if (_name == broken_dish && !utiltriggers[take]) {
+				utiltriggers[take] = true;
+				SetTrigger();
+				Animation(2, 1);
+			}
+			// on shower
+			else if (_name == tub_once && !utiltriggers[fixed]) {
+				SetTrigger();
+				Animation(0, 0);
+				utiltriggers[fixed] = true;
+			}
+			// in tub
+			else if (_name == phillips && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// tub fixed only need to show, no interact
+			// on basement (which has a chair), onChair can pick
+			else if (_name == flathead && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// tatami leftside
+			else if (_name == lighter && !utiltriggers[pick]) {
+				if (utiltriggers[close]) {
 					SetTrigger();
-					Animation(2, 1);
+					Animation(0, 0); // open
+					utiltriggers[close] = false;
 				}
-				// on shower
-				else if (_name == tub_once && !utiltriggers[fixed]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[fixed] = true;
-				}
-				// in tub
-				else if (_name == phillips && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// tub fixed only need to show, no interact
-				// on basement (which has a chair), onChair can pick
-				else if (_name == flathead && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// tatami leftside
-				else if (_name == lighter && !utiltriggers[pick]) {
-					if (utiltriggers[close]) {
-						SetTrigger();
-						Animation(0, 0); // open
-						utiltriggers[close] = false;
-					}
-					else {
-						if (_playerX == _pos_x + _boxX && _playerY - TILE == _pos_y + _boxY) {
-							utiltriggers[pick] = true;
-						}
-						else {
-							SetTrigger();
-							Animation(1, 2); // close
-							utiltriggers[close] = true;
-						}
-					}
-				}
-				// kid room, onchair can pick
-				else if (_name == oil && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// 2F_TR, in lib take 3F key
-				else if (_name == handkerchief && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// in toilet
-				else if (_name == detergent && !utiltriggers[pick]) {
-					utiltriggers[pick] = true;
-				}
-				// 3F, need to use screwdriver
-				else if (_name == door_knob && !utiltriggers[pick]) {
-					if (utiltriggers[useItem])
+				else {
+					if (_playerX == _pos_x + _boxX && _playerY - TILE == _pos_y + _boxY) {
 						utiltriggers[pick] = true;
-					else {
-						if (utiltriggers[close]) {
-							SetTrigger();
-							Animation(0, 1); // open
-							utiltriggers[close] = false;
-						}
-						else {
-							SetTrigger();
-							Animation(1, 3); // close
-							utiltriggers[close] = true;
-						}
-					}
-				}
-				// door_no_knob only need to show, no interact
-				// tatami_l is tatami_r reverse(bitmap order)
-				else if (_name == tatami_l) {
-					if (utiltriggers[close]) {
-						SetTrigger();
-						Animation(0, 0); // close
-						utiltriggers[close] = false;
-					}
-					else {
-						SetTrigger();
-						Animation(1, 2); // open
-						utiltriggers[close] = true;
-					}
-				}
-				// tatami
-				else if (_name == tatami_r) {
-					if (utiltriggers[close]) {
-						SetTrigger();
-						Animation(0, 0); // open
-						utiltriggers[close] = false;
 					}
 					else {
 						SetTrigger();
@@ -359,108 +299,165 @@ namespace game_framework {
 						utiltriggers[close] = true;
 					}
 				}
-				// jail
-				else if (_name == gate) {
+			}
+			// kid room, onchair can pick
+			else if (_name == oil && utiltriggers[onCorrectPos] && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// 2F_TR, in lib take 3F key
+			else if (_name == handkerchief && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// in toilet
+			else if (_name == detergent && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			// 3F, need to use screwdriver
+			else if (_name == door_knob && !utiltriggers[pick]) {
+				if (utiltriggers[useItem])
+					utiltriggers[pick] = true;
+				else {
 					if (utiltriggers[close]) {
-						if (_playerX == _pos_x && 
-							(_playerY - TILE == _pos_y + _boxY || 
-								_playerY + TILE == _pos_y + _boxY)) {
-							SetTrigger();
-							Animation(2, 1); // open
-							utiltriggers[close] = false;
-						}
+						SetTrigger();
+						Animation(0, 1); // open
+						utiltriggers[close] = false;
 					}
 					else {
-						if (_playerX == _pos_x + _boxX && 
-							(_playerY - TILE == _pos_y + _boxY || 
-								_playerY + TILE == _pos_y + _boxY)) {
-							SetTrigger();
-							Animation(2, 0); // close
-							utiltriggers[close] = true;
-						}
+						SetTrigger();
+						Animation(1, 3); // close
+						utiltriggers[close] = true;
 					}
 				}
-				// toilet
-				else if (_name == toilet) {
-					if (utiltriggers[close]) {
+			}
+			// door_no_knob only need to show, no interact
+			// tatami_l is tatami_r reverse(bitmap order)
+			else if (_name == tatami_l) {
+				if (utiltriggers[close]) {
+					SetTrigger();
+					Animation(0, 0); // close
+					utiltriggers[close] = false;
+				}
+				else {
+					SetTrigger();
+					Animation(1, 2); // open
+					utiltriggers[close] = true;
+				}
+			}
+			// tatami
+			else if (_name == tatami_r) {
+				if (utiltriggers[close]) {
+					SetTrigger();
+					Animation(0, 0); // open
+					utiltriggers[close] = false;
+				}
+				else {
+					SetTrigger();
+					Animation(1, 2); // close
+					utiltriggers[close] = true;
+				}
+			}
+			// jail
+			else if (_name == gate) {
+				if (utiltriggers[close]) {
+					if (_playerX == _pos_x && 
+						(_playerY - TILE == _pos_y + _boxY || 
+							_playerY + TILE == _pos_y + _boxY)) {
 						SetTrigger();
 						Animation(2, 1); // open
 						utiltriggers[close] = false;
 					}
-					else {
+				}
+				else {
+					if (_playerX == _pos_x + _boxX && 
+						(_playerY - TILE == _pos_y + _boxY || 
+							_playerY + TILE == _pos_y + _boxY)) {
 						SetTrigger();
 						Animation(2, 0); // close
 						utiltriggers[close] = true;
 					}
 				}
-				// house1 3F L bed
-				else if (_name == bed && !utiltriggers[fixed]) {
-					if (_playerX == 10 * TILE) {
-						utiltriggers[fixed] = true;
-					}
-				}
-				// house1 basement1
-				else if (_name == bookcase_l && !utiltriggers[fixed]) {
-					if (_playerY == 7 * TILE) {
-						utiltriggers[fixed] = true;
-					}
-				}
-				// house1 basement1
-				else if (_name == bookcase_r && !utiltriggers[fixed]) {
-					if (_playerY == 7 * TILE) {
-						utiltriggers[fixed] = true;
-					}
-				}
-				// house1 2F DL
-				else if (_name == white_bookcase && !utiltriggers[fixed]) {
-					utiltriggers[fixed] = true;
-				}
-				// house1 room8 (map21)
-				else if (_name == bookcase_map21 && !utiltriggers[fixed]) {
-					utiltriggers[fixed] = true;
-				}
-				// house1 2F TR (once), event triggered
-				else if (_name == closet_shake && !utiltriggers[fixed]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[fixed] = true;
-				}
-				// house1 2F TR, takesi open (once)
-				else if (_name == closet_takesi_0 && !utiltriggers[fixed]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[fixed] = true;
-				}
-				// house1 2F TR, takesi shake
-				// takesi shake should be use event unshow
-				// house1 2F TR
-				// house1 basement3 map2
-				else if (_name == closet_hirosi_R || _name == closet_hirosi_L) {
-					if (utiltriggers[close]) {
-						SetTrigger();
-						Animation(0, 1); // in
-						utiltriggers[close] = false;
-					}
-					else {
-						SetTrigger();
-						Animation(1, 3); // out
-						utiltriggers[close] = true;
-					}
-				}
-				// house1 basement3 map2 (once), event triggered
-				else if (_name == closet_mika_out) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[fixed] = true;
-				}
-				// house1 shower door
-				else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[fixed]) {
-					SetTrigger();
-					Animation(0, 0);
-					utiltriggers[fixed] = true;
-				}
-				// door_half only 1 frame, need event to control to show
 			}
+			// toilet
+			else if (_name == toilet) {
+				if (utiltriggers[close]) {
+					SetTrigger();
+					Animation(2, 1); // open
+					utiltriggers[close] = false;
+				}
+				else {
+					SetTrigger();
+					Animation(2, 0); // close
+					utiltriggers[close] = true;
+				}
+			}
+			// house1 3F L bed
+			else if (_name == bed && !utiltriggers[fixed]) {
+				if (_playerX == 10 * TILE) {
+					utiltriggers[fixed] = true;
+				}
+			}
+			// house1 basement1
+			else if (_name == bookcase_l && !utiltriggers[fixed]) {
+				if (_playerY == 7 * TILE) {
+					utiltriggers[fixed] = true;
+				}
+			}
+			// house1 basement1
+			else if (_name == bookcase_r && !utiltriggers[fixed]) {
+				if (_playerY == 7 * TILE) {
+					utiltriggers[fixed] = true;
+				}
+			}
+			// house1 2F DL
+			else if (_name == white_bookcase && !utiltriggers[fixed]) {
+				utiltriggers[fixed] = true;
+			}
+			// house1 room8 (map21)
+			else if (_name == bookcase_map21 && !utiltriggers[fixed]) {
+				utiltriggers[fixed] = true;
+			}
+			// house1 2F TR (once), event triggered
+			else if (_name == closet_shake && !utiltriggers[fixed]) {
+				SetTrigger();
+				Animation(0, 0);
+				utiltriggers[fixed] = true;
+			}
+			// house1 2F TR, takesi open (once)
+			else if (_name == closet_takesi_0 && !utiltriggers[fixed]) {
+				SetTrigger();
+				Animation(0, 0);
+				utiltriggers[fixed] = true;
+			}
+			// house1 2F TR, takesi shake
+			// takesi shake should be use event unshow
+			// house1 2F TR
+			// house1 basement3 map2
+			else if (_name == closet_hirosi_R || _name == closet_hirosi_L) {
+				if (utiltriggers[close]) {
+					SetTrigger();
+					Animation(0, 1); // in
+					utiltriggers[close] = false;
+				}
+				else {
+					SetTrigger();
+					Animation(1, 3); // out
+					utiltriggers[close] = true;
+				}
+			}
+			// house1 basement3 map2 (once), event triggered
+			else if (_name == closet_mika_out) {
+				SetTrigger();
+				Animation(0, 0);
+				utiltriggers[fixed] = true;
+			}
+			// house1 shower door
+			else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[fixed]) {
+				SetTrigger();
+				Animation(0, 0);
+				utiltriggers[fixed] = true;
+			}
+			// door_half only 1 frame, need event to control to show
+		
 		}
 
 		if (_name == bed || _name == white_bookcase) {
