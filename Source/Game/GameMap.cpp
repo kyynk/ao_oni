@@ -32,6 +32,14 @@ namespace game_framework {
 		}
 		
 	}
+	void GameMap::ShowMapAll(MainHuman& humanobj, int overlayindex) {
+		for (int i = 1; i < _layer; i++) {
+			ShowMap(i);
+			if (i == overlayindex) {
+				humanobj.OnShow();
+			}
+		}
+	}
 	void GameMap::ShowMapAll(MainHuman &humanobj,Oni &oniobj,int overlayindex) {
 		int humany = (humanobj.GetY()-_pos_y)/TILE;
 		int oniy = (oniobj.GetPosY()- _pos_y)/TILE+3;

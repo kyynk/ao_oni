@@ -22,6 +22,7 @@ namespace game_framework {
 		_machine_done = false;
 	}
 	void Human::OnMove() {
+
 		if (_direction == up) {
 			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 		}

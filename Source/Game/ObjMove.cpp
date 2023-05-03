@@ -71,9 +71,9 @@ namespace game_framework {
 	int ObjMove::GetPosY_offset() {
 		return _pos_y + _offsetY;
 	}
-	void ObjMove::SetPlayerPos(int playerX, int playerY) {
-		_humanX = playerX;
-		_humanY = playerY;
+	void ObjMove::StorePlayerPos(int playerX, int playerY) {
+		_playerX = playerX;
+		_playerY = playerY;
 	}
 	void ObjMove::Track(GameMap &map) {
 		bool upmovable = false;
@@ -260,10 +260,10 @@ namespace game_framework {
 	bool ObjMove::isCollide() {
 		int x = _pos_x + _offsetX;
 		int y = _pos_y + _offsetY;
-		if ((_humanX + TILE == GetPosX() && (_humanY >= GetPosY() && _humanY <= y) && _pressing == right)
-			|| (_humanX - TILE == x && (_humanY >= GetPosY() && _humanY <= y) && _pressing == left)
-			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY + TILE == GetPosY() && _pressing == down)
-			|| ((_humanX >= GetPosX() && _humanX <= x) && _humanY - TILE == y) && _pressing == up)
+		if ((_playerX + TILE == GetPosX() && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right)
+			|| (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
+			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
+			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY - TILE == y) && _pressing == up)
 			_collide = true;
 		else
 			_collide = false;
