@@ -29,17 +29,15 @@ namespace game_framework {
 		_offsetY = offsetY;
 		_resetX = resetX;
 		_resetY = resetY;
-		string bitmapName;
 		if (_type == house1_2F_TR_chair) {
-			bitmapName = "darkBrown_chair0";
+			Load("darkBrown_chair0", RGB(204, 255, 0));
 		}
 		else if (_type == house1_2F_TL_chair) {
-			bitmapName = "darkBrown_chair1";
+			Load("darkBrown_chair1", RGB(204, 255, 0));
 		}
 		else if (_type == house1_basement2_chair) {
-			bitmapName = "black_chair0";
+			Load("black_chair0", RGB(204, 255, 0));
 		}
-		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void ObjMove::Load(string filename, COLORREF color) {
 		vector<string> objVec;
