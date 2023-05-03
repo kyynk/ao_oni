@@ -24,7 +24,7 @@ namespace game_framework {
 		int GetPosR();
 		int GetPosD();
 		int GetPosY_offset();
-		void SetPlayerPos(int playerX, int playerY);
+		void StorePlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);
 		// every time obj move, will track first
@@ -45,7 +45,7 @@ namespace game_framework {
 		int GetPreX();
 		int GetPreY();
 	private:
-		int _humanX, _humanY,
+		int _playerX, _playerY,
 			_step, _moveTime, 
 			_offsetX, _offsetY, 
 			_resetX, _resetY,
