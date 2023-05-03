@@ -249,6 +249,7 @@
     <ClCompile Include="Source\Game\Entity.cpp" />
     <ClCompile Include="Source\Game\Event.cpp" />
     <ClCompile Include="Source\Game\Human.cpp" />
+    <ClCompile Include="Source\Game\Interface.cpp" />
     <ClCompile Include="Source\Game\MainHuman.cpp" />
     <ClCompile Include="Source\Game\InputBox.cpp" />
     <ClCompile Include="Source\Game\Item.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Source\Game\Entity.h" />
     <ClInclude Include="Source\Game\Event.h" />
     <ClInclude Include="Source\Game\Human.h" />
+    <ClInclude Include="Source\Game\Interface.h" />
     <ClInclude Include="Source\Game\MainHuman.h" />
     <ClInclude Include="Source\Game\InputBox.h" />
     <ClInclude Include="Source\Game\Item.h" />
