@@ -3,6 +3,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include "config.h"
 #include "Entity.h"
 #include "Human.h"
 namespace game_framework {
@@ -18,6 +19,7 @@ namespace game_framework {
 		_direction = dir;
 		_machine_count = 0;
 		_walkiter = true;
+		_trigger = false;
 		_bstate = s1;
 		_machine_done = false;
 	}
@@ -27,16 +29,24 @@ namespace game_framework {
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_SPACE) {
-			_trigger = true;
+			_pressspace = true;
 		}
 	}
-	void Human::OnKeyUp(UINT nChar) {
-		if (nChar == VK_SPACE) {
-			_trigger = false;
+	bool Human::Collide() {
+		if ((_playerX + TILE == _pos_x && _playerY == GetY() && _pressing == right) ||
+			(_playerX - TILE == _pos_x && _playerY == GetY() && _pressing == left) ||
+			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == down) ||
+			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == up)) {
+			TRACE("true\n");
+			return true;
 		}
+		TRACE("false\n");
+		return false;
 	}
 	void Human::OnMove() {
-		//if(_trigger && )
+		if (_pressing&& Collide()) {
+			_trigger = true;
+		}
 		if (_direction == up) {
 			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 		}

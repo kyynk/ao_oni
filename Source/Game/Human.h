@@ -8,7 +8,10 @@ namespace game_framework {
 		void StorePlayerPos(int x, int y);
 		void OnMove();
 		void OnKeyDown(UINT nChar);
-		void OnKeyUp(UINT nChar);
+		bool& Trigger() { return _trigger; }
+		bool Collide();
+		int GetX() const { return _pos_x; };
+		int GetY() const { return _pos_y + _offsetY; }
 		void SetDirection(Direction d) { _direction = d;}
 		int GetDirection() const { return _direction; }
 		void Load(vector<string> &filenames, COLORREF color);
@@ -22,7 +25,9 @@ namespace game_framework {
 		int _offsetY;
 		int _step;
 		bstate _bstate;
+		Direction _pressing;
 	private:
+		bool _pressspace;
 		bool _trigger;
 		int _playerX;
 		int _playerY;

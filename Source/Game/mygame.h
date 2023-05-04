@@ -99,7 +99,8 @@ namespace game_framework {
 		MIKA_SCARE_E,
 		MIKA_OK_E,
 		MIKA_NOTOK_E,
-		MIKA_REPEAT_E
+		MIKA_REPEAT_E,
+		LIB_KEY_CHASE
 	};
 	enum item_name {
 		TOILET,
@@ -147,7 +148,6 @@ namespace game_framework {
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point);  
-		void OnLButtonUp(UINT nFlags, CPoint point);	
 		void OnMouseMove(UINT nFlags, CPoint point);	
 		void OnRButtonDown(UINT nFlags, CPoint point);  
 	protected:
@@ -164,7 +164,7 @@ namespace game_framework {
 		Human human_mika;
 		Human human_takeshi;
 		Human human_takuro;
-		Oni oni1;
+		Oni normal_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;

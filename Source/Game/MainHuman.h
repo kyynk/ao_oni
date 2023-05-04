@@ -23,8 +23,7 @@ namespace game_framework{
 		int GetD() const { return _pos_y + TILE + _offsetY; }
 		int GetL() const { return _pos_x - TILE; }
 		int GetR() const { return _pos_x + TILE; }
-		int GetX() const { return _pos_x; };
-		int GetY() const { return _pos_y+_offsetY; }
+		
 		int NextX() const { return _nextmapx; }
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
@@ -36,7 +35,6 @@ namespace game_framework{
 		void SetAllMoveFalse();
 		void SetNowmove(Direction m);
 	private:
-		Direction _pressing;
 		bool _isup;
 		bool _isdown;
 		bool _isleft;
