@@ -22,6 +22,7 @@
 #include <fstream>
 #include <bitset>
 #include <mmsystem.h>
+#include <string>
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
@@ -39,6 +40,7 @@
 #include "MainHuman.h"
 #include "Event.h"
 #include "MapRes.h"
+#include "Interface.h"
 namespace game_framework {
 	
 	enum AUDIO_ID {
@@ -170,6 +172,7 @@ namespace game_framework {
 		Human human_takeshi;
 		Human human_takuro;
 		Oni oni1;
+		Interface game_interface;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
