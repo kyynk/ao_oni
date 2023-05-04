@@ -21,7 +21,22 @@ namespace game_framework {
 		_bstate = s1;
 		_machine_done = false;
 	}
+	void Human::StorePlayerPos(int x, int y) {
+		_playerX = x;
+		_playerY = y;
+	}
+	void Human::OnKeyDown(UINT nChar) {
+		if (nChar == VK_SPACE) {
+			_trigger = true;
+		}
+	}
+	void Human::OnKeyUp(UINT nChar) {
+		if (nChar == VK_SPACE) {
+			_trigger = false;
+		}
+	}
 	void Human::OnMove() {
+		//if(_trigger && )
 		if (_direction == up) {
 			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 		}

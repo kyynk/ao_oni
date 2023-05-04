@@ -159,12 +159,11 @@ namespace game_framework {
 		events.at(DUMB_TAKESHI_E).SetParam({}, 18, 6);
 		events.at(HANDKERCHIEF_E).SetParam({}, 24, 1);
 		events.at(MIKA_SCARE_E).SetParam({}, 25, 4);
-		events.at(MIKA_NOTOK_E).SetParam({}, 29, 4);
-		events.at(MIKA_OK_E).SetParam({}, 33, 1);
-		events.at(MIKA_REPEAT_E).SetParam({}, 34, 1);
+		events.at(MIKA_NOTOK_E).SetParam({}, 29, 2);
+		events.at(MIKA_OK_E).SetParam({}, 31, 1);
+		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
 		//dialogs
 		dialogs.resize(33);
-		
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -215,24 +214,25 @@ namespace game_framework {
 		dialogs.at(23).SetParam({ "......................................................." }, false);
 		dialogs.at(24).SetFigure("hirosi");
 		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
+		
 		dialogs.at(25).SetFigure("mika");
 		dialogs.at(25).SetParam({ "Hiroshi you..." }, false);
 		dialogs.at(26).SetFigure("hirosi");
-		dialogs.at(26).SetParam({ "Are you ok?"," where are the others ?" }, false);
+		dialogs.at(26).SetParam({ "Are you ok?","where are the others ?" }, false);
 		dialogs.at(27).SetFigure("mika");
-		dialogs.at(27).SetParam({ "i don't know. "," mabye hinding somewhere" }, false);
+		dialogs.at(27).SetParam({ "i don't know. ","mabye hinding somewhere" }, false);
 		dialogs.at(28).SetFigure("hirosi");
 		dialogs.at(28).SetParam({ "Okay." }, true);
 		dialogs.at(28).SetOption("come with me ", "stay here for now");
+		
 		dialogs.at(29).SetFigure("mika");
-		dialogs.at(29).SetParam({ "WhAt?"," there's a MONSTER wondering in this house." }, false);
+		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering in this house." }, false);
 		dialogs.at(30).SetFigure("hirosi");
 		dialogs.at(30).SetParam({ "Alright..."}, false);
 		dialogs.at(31).SetFigure("mika");
 		dialogs.at(31).SetParam({ "ok." }, false);
 		dialogs.at(32).SetFigure("mika");
 		dialogs.at(32).SetParam({ "takuro................" }, false);
-		
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -257,7 +257,6 @@ namespace game_framework {
 		// map link data
 		router.init();
 		router.Load("map_bmp/maplink.txt");
-		//router.debug();
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -267,7 +266,6 @@ namespace game_framework {
 		mousex_foc = 0;
 		mousey_foc = 0;
 		isdebugmode = true;
-		//isbs = 0;
 		istwoway = 0;
 		isteleportblock = false;
 		isedit = false;
@@ -276,26 +274,26 @@ namespace game_framework {
 		_dialogID = -1;
 		_dialogcount = 0;
 		_eventID = 0;
-		player.init(4, 16, MainHuman::left);
+		player.init(4, 16, Entity::left);
 		player.SetPos(14*TILE, 13 * TILE);
-		human_mika.init(-1, 16,MainHuman::right);
+		human_mika.init(-1, 16,Entity::right);
 		human_mika.SetPos(10 * TILE,12 * TILE);
-		human_takeshi.init(-1, 16, MainHuman::up);
+		human_takeshi.init(-1, 16, Entity::up);
 		human_takeshi.SetPos(13 * TILE,14 * TILE);
-		human_takuro.init(-1, 16, MainHuman::down);
+		human_takuro.init(-1, 16, Entity::down);
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		oni1.init(Oni::normal, 4, 8);
 		//redChair.Reset();
 		oni1.SetPos(11 * TILE, 13 * TILE);
-		objs.at(obj_move::house1_2F_TR_chair).Reset();
-		objs.at(obj_move::house1_2F_TR_chair).SetPreX(objs.at(obj_move::house1_2F_TR_chair).GetPosX());
-		objs.at(obj_move::house1_2F_TR_chair).SetPreY(objs.at(obj_move::house1_2F_TR_chair).GetPosY());
-		objs.at(obj_move::house1_2F_TL_chair).Reset();
-		objs.at(obj_move::house1_2F_TL_chair).SetPreX(objs.at(obj_move::house1_2F_TL_chair).GetPosX());
-		objs.at(obj_move::house1_2F_TL_chair).SetPreY(objs.at(obj_move::house1_2F_TL_chair).GetPosY());
-		objs.at(obj_move::house1_basement2_chair).Reset();
-		objs.at(obj_move::house1_basement2_chair).SetPreX(objs.at(obj_move::house1_basement2_chair).GetPosX());
-		objs.at(obj_move::house1_basement2_chair).SetPreY(objs.at(obj_move::house1_basement2_chair).GetPosY());
+		objs.at(house1_2F_TR_chair).Reset();
+		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
+		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
+		objs.at(house1_2F_TL_chair).Reset();
+		objs.at(house1_2F_TL_chair).SetPreX(objs.at(house1_2F_TL_chair).GetPosX());
+		objs.at(house1_2F_TL_chair).SetPreY(objs.at(house1_2F_TL_chair).GetPosY());
+		objs.at(house1_basement2_chair).Reset();
+		objs.at(house1_basement2_chair).SetPreX(objs.at(house1_basement2_chair).GetPosX());
+		objs.at(house1_basement2_chair).SetPreY(objs.at(house1_basement2_chair).GetPosY());
 		//items
 		items.at(TOILET).SetXY(12 * TILE, 15 * TILE);
 		items.at(TUB_ONCE).SetXY(9 * TILE, 12 * TILE);
@@ -351,12 +349,12 @@ namespace game_framework {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
 		}
 		if (_nowID == 0) {
-			items.at(KEY_JAIL).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(KEY_JAIL).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(KEY_JAIL).OnMove();
-			items.at(BOOKCASE_L).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(BOOKCASE_L).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BOOKCASE_L).OnMove();
 			if (items.at(BOOKCASE_L).IsFixed()) {
-				items.at(BOOKCASE_R).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(BOOKCASE_R).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(BOOKCASE_R).OnMove();
 
 				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
@@ -415,7 +413,7 @@ namespace game_framework {
 				}
 			}
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
-				objs.at(obj_move::house1_basement2_chair).SetPlayerPos(player.GetX(), player.GetY());
+				objs.at(obj_move::house1_basement2_chair).StorePlayerPos(player.GetX(), player.GetY());
 				objs.at(obj_move::house1_basement2_chair).OnMove(gamemaps.at(_nowID));
 				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
@@ -430,9 +428,9 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 1) {
-			items.at(FLATHEAD).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(FLATHEAD).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(FLATHEAD).OnMove();
-			objs.at(obj_move::house1_basement2_chair).SetPlayerPos(player.GetX(), player.GetY());
+			objs.at(obj_move::house1_basement2_chair).StorePlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_basement2_chair).OnMove(gamemaps.at(_nowID));
 			if (!objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -447,11 +445,11 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 2) {
-			items.at(CLOSET_HIROSI_L).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_HIROSI_L).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_HIROSI_L).OnMove();
 		}
 		else if (_nowID == 3) {
-			items.at(GATE2).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE2).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(GATE2).OnMove();
 			if (items.at(GATE2).IsClose()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -467,25 +465,25 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 10) {
-			items.at(TATAMI_R).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(TATAMI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(TATAMI_R).OnMove();
-			items.at(LIGHTER).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(LIGHTER).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(LIGHTER).OnMove();
 			if (items.at(LIGHTER).IsPick()) {
-				items.at(TATAMI_L).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(TATAMI_L).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TATAMI_L).OnMove();
 			}
 		}
 		else if (_nowID == 11) {
-			items.at(BROKEN_DISH).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(BROKEN_DISH).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BROKEN_DISH).OnMove();
 
 		}
 		else if (_nowID == 12) {
-			items.at(LIB_BOOK).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(LIB_BOOK).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(LIB_BOOK).OnMove();
 			if (items.at(LIB_BOOK).IsFixed()) {
-				items.at(KEY_3F_L).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(KEY_3F_L).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(KEY_3F_L).OnMove();
 			}
 		}
@@ -505,7 +503,7 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 14) {
-			objs.at(obj_move::house1_2F_TR_chair).SetPlayerPos(player.GetX(), player.GetY());
+			objs.at(obj_move::house1_2F_TR_chair).StorePlayerPos(player.GetX(), player.GetY());
 			objs.at(obj_move::house1_2F_TR_chair).OnMove(gamemaps.at(_nowID));
 
 			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TR_chair).GetPreY()- gamemaps.at(_nowID).GetY()) / TILE,
@@ -517,7 +515,7 @@ namespace game_framework {
 				(objs.at(obj_move::house1_2F_TR_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 
 			if (objs.at(obj_move::house1_2F_TR_chair).IsFixed()) {
-				items.at(KEY_LIB).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(KEY_LIB).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(KEY_LIB).OnMove();
 				if (!items.at(KEY_LIB).IsPick()) {
 					gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_LIB).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -528,7 +526,7 @@ namespace game_framework {
 						(items.at(KEY_LIB).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 				}
 			}
-			items.at(HANDKERCHIEF).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(HANDKERCHIEF).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(HANDKERCHIEF).OnMove();
 			if (!items.at(HANDKERCHIEF).IsPick()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -538,26 +536,26 @@ namespace game_framework {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
-			items.at(CLOSET_SHAKE).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_SHAKE).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_SHAKE).OnMove();
-			items.at(CLOSET_TAKESI_0).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_TAKESI_0).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
 			// CLOSET_TAKESI_1 not have on move*/
-			items.at(CLOSET_HIROSI_R).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_HIROSI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_HIROSI_R).OnMove();
 		}
 		else if (_nowID == 15) {
 			if (!items.at(DOOR_KNOB).IsPick()) {
-				items.at(DOOR_KNOB).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(DOOR_KNOB).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(DOOR_KNOB).OnMove();
 			}
 			if (items.at(DOOR_KNOB).IsPick()) {
-				items.at(DOOR_NO_KNOB).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(DOOR_NO_KNOB).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(DOOR_NO_KNOB).OnMove();
 			}
 		}
 		else if (_nowID == 16) {
-			items.at(BED).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(BED).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BED).OnMove();
 			if (!items.at(BED).IsFixed()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
@@ -584,56 +582,56 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 17) {
-			items.at(WHITE_BOOKCASE).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(WHITE_BOOKCASE).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(WHITE_BOOKCASE).OnMove();
 		}
 		else if (_nowID == 18) {
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
-				items.at(TUB_ONCE).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(TUB_ONCE).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TUB_ONCE).OnMove();
 			}
 			else if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
-				items.at(PHILLIPS).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(PHILLIPS).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(PHILLIPS).OnMove();
 			}
 			else if (items.at(PHILLIPS).IsPick()) {
-				items.at(TUB_FIXED).SetPlayerPos(player.GetX(), player.GetY());
+				items.at(TUB_FIXED).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TUB_FIXED).OnMove();
 			}
 		}
 		else if (_nowID == 19) {
-			items.at(TOILET).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(TOILET).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(TOILET).OnMove();
 
-			items.at(DETERGENT).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(DETERGENT).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(DETERGENT).OnMove();
 		}
 		else if (_nowID == 20) {
-			items.at(OIL).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(OIL).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(OIL).OnMove();
 
 			human_mika.SetDirection(Entity::up);
-			human_mika.SetXY(8 * TILE, 16 * TILE);
+			human_mika.SetPos(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
-			objs.at(obj_move::house1_2F_TL_chair).SetPlayerPos(player.GetX(), player.GetY());
-			objs.at(obj_move::house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
+			objs.at(house1_2F_TL_chair).StorePlayerPos(player.GetX(), player.GetY());
+			objs.at(house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
 
-			gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
-				(objs.at(obj_move::house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			gamemaps.at(_nowID).SetMapData(0, (objs.at(house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+				(objs.at(house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			
-			objs.at(obj_move::house1_2F_TL_chair).SetPrePos();
+			objs.at(house1_2F_TL_chair).SetPrePos();
 
-			if (!(objs.at(obj_move::house1_2F_TL_chair).GetPreX() == 12 * TILE && objs.at(obj_move::house1_2F_TL_chair).GetPreY() == 17 * TILE)) {
-				gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
-					(objs.at(obj_move::house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			if (!(objs.at(house1_2F_TL_chair).GetPreX() == 12 * TILE && objs.at(house1_2F_TL_chair).GetPreY() == 17 * TILE)) {
+				gamemaps.at(_nowID).SetMapData(0, (objs.at(house1_2F_TL_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
+					(objs.at(house1_2F_TL_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 			}
 		}
 		else if (_nowID == 21) {
-			items.at(BOOKCASE_MAP21).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(BOOKCASE_MAP21).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BOOKCASE_MAP21).OnMove();
 		}
 		else if (_nowID == 22) {
-			items.at(KEY_BASEMENT).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(KEY_BASEMENT).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(KEY_BASEMENT).OnMove();
 			if (!items.at(KEY_BASEMENT).IsPick()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_BASEMENT).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -643,7 +641,7 @@ namespace game_framework {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(KEY_BASEMENT).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(KEY_BASEMENT).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
-			items.at(GATE).SetPlayerPos(player.GetX(), player.GetY());
+			items.at(GATE).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(GATE).OnMove();
 			if (items.at(GATE).IsClose()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(GATE).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
@@ -849,6 +847,9 @@ namespace game_framework {
 			}
 		}
 		else if (_substate == OnDialogs) {
+			if (_dialogID == 28) {
+				dialogs.at(_dialogID).GetSelect(nChar);
+			}
 			if (nChar == VK_SPACE) {
 				if (!((_dialogID == 12 || _dialogID == 11 || _dialogID == 8)&& !player.IsMachineDone())) {
 					dialogs.at(_dialogID).SetShow(false);
@@ -870,9 +871,7 @@ namespace game_framework {
 					}
 				}
 			}
-			if (_dialogID == 28) {
-				dialogs.at(_dialogID).GetSelect(nChar);
-			}
+			
 		}
 	}
 
@@ -959,7 +958,7 @@ namespace game_framework {
 	void CGameStateRun::OnShow()
 	{
 		if (!(_dialogID >= 2 && _dialogID <= 11)) {
-			gamemaps.at(_nowID).ShowMapAll(player, oni1, mapoverlayindex.at(_nowID));
+			gamemaps.at(_nowID).ShowMapAll(player, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
 			items.at(KEY_JAIL).OnShow();
@@ -1042,20 +1041,20 @@ namespace game_framework {
 				SetEventTriggeredDialog(START_EVENT2_E);
 			}
 			if (_dialogID == 6) {
-				player.SetDirection(MainHuman::right);
-				human_takeshi.SetDirection(MainHuman::right);
-				human_takuro.SetDirection(MainHuman::right);
+				player.SetDirection(Entity::right);
+				human_takeshi.SetDirection(Entity::right);
+				human_takuro.SetDirection(Entity::right);
 			}
 			else if (_dialogID == 7) {
-				player.SetMachine(MainHuman::right);
+				player.SetMachine(Entity::right);
 			}
 			else if (_dialogID == 9) {
 				//player.SetAllMoveFalse();
-				player.SetNowmove(MainHuman::machinetransmap);
+				player.SetNowmove(Entity::machinetransmap);
 			}
 			else if (_dialogID == 10) {
 				player.SetAllMoveFalse();
-				player.SetMachine(MainHuman::left);
+				player.SetMachine(Entity::left);
 			}
 			else if (_dialogID == 11) {
 				if (player.IsMachineDone()) {
@@ -1066,13 +1065,13 @@ namespace game_framework {
 				if (player.IsTimerStart()) {
 					player.IsMachineDone() = false;
 					if (player.TimerGetCount() < 20) {
-						player.SetDirection(MainHuman::up);
+						player.SetDirection(Entity::up);
 					}
 					else if (player.TimerGetCount() < 40) {
-						player.SetDirection(MainHuman::down);
+						player.SetDirection(Entity::down);
 					}
 					else if (player.TimerGetCount() < 60) {
-						player.SetDirection(MainHuman::left);
+						player.SetDirection(Entity::left);
 						player.TimerStop();
 					}
 					player.TimerUpdate();
@@ -1168,14 +1167,17 @@ namespace game_framework {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
 				
 			}
-			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::yes) {
+			//TRACE("%d\n", dialogs.at(28).Choice());
+			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::yes && !events.at(MIKA_NOTOK_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_NOTOK_E);
-				dialogs.at(28).Choice() = Dialog::undefined;
 			}
-			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::no) {
+			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::no && !events.at(MIKA_OK_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_OK_E);
-				dialogs.at(28).Choice() = Dialog::undefined;
 			}
+			//if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && !events.at(MIKA_REPEAT_E).IsTriggered()) {
+			//	SetEventTriggeredDialog(MIKA_REPEAT_E);
+
+			//}
 		}
 		else if (_nowID == 21) {
 			items.at(BOOKCASE_MAP21).OnShow();
@@ -1184,7 +1186,7 @@ namespace game_framework {
 			items.at(KEY_BASEMENT).OnShow();
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0;i < 30;i++) {
+		for (int i = 0;i < 33;i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
