@@ -14,7 +14,8 @@ namespace game_framework {
 	}
 	Interface::~Interface() = default;
 	void Interface::init() {
-
+		_isPause = false;
+		_isStop = true;
 	}
 	// game time counter
 	bool Interface::isPause() const {
@@ -56,11 +57,16 @@ namespace game_framework {
 		return start_time;
 	}
 	string Interface::getGameTime() {
-		/*long t = time(0) - start_time;
-		gotoxy(35, 12);
-		cout << setw(2) << setfill('0') << t / 60 / 60 << ":"
-			<< setw(2) << setfill('0') << t / 60 << ":"
-			<< setw(2) << setfill('0') << t % 60 << endl;*/
+		long t = time(0) - start_time;
+		stringstream hour, min, sec;
+		sec << setw(2) << setfill('0') << t % 60;
+		t = t / 60;
+		min << setw(2) << setfill('0') << t % 60;
+		t = t / 60;
+		hour << setw(2) << setfill('0') << t;
+		string str_time = "";
+		str_time = hour.str() + ":" + min.str() + ":" + sec.str();
+		return str_time;
 	}
 
 	// game time counter end
