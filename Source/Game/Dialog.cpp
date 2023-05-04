@@ -124,7 +124,7 @@ namespace game_framework {
 	}
 	void Dialog::GetSelect(UINT nChar) {
 		_choicemenu.OnMovingCursor(nChar);
-		if (nChar == VK_RETURN) {
+		if (nChar == VK_SPACE) {
 			if (_choicemenu.GetSelection() == 0) {
 				_choice = yes;
 			}
