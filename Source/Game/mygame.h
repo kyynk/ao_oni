@@ -154,6 +154,7 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();								
 	private:
+		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
 		//game
