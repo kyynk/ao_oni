@@ -532,14 +532,19 @@ namespace game_framework {
 	bool Item::Collide() {
 		int x = _pos_x + _boxX;
 		int y = _pos_y + _boxY;
-		if ((_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right) ||
-			(_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left) ||
-			((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down) ||
-			((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up)) {
-				return true;
-		}
+		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right)
+			_pressing = right;
+		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
+			_pressing = left;
+		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
+			_pressing = down;
+		else if	((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up) 
+			_pressing = up;
+		else
+			_pressing = none;
+
 		utiltriggers[press] = false;
-		return false;
+		return _pressing != none;;
 	}
 	void Item::Animation(int n, int frame) {
 		if (utiltriggers[triggered]) {

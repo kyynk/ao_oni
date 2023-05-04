@@ -954,7 +954,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 12 &&_nowID !=17 && _nowID !=19) {
+		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 12 && _nowID != 15 && _nowID !=17 && _nowID !=19) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
@@ -1071,14 +1071,7 @@ namespace game_framework {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(DOOR_ONI).OnShow();
-					if (normal_oni.GetPosD() > player.GetD()) {
-						player.OnShow();
-						normal_oni.OnShow(gamemaps.at(_nowID));
-					}
-					else {
-						normal_oni.OnShow(gamemaps.at(_nowID));
-						player.OnShow();
-					}
+					ShowOniAndPlayer();
 				}
 			}
 
@@ -1336,10 +1329,19 @@ namespace game_framework {
 			//TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
 		else if (_nowID == 15) {
-			if (!items.at(DOOR_KNOB).IsPick())
-				items.at(DOOR_KNOB).OnShow();
-			if (items.at(DOOR_KNOB).IsPick())
-				items.at(DOOR_NO_KNOB).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					if (!items.at(DOOR_KNOB).IsPick()) {
+						items.at(DOOR_KNOB).OnShow();
+					}
+					if (items.at(DOOR_KNOB).IsPick()) {
+						items.at(DOOR_NO_KNOB).OnShow();
+					}
+					ShowOniAndPlayer();
+					
+				}
+			}
 		}
 		else if (_nowID == 16) {
 			items.at(BED).OnShow();
@@ -1349,14 +1351,7 @@ namespace game_framework {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(WHITE_BOOKCASE).OnShow();
-					if (normal_oni.GetPosD() > player.GetD()) {
-						player.OnShow();
-						normal_oni.OnShow(gamemaps.at(_nowID));
-					}
-					else {
-						normal_oni.OnShow(gamemaps.at(_nowID));
-						player.OnShow();
-					}
+					ShowOniAndPlayer();
 				}
 			}
 		}
@@ -1381,14 +1376,7 @@ namespace game_framework {
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(DETERGENT).OnShow();
 					items.at(TOILET).OnShow();
-					if (normal_oni.GetPosD() > player.GetD()) {
-						player.OnShow();
-						normal_oni.OnShow(gamemaps.at(_nowID));
-					}
-					else {
-						normal_oni.OnShow(gamemaps.at(_nowID));
-						player.OnShow();
-					}
+					ShowOniAndPlayer();
 				}
 			}
 			if (items.at(DETERGENT).IsPick() && !events.at(DETERGENT_E).IsTriggered()) {
@@ -1431,7 +1419,16 @@ namespace game_framework {
 		}
 		DeBugRecursive();
 	}
-	
+	void CGameStateRun::ShowOniAndPlayer() {
+		if (normal_oni.GetPosD() > player.GetD()) {
+			player.OnShow();
+			normal_oni.OnShow(gamemaps.at(_nowID));
+		}
+		else {
+			normal_oni.OnShow(gamemaps.at(_nowID));
+			player.OnShow();
+		}
+	}
 	void CGameStateRun::SetEventTriggeredDialog(int eventid)
 	{
 		_eventID = eventid;
