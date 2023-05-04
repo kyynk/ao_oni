@@ -532,24 +532,20 @@ namespace game_framework {
 	bool Item::Collide() {
 		int x = _pos_x + _boxX;
 		int y = _pos_y + _boxY;
-		if (_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right)
-			_pressing = right;
-		else if (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
-			_pressing = left;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
-			_pressing = down;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up)
-			_pressing = up;
-		else
-			_pressing = none;
+		if ((_playerX + TILE == _pos_x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == right) ||
+			(_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left) ||
+			((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down) ||
+			((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up)) {
+				return true;
+		}
 		utiltriggers[press] = false;
-		return _pressing != none;
+		return false;
 	}
 	void Item::Animation(int n, int frame) {
 		if (utiltriggers[triggered]) {
 			_aniType = n;
 			if (n == 0 || n == 1) { //once
-				TRACE("\n\n%d\n", _anidelay);
+				//TRACE("\n\n%d\n", _anidelay);
 				bitmap.SetAnimation(_anidelay, true);
 				_aniFrame = frame;
 				if (n == 0) bitmap.ToggleAnimation();
