@@ -9,7 +9,7 @@ namespace game_framework {
 		void OnMove();
 		void OnKeyDown(UINT nChar);
 		bool& Trigger() { return _trigger; }
-		bool Collide();
+		bool Collide() const ;
 		int GetX() const { return _pos_x; };
 		int GetY() const { return _pos_y + _offsetY; }
 		void SetDirection(Direction d) { _direction = d;}

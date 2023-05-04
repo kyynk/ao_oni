@@ -44,7 +44,9 @@ namespace game_framework {
 		int _humanX, _humanY, 
 			_step, _moveTime, _overTime, 
 			_offsetX, _offsetY;
-		int _nextx, _nexty, _mapID;
+		int _nextx;
+		int _nexty; 
+		int _mapID;
 		bool _isShow;
 		bool _walkiter;
 		bool _wait;

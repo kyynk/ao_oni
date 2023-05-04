@@ -32,15 +32,13 @@ namespace game_framework {
 			_pressspace = true;
 		}
 	}
-	bool Human::Collide() {
+	bool Human::Collide() const {
 		if ((_playerX + TILE == _pos_x && _playerY == GetY() && _pressing == right) ||
 			(_playerX - TILE == _pos_x && _playerY == GetY() && _pressing == left) ||
 			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == down) ||
 			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == up)) {
-			TRACE("true\n");
 			return true;
 		}
-		TRACE("false\n");
 		return false;
 	}
 	void Human::OnMove() {
