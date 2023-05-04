@@ -336,9 +336,10 @@ namespace game_framework {
 		}
 		if ((player.IsMapChanged() && player.IsSwitchMap())) {
 			_nowID = player.NextMapID();
-			if(normal_oni.IsShow())
+			if (normal_oni.IsShow()) {
 				normal_oni.Once() = true;
-				normal_oni.SetChangeMap(player.NextX(),player.NextY(),_nowID);
+				normal_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
+			}
 		}
 		if (_substate != OnDialogs) {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
@@ -1117,13 +1118,11 @@ namespace game_framework {
 			int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
 			bool ishumanshowed = true;
 			bool isonishowed = true;
-			bool f1 = true;
-			bool f2 = true;
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 
-				if (i == 4 && (f1 || f2)) {
-					if (humany < 4 && oniy < 4 && f1 && f2) {
+				if (i == 4 && (ishumanshowed || isonishowed)) {
+					if (humany < 4 && oniy < 4 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							player.OnShow();
 							normal_oni.OnShow(gamemaps.at(_nowID));
@@ -1132,25 +1131,21 @@ namespace game_framework {
 							normal_oni.OnShow(gamemaps.at(_nowID));
 							player.OnShow();
 						}
-						f1 = false;
-						f2 = false;
-						//TRACE("1\n");
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 4 && f1) {
+					else if (humany < 4 && ishumanshowed) {
 						player.OnShow();
-						f1 = false;
-						//TRACE("2\n");
-
+						ishumanshowed = false;
 					}
-					else if (oniy < 4 && f2) {
+					else if (oniy < 4 && isonishowed) {
 						normal_oni.OnShow(gamemaps.at(_nowID));
-						f2 = false;
-						//TRACE("3\n");
+						isonishowed = false;
 					}
 				}
 
-				else if (i == 5 && (f1 || f2)) {
-					if (humany < 8 && oniy < 8 && f1 && f2) {
+				else if (i == 5 && (ishumanshowed || isonishowed)) {
+					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							player.OnShow();
 							normal_oni.OnShow(gamemaps.at(_nowID));
@@ -1159,22 +1154,22 @@ namespace game_framework {
 							normal_oni.OnShow(gamemaps.at(_nowID));
 							player.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 8 && f1) {
+					else if (humany < 8 && ishumanshowed) {
 						player.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (oniy < 8 && f2) {
+					else if (oniy < 8 && isonishowed) {
 						normal_oni.OnShow(gamemaps.at(_nowID));
-						f2 = false;
+						isonishowed = false;
 
 					}
 				}
-				else if (i == 6 && (f1 || f2)) {
-					if (humany < 12 && oniy < 12 && f1 && f2) {
+				else if (i == 6 && (ishumanshowed || isonishowed)) {
+					if (humany < 12 && oniy < 12 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							player.OnShow();
 							normal_oni.OnShow(gamemaps.at(_nowID));
@@ -1183,22 +1178,22 @@ namespace game_framework {
 							normal_oni.OnShow(gamemaps.at(_nowID));
 							player.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 12 && f1) {
+					else if (humany < 12 && ishumanshowed) {
 						player.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (oniy < 12 && f2) {
+					else if (oniy < 12 && isonishowed) {
 						normal_oni.OnShow(gamemaps.at(_nowID));
-						f2 = false;
+						isonishowed = false;
 
 					}
 				}
-				else  if (i == 7 && (f1 || f2)) {
-					if (humany < 15 && oniy < 15 && f1 && f2) {
+				else  if (i == 7 && (ishumanshowed || isonishowed)) {
+					if (humany < 15 && oniy < 15 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							player.OnShow();
 							normal_oni.OnShow(gamemaps.at(_nowID));
@@ -1207,21 +1202,21 @@ namespace game_framework {
 							normal_oni.OnShow(gamemaps.at(_nowID));
 							player.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (humany < 15 && f1) {
+					else if (humany < 15 && ishumanshowed) {
 						player.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (oniy < 15 && f2) {
+					else if (oniy < 15 && isonishowed) {
 						normal_oni.OnShow(gamemaps.at(_nowID));
-						f2 = false;
+						isonishowed = false;
 					}
 				}
-				else  if (i == 8 && (f1 || f2)) {
-					if (f1 && f2) {
+				else  if (i == 8 && (ishumanshowed || isonishowed)) {
+					if (ishumanshowed && isonishowed) {
 						if (humany < oniy) {
 							player.OnShow();
 							normal_oni.OnShow(gamemaps.at(_nowID));
@@ -1230,17 +1225,17 @@ namespace game_framework {
 							normal_oni.OnShow(gamemaps.at(_nowID));
 							player.OnShow();
 						}
-						f1 = false;
-						f2 = false;
+						ishumanshowed = false;
+						isonishowed = false;
 					}
-					else if (f1) {
+					else if (ishumanshowed) {
 						player.OnShow();
-						f1 = false;
+						ishumanshowed = false;
 
 					}
-					else if (f2) {
+					else if (isonishowed) {
 						normal_oni.OnShow(gamemaps.at(_nowID));
-						f2 = false;
+						isonishowed = false;
 					}
 				}
 			}
