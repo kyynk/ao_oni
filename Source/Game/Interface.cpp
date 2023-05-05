@@ -23,11 +23,18 @@ namespace game_framework {
 		_IsEndGame = false;
 		_isPause = false;
 		_isStop = true;
-		_items.push_back("Aaaaaaaaaaaaa");
-		_items.push_back("Bbbbbbbbbbbbb");
-		_items.push_back("Ccccccccccccc");
-		_items.push_back("Ddddddddddddd");
-		_items.push_back("Eeeeeeeeeeeee");
+		for (int i = 0; i < 6; i++) { //key
+			_itemsImg.at(i).LoadBitmapByString({ "img/interface/item/key.bmp" }, RGB(204, 255, 0));
+		}
+		_itemsImg.at(broken_dish).LoadBitmapByString({ "img/interface/item/broken_dish.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(phillips).LoadBitmapByString({ "img/interface/item/driver.bmp", "img/interface/item/sin.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(flathead).LoadBitmapByString({ "img/interface/item/sin.bmp", "img/interface/item/driver.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(lighter).LoadBitmapByString({ "img/interface/item/lighter.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(oil).LoadBitmapByString({ "img/interface/item/oil.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(handkerchief).LoadBitmapByString({ "img/interface/item/handkerchief.bmp", "img/interface/item/clean_handkerchief.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(detergent).LoadBitmapByString({ "img/interface/item/detergent.bmp" }, RGB(204, 255, 0));
+		_itemsImg.at(door_knob).LoadBitmapByString({ "img/interface/item/doorknob.bmp" }, RGB(204, 255, 0));
+
 		_cursor.LoadBitmapByString({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
 			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, RGB(0, 0, 0));
 		_status.LoadBitmapByString({ "img/interface/status.bmp" }, RGB(204, 255, 0));
@@ -107,8 +114,6 @@ namespace game_framework {
 	}
 	void Interface::StoreItem(string item_name) {
 		_items.push_back(item_name);
-		CMovingBitmap t;
-
 	}
 	void Interface::ShowCursorStatus() {
 		_cursorX = _boxX + 16;
@@ -175,7 +180,8 @@ namespace game_framework {
 		}
 	}
 	void Interface::ShowTextSave(CDC* pDC) {
-
+		CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
+		CTextDraw::Print(pDC, _boxX + 16, _boxY + 20, "Now we don't have 'save' action...  :(");
 	}
 	void Interface::ShowTextEnd(CDC* pDC) {
 		vector<string> vec_str;
