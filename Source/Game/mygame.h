@@ -154,6 +154,7 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();								
 	private:
+		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
 		//game
@@ -180,6 +181,7 @@ namespace game_framework {
 		vector<vector<int>> blockTeleportCor; //x y nowID
 		vector<int> mapoverlayindex;
 		MapRouter router;
+		bool gameonce;
 		//dev related
 		int mousex, mousey;
 		int mousex_foc,mousey_foc;
