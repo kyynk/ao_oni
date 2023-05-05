@@ -1393,6 +1393,13 @@ namespace game_framework {
 		else if (_nowID == 20) {
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
+			if (_dialogID>=25 && _dialogID<=32) {
+				human_mika.SetDirection(Entity::up);
+			}
+			else {
+				human_mika.SetDirection(Entity::down);
+
+			}
 			objs.at(obj_move::house1_2F_TL_chair).OnShow();
 			if (human_mika.Trigger()&&!events.at(MIKA_SCARE_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
