@@ -249,7 +249,7 @@ namespace game_framework {
 		pwds.at(basement).SetShow(false);
 		// interface
 		game_interface.init();
-
+		game_interface.StartCount();
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -687,6 +687,10 @@ namespace game_framework {
 		}
 		else if (nChar == VK_ESCAPE) {
 			TRACE("\n\n%s\n\n", game_interface.GetRealTime().c_str());
+			game_interface.OnKeyDown(nChar);
+		}
+		else if (game_interface.IsShow()) {
+			game_interface.OnKeyDown(nChar);
 		}
 		else if (_substate == OnWalking) {
 			if (isdebugmode) {
@@ -1200,7 +1204,9 @@ namespace game_framework {
 		/*if (pwds.at(piano).IsShow()) {
 			pwds.at(piano).ShowTotal();
 		}*/
-		game_interface.ShowTotal();
+		if (game_interface.IsShow()) {
+			game_interface.ShowTotal();
+		}
 	}
 	
 	void CGameStateRun::SetEventTriggeredDialog(int eventid)
