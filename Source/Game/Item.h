@@ -70,17 +70,21 @@ namespace game_framework {
 		void OnShow();
 		bool Collide();
 		void Animation(int n, int frame);
-		void SetTrigger();
 		string GetName();
 		// e.g. 
 		// if player on chair a = true, else a = false
-		void IsOnTriPos(bool a);
 		void ResetUtil(); // all control reset
+		
+		void SetTrigger();
+		bool IsClose();
+		
 		bool IsPick();
 		bool IsFixed();
 		bool IsTake();
+		void SetOnTriPos(bool ontri);
+
+
 		bool IsAnimationDone();
-		bool IsClose();
 		int GetBitMapIndex();
 		void EventTrigger();
 
@@ -97,11 +101,8 @@ namespace game_framework {
 		Direction _pressing;
 		ItemName _name;
 		// pick -> disappear, take -> a bitmap is leaved
-		// index for bool (under)
-		// _triggered, _close, _press, _pick, 
-		// _fixed, _take, _onCorrectPos, _useItem
 		vector<bool> utiltriggers = {
-		false, true, false, false, false, 
-		false, false, false};
+		false, true, false, false, 
+		false, false, false, false};
 	};
 }
