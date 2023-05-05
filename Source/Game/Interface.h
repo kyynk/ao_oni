@@ -9,6 +9,22 @@ namespace game_framework {
 			save, 
 			end
 		};
+		enum Items {
+			key_lib,
+			key_3F_L,
+			key_2F_TL,
+			key_basement,
+			key_jail,
+			key_annexe,
+			broken_dish,
+			phillips,
+			flathead,
+			lighter,
+			oil,
+			handkerchief,
+			detergent,
+			door_knob
+		};
 		Interface();
 		~Interface();
 		void init();
@@ -54,6 +70,7 @@ namespace game_framework {
 		bool _isShow;
 		bool _IsGoTitle;
 		bool _IsEndGame;
+		vector<CMovingBitmap> _itemsImg;
 		CMovingBitmap _cursor;
 		CMovingBitmap _status;
 		CMovingBitmap _item;
