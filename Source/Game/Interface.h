@@ -2,8 +2,9 @@
 namespace game_framework {
 	class Interface {
 	public:
-		enum status {
-			esc, 
+		enum Status {
+			none,
+			status, 
 			item, 
 			save, 
 			end
@@ -17,34 +18,44 @@ namespace game_framework {
 		void StartCount();
 		void PauseCount();
 		void StopCount();
-		time_t GetStartTime();
+		time_t GetStartTime() const;
 		string GetGameTime();
 		// game time counter
 		string GetRealTime();
 		void StorePlayerStep(int step);
 		void StoreItem(string item_name);
-		void ShowCursorInit();
+		void ShowCursorStatus();
 		void ShowCursorItem();
 		void ShowCursorSave();
 		void ShowCursorEnd();
-		void ShowTextInit(CDC* pDC);
+		void ShowTextStatus(CDC* pDC);
 		void ShowTextItem(CDC* pDC);
 		void ShowTextSave(CDC* pDC);
 		void ShowTextEnd(CDC* pDC);
 		void ShowTotal();
 		void OnKeyDown(UINT nChar);
+		void ResetChoose();
+		void SetShow(bool show);
+		bool IsShow() const;
+		bool IsTitle() const;
+		bool IsEnd() const;
+		
 	private:
 		int _cursorX, _cursorY,
 			_boxX, _boxY, _txtX, _txtY,
 			_lineSpacing, _step, 
-			_initChoose, _itemChoose, 
+			_statusChoose, _itemChoose, 
 			_saveChoose, _endChoose;
-		vector<string> items;
+		vector<string> _items;
 		time_t start_time, pause_time;
+		Status _show;
 		bool _isPause;
 		bool _isStop;
+		bool _isShow;
+		bool _IsGoTitle;
+		bool _IsEndGame;
 		CMovingBitmap _cursor;
-		CMovingBitmap _init;
+		CMovingBitmap _status;
 		CMovingBitmap _item;
 		CMovingBitmap _save;
 		CMovingBitmap _end;

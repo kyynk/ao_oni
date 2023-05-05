@@ -15,13 +15,22 @@ namespace game_framework {
 		_boxX = 64;
 		_boxY = 160;
 		_lineSpacing = 32;
-		_initChoose = _itemChoose = _saveChoose = _endChoose = 0;
+		_statusChoose = _itemChoose = _saveChoose = _endChoose = 0;
 		_step = 0;
+		_show = none;
+		_isShow = false;
+		_IsGoTitle = false;
+		_IsEndGame = false;
 		_isPause = false;
 		_isStop = true;
+		_items.push_back("Aaaaaaaaaaaaa");
+		_items.push_back("Bbbbbbbbbbbbb");
+		_items.push_back("Ccccccccccccc");
+		_items.push_back("Ddddddddddddd");
+		_items.push_back("Eeeeeeeeeeeee");
 		_cursor.LoadBitmapByString({ "img/cursor/tri1_1.bmp","img/cursor/tri1_2.bmp",
 			"img/cursor/tri1_3.bmp","img/cursor/tri1_2.bmp" }, RGB(0, 0, 0));
-		_init.LoadBitmapByString({ "img/interface/status.bmp" }, RGB(204, 255, 0));
+		_status.LoadBitmapByString({ "img/interface/status.bmp" }, RGB(204, 255, 0));
 		_item.LoadBitmapByString({ "img/interface/item.bmp" }, RGB(204, 255, 0));
 		_save.LoadBitmapByString({ "img/interface/save.bmp" }, RGB(204, 255, 0));
 		_end.LoadBitmapByString({ "img/interface/end.bmp" }, RGB(204, 255, 0));
@@ -62,10 +71,13 @@ namespace game_framework {
 			_isStop = true;
 		}
 	}
-	time_t Interface::GetStartTime() {
+	time_t Interface::GetStartTime() const {
 		return start_time;
 	}
 	string Interface::GetGameTime() {
+		// if pause time
+		// time_t t = time(0) - start_time - (time(0) - pause_time);
+		// no pause time
 		time_t t = time(0) - start_time;
 		stringstream hour, min, sec;
 		sec << setw(2) << setfill('0') << t % 60;
@@ -94,21 +106,23 @@ namespace game_framework {
 		_step = step;
 	}
 	void Interface::StoreItem(string item_name) {
-		items.push_back(item_name);
+		_items.push_back(item_name);
+		CMovingBitmap t;
+
 	}
-	void Interface::ShowCursorInit() {
-		// set topleft will change, now is try
+	void Interface::ShowCursorStatus() {
 		_cursorX = _boxX + 16;
 		_cursorY = _boxY + 16;
-		_cursor.SetTopLeft(_cursorX, _cursorY + _initChoose * _lineSpacing);
+		_cursor.SetTopLeft(_cursorX, _cursorY + _statusChoose * _lineSpacing);
 		_cursor.SetAnimation(200, false);
 		_cursor.ShowBitmap();
 	}
 	void Interface::ShowCursorItem() {
-		// set topleft will change, now is try
-		/*_cursor.SetTopLeft(_cursorX, _cursorY);
+		_cursorX = _boxX + 16; // item img => 24x24
+		_cursorY = _boxY + 3 * 32 - 4;
+		_cursor.SetTopLeft(_cursorX + (_itemChoose % 2) * 11 * 32, _cursorY + (_itemChoose / 2) * _lineSpacing);
 		_cursor.SetAnimation(200, false);
-		_cursor.ShowBitmap();*/
+		_cursor.ShowBitmap();
 	}
 	void Interface::ShowCursorSave() {
 		// set topleft will change, now is try
@@ -117,14 +131,13 @@ namespace game_framework {
 		_cursor.ShowBitmap();*/
 	}
 	void Interface::ShowCursorEnd() {
-		// set topleft will change, now is try
-		_cursorX = _boxX + 240;
-		_cursorY = _boxY + 176;
-		_cursor.SetTopLeft(_cursorX, _cursorY + _initChoose * _lineSpacing);
+		_cursorX = _boxX + 8 * 32 + 16;
+		_cursorY = _boxY + 6 * 32 - 4;
+		_cursor.SetTopLeft(_cursorX, _cursorY + _endChoose * _lineSpacing);
 		_cursor.SetAnimation(200, false);
 		_cursor.ShowBitmap();
 	}
-	void Interface::ShowTextInit(CDC* pDC) {
+	void Interface::ShowTextStatus(CDC* pDC) {
 		vector<string> vec_str;
 		vec_str = { "Item", "Save", "End", "Game time", "Step", "$", "    0", 
 			"Hirosi          Student",
@@ -137,7 +150,7 @@ namespace game_framework {
 		CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(102, 255, 230));
 		CTextDraw::Print(pDC, 88, 404, vec_str.at(3));
 		CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
-		CTextDraw::Print(pDC, 88, 404 + _lineSpacing, GetRealTime().c_str());
+		CTextDraw::Print(pDC, 88, 404 + _lineSpacing, GetGameTime().c_str());
 		CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(102, 255, 230));
 		CTextDraw::Print(pDC, 88, 500, vec_str.at(4));
 		CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
@@ -152,51 +165,193 @@ namespace game_framework {
 		CTextDraw::Print(pDC, 344, 180 + 2 * _lineSpacing, vec_str.at(9));
 	}
 	void Interface::ShowTextItem(CDC* pDC) {
-
+		if (int(_items.size()) != 0) {
+			CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
+			CTextDraw::Print(pDC, _boxX + 16, _boxY + 20, _items.at(_itemChoose));
+			for (int i = 0; i < int(_items.size()); i++) {
+				CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
+				CTextDraw::Print(pDC, _boxX + 16 + 2 * 32 + (i % 2) * 11 * 32, _boxY + 3 * 32 + (i / 2) * _lineSpacing, _items.at(i));
+			}
+		}
 	}
 	void Interface::ShowTextSave(CDC* pDC) {
 
 	}
 	void Interface::ShowTextEnd(CDC* pDC) {
-
+		vector<string> vec_str;
+		vec_str = { "Title", "End", "Cancel" };
+		for (int i = 0; i < 3; i++) {
+			CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
+			CTextDraw::Print(pDC, _boxX + 9 * 32, _boxY + 6 * 32 + i * _lineSpacing, vec_str.at(i));
+		}
 	}
 	void Interface::ShowTotal() {
-		_init.SetTopLeft(_boxX, _boxY);
-		_init.ShowBitmap();
-		ShowCursorInit();
-		CDC* pDC = CDDraw::GetBackCDC();
-		ShowTextInit(pDC);
-		CDDraw::ReleaseBackCDC();
+		if (_show == status) {
+			_status.SetTopLeft(_boxX, _boxY);
+			_status.ShowBitmap();
+			ShowCursorStatus();
+			CDC* pDC = CDDraw::GetBackCDC();
+			ShowTextStatus(pDC);
+			CDDraw::ReleaseBackCDC();
+		}
+		else if (_show == item) {
+			_item.SetTopLeft(_boxX, _boxY);
+			_item.ShowBitmap();
+			if (int(_items.size()) != 0) {
+				ShowCursorItem();
+				CDC* pDC = CDDraw::GetBackCDC();
+				ShowTextItem(pDC);
+				CDDraw::ReleaseBackCDC();
+			}
+		}
+		else if (_show == save) {
+			_save.SetTopLeft(_boxX, _boxY);
+			_save.ShowBitmap();
+			ShowCursorSave();
+			CDC* pDC = CDDraw::GetBackCDC();
+			ShowTextSave(pDC);
+			CDDraw::ReleaseBackCDC();
+		}
+		else if (_show == end) {
+			_end.SetTopLeft(_boxX, _boxY);
+			_end.ShowBitmap();
+			ShowCursorEnd();
+			CDC* pDC = CDDraw::GetBackCDC();
+			ShowTextEnd(pDC);
+			CDDraw::ReleaseBackCDC();
+		}
 	}
 	void Interface::OnKeyDown(UINT nChar) {
-		if (nChar == VK_UP) {
-			if (_initChoose == 0) {
-				_initChoose = 2;
+		if (nChar == VK_ESCAPE) {
+			if (!IsShow()) {
+				SetShow(true);
+				_show = status;
+				ResetChoose();
 			}
-			else {
-				_initChoose++;
+			else if (_show == status) {
+				SetShow(false);
+				_show = none;
+				ResetChoose();
 			}
-			if (_endChoose == 0) {
-				_endChoose = 2;
+			else if (_show == item) {
+				_show = status;
+				ResetChoose();
 			}
-			else {
-				_endChoose++;
+			else if (_show == save) {
+				_show = status;
+				ResetChoose();
+			}
+			else if (_show == end) {
+				_show = status;
+				ResetChoose();
+			}
+		}
+		else if (nChar == VK_RETURN) {
+			if (_show == status) {
+				if (_statusChoose == 0) {
+					_show = item;
+					ResetChoose();
+				}
+				else if (_statusChoose == 1) {
+					_show = save;
+					ResetChoose();
+				}
+				else if (_statusChoose == 2) {
+					_show = end;
+					ResetChoose();
+				}
+			}
+			else if (_show == end) {
+				if (_endChoose == 0) {
+					_IsGoTitle = true;
+					_show = none;
+					SetShow(false);
+					ResetChoose();
+				}
+				else if (_endChoose == 1) {
+					_IsEndGame = true;
+					_show = none;
+					SetShow(false);
+					ResetChoose();
+				}
+				else if (_endChoose == 2) {
+					_show = status;
+					ResetChoose();
+				}
+			}
+		}
+		else if (nChar == VK_UP) {
+			if (_show == status) {
+				if (_statusChoose == 0) {
+					_statusChoose = 2;
+				}
+				else {
+					_statusChoose--;
+				}
+			}
+			else if (_show == item) {
+				if (!(_itemChoose - 2 < 0)) {
+					_itemChoose -= 2;
+				}
+			}
+			else if (_show == end) {
+				if (_endChoose == 0) {
+					_endChoose = 2;
+				}
+				else {
+					_endChoose--;
+				}
 			}
 		}
 		else if (nChar == VK_DOWN) {
-			if (_initChoose == 2) {
-				_initChoose = 0;
+			if (_show == status) {
+				if (_statusChoose == 2) {
+					_statusChoose = 0;
+				}
+				else {
+					_statusChoose++;
+				}
 			}
-			else {
-				_initChoose--;
+			else if (!(_itemChoose + 2 >= int(_items.size()))) {
+				_itemChoose += 2;
 			}
-			if (_endChoose == 2) {
-				_endChoose = 0;
-			}
-			else {
-				_endChoose--;
+			else if (_show == end) {
+				if (_endChoose == 2) {
+					_endChoose = 0;
+				}
+				else {
+					_endChoose++;
+				}
 			}
 		}
-		//esc
+		else if (nChar == VK_LEFT) {
+			if (_show == item) {
+				if (!(_itemChoose - 1 < 0)) {
+					_itemChoose --;
+				}
+			}
+		}
+		else if (nChar == VK_RIGHT) {
+			if (_show == item) {
+				if (!(_itemChoose + 1 >= int(_items.size()))) {
+					_itemChoose++;
+				}
+			}
+		}
+	}
+	void Interface::ResetChoose() {
+		_statusChoose = _itemChoose = _saveChoose = _endChoose = 0;
+	}
+	void Interface::SetShow(bool show) {
+		_isShow = show;
+	}
+	bool Interface::IsShow() const {
+		return _isShow;
+	}
+	bool Interface::IsTitle() const {
+		return _IsGoTitle;
+	}
+	bool Interface::IsEnd() const {
+		return _IsEndGame;
 	}
 }
