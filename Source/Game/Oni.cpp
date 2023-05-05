@@ -10,20 +10,18 @@
 #include "Oni.h"
 
 namespace game_framework {
-	Oni::Oni() {
-		ResetOT();
-	}
 	void Oni::init(OniName tp, int step, int moveTime) {
-		_isDisappear = false;
+		_isShow = false;
 		_walkiter = true;
 		_bstate = s1;
 		_wait = false;
 		_nowmove = none;
 		_tracking = none;
-
+		_overTime = 1000;
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
+		GonnaGiveUpSoSadUntilTheNextMap = false;
 		string name;
 		if (_type == normal) {
 			name = "oni_";
@@ -150,10 +148,6 @@ namespace game_framework {
 		else _tracking = none;
 	}
 	void Oni::OnMove(GameMap &map) {
-		//according humanXY
-		//we find max( abs((human - pos)X), abs((human - pos)Y) )
-		//we will choose it
-		//and move it first
 		if (isCatch()) {
 			TimerStop();
 		}
@@ -191,102 +185,100 @@ namespace game_framework {
 					_pos_x += _step;
 				}
 				TimerUpdate();
+			}
+			if (!_changemaponceprocess) {
 				Countdown();
 			}
 			bitmap.SetTopLeft(_pos_x, _pos_y);
 		}
 	}
-	void Oni::OnShow() {
-		if (_nowmove == up) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
+	void Oni::OnShow(GameMap& map) {
+		if ((_isShow && !_wait) || GonnaGiveUpSoSadUntilTheNextMap) {
+			if (_nowmove == up) {
+				if (_bstate == s1) {
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
+				}
+				else {
+					bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
+				}
 			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
+			else if (_nowmove == down) {
+				if (_bstate == s1) {
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
+				}
+				else {
+					bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
+				}
 			}
-		}
-		else if (_nowmove == down) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
-			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
-			}
-		}
 
-		else if (_nowmove == left) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
+			else if (_nowmove == left) {
+				if (_bstate == s1) {
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
+				}
+				else {
+					bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
+				}
 			}
-			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
-			}
-		}
 
-		else if (_nowmove == right) {
-			if (_bstate == s1) {
-				_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
+			else if (_nowmove == right) {
+				if (_bstate == s1) {
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
+				}
+				else {
+					bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
+				}
+			}
+			bitmap.ShowBitmap();
+		}
+		else if (_wait) {
+			if (GonnaGiveUpSoSadUntilTheNextMap) {
+				ResetOni();
+				GonnaGiveUpSoSadUntilTheNextMap = false;
+			}
+			TimerStart();
+			if (IsTimerStart() && TimerGetCount() == 30) {
+				_wait = false;
+				SetPos(_nextx + map.GetX(), _nexty + map.GetY());
+				TimerStop();
 			}
 			else {
-				bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
+				TimerUpdate();
 			}
 		}
-		bitmap.ShowBitmap();
-	}
-	void Oni::ResetOT() {
-		_overTime = 10*30;
 	}
 	void Oni::Countdown() {
 		
-		if (_overTime == 0) _isDisappear = true;
+		if (_overTime == 0) {
+			GonnaGiveUpSoSadUntilTheNextMap = true;
+		}
 		else _overTime--;
 	}
-	void Oni::ChangeMap() {
-		_overTime++;
+	void Oni::AddTime() {
+		_overTime+=10;
 	}
-	void Oni::SetWait() {
-		_wait = true;
-	}
-	void Oni::Waiting(Oni::changeMap a) {
-		if (_wait == true) {
-			TimerStart();
+
+	void Oni::SetChangeMap(int x,int y,int id)
+	{
+		if (_changemaponceprocess) {
+			_overTime += 100;
+			_wait = true;
+			_changemaponceprocess = false;
+			_nextx = x;
+			_nexty = y;
+			_mapID = id;
 		}
-		else {
-			TimerStop();
-		}
-		if (IsTimerStart()) {
-			if (a == room)
-				if (TimerGetCount() == 30)
-					_wait = false;
-			if (a == hallway)
-				if (TimerGetCount() == 15)
-					_wait = false;
-			TimerUpdate();
-		}
+
 	}
-	bool Oni::WaitOver() {
-		return _wait;
-	}
+
 	bool Oni::isCatch() {
 		return _pos_x + _offsetX == _humanX
 			&& _pos_y + _offsetY == _humanY;
 	}
-	void Oni::SetVanish() {
-		if (isCatch()) {
-			_isDisappear = true;
-			TimerStop();
-			ResetOT();
-			SetPos(0,0);
-		}
-	}
+	
 	void Oni::ResetOni() {
-		_isDisappear = false;
-		ResetOT();
+		_isShow = false;
+		_overTime = 900;
+		TimerStop();
 	}
-	void Oni::SetMapID(int id) {
-		_mapID = id;
-	}
-	int Oni::GetMapID() const {
-		return _mapID;
-	}
+	
 }

@@ -538,18 +538,19 @@ namespace game_framework {
 			_pressing = left;
 		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
 			_pressing = down;
-		else if ((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up)
+		else if	((_playerX >= _pos_x && _playerX <= x) && _playerY - TILE == y && _pressing == up) 
 			_pressing = up;
 		else
 			_pressing = none;
+
 		utiltriggers[press] = false;
-		return _pressing != none;
+		return _pressing != none;;
 	}
 	void Item::Animation(int n, int frame) {
 		if (utiltriggers[triggered]) {
 			_aniType = n;
 			if (n == 0 || n == 1) { //once
-				TRACE("\n\n%d\n", _anidelay);
+				//TRACE("\n\n%d\n", _anidelay);
 				bitmap.SetAnimation(_anidelay, true);
 				_aniFrame = frame;
 				if (n == 0) bitmap.ToggleAnimation();
@@ -586,8 +587,8 @@ namespace game_framework {
 		else if (_name == door_knob) return "door knob";
 		return "";
 	}
-	void Item::IsOnTriPos(bool a) {
-		utiltriggers[onCorrectPos] = a;
+	void Item::SetOnTriPos(bool ontri) {
+		utiltriggers[onCorrectPos] = ontri;
 	}
 	void Item::ResetUtil() {
 		for (int i = 0;i < 8;i++) {

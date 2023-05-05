@@ -12,11 +12,7 @@ namespace game_framework {
 			muscle,
 			strange
 		};
-		enum changeMap {
-			room,
-			hallway
-		};
-		Oni();
+		Oni() = default;
 		~Oni() = default;
 		void init(OniName tp, int step, int moveTime);
 		void SetPos(int x, int y);
@@ -30,32 +26,32 @@ namespace game_framework {
 		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);	// every time oni move, will track first
-		void OnShow();
+		void OnShow(GameMap& map);
 		// every time oni appear, default time is 10 sec
-		void ResetOT();
 		// 10 -> 0 sec, if is 0 sec, 
 		// change stage will make Oni disappear
 		void Countdown();
-		// if change stage, will add 1 sec
-		void ChangeMap();
-		void SetWait();
-		// if change room wait 1 sec, change hallway 0.5 sec
-		void Waiting(changeMap a);
-		bool WaitOver();
+		void AddTime();
+		void SetChangeMap(int x, int y, int id);
+		bool &IsWait() { return _wait; };
+		bool &IsShow() { return _isShow; };
+		bool &Once() { return _changemaponceprocess ;};
+		int& GetOverTimer() { return _overTime; }
 		bool isCatch();  // collide
-		void SetVanish();
 		void ResetOni();
-		void SetMapID(int id);
-		int GetMapID() const ;
-		
 	private:
 		
 		int _humanX, _humanY, 
 			_step, _moveTime, _overTime, 
-			_offsetX, _offsetY, _mapID;
-		bool _isDisappear;
+			_offsetX, _offsetY;
+		int _nextx;
+		int _nexty; 
+		int _mapID;
+		bool _isShow;
 		bool _walkiter;
 		bool _wait;
+		bool _changemaponceprocess;
+		bool GonnaGiveUpSoSadUntilTheNextMap;
 		OniName _type;
 		bstate _bstate;
 		Direction _nowmove;
