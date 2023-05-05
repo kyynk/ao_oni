@@ -164,7 +164,7 @@ namespace game_framework {
 		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
 		events.at(LIB_KEY_CHASE).SetParam({}, -1, -1);
 		//dialogs
-		dialogs.resize(33);
+		dialogs.resize(34);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -606,8 +606,6 @@ namespace game_framework {
 		else if (_nowID == 20) {
 			items.at(OIL).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(OIL).OnMove();
-
-			human_mika.SetDirection(Entity::up);
 			human_mika.SetPos(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
 			objs.at(house1_2F_TL_chair).StorePlayerPos(player.GetX(), player.GetY());
@@ -834,6 +832,8 @@ namespace game_framework {
 			else if (_nowID == 20) {
 				items.at(OIL).OnKeyDown(nChar);
 				objs.at(obj_move::house1_2F_TL_chair).OnKeyDown(nChar);
+				human_mika.StorePlayerPos(player.GetX(),player.GetY());
+				human_mika.OnKeyDown(nChar);
 			}
 			else if (_nowID == 21) {
 				items.at(BOOKCASE_MAP21).OnKeyDown(nChar);
@@ -873,6 +873,7 @@ namespace game_framework {
 						
 					}
 				}
+				
 			}
 		}
 	}
@@ -1393,23 +1394,27 @@ namespace game_framework {
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			objs.at(obj_move::house1_2F_TL_chair).OnShow();
-			if (human_mika.Trigger()&&
-				!events.at(MIKA_SCARE_E).IsTriggered()
-				) {
+			if (human_mika.Trigger()&&!events.at(MIKA_SCARE_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
-				
+				human_mika.SetDirection(Entity::up);
+				human_mika.Trigger() = false;
 			}
-			//TRACE("%d\n", dialogs.at(28).Choice());
-			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::yes && !events.at(MIKA_NOTOK_E).IsTriggered()) {
-				SetEventTriggeredDialog(MIKA_NOTOK_E);
+			if (events.at(MIKA_SCARE_E).IsTriggered()) {
+				if (dialogs.at(28).Choice() == Dialog::yes && !events.at(MIKA_NOTOK_E).IsTriggered()) {
+					SetEventTriggeredDialog(MIKA_NOTOK_E);
+					human_mika.Trigger() = false;
+				}
+				if (dialogs.at(28).Choice() == Dialog::no && !events.at(MIKA_OK_E).IsTriggered()) {
+					SetEventTriggeredDialog(MIKA_OK_E);
+					human_mika.Trigger() = false;
+				}
 			}
-			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::no && !events.at(MIKA_OK_E).IsTriggered()) {
-				SetEventTriggeredDialog(MIKA_OK_E);
+			if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && 
+				!events.at(MIKA_REPEAT_E).IsTriggered() && human_mika.Trigger()) {
+				SetEventTriggeredDialog(MIKA_REPEAT_E);
+				human_mika.Trigger() = false;
+				events.at(MIKA_REPEAT_E).SetTriggered(false);
 			}
-			//if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && !events.at(MIKA_REPEAT_E).IsTriggered()) {
-			//	SetEventTriggeredDialog(MIKA_REPEAT_E);
-
-			//}
 		}
 		else if (_nowID == 21) {
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
@@ -1537,6 +1542,7 @@ namespace game_framework {
 			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
 			player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
 			CTextDraw::Print(pDC, 0, TILE * 11, to_string(normal_oni.GetOverTimer()));
+			(human_mika.Trigger()) ? CTextDraw::Print(pDC, 0, TILE * 12, "mkia ahhhh") : CTextDraw::Print(pDC, 0, TILE * 12, "mika nnnnnnahhh");
 			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
 			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +

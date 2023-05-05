@@ -29,22 +29,35 @@ namespace game_framework {
 	}
 	void Human::OnKeyDown(UINT nChar) {
 		if (nChar == VK_SPACE) {
-			_pressspace = true;
+			if (Collide() && !_trigger ) {
+				_trigger = true;
+			}
+		
+		}
+		else if (nChar == VK_LEFT) {
+			_pressing = left;
+		}
+		else if (nChar == VK_UP) {
+			_pressing = up;
+		}
+		else if (nChar == VK_RIGHT) {
+			_pressing = right;
+		}
+		else if (nChar == VK_DOWN) {
+			_pressing = down;
 		}
 	}
 	bool Human::Collide() const {
+		
 		if ((_playerX + TILE == _pos_x && _playerY == GetY() && _pressing == right) ||
 			(_playerX - TILE == _pos_x && _playerY == GetY() && _pressing == left) ||
 			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == down) ||
-			(_playerX == _pos_x && _playerY + TILE == GetY() && _pressing == up)) {
+			(_playerX == _pos_x && _playerY - TILE == GetY() && _pressing == up)) {
 			return true;
 		}
 		return false;
 	}
 	void Human::OnMove() {
-		if (_pressing&& Collide()) {
-			_trigger = true;
-		}
 		if (_direction == up) {
 			bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
 		}
