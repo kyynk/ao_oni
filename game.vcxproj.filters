@@ -204,5 +204,6 @@
     <None Include="RES\GAME.RC2">
       <Filter>Resource</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

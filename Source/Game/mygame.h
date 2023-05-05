@@ -106,7 +106,8 @@ namespace game_framework {
 		MIKA_SCARE_E,
 		MIKA_OK_E,
 		MIKA_NOTOK_E,
-		MIKA_REPEAT_E
+		MIKA_REPEAT_E,
+		LIB_KEY_CHASE
 	};
 	enum item_name {
 		TOILET,
@@ -154,13 +155,13 @@ namespace game_framework {
 		void OnKeyDown(UINT, UINT, UINT);
 		void OnKeyUp(UINT, UINT, UINT);
 		void OnLButtonDown(UINT nFlags, CPoint point);  
-		void OnLButtonUp(UINT nFlags, CPoint point);	
 		void OnMouseMove(UINT nFlags, CPoint point);	
 		void OnRButtonDown(UINT nFlags, CPoint point);  
 	protected:
 		void OnMove();
 		void OnShow();								
 	private:
+		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
 		//game
@@ -171,8 +172,8 @@ namespace game_framework {
 		Human human_mika;
 		Human human_takeshi;
 		Human human_takuro;
-		Oni oni1;
 		Interface game_interface;
+		Oni normal_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
@@ -189,6 +190,7 @@ namespace game_framework {
 		vector<vector<int>> blockTeleportCor; //x y nowID
 		vector<int> mapoverlayindex;
 		MapRouter router;
+		bool gameonce;
 		//dev related
 		int mousex, mousey;
 		int mousex_foc,mousey_foc;

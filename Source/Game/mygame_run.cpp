@@ -162,8 +162,9 @@ namespace game_framework {
 		events.at(MIKA_NOTOK_E).SetParam({}, 29, 2);
 		events.at(MIKA_OK_E).SetParam({}, 31, 1);
 		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
+		events.at(LIB_KEY_CHASE).SetParam({}, -1, -1);
 		//dialogs
-		dialogs.resize(33);
+		dialogs.resize(34);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -263,7 +264,6 @@ namespace game_framework {
 	{
 		_substate = OnWalking;
 		boolpspace = true;
-		oni1.SetXY(10 * TILE, 11 * TILE + 80);
 		mousex_foc = 0;
 		mousey_foc = 0;
 		isdebugmode = true;
@@ -283,9 +283,9 @@ namespace game_framework {
 		human_takeshi.SetPos(13 * TILE,14 * TILE);
 		human_takuro.init(-1, 16, Entity::down);
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
-		oni1.init(Oni::normal, 4, 8);
+		normal_oni.init(Oni::normal, 4, 8);
 		//redChair.Reset();
-		oni1.SetPos(11 * TILE, 13 * TILE);
+		//normal_oni.SetPos(11 * TILE, 10 * TILE);
 		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
@@ -345,6 +345,10 @@ namespace game_framework {
 		}
 		if ((player.IsMapChanged() && player.IsSwitchMap())) {
 			_nowID = player.NextMapID();
+			if (normal_oni.IsShow()) {
+				normal_oni.Once() = true;
+				normal_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
+			}
 		}
 		if (_substate != OnDialogs) {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
@@ -474,6 +478,7 @@ namespace game_framework {
 				items.at(TATAMI_L).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TATAMI_L).OnMove();
 			}
+
 		}
 		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).StorePlayerPos(player.GetX(), player.GetY());
@@ -610,8 +615,6 @@ namespace game_framework {
 		else if (_nowID == 20) {
 			items.at(OIL).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(OIL).OnMove();
-
-			human_mika.SetDirection(Entity::up);
 			human_mika.SetPos(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
 			objs.at(house1_2F_TL_chair).StorePlayerPos(player.GetX(), player.GetY());
@@ -658,12 +661,16 @@ namespace game_framework {
 			}
 		}
 		// Item end
-		oni1.SetPlayerPos(player.GetX(), player.GetY());
-		if (oni1.isCatch()) {
-			//GotoGameState(GAME_STATE_OVER);
-		}
-		else {
-			oni1.OnMove(gamemaps.at(_nowID));
+		if (normal_oni.IsShow() && !normal_oni.IsWait()) {
+			normal_oni.SetPlayerPos(player.GetX(), player.GetY());
+			if (normal_oni.isCatch()) {
+				normal_oni.ResetOni();
+				GotoGameState(GAME_STATE_OVER);
+			}
+			else {
+				normal_oni.OnMove(gamemaps.at(_nowID));
+			}
+
 		}
 	}
 
@@ -845,6 +852,8 @@ namespace game_framework {
 			else if (_nowID == 20) {
 				items.at(OIL).OnKeyDown(nChar);
 				objs.at(obj_move::house1_2F_TL_chair).OnKeyDown(nChar);
+				human_mika.StorePlayerPos(player.GetX(),player.GetY());
+				human_mika.OnKeyDown(nChar);
 			}
 			else if (_nowID == 21) {
 				items.at(BOOKCASE_MAP21).OnKeyDown(nChar);
@@ -872,35 +881,40 @@ namespace game_framework {
 							events.at(START_EVENT_E).IsTransMap() = true;
 							player.SetNextMap(0, 3, 5);
 						}
+						if (_dialogID == 17) {
+							events.at(LIB_KEY_CHASE).SetTriggered(true);
+							normal_oni.SetPos(11 * TILE, 10 * TILE);
+							normal_oni.IsShow() = true;
+						}
+						_substate = OnWalking;
 						_dialogcount = 0;
 						_dialogID = -1;
 						_eventID = -1;
-						_substate = OnWalking;
+						
 					}
 				}
+				
 			}
-			
 		}
 	}
 
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		if (_substate == OnWalking) {
-			player.OnKeyUp(nChar);
-			if (_nowID == 0) {
-				if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
-					objs.at(obj_move::house1_basement2_chair).OnKeyUp(nChar);
-			}
-			else if (_nowID == 1) {
+		player.OnKeyUp(nChar);
+		if (_nowID == 0) {
+			if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 				objs.at(obj_move::house1_basement2_chair).OnKeyUp(nChar);
-			}
-			else if (_nowID == 14) {
-				objs.at(obj_move::house1_2F_TR_chair).OnKeyUp(nChar);
-			}
-			else if (_nowID == 20) {
-				objs.at(obj_move::house1_2F_TL_chair).OnKeyUp(nChar);
-			}
 		}
+		else if (_nowID == 1) {
+			objs.at(obj_move::house1_basement2_chair).OnKeyUp(nChar);
+		}
+		else if (_nowID == 14) {
+			objs.at(obj_move::house1_2F_TR_chair).OnKeyUp(nChar);
+		}
+		else if (_nowID == 20) {
+			objs.at(obj_move::house1_2F_TL_chair).OnKeyUp(nChar);
+		}
+		
 	}
 
 	void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)
@@ -925,10 +939,6 @@ namespace game_framework {
 				TRACE("\n please specify istwoway?(oneway/twoway)(7/8)\n");
 			}
 		}
-	}
-
-	void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)
-	{
 	}
 
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)
@@ -965,18 +975,98 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID >= 2 && _dialogID <= 11)) {
-			gamemaps.at(_nowID).ShowMapAll(player, mapoverlayindex.at(_nowID));
+		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 21) {
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
-			items.at(KEY_JAIL).OnShow();
-			items.at(BOOKCASE_L).OnShow();
-			items.at(BOOKCASE_R).OnShow();
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).OnShow();
 			}
 			else {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
+			}
+			int humany = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
+			int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
+			bool ishumanshowed = true;
+			bool isonishowed = true;
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == 2) {
+					items.at(KEY_JAIL).OnShow();
+					items.at(BOOKCASE_L).OnShow();
+					items.at(BOOKCASE_R).OnShow();
+				}
+				if (i == 2 && (ishumanshowed || isonishowed)) {
+					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 8 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+					}
+					else if (oniy < 8 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+					}
+				}
+				else if (i == 3 && (ishumanshowed || isonishowed)) {
+					if (humany < 13 && oniy < 13 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 13 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (oniy < 13 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+
+					}
+				}
+				else if (i == 4 && (ishumanshowed || isonishowed)) {
+					if (ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+
+					}
+				}
+				
 			}
 		}
 		else if (_nowID == 1) {
@@ -999,7 +1089,14 @@ namespace game_framework {
 		}
 		else if (_nowID == 6) {
 			items.at(DOOR_ONI).EventTrigger();
-			items.at(DOOR_ONI).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(DOOR_ONI).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
+
 		}
 		else if (_nowID == 7) {
 			objs.at(obj_move::house1_2F_TR_chair).ChangeMap();
@@ -1011,11 +1108,16 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 10) {
-			items.at(LIGHTER).OnShow();
-			items.at(TATAMI_R).OnShow();
-			if (items.at(LIGHTER).IsPick()) {
-				items.at(TATAMI_L).OnShow();
-
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(LIGHTER).OnShow();
+					items.at(TATAMI_R).OnShow();
+					if (items.at(LIGHTER).IsPick()) {
+						items.at(TATAMI_L).OnShow();
+					}
+					ShowOniAndPlayer();
+				}
 			}
 			if (items.at(LIGHTER).IsPick() && !events.at(LIGHTER_E).IsTriggered()) {
 				SetEventTriggeredDialog(LIGHTER_E);
@@ -1032,6 +1134,131 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 12) {
+			int humany = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
+			int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
+			bool ishumanshowed = true;
+			bool isonishowed = true;
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+
+				if (i == 4 && (ishumanshowed || isonishowed)) {
+					if (humany < 4 && oniy < 4 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 4 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+					}
+					else if (oniy < 4 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+					}
+				}
+
+				else if (i == 5 && (ishumanshowed || isonishowed)) {
+					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 8 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (oniy < 8 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+
+					}
+				}
+				else if (i == 6 && (ishumanshowed || isonishowed)) {
+					if (humany < 12 && oniy < 12 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 12 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (oniy < 12 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+
+					}
+				}
+				else  if (i == 7 && (ishumanshowed || isonishowed)) {
+					if (humany < 15 && oniy < 15 && ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (humany < 15 && ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (oniy < 15 && isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+					}
+				}
+				else  if (i == 8 && (ishumanshowed || isonishowed)) {
+					if (ishumanshowed && isonishowed) {
+						if (humany < oniy) {
+							player.OnShow();
+							normal_oni.OnShow(gamemaps.at(_nowID));
+						}
+						else {
+							normal_oni.OnShow(gamemaps.at(_nowID));
+							player.OnShow();
+						}
+						ishumanshowed = false;
+						isonishowed = false;
+					}
+					else if (ishumanshowed) {
+						player.OnShow();
+						ishumanshowed = false;
+
+					}
+					else if (isonishowed) {
+						normal_oni.OnShow(gamemaps.at(_nowID));
+						isonishowed = false;
+					}
+				}
+			}
 			items.at(LIB_BOOK).OnShow();
 			if (items.at(LIB_BOOK).IsFixed()) {
 				items.at(KEY_3F_L).OnShow();
@@ -1129,16 +1356,31 @@ namespace game_framework {
 			//TRACE("\n\nindex %d\n\n", items.at(CLOSET_HIROSI_R).GetBitMapIndex());
 		}
 		else if (_nowID == 15) {
-			if (!items.at(DOOR_KNOB).IsPick())
-				items.at(DOOR_KNOB).OnShow();
-			if (items.at(DOOR_KNOB).IsPick())
-				items.at(DOOR_NO_KNOB).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					if (!items.at(DOOR_KNOB).IsPick()) {
+						items.at(DOOR_KNOB).OnShow();
+					}
+					if (items.at(DOOR_KNOB).IsPick()) {
+						items.at(DOOR_NO_KNOB).OnShow();
+					}
+					ShowOniAndPlayer();
+					
+				}
+			}
 		}
 		else if (_nowID == 16) {
 			items.at(BED).OnShow();
 		}
 		else if (_nowID == 17) {
-			items.at(WHITE_BOOKCASE).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(WHITE_BOOKCASE).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
 		}
 		else if (_nowID == 18) {
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
@@ -1156,8 +1398,14 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 19) {
-			items.at(TOILET).OnShow();
-			items.at(DETERGENT).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(DETERGENT).OnShow();
+					items.at(TOILET).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
 			if (items.at(DETERGENT).IsPick() && !events.at(DETERGENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(DETERGENT_E);
 			}
@@ -1165,30 +1413,44 @@ namespace game_framework {
 		else if (_nowID == 20) {
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
-			objs.at(obj_move::house1_2F_TL_chair).OnShow();
-			if ((player.GetX()-gamemaps.at(_nowID).GetX()) / TILE == 0 && 
-				(player.GetY()-gamemaps.at(_nowID).GetY()) / TILE == 8 && 
-				!events.at(MIKA_SCARE_E).IsTriggered()&&
-				(player.GetX() - gamemaps.at(_nowID).GetX()) % TILE == 0&&
-				(player.GetY() - gamemaps.at(_nowID).GetY()) % TILE == 0
-				) {
-				SetEventTriggeredDialog(MIKA_SCARE_E);
-				
+			if (_dialogID>=25 && _dialogID<=32) {
+				human_mika.SetDirection(Entity::up);
 			}
-			//TRACE("%d\n", dialogs.at(28).Choice());
-			if (events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::yes && !events.at(MIKA_NOTOK_E).IsTriggered()) {
-				SetEventTriggeredDialog(MIKA_NOTOK_E);
-			}
-			if(events.at(MIKA_SCARE_E).IsTriggered() && dialogs.at(28).Choice() == Dialog::no && !events.at(MIKA_OK_E).IsTriggered()) {
-				SetEventTriggeredDialog(MIKA_OK_E);
-			}
-			//if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && !events.at(MIKA_REPEAT_E).IsTriggered()) {
-			//	SetEventTriggeredDialog(MIKA_REPEAT_E);
+			else {
+				human_mika.SetDirection(Entity::down);
 
-			//}
+			}
+			objs.at(obj_move::house1_2F_TL_chair).OnShow();
+			if (human_mika.Trigger()&&!events.at(MIKA_SCARE_E).IsTriggered()) {
+				SetEventTriggeredDialog(MIKA_SCARE_E);
+				human_mika.SetDirection(Entity::up);
+				human_mika.Trigger() = false;
+			}
+			if (events.at(MIKA_SCARE_E).IsTriggered()) {
+				if (dialogs.at(28).Choice() == Dialog::yes && !events.at(MIKA_NOTOK_E).IsTriggered()) {
+					SetEventTriggeredDialog(MIKA_NOTOK_E);
+					human_mika.Trigger() = false;
+				}
+				if (dialogs.at(28).Choice() == Dialog::no && !events.at(MIKA_OK_E).IsTriggered()) {
+					SetEventTriggeredDialog(MIKA_OK_E);
+					human_mika.Trigger() = false;
+				}
+			}
+			if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && 
+				!events.at(MIKA_REPEAT_E).IsTriggered() && human_mika.Trigger()) {
+				SetEventTriggeredDialog(MIKA_REPEAT_E);
+				human_mika.Trigger() = false;
+				events.at(MIKA_REPEAT_E).SetTriggered(false);
+			}
 		}
 		else if (_nowID == 21) {
-			items.at(BOOKCASE_MAP21).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(BOOKCASE_MAP21).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
 		}
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
@@ -1208,7 +1470,16 @@ namespace game_framework {
 			game_interface.ShowTotal();
 		}
 	}
-	
+	void CGameStateRun::ShowOniAndPlayer() {
+		if (normal_oni.GetPosD() > player.GetD()) {
+			player.OnShow();
+			normal_oni.OnShow(gamemaps.at(_nowID));
+		}
+		else {
+			normal_oni.OnShow(gamemaps.at(_nowID));
+			player.OnShow();
+		}
+	}
 	void CGameStateRun::SetEventTriggeredDialog(int eventid)
 	{
 		_eventID = eventid;
@@ -1304,6 +1575,8 @@ namespace game_framework {
 			player.IsTimerStart()? CTextDraw::Print(pDC, 0, TILE * 8, "timer start") : CTextDraw::Print(pDC, 0, TILE * 8, "timer stop");
 			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
 			player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
+			CTextDraw::Print(pDC, 0, TILE * 11, to_string(normal_oni.GetOverTimer()));
+			(human_mika.Trigger()) ? CTextDraw::Print(pDC, 0, TILE * 12, "mkia ahhhh") : CTextDraw::Print(pDC, 0, TILE * 12, "mika nnnnnnahhh");
 			CTextDraw::Print(pDC, 0, TILE * 17, "     up            :     " + to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetU() - gamemaps.at(_nowID).GetY()) / TILE)));
 			CTextDraw::Print(pDC, 0, TILE * 18, "left    right      : " +
 				to_string(gamemaps.at(_nowID).GetMapData(gamemaps.at(_nowID).indexlayer, (player.GetL() - gamemaps.at(_nowID).GetX()) / TILE, (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE)) +
