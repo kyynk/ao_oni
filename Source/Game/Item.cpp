@@ -587,8 +587,8 @@ namespace game_framework {
 		else if (_name == door_knob) return "door knob";
 		return "";
 	}
-	void Item::IsOnTriPos(bool a) {
-		utiltriggers[onCorrectPos] = a;
+	void Item::SetOnTriPos(bool ontri) {
+		utiltriggers[onCorrectPos] = ontri;
 	}
 	void Item::ResetUtil() {
 		for (int i = 0;i < 8;i++) {

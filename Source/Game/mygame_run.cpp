@@ -469,6 +469,7 @@ namespace game_framework {
 				items.at(TATAMI_L).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TATAMI_L).OnMove();
 			}
+
 		}
 		else if (_nowID == 11) {
 			items.at(BROKEN_DISH).StorePlayerPos(player.GetX(), player.GetY());
@@ -919,7 +920,6 @@ namespace game_framework {
 		}
 	}
 
-
 	void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		mousex = point.x / TILE;
@@ -954,13 +954,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 12 && _nowID != 15 && _nowID !=17 && _nowID !=19) {
+		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 21) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
-			items.at(KEY_JAIL).OnShow();
-			items.at(BOOKCASE_L).OnShow();
-			items.at(BOOKCASE_R).OnShow();
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).OnShow();
 			}
@@ -973,7 +970,11 @@ namespace game_framework {
 			bool isonishowed = true;
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
-
+				if (i == 2) {
+					items.at(KEY_JAIL).OnShow();
+					items.at(BOOKCASE_L).OnShow();
+					items.at(BOOKCASE_R).OnShow();
+				}
 				if (i == 2 && (ishumanshowed || isonishowed)) {
 					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
 						if (humany < oniy) {
@@ -1086,11 +1087,16 @@ namespace game_framework {
 			}
 		}
 		else if (_nowID == 10) {
-			items.at(LIGHTER).OnShow();
-			items.at(TATAMI_R).OnShow();
-			if (items.at(LIGHTER).IsPick()) {
-				items.at(TATAMI_L).OnShow();
-
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(LIGHTER).OnShow();
+					items.at(TATAMI_R).OnShow();
+					if (items.at(LIGHTER).IsPick()) {
+						items.at(TATAMI_L).OnShow();
+					}
+					ShowOniAndPlayer();
+				}
 			}
 			if (items.at(LIGHTER).IsPick() && !events.at(LIGHTER_E).IsTriggered()) {
 				SetEventTriggeredDialog(LIGHTER_E);
@@ -1406,7 +1412,13 @@ namespace game_framework {
 			//}
 		}
 		else if (_nowID == 21) {
-			items.at(BOOKCASE_MAP21).OnShow();
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(BOOKCASE_MAP21).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
 		}
 		else if (_nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
