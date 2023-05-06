@@ -23,6 +23,7 @@ namespace game_framework {
 		_IsEndGame = false;
 		_isPause = false;
 		_isStop = true;
+		_itemsImg.resize(14);
 		for (int i = 0; i < 6; i++) { //key
 			_itemsImg.at(i).LoadBitmapByString({ "img/interface/item/key.bmp" }, RGB(204, 255, 0));
 		}
