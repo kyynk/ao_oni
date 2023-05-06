@@ -27,7 +27,7 @@ namespace game_framework {
 	void Dialog::SetParam(vector<string>  st, bool ch) {
 		_isShow = false;
 		int _posX, _posY;
-		_posX, _posY = 0;
+		_posX = _posY = 0;
 		if (_figurename != "none") {
 			_posX = 64;
 			_posY = 608;
