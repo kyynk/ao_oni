@@ -54,8 +54,12 @@ namespace game_framework {
 				}
 			}
 		}
+		ShowMapTile();
+		
+	}
+	void GameMap::ShowMapTile() {
 		if (isshowtileindex) {
-			CDC *cdc = CDDraw::GetBackCDC();
+			CDC* cdc = CDDraw::GetBackCDC();
 			CTextDraw::ChangeFontLog(cdc, 10, "Noto Sans TC", RGB(255, 255, 255));
 			for (int i = 0; i < _height; i++) {
 				for (int j = 0; j < _width; j++) {

@@ -211,6 +211,15 @@ namespace game_framework {
 			bitmap.ShowBitmap();
 		}
 	}
+	void ObjMove::OnShowConditional()
+	{
+		if (isChangeMap()) {
+			OnShow();
+		}
+		else {
+			ChangeMap();
+		}
+	}
 	void ObjMove::Reset() {
 		SetXY(_resetX - _offsetX, _resetY - _offsetY);
 		bitmap.SetTopLeft(_pos_x, _pos_y);
