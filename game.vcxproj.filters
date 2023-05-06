@@ -79,6 +79,12 @@
     <ClCompile Include="Source\Game\Entity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Password.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Interface.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\ChoiceMenu.h">
@@ -158,6 +164,12 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Entity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Password.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Interface.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
