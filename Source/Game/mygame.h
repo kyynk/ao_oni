@@ -22,6 +22,7 @@
 #include <fstream>
 #include <bitset>
 #include <mmsystem.h>
+#include <string>
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
@@ -33,11 +34,13 @@
 #include "ChoiceMenu.h"
 #include "Item.h"
 #include "ObjMove.h"
+#include "Password.h"
 #include "Dialog.h"
 #include "InputBox.h"
 #include "MainHuman.h"
 #include "Event.h"
 #include "MapRes.h"
+#include "Interface.h"
 namespace game_framework {
 	
 	enum AUDIO_ID {
@@ -79,6 +82,10 @@ namespace game_framework {
 		OnDialogs,
 		OnWalking,
 		OnInputBox
+	};
+	enum pwd_pos {
+		piano,
+		basement
 	};
 	enum obj_move {
 		house1_2F_TR_chair,
@@ -165,10 +172,12 @@ namespace game_framework {
 		Human human_mika;
 		Human human_takeshi;
 		Human human_takuro;
+		Interface game_interface;
 		Oni normal_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
+		vector<Password> pwds;
 		//map related
 		CMovingBitmap mapmask;
 		vector<GameMap> gamemaps;

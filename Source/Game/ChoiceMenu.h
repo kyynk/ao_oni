@@ -4,6 +4,7 @@ namespace game_framework {
 	class ChoiceMenu {
 	public:
 		ChoiceMenu();
+		~ChoiceMenu() = default;
 		int GetSelection() {
 			return _selection;
 		}
