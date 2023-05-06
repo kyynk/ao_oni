@@ -31,6 +31,7 @@ namespace game_framework {
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
+		void OnShowConditional();
 		void Reset();
 		void Fixed();
 		bool isCollide();
