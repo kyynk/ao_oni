@@ -39,7 +39,10 @@ namespace game_framework {
 		// game time counter
 		string GetRealTime();
 		void StorePlayerStep(int step);
-		void StoreItem(string item_name);
+		void StoreItem(string intro, string name, Items item);
+		InterfaceData UseItem();
+		void ChangeItemStatus(string originalName, string intro, string name, int frame_index);
+		void DeleteItem(string name);
 		void ShowCursorStatus();
 		void ShowCursorItem();
 		void ShowCursorSave();
@@ -48,6 +51,7 @@ namespace game_framework {
 		void ShowTextItem(CDC* pDC);
 		void ShowTextSave(CDC* pDC);
 		void ShowTextEnd(CDC* pDC);
+		void ShowItemBitmap();
 		void ShowTotal();
 		void OnKeyDown(UINT nChar);
 		void ResetChoose();
@@ -55,14 +59,16 @@ namespace game_framework {
 		bool IsShow() const;
 		bool IsTitle() const;
 		bool IsEnd() const;
-		
+
 	private:
 		int _cursorX, _cursorY,
 			_boxX, _boxY, _txtX, _txtY,
 			_lineSpacing, _step, 
 			_statusChoose, _itemChoose, 
-			_saveChoose, _endChoose;
-		vector<string> _items;
+			_saveChoose, _endChoose, 
+			_useItemIndex;
+		vector<string> _itemsName;
+		vector<string> _itemsIntro;
 		time_t start_time, pause_time;
 		Status _show;
 		bool _isPause;
@@ -70,6 +76,8 @@ namespace game_framework {
 		bool _isShow;
 		bool _IsGoTitle;
 		bool _IsEndGame;
+		bool _IsUseItem;
+		vector<int> _itemsImgShowIndex;
 		vector<CMovingBitmap> _itemsImg;
 		CMovingBitmap _cursor;
 		CMovingBitmap _status;
