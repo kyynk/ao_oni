@@ -1131,6 +1131,7 @@ namespace game_framework {
 				_dialogID = events.at(_eventID).GetDialogIndex();
 				dialogs.at(_dialogID).SetShow(true);
 				_substate = OnDialogs;
+				game_interface.StoreItem("broken dish", "plate shards", Interface::Items::broken_dish);
 			}
 		}
 		else if (_nowID == 12) {
