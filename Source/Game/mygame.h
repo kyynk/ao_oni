@@ -40,6 +40,7 @@
 #include "MainHuman.h"
 #include "Event.h"
 #include "MapRes.h"
+#include "InterfaceData.h"
 #include "Interface.h"
 namespace game_framework {
 	
