@@ -85,6 +85,9 @@
     <ClCompile Include="Source\Game\Interface.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\InterfaceData.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\ChoiceMenu.h">
@@ -169,6 +172,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Interface.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\InterfaceData.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
