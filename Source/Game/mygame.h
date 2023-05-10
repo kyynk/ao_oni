@@ -168,6 +168,7 @@ namespace game_framework {
 		//game
 		bool boolpspace;
 		int _substate;
+		int _playerStep;
 		vector<Dialog> dialogs;
 		MainHuman player;
 		Human human_mika;

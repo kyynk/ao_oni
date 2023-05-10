@@ -275,6 +275,7 @@ namespace game_framework {
 		_dialogID = -1;
 		_dialogcount = 0;
 		_eventID = 0;
+		_playerStep = 0;
 		player.init(4, 16, Entity::left);
 		player.SetPos(14*TILE, 13 * TILE);
 		human_mika.init(-1, 16,Entity::right);
@@ -337,7 +338,10 @@ namespace game_framework {
 	void CGameStateRun::OnMove()
 	{
 		mapmask.SetTopLeft(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
-
+		if ((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE == 16 || (player.GetY() - gamemaps.at(_nowID).GetY()) % TILE == 16) {
+			_playerStep++;
+			game_interface.StorePlayerStep(_playerStep);
+		}
 		inputbox.OnMove();
 		if (events.at(START_EVENT_E).IsTransMap()) {
 			_nowID = player.NextMapID();
