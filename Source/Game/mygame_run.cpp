@@ -172,6 +172,8 @@ namespace game_framework {
 		events.at(LIB_KEY_CHASE).SetParam({}, -1, -1);
 		events.at(DUMB_TAKESHI_REPEAT_E).SetParam({}, 18, 1);
 		events.at(KEY_2F_TL_E).SetParam({}, 33, 1); // piano pwd
+		events.at(KEY_BASEMENT_E).SetParam({}, 34, 1);
+		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
 		
 		//dialogs
 		dialogs.resize(37);
@@ -252,7 +254,7 @@ namespace game_framework {
 		dialogs.at(35).SetFigure("hirosi");
 		dialogs.at(35).SetParam({ "Gain the jail key" }, false);
 		dialogs.at(36).SetFigure("hirosi");
-		dialogs.at(36).SetParam({ "Gain the ??? key" }, false); // will trigger mika oni with closet
+		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
 
 
 		// objMove
@@ -1097,6 +1099,7 @@ namespace game_framework {
 					else {
 						items.at(BASEMENT_PWD_TAKE).OnShow();
 						//TRACE("\n\ntttttakkkkkkeeee\n\n");
+						//SetEventTriggeredDialog(KEY_ANNEXE_E);
 					}
 					if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 						if (!pwds.at(basement).IsShow()) {
@@ -1361,6 +1364,7 @@ namespace game_framework {
 					else {
 						//TRACE("\nn\n\naaaaa\n\n");
 						items.at(PIANO_PWD_TAKE).OnShow();
+						//SetEventTriggeredDialog(KEY_2F_TL_E);
 					}
 					
 					items.at(WHITE_BOOKCASE).OnShow();
@@ -1446,6 +1450,9 @@ namespace game_framework {
 		}
 		else if( _nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
+			if (items.at(KEY_BASEMENT).IsPick()) {
+				//SetEventTriggeredDialog(KEY_BASEMENT_E);
+			}
 			items.at(GATE).OnShow();
 		}
 		for (int i = 0;i < 33;i++) {
