@@ -41,6 +41,7 @@
 #include "MainHuman.h"
 #include "Event.h"
 #include "MapRes.h"
+#include "InterfaceData.h"
 #include "Interface.h"
 namespace game_framework {
 	
@@ -170,6 +171,7 @@ namespace game_framework {
 		//game
 		bool boolpspace;
 		int _substate;
+		int _playerStep;
 		vector<Dialog> dialogs;
 		MainHuman player;
 		Human human_mika;

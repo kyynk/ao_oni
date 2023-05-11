@@ -7,6 +7,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include "InterfaceData.h"
 #include "Interface.h"
 namespace game_framework {
 	Interface::Interface() = default;
@@ -18,11 +19,13 @@ namespace game_framework {
 		_statusChoose = _itemChoose = _saveChoose = _endChoose = 0;
 		_step = 0;
 		_show = none;
+		_useItemIndex = -1;
 		_isShow = false;
 		_IsGoTitle = false;
 		_IsEndGame = false;
 		_isPause = false;
 		_isStop = true;
+		_IsUseItem = false;
 		_itemsImg.resize(14);
 		for (int i = 0; i < 6; i++) { //key
 			_itemsImg.at(i).LoadBitmapByString({ "img/interface/item/key.bmp" }, RGB(204, 255, 0));
@@ -113,8 +116,41 @@ namespace game_framework {
 	void Interface::StorePlayerStep(int step) {
 		_step = step;
 	}
-	void Interface::StoreItem(string item_name) {
-		_items.push_back(item_name);
+	void Interface::StoreItem(string intro, string name, Items item) {
+		_itemsIntro.push_back(intro);
+		_itemsName.push_back(name);
+		_itemsImgShowIndex.push_back(item);
+	}
+	InterfaceData Interface::UseItem() {
+		return InterfaceData(_itemsIntro.at(_useItemIndex), _itemsName.at(_useItemIndex));
+	}
+	void Interface::ChangeItemStatus(string originalName, string intro, string name, int frame_index) {
+		int change_index = -1;
+		for (int i = 0; i < int(_itemsName.size()); i++) {
+			if (_itemsName.at(i) == originalName) {
+				change_index = i;
+				break;
+			}
+		}
+		if (change_index != -1) {
+			_itemsIntro.at(change_index) = intro;
+			_itemsName.at(change_index) = name;
+			_itemsImg.at(_itemsImgShowIndex.at(change_index)).SetFrameIndexOfBitmap(frame_index);
+		}
+	}
+	void Interface::DeleteItem(string name) {
+		int del_index = -1;
+		for (int i = 0; i < int(_itemsName.size()); i++) {
+			if (_itemsName.at(i) == name) {
+				del_index = i;
+				break;
+			}
+		}
+		if (del_index != -1) {
+			_itemsIntro.erase(_itemsIntro.begin() + del_index);
+			_itemsName.erase(_itemsName.begin() + del_index);
+			_itemsImgShowIndex.erase(_itemsImgShowIndex.begin() + del_index);
+		}
 	}
 	void Interface::ShowCursorStatus() {
 		_cursorX = _boxX + 16;
@@ -171,12 +207,12 @@ namespace game_framework {
 		CTextDraw::Print(pDC, 344, 180 + 2 * _lineSpacing, vec_str.at(9));
 	}
 	void Interface::ShowTextItem(CDC* pDC) {
-		if (int(_items.size()) != 0) {
+		if (int(_itemsIntro.size()) != 0) {
 			CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
-			CTextDraw::Print(pDC, _boxX + 16, _boxY + 20, _items.at(_itemChoose));
-			for (int i = 0; i < int(_items.size()); i++) {
+			CTextDraw::Print(pDC, _boxX + 16, _boxY + 20, _itemsIntro.at(_itemChoose));
+			for (int i = 0; i < int(_itemsName.size()); i++) {
 				CTextDraw::ChangeFontLog(pDC, 16, "Consolas", RGB(255, 255, 255));
-				CTextDraw::Print(pDC, _boxX + 16 + 2 * 32 + (i % 2) * 11 * 32, _boxY + 3 * 32 + (i / 2) * _lineSpacing, _items.at(i));
+				CTextDraw::Print(pDC, _boxX + 16 + 2 * 32 + (i % 2) * 11 * 32, _boxY + 3 * 32 + (i / 2) * _lineSpacing, _itemsName.at(i));
 			}
 		}
 	}
@@ -192,6 +228,12 @@ namespace game_framework {
 			CTextDraw::Print(pDC, _boxX + 9 * 32, _boxY + 6 * 32 + i * _lineSpacing, vec_str.at(i));
 		}
 	}
+	void Interface::ShowItemBitmap() {
+		for (int i = 0; i < int(_itemsImgShowIndex.size()); i++) {
+			_itemsImg.at(_itemsImgShowIndex.at(i)).SetTopLeft(_boxX + 16 + 32 + (i % 2) * 11 * 32, _boxY + 3 * 32 + (i / 2) * _lineSpacing);
+			_itemsImg.at(_itemsImgShowIndex.at(i)).ShowBitmap();
+		}
+	}
 	void Interface::ShowTotal() {
 		if (_show == status) {
 			_status.SetTopLeft(_boxX, _boxY);
@@ -204,8 +246,9 @@ namespace game_framework {
 		else if (_show == item) {
 			_item.SetTopLeft(_boxX, _boxY);
 			_item.ShowBitmap();
-			if (int(_items.size()) != 0) {
+			if (int(_itemsIntro.size()) != 0) {
 				ShowCursorItem();
+				ShowItemBitmap();
 				CDC* pDC = CDDraw::GetBackCDC();
 				ShowTextItem(pDC);
 				CDDraw::ReleaseBackCDC();
@@ -268,6 +311,13 @@ namespace game_framework {
 					ResetChoose();
 				}
 			}
+			else if (_show == item) {
+				if (_itemsIntro.size() != 0) {
+					_useItemIndex = _itemChoose;
+					SetShow(false);
+					ResetChoose();
+				}
+			}
 			else if (_show == end) {
 				if (_endChoose == 0) {
 					_IsGoTitle = true;
@@ -319,7 +369,7 @@ namespace game_framework {
 					_statusChoose++;
 				}
 			}
-			else if (!(_itemChoose + 2 >= int(_items.size()))) {
+			else if (!(_itemChoose + 2 >= int(_itemsName.size()))) {
 				_itemChoose += 2;
 			}
 			else if (_show == end) {
@@ -340,7 +390,7 @@ namespace game_framework {
 		}
 		else if (nChar == VK_RIGHT) {
 			if (_show == item) {
-				if (!(_itemChoose + 1 >= int(_items.size()))) {
+				if (!(_itemChoose + 1 >= int(_itemsName.size()))) {
 					_itemChoose++;
 				}
 			}
