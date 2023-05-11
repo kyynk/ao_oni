@@ -990,9 +990,9 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		if (_nowID == 0) {
-			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
-			normal_oni.CMPY() = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
-			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE;
+			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) ;
+			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY() ;
+			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) ;
 			//int humany = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
 			//int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
 			//int chairy = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE;
@@ -1008,7 +1008,7 @@ namespace game_framework {
 			bool ishumanshowed = true;
 			bool isonishowed = normal_oni.IsShow();
 			bool isFUCKINGchairshowed = true;*/
-
+			bool trishow[3] = { true,true,true };
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == 2) {
@@ -1016,13 +1016,15 @@ namespace game_framework {
 					items.at(BOOKCASE_R).OnShow();
 				}
 				for (int j = 0; j < 3; j++) {
-					if ((i == 2 && entities[j]->CMPY() < 8) || (i == 3 && entities[j]->CMPY() < 13) || i == 4) {
+					if (((i == 2 && entities[j]->CMPY() < 8) || (i == 3 && entities[j]->CMPY() < 13) || i == 4) && trishow[j]) {
 						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
-							(obj->*funcPtr)();
+							obj->OnShowConditional();
+
 						}
 						else {
 							entities[j]->OnShow();
 						}
+						trishow[j] = false;
 					}
 				}
 				//if (i == 2 && (ishumanshowed || isonishowed || isFUCKINGchairshowed)) {
@@ -1161,6 +1163,9 @@ namespace game_framework {
 				//	}
 				//}
 			}
+			TRACE("%d %d %d \n", entities[0]->CMPY(), entities[1]->CMPY(), entities[2]->CMPY());
+			TRACE("%s %s %s \n", entities[0]->ObjClass().c_str(), entities[1]->ObjClass().c_str(), entities[2]->ObjClass().c_str());
+			
 			values.clear();
 			entities.clear();
 			entityFuncs.clear();

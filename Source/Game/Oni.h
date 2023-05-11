@@ -24,6 +24,7 @@ namespace game_framework {
 		int GetPosU() const;
 		int GetPosR() const;
 		int GetPosD() const;
+		int GetOffsetY() const { return _offsetY; }
 		void Load(string filename, COLORREF color);
 		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
