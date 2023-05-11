@@ -151,7 +151,7 @@ namespace game_framework {
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
-		events.at(START_EVENT2_E).SetParam({}, 10,3);
+		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
 		events.at(KEY_LIB_E).SetParam({}, 13, 1);
 		events.at(DETERGENT_E).SetParam({}, 14, 1);
 		events.at(PHILLIPS_E).SetParam({}, 15, 1);
@@ -708,14 +708,13 @@ namespace game_framework {
 				}
 				if (nChar == KEY_O) {
 					if (router.Gaming()) {
+						router.copypath();
 						router.SetAllPathFalse();
 					}
 					else {
-						router.SetAllPathGaming();
-						//router.debugF();
+						router.Restore();
 					}
 					router.Gaming() = !router.Gaming();
-
 				}
 				if (nChar == KEY_I) {
 					gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;

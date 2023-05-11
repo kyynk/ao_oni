@@ -10,8 +10,10 @@ namespace game_framework {
 		}
 		~MapRouter() {}
 		void init();
-		void SetAllPathGaming();
+		void copypath();
+		void Restore();
 		void SetAllPathFalse();
+		void SetAllPathTrue();
 		void Load(string filename);
 		void debugF();
 		void debug();
