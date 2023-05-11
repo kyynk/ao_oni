@@ -2,6 +2,7 @@
 namespace game_framework {
 	class ObjMove : public Entity {
 	public:
+
 		enum ObjName {
 			no,
 			house1_2F_TL_chair,
@@ -31,6 +32,7 @@ namespace game_framework {
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
+		void OnShowConditional();
 		void Reset();
 		void Fixed();
 		bool isCollide();

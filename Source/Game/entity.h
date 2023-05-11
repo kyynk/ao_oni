@@ -60,8 +60,12 @@ namespace game_framework {
 		bool IsTimerStart() {
 			return _istimerstart;
 		}
+		int& CMPY() { return _cmp_y; }
+		string &ObjClass() { return _objclass; }
+		virtual void OnShow() = 0;
 		CMovingBitmap bitmap;
 	protected:
+
 		double getClockInterval(clock_t start) {
 			return (clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
 		}
@@ -70,5 +74,7 @@ namespace game_framework {
 		int _pos_x, _pos_y;
 		int _counter;
 		bool _istimerstart;
+		int _cmp_y;
+		string _objclass;
 	};
 }
