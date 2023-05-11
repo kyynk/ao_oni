@@ -32,7 +32,7 @@ namespace game_framework {
 			SetTrigger();
 			Animation(3, 0);
 		}
-		else if (_name == key_2F_TL) {
+		else if (_name == key_2F_TL || _name == key_annexe) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/password/pwd_key" + to_string(i) + ".bmp");
 			}
@@ -42,13 +42,6 @@ namespace game_framework {
 		else if (_name == key_jail) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/jail_key/jail_key" + to_string(i) + ".bmp");
-			}
-			SetTrigger();
-			Animation(3, 0);
-		}
-		else if (_name == key_annexe) {
-			for (int i = 0; i < 4; i++) {
-				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
 			}
 			SetTrigger();
 			Animation(3, 0);
