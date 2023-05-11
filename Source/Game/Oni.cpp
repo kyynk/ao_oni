@@ -59,6 +59,7 @@ namespace game_framework {
 	int Oni::GetPosY() const {
 		return _pos_y;
 	}
+	
 	int Oni::GetPosL() const {
 		return _pos_x + _offsetX - TILE;
 	}
