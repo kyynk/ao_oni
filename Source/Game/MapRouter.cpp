@@ -19,13 +19,38 @@ namespace game_framework {
 	void MapRouter::init()
 	{
 		memset(_record, 0, sizeof(_record));
+		SetAllPathTrue();
+	}
+	void MapRouter::copypath() {
+		for (int i = 0;i < 65;i++) {
+			for (int j = 0;j < 6;j++) {
+				_pathblockedcopy[i][j] = _pathblocked[i][j];
+			}
+		}
+	}
+	void MapRouter::Restore() {
+
+		for (int i = 0;i < 65;i++) {
+			for (int j = 0;j < 6;j++) {
+				_pathblocked[i][j] = _pathblockedcopy[i][j];
+			}
+		}
+	}
+	void MapRouter::SetAllPathFalse() {
+
 		for (int i = 0;i < 65;i++) {
 			for (int j = 0;j < 6;j++) {
 				_pathblocked[i][j] = false;
 			}
 		}
-		
+	}
+	void MapRouter::SetAllPathTrue() {
 
+		for (int i = 0;i < 65;i++) {
+			for (int j = 0;j < 6;j++) {
+				_pathblocked[i][j] = true;
+			}
+		}
 	}
 	void MapRouter::Load(string filename)
 	{
@@ -71,7 +96,16 @@ namespace game_framework {
 			}
 		}
 	}
+	void MapRouter::debugF() {
+		for (int i = 0;i < 65;i++) {
+			TRACE("%d \n", i);
+			for (int j = 0; j < _record[i];j++) {
+				if (_pathblocked[i][j])TRACE("num %d ok\n",_data[i][j].GetID());
+				else TRACE("num %d FuckYou\n",_data[i][j].GetID());
 
+			}
+		}
+	}
 	void MapRouter::debug()
 	{
 		for (int i = 0; i < 65; i++) {
@@ -83,15 +117,36 @@ namespace game_framework {
 	}
 	void MapRouter::BlockPath(int x, int y)
 	{
-		_pathblocked[x][y] = true;
+		for (int i = 0;i < _record[x];i++) {
+			if (_data[x][i].GetID() == y) {
+				_pathblocked[x][i] = true;
+				break;
+			}
+		}
 	}
 	void MapRouter::UnblockPath(int x, int y)
 	{
-		_pathblocked[x][y] = false;
+		for (int i = 0;i < _record[x];i++) {
+			if (_data[x][i].GetID() == y) {
+				_pathblocked[x][i] = false;
+				break;
+			}
+		}
+		for (int i = 0;i < _record[y];i++) {
+			if (_data[y][i].GetID() == x) {
+				_pathblocked[y][i] = false;
+				break;
+			}
+		}
 	}
 	bool MapRouter::IsPathBlocked(int x, int y)
 	{
-		return _pathblocked[x][y];
+		for (int i = 0;i < _record[x];i++) {
+			if (_data[x][i].GetID() == y) {
+				return _pathblocked[x][i];
+			}
+		}
+		return true;
 	}
 
 }
