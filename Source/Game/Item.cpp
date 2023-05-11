@@ -25,28 +25,7 @@ namespace game_framework {
 		if (_name == lib_book) {
 			bitmapName.push_back("img/item_animation/lib_book/lib_book.bmp");
 		}
-		else if (_name == key_lib) {
-			for (int i = 0; i < 4; i++) {
-				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
-			}
-			SetTrigger();
-			Animation(3, 0);
-		}
-		else if (_name == key_3F_L) {
-			for (int i = 0; i < 4; i++) {
-				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
-			}
-			SetTrigger();
-			Animation(3, 0);
-		}
-		else if (_name == key_2F_TL) {
-			for (int i = 0; i < 4; i++) {
-				bitmapName.push_back("img/item_animation/box_key/key" + to_string(i) + ".bmp");
-			}
-			SetTrigger();
-			Animation(3, 0);
-		}
-		else if (_name == key_basement) {
+		else if (_name == key_lib || _name == key_3F_L || _name == key_2F_TL || _name == key_basement) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
 			}
@@ -135,10 +114,7 @@ namespace game_framework {
 		else if (_name == bed) {	
 			bitmapName.push_back("img/item_animation/bed/bed.bmp");
 		}
-		else if (_name == bookcase_l) {
-			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
-		}
-		else if (_name == bookcase_r) {
+		else if (_name == bookcase_l || _name == bookcase_r) {
 			bitmapName.push_back("img/item_animation/bookcase/bookcase.bmp");
 		}
 		else if (_name == white_bookcase) {
@@ -598,6 +574,16 @@ namespace game_framework {
 			utiltriggers[i] = false;
 		}
 		utiltriggers[close] = true; 
+		/*SetTrigger();
+		Animation(2, 0);*/
+		TRACE("\n\n bitmap index %d\n\n", bitmap.GetFrameSizeOfBitmap());
+		if (bitmap.GetFrameSizeOfBitmap() != 0) {
+			bitmap.SetFrameIndexOfBitmap(0);
+			if (_name == key_lib || _name == key_3F_L || _name == key_2F_TL || _name == key_basement || _name == key_jail || _name == key_annexe || _name == phillips || _name == closet_takesi_1) {
+				SetTrigger();
+				Animation(3, 0);
+			}
+		}
 	}
 	void Item::SetIsPick(bool p) {
 		utiltriggers[pick] = p;

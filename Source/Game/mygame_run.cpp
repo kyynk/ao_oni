@@ -110,7 +110,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(50);
+		items.resize(36);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -247,9 +247,9 @@ namespace game_framework {
 		// password
 		pwds.resize(2);
 		pwds.at(piano).SetParam("1234"); // should change
-		pwds.at(piano).SetShow(false);
+		pwds.at(piano).SetShow(true);
 		pwds.at(basement).SetParam("1234"); // should change
-		pwds.at(basement).SetShow(false);
+		pwds.at(basement).SetShow(true);
 		// interface
 		game_interface.init();
 		game_interface.StartCount();
@@ -335,6 +335,10 @@ namespace game_framework {
 		items.at(DOOR_OPEN).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_DIE).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_HALF).SetXY(10 * TILE, 10 * TILE);
+		
+		for (int i = 0; i < int(items.size()); i++) {
+			items.at(i).ResetUtil();
+		}
 	}
 
 	void CGameStateRun::OnMove()
@@ -368,36 +372,27 @@ namespace game_framework {
 			if (items.at(BOOKCASE_L).IsFixed()) {
 				items.at(BOOKCASE_R).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(BOOKCASE_R).OnMove();
-
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);				//DL
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);		//DM
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//DR
-
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				for (int i = 0; i < 3; i++) { // DL, DM, DR
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_L).GetPosX() + i * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_L).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				}
 			}
 			else {
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_L).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				for (int i = 0; i < 3; i++) { // DL, DM, DR
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_L).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+					// (reset)
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_L).GetPosX() - (i + 1) * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				}
 			}
 			if (!items.at(BOOKCASE_R).IsFixed()) {
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_R).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_R).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
-				gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BOOKCASE_R).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				for (int i = 0; i < 3; i++) { // DL, DM, DR
+					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BOOKCASE_R).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				}
 			}
 			else {
 				if (items.at(BOOKCASE_R).IsFixed()) {		//if use "Y" and "I" will see next line first posX = 0
@@ -405,23 +400,17 @@ namespace game_framework {
 						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
 							(items.at(BOOKCASE_R).GetPosX() + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);				//DL (reset)
 					}
-					if ((items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14 &&
-						(items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 13) {
-						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-							(items.at(BOOKCASE_R).GetPosX() + TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);		//DM (reset)
+					for (int i = 1; i < 3; i++) { // DM, DR (reset)
+						if ((items.at(BOOKCASE_R).GetPosX() + i * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14 &&
+							(items.at(BOOKCASE_R).GetPosX() + i * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 13) {
+							gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+								(items.at(BOOKCASE_R).GetPosX() + i * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+						}
 					}
-					if ((items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 14 &&
-						(items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE != 13) {
+					for (int i = 0; i < 3; i++) { // DL, DM, DR
 						gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-							(items.at(BOOKCASE_R).GetPosX() + 2 * TILE + 3 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//DR (reset)
+							(items.at(BOOKCASE_R).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
 					}
-
-					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-						(items.at(BOOKCASE_R).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);				//DL
-					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-						(items.at(BOOKCASE_R).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);		//DM
-					gamemaps.at(_nowID).SetMapData(0, (6 * TILE - gamemaps.at(_nowID).GetY()) / TILE,
-						(items.at(BOOKCASE_R).GetPosX() + 2 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
 				}
 			}
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
@@ -572,27 +561,27 @@ namespace game_framework {
 			items.at(BED).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BED).OnMove();
 			if (!items.at(BED).IsFixed()) {
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//TL
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//DL
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//TR
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				for (int i = 0; i < 2; i++) { // left, right
+					for (int j = 0; j < 2; j++) { // top, down
+						gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + j * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+							(items.at(BED).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+					}
+				}
+				for (int j = 0; j < 2; j++) { // top, down (reset)
+					gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + j * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+						(items.at(BED).GetPosX() - TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				}
 			}
 			else {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
 					(items.at(BED).GetPosX() + TILE + TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);	//TR (reset)
 
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//TL
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);			//DL
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//TR
-				gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + TILE - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(BED).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);	//DR
+				for (int i = 0; i < 2; i++) { // left, right
+					for (int j = 0; j < 2; j++) { // top, down
+						gamemaps.at(_nowID).SetMapData(0, (items.at(BED).GetPosY() + TILE / 2 + j * TILE - gamemaps.at(_nowID).GetY()) / TILE,
+							(items.at(BED).GetPosX() + i * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+					}
+				}
 			}
 			break;
 		case 17:
