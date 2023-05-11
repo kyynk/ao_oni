@@ -13,7 +13,6 @@
 namespace game_framework{
 
 	MainHuman::MainHuman() :Human() {
-		
 		_nowmove = none;
 		_pressing = none;
 	}
@@ -170,14 +169,15 @@ namespace game_framework{
 				TimerUpdate();
 
 			}
-			bool canchangemap = true;
+			bool _canchangemap = true;
+
 			for (auto &f : TN) {
 				if ((this->GetX() - map.GetX()) / TILE == f[0] && (this->GetY() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
-					canchangemap = false;
+					_canchangemap = false;
 					break;
 				}
 			}
-			if (canchangemap) {
+			if (_canchangemap) {
 				RouterCheckChangeMap(map, router, nowID);
 			}
 			bitmap.SetTopLeft(_pos_x, _pos_y);
@@ -185,8 +185,10 @@ namespace game_framework{
 	}
 	void MainHuman::RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID) {
 		for (int i = 0; i < router.GetRecord(nowID); i++) {
+			if (router.IsPathBlocked(nowID, router.GetNowMapPortal(nowID)[i].GetID())) {
+				continue;
+			}
 			for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
-				if (router.IsPathBlocked(nowID, j)) continue;
 				if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 					_direction == left &&
@@ -309,7 +311,6 @@ namespace game_framework{
 	void MainHuman::OnKeyDown(UINT nChar) {
 		if (nChar == VK_LEFT) {
 			_direction = left;
-			
 			_pressing = left;
 			_isleft = true;
 		}
@@ -322,7 +323,6 @@ namespace game_framework{
 			_direction = right;
 			_pressing = right;
 			_isright = true;
-			
 		}
 		else if (nChar == VK_DOWN) {
 			_direction = down;
