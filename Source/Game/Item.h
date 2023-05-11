@@ -74,6 +74,8 @@ namespace game_framework {
 		// e.g. 
 		// if player on chair a = true, else a = false
 		void ResetUtil(); // all control reset
+
+		void SetIsPick(bool p);
 		
 		void SetTrigger();
 		bool IsClose();

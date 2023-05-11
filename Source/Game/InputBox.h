@@ -26,7 +26,7 @@ namespace game_framework {
 		void ClearBuffer();
 		void Load(string box, COLORREF color1 = RGB(0,0,0));
 		bool IsWrite() { return _iswrite; }
-		void Show();
+		void OnShow();
 		string GetString(){ return string(_buffer.begin(), _buffer.end()); }
 		
 

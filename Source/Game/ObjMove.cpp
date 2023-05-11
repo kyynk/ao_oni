@@ -9,7 +9,10 @@
 #include "ObjMove.h"
 
 namespace game_framework {
-	ObjMove::ObjMove() = default;
+
+	ObjMove::ObjMove() {
+		_objclass = "ObjMove";
+	}
 	ObjMove::~ObjMove() = default;
 	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
 		int offsetX, int offsetY, int resetX, int resetY) {
@@ -126,12 +129,10 @@ namespace game_framework {
 		else _nowmove = none;
 		_pressing = none;
 	}
-	void ObjMove::OnMove(GameMap &map) {	// every time obj move, will track first
-		Fixed(); // to check isFixed or not
+	void ObjMove::OnMove(GameMap &map) {
+		Fixed(); 
 		if (_press && !_isFixedPos) {
-			//TRACE("\n\n playerX %d playerY %d objX %d objY %d\n\n", _humanX, _humanY, _pos_x, _pos_y);
 			if (isCollide()) {
-				//TRACE("\n\n\n obj isCollide \n");
 				Track(map);
 			}
 			_press = false;
@@ -302,7 +303,6 @@ namespace game_framework {
 				_notShow = false;
 			}
 		}
-		
 	}
 
 	bool ObjMove::isChangeMap() {

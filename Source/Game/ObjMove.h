@@ -2,6 +2,7 @@
 namespace game_framework {
 	class ObjMove : public Entity {
 	public:
+
 		enum ObjName {
 			no,
 			house1_2F_TL_chair,
