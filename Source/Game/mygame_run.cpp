@@ -1015,13 +1015,13 @@ namespace game_framework {
 					items.at(BOOKCASE_L).OnShow();
 					items.at(BOOKCASE_R).OnShow();
 				}
-				for (int i = 0; i < 3; i++) {
-					if ((i == 2 && entities[i]->CMPY() < 8) || (i == 3 && entities[i]->CMPY() < 13) || i == 4) {
-						if (obj = dynamic_cast<ObjMove*>(entities[i])) {
-								(obj->*funcPtr)();
+				for (int j = 0; j < 3; j++) {
+					if ((i == 2 && entities[j]->CMPY() < 8) || (i == 3 && entities[j]->CMPY() < 13) || i == 4) {
+						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
+							(obj->*funcPtr)();
 						}
 						else {
-							entities[i]->OnShow();
+							entities[j]->OnShow();
 						}
 					}
 				}
