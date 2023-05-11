@@ -13,7 +13,7 @@
 namespace game_framework{
 
 	MainHuman::MainHuman() :Human() {
-
+		
 		_nowmove = none;
 		_pressing = none;
 	}
