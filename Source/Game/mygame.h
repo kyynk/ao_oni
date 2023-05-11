@@ -111,7 +111,9 @@ namespace game_framework {
 		MIKA_REPEAT_E,
 		LIB_KEY_CHASE,
 		DUMB_TAKESHI_REPEAT_E,
-		KEY_2F_TL_E
+		KEY_2F_TL_E,
+		KEY_BASEMENT_E,
+		KEY_ANNEXE_E,
 	};
 	enum item_name {
 		TOILET,
