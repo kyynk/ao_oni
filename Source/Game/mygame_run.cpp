@@ -110,7 +110,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(39);
+		items.resize(42);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -150,6 +150,9 @@ namespace game_framework {
 		items.at(PIANO_PWD_NOTOPEN).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(PIANO_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(PIANO_KEY).SetParam(100, 0, 0, Item::key_2F_TL);
+		items.at(BASEMENT_PWD).SetParam(-1, 0, 0, Item::password_not_open);
+		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
+		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -355,6 +358,9 @@ namespace game_framework {
 		items.at(PIANO_PWD_NOTOPEN).SetXY(16 * TILE, 7 * TILE);
 		items.at(PIANO_PWD_TAKE).SetXY(16 * TILE, 7 * TILE);
 		items.at(PIANO_KEY).SetXY(16 * TILE, 7 * TILE);
+		items.at(BASEMENT_PWD).SetXY(16 * TILE, 5 * TILE);
+		items.at(BASEMENT_PWD_TAKE).SetXY(16 * TILE, 5 * TILE);
+		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
 		
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
@@ -446,6 +452,16 @@ namespace game_framework {
 					gamemaps.at(_nowID).SetMapData(0, (objs.at(obj_move::house1_basement2_chair).GetPreY() - gamemaps.at(_nowID).GetY()) / TILE,
 						(objs.at(obj_move::house1_basement2_chair).GetPreX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 				}
+			}
+			if (!items.at(BASEMENT_PWD).IsPick() && items.at(BOOKCASE_R).IsFixed()) {
+				items.at(BASEMENT_PWD).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(BASEMENT_PWD).SetDirection(player.GetDirection());
+				items.at(BASEMENT_PWD).OnMove();
+			}
+			if (!items.at(BASEMENT_KEY).IsPick() && items.at(BASEMENT_PWD).IsPick()) {
+				items.at(BASEMENT_KEY).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(BASEMENT_KEY).SetDirection(player.GetDirection());
+				items.at(BASEMENT_KEY).OnMove();
 			}
 			break;
 		case 1:
@@ -796,16 +812,36 @@ namespace game_framework {
 			}
 			switch (_nowID) {
 			case 0:
+				if (!items.at(BASEMENT_KEY).IsPick() && pwds.at(basement).IsOpen()) {
+					items.at(BASEMENT_KEY).SetDirection(player.GetDirection());
+					items.at(BASEMENT_KEY).OnKeyDown(nChar);
+				}
+				if (!items.at(BASEMENT_PWD).IsClose() && pwds.at(basement).IsShow()) {
+					_pwd = true;
+					pwds.at(basement).OnKeyDown(nChar);
+					if (pwds.at(basement).IsOpen()) {
+						items.at(BASEMENT_PWD).SetIsPick(true);
+					}
+				}
+				else {
+					_pwd = false;
+				}
 				items.at(KEY_JAIL).OnKeyDown(nChar);
 				items.at(BOOKCASE_L).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
 					items.at(BOOKCASE_R).OnKeyDown(nChar);
+					items.at(BASEMENT_PWD).OnKeyDown(nChar);
 				}
 				if (items.at(BOOKCASE_L).IsFixed()) {
 					items.at(BOOKCASE_R).OnKeyDown(nChar);
 				}
+				if (items.at(BOOKCASE_R).IsFixed() && !items.at(BASEMENT_PWD).IsPick()) {
+					items.at(BASEMENT_PWD).OnKeyDown(nChar);
+				}
+
 				if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 					objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
+				
 				break;
 			case 1:
 				items.at(FLATHEAD).OnKeyDown(nChar);
@@ -1050,6 +1086,24 @@ namespace game_framework {
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == 2) {
+					if (!items.at(BASEMENT_PWD).IsPick() && !pwds.at(basement).IsOpen()) {
+						items.at(BASEMENT_PWD).OnShow();
+						//TRACE("\n\nppppppassssssswordddddd\n\n");
+					}
+					else if (!items.at(BASEMENT_KEY).IsPick() && items.at(BASEMENT_PWD).IsPick()) {
+						items.at(BASEMENT_KEY).OnShow();
+						//TRACE("\n\nkeyyyyyyyyyyyyy\n\n");
+					}
+					else {
+						items.at(BASEMENT_PWD_TAKE).OnShow();
+						//TRACE("\n\ntttttakkkkkkeeee\n\n");
+					}
+					if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
+						if (!pwds.at(basement).IsShow()) {
+							pwds.at(basement).SetShow(true);
+						}
+						pwds.at(basement).ShowTotal();
+					}
 					items.at(BOOKCASE_L).OnShow();
 					items.at(BOOKCASE_R).OnShow();
 				}
@@ -1073,6 +1127,12 @@ namespace game_framework {
 			entities.clear();
 			items.at(KEY_JAIL).OnShow();			
 			gamemaps.at(_nowID).ShowMapTile();
+			if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
+				if (!pwds.at(basement).IsShow()) {
+					pwds.at(basement).SetShow(true);
+				}
+				pwds.at(basement).ShowTotal();
+			}
 		}
 		else if( _nowID == 1) {
 			items.at(FLATHEAD).OnShow();
