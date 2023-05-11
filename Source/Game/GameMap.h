@@ -20,6 +20,7 @@ namespace game_framework {
 		void ShowMap(int layer);
 		void ShowMapAll(MainHuman& humanobj, int overlayindex);
 		void ShowMapAll(MainHuman &,Oni &, int overlayindex);
+		void ShowMapTile();
 		void ShowMapAll();
 		void SetTopLeftMap(int x, int y);
 		void debug();
