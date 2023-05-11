@@ -153,6 +153,9 @@ namespace game_framework {
 		PIANO_PWD_NOTOPEN,
 		PIANO_PWD_TAKE,
 		PIANO_KEY,
+		BASEMENT_PWD,
+		BASEMENT_PWD_TAKE,
+		BASEMENT_KEY,
 	};
 	public:
 		CGameStateRun(CGame *g);
