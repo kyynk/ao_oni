@@ -18,7 +18,6 @@ namespace game_framework {
 	{
 		values.reserve(3); // reserve memory to avoid frequent reallocation
 		entities.reserve(3);
-		entityFuncs.reserve(3);
 		ShowInitProgress(33, "loading game mid");
 		// player map x, player map y, map ID bulk of craps
 		blockLeftCor.push_back({ 8,5,13 });
@@ -150,8 +149,8 @@ namespace game_framework {
 		items.at(DOOR_HALF).SetParam(-1, 0, TILE, Item::door_half);
 		//events
 		events.resize(30);
-		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
-		events.at(START_EVENT_E).SetParam({ },2,8);
+		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
+		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({}, 10,3);
 		events.at(KEY_LIB_E).SetParam({}, 13, 1);
 		events.at(DETERGENT_E).SetParam({}, 14, 1);
@@ -269,7 +268,7 @@ namespace game_framework {
 		boolpspace = true;
 		mousex_foc = 0;
 		mousey_foc = 0;
-		isdebugmode = true;
+		isdebugmode = false;
 		istwoway = 0;
 		isteleportblock = false;
 		isedit = false;
@@ -673,9 +672,9 @@ namespace game_framework {
 		// Item end
 		if (normal_oni.IsShow() && !normal_oni.IsWait()) {
 			normal_oni.SetPlayerPos(player.GetX(), player.GetY());
-			if (normal_oni.isCatch()) {
-				//normal_oni.ResetOni();
-				//GotoGameState(GAME_STATE_OVER);
+			if (normal_oni.isCatch() && !isdebugmode) {
+				normal_oni.ResetOni();
+				GotoGameState(GAME_STATE_OVER);
 			}
 			else {
 				normal_oni.OnMove(gamemaps.at(_nowID));
@@ -717,6 +716,17 @@ namespace game_framework {
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
 					isteleportblock = !isteleportblock;
+				}
+				if (nChar == KEY_O) {
+					if (router.Gaming()) {
+						router.SetAllPathFalse();
+					}
+					else {
+						router.SetAllPathGaming();
+						//router.debugF();
+					}
+					router.Gaming() = !router.Gaming();
+
 				}
 				if (nChar == KEY_I) {
 					gamemaps.at(_nowID).isshowtileindex = (gamemaps.at(_nowID).isshowtileindex) ? false : true;
@@ -997,21 +1007,10 @@ namespace game_framework {
 			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) ;
 			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY() ;
 			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) ;
-			//int humany = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
-			//int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
-			//int chairy = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE;
-			
-			typedef void (ObjMove::* ChangeMapFuncPtr)();
-			ChangeMapFuncPtr funcPtr = &ObjMove::OnShowConditional;
-
 			entities = { &player, &objs.at(obj_move::house1_basement2_chair), &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity * a, Entity * b) {
 				return a->CMPY() < b->CMPY();
 			});
-		/*	
-			bool ishumanshowed = true;
-			bool isonishowed = normal_oni.IsShow();
-			bool isFUCKINGchairshowed = true;*/
 			bool trishow[3] = { true,true,true };
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
@@ -1019,163 +1018,26 @@ namespace game_framework {
 					items.at(BOOKCASE_L).OnShow();
 					items.at(BOOKCASE_R).OnShow();
 				}
+				//TRACE("name : %s %s %s\n",entities[0]->ObjClass().c_str(), entities[1]->ObjClass().c_str(), entities[2]->ObjClass().c_str());
+				//TRACE("CMPY : %d %d %d\n", entities[0]->CMPY(), entities[1]->CMPY(), entities[2]->CMPY());
 				for (int j = 0; j < 3; j++) {
-					if (((i == 2 && entities[j]->CMPY() < 8) || (i == 3 && entities[j]->CMPY() < 13) || i == 4) && trishow[j]) {
+					if (((i == 2 && entities[j]->CMPY() < 8 * TILE) || (i == 3 && entities[j]->CMPY() < 14*TILE) || i == 4) && trishow[j]) {
 						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
 							obj->OnShowConditional();
-
+							TRACE("%s\n",obj->ObjClass().c_str());
 						}
 						else {
 							entities[j]->OnShow();
+							TRACE("%s\n", entities[j]->ObjClass().c_str());
 						}
 						trishow[j] = false;
 					}
 				}
-				//if (i == 2 && (ishumanshowed || isonishowed || isFUCKINGchairshowed)) {
-				//	if (humany < 8 && oniy < 8 && chairy < 8 && ishumanshowed && isonishowed && isFUCKINGchairshowed) {
-				//		map0func1(chairy, humany, oniy);
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//	if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed ) {
-				//		if (humany < oniy) {
-				//			player.OnShow();
-				//			normal_oni.OnShow();
-				//		}
-				//		else {
-				//			normal_oni.OnShow();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//	}
-				//	if (humany < 8  && chairy < 8 && ishumanshowed  && isFUCKINGchairshowed) {
-				//		if (humany < chairy) {
-				//			player.OnShow();
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		}
-				//		else {
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//	else if (humany < 8 && ishumanshowed) {
-				//		player.OnShow();
-				//		ishumanshowed = false;
-				//	}
-				//	else if (oniy < 8 && isonishowed) {
-				//		normal_oni.OnShow();
-				//		isonishowed = false;
-				//	}
-				//	else if (chairy < 8 && isFUCKINGchairshowed) {
-				//		objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//}
-				//else if (i == 3 && (ishumanshowed || isonishowed || isFUCKINGchairshowed)) {
-				//	if (humany < 13 && oniy < 13 && chairy < 13 && ishumanshowed && isonishowed && isFUCKINGchairshowed) {
-				//		map0func1(chairy, humany, oniy);
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//		isFUCKINGchairshowed = false;
-
-				//	}
-				//	if (humany < 13 && oniy < 13 && ishumanshowed && isonishowed) {
-				//		if (humany < oniy) {
-				//			player.OnShow();
-				//			normal_oni.OnShow();
-				//		}
-				//		else {
-				//			normal_oni.OnShow();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//	}
-				//	if (humany < 13 && chairy < 13 && ishumanshowed && isFUCKINGchairshowed) {
-				//		if (humany < chairy) {
-				//			player.OnShow();
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		}
-				//		else {
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//	else if (humany < 13 && ishumanshowed) {
-				//		player.OnShow();
-				//		ishumanshowed = false;
-
-				//	}
-				//	else if (oniy < 13 && isonishowed) {
-				//		normal_oni.OnShow();
-				//		isonishowed = false;
-				//	}
-				//	else if (chairy < 13 && isFUCKINGchairshowed) {
-				//		objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//}
-				//else if (i == 4 && (ishumanshowed || isonishowed || isFUCKINGchairshowed)) {
-				//	if (ishumanshowed && isonishowed && isFUCKINGchairshowed) {
-				//		map0func1(chairy, humany, oniy);
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//		isFUCKINGchairshowed = false;
-				//		//objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//	}
-				//	if (ishumanshowed && isonishowed) {
-				//		if (humany < oniy) {
-				//			player.OnShow();
-				//			normal_oni.OnShow();
-				//		}
-				//		else {
-				//			normal_oni.OnShow();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isonishowed = false;
-				//	}
-				//	if (ishumanshowed && isFUCKINGchairshowed) {
-				//		if (humany < chairy) {
-				//			player.OnShow();
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		}
-				//		else {
-				//			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//			player.OnShow();
-				//		}
-				//		ishumanshowed = false;
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//	else if (ishumanshowed) {
-				//		player.OnShow();
-				//		ishumanshowed = false;
-				//	}
-				//	else if (isonishowed) {
-				//		normal_oni.OnShow();
-				//		isonishowed = false;
-				//	}
-				//	else if (isFUCKINGchairshowed) {
-				//		objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-				//		isFUCKINGchairshowed = false;
-				//	}
-				//}
 			}
-			TRACE("%d %d %d \n", entities[0]->CMPY(), entities[1]->CMPY(), entities[2]->CMPY());
-			TRACE("%s %s %s \n", entities[0]->ObjClass().c_str(), entities[1]->ObjClass().c_str(), entities[2]->ObjClass().c_str());
-			
 			values.clear();
 			entities.clear();
-			entityFuncs.clear();
 			items.at(KEY_JAIL).OnShow();			
 			gamemaps.at(_nowID).ShowMapTile();
-				
 		}
 		else if( _nowID == 1) {
 			items.at(FLATHEAD).OnShow();
@@ -1235,138 +1097,28 @@ namespace game_framework {
 		else if( _nowID == 11) {
 			items.at(BROKEN_DISH).OnShow();
 			if (items.at(BROKEN_DISH).IsTake() && !events.at(BROKEN_DISH_E).IsTriggered()) {
-				_eventID = BROKEN_DISH_E;
-				events.at(_eventID).SetTriggered(true);
-				_dialogID = events.at(_eventID).GetDialogIndex();
-				dialogs.at(_dialogID).SetShow(true);
-				_substate = OnDialogs;
+				SetEventTriggeredDialog(BROKEN_DISH_E);
+				
 				game_interface.StoreItem("broken dish", "plate shards", Interface::Items::broken_dish);
 			}
 		}
 		else if( _nowID == 12) {
-			int humany = (player.GetY() - gamemaps.at(_nowID).GetY()) / TILE;
-			int oniy = (normal_oni.GetPosY() - gamemaps.at(_nowID).GetY()) / TILE + 3;
-			bool ishumanshowed = true;
-			bool isonishowed = true;
+			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
+			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
+			entities = { &player, &normal_oni };
+			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
+				return a->CMPY() < b->CMPY();
+				});
+			bool bishow[2] = { true,true};
+
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
+				for (int j = 0;j < 2; j++) {
+					if (((i == 4 && entities[j]->CMPY() < 4*TILE) || (i == 5 && entities[j]->CMPY() < 8 * TILE) || (i == 6 && entities[j]->CMPY() < 12 * TILE) || (i == 7 && entities[j]->CMPY() < 15 * TILE) || i == 8) && bishow[j]) {
+						entities[j]->OnShow();
+						bishow[j] = false;
+					}
 
-				if (i == 4 && (ishumanshowed || isonishowed)) {
-					if (humany < 4 && oniy < 4 && ishumanshowed && isonishowed) {
-						if (humany < oniy) {
-							player.OnShow();
-							normal_oni.OnShow();
-						}
-						else {
-							normal_oni.OnShow();
-							player.OnShow();
-						}
-						ishumanshowed = false;
-						isonishowed = false;
-					}
-					else if (humany < 4 && ishumanshowed) {
-						player.OnShow();
-						ishumanshowed = false;
-					}
-					else if (oniy < 4 && isonishowed) {
-						normal_oni.OnShow();
-						isonishowed = false;
-					}
-				}
-
-				else if (i == 5 && (ishumanshowed || isonishowed)) {
-					if (humany < 8 && oniy < 8 && ishumanshowed && isonishowed) {
-						if (humany < oniy) {
-							player.OnShow();
-							normal_oni.OnShow();
-						}
-						else {
-							normal_oni.OnShow();
-							player.OnShow();
-						}
-						ishumanshowed = false;
-						isonishowed = false;
-					}
-					else if (humany < 8 && ishumanshowed) {
-						player.OnShow();
-						ishumanshowed = false;
-
-					}
-					else if (oniy < 8 && isonishowed) {
-						normal_oni.OnShow();
-						isonishowed = false;
-
-					}
-				}
-				else if (i == 6 && (ishumanshowed || isonishowed)) {
-					if (humany < 12 && oniy < 12 && ishumanshowed && isonishowed) {
-						if (humany < oniy) {
-							player.OnShow();
-							normal_oni.OnShow();
-						}
-						else {
-							normal_oni.OnShow();
-							player.OnShow();
-						}
-						ishumanshowed = false;
-						isonishowed = false;
-					}
-					else if (humany < 12 && ishumanshowed) {
-						player.OnShow();
-						ishumanshowed = false;
-
-					}
-					else if (oniy < 12 && isonishowed) {
-						normal_oni.OnShow();
-						isonishowed = false;
-
-					}
-				}
-				else  if (i == 7 && (ishumanshowed || isonishowed)) {
-					if (humany < 15 && oniy < 15 && ishumanshowed && isonishowed) {
-						if (humany < oniy) {
-							player.OnShow();
-							normal_oni.OnShow();
-						}
-						else {
-							normal_oni.OnShow();
-							player.OnShow();
-						}
-						ishumanshowed = false;
-						isonishowed = false;
-					}
-					else if (humany < 15 && ishumanshowed) {
-						player.OnShow();
-						ishumanshowed = false;
-
-					}
-					else if (oniy < 15 && isonishowed) {
-						normal_oni.OnShow();
-						isonishowed = false;
-					}
-				}
-				else  if (i == 8 && (ishumanshowed || isonishowed)) {
-					if (ishumanshowed && isonishowed) {
-						if (humany < oniy) {
-							player.OnShow();
-							normal_oni.OnShow();
-						}
-						else {
-							normal_oni.OnShow();
-							player.OnShow();
-						}
-						ishumanshowed = false;
-						isonishowed = false;
-					}
-					else if (ishumanshowed) {
-						player.OnShow();
-						ishumanshowed = false;
-
-					}
-					else if (isonishowed) {
-						normal_oni.OnShow();
-						isonishowed = false;
-					}
 				}
 			}
 			items.at(LIB_BOOK).OnShow();
@@ -1647,6 +1399,10 @@ namespace game_framework {
 		_dialogID = events.at(_eventID).GetDialogIndex();
 		dialogs.at(_dialogID).SetShow(true);
 		_substate = OnDialogs;
+		for (auto& f : events.at(_eventID).GetBlockPath()) {
+			router.UnblockPath(f.at(0), f.at(1));
+		}
+
 	}
 
 	void CGameStateRun::DeBugRecursive() {
@@ -1731,12 +1487,14 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 4, "player tile coordinate on map: " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) / TILE) + " " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 5, "player tile coordinate on window: " + to_string(player.GetX() / TILE) + " " + to_string(player.GetY() / TILE));
 			CTextDraw::Print(pDC, 0, TILE * 6, "(check for out of grid) player cor point x : " + to_string((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE) + " y : " + to_string((player.GetY() - gamemaps.at(_nowID).GetY()) % TILE));
-			CTextDraw::Print(pDC, 0, TILE * 7, to_string(_dialogID));
+			CTextDraw::Print(pDC, 0, TILE * 7, "_dialogID : " + to_string(_dialogID));
 			player.IsTimerStart()? CTextDraw::Print(pDC, 0, TILE * 8, "timer start") : CTextDraw::Print(pDC, 0, TILE * 8, "timer stop");
 			(istwoway != 0) ? ((istwoway == 1) ? CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : yes") : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : no")) : CTextDraw::Print(pDC, 0, TILE * 9, "is twoway : none");
-			player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
-			CTextDraw::Print(pDC, 0, TILE * 11, to_string(normal_oni.GetOverTimer()));
-			CTextDraw::Print(pDC, 0, TILE * 12, to_string(objs.at(obj_move::house1_basement2_chair).GetPosY()/TILE));
+			
+			//player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
+			router.Gaming() ? CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Unlock all");
+			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()));
+			//CTextDraw::Print(pDC, 0, TILE * 12, to_string(objs.at(obj_move::house1_basement2_chair).GetPosY()/TILE));
 			
 			
 			//(human_mika.Trigger()) ? CTextDraw::Print(pDC, 0, TILE * 12, "mkia ahhhh") : CTextDraw::Print(pDC, 0, TILE * 12, "mika nnnnnnahhh");
@@ -1751,7 +1509,6 @@ namespace game_framework {
 			if (len % 6 == 0 && len != 0) {
 				CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 6]) + "  " + to_string(pointvec[len - 5]) + "  " + to_string(pointvec[len - 4]) + "  tile x:  " + to_string(pointvec[len - 5] / TILE) + "  tile y:  " + to_string(pointvec[len - 4] / TILE));
 				CTextDraw::Print(pDC, 0, TILE * 21, "point2  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
-
 			}
 			else if (len % 3 == 0 && len != 0) {
 				CTextDraw::Print(pDC, 0, TILE * 20, "point1  " + to_string(pointvec[len - 3]) + "  " + to_string(pointvec[len - 2]) + "  " + to_string(pointvec[len - 1]) + "  tile x:  " + to_string(pointvec[len - 2] / TILE) + "  tile y:  " + to_string(pointvec[len - 1] / TILE));
