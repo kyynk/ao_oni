@@ -8,7 +8,7 @@
 #include "Human.h"
 namespace game_framework {
 	Human::Human() :Entity() {
-	
+		_objclass = "human";
 	}
 	void Human::SetPos(int x, int y) {
 		SetXY(x,y - _offsetY);

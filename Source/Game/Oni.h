@@ -12,7 +12,9 @@ namespace game_framework {
 			muscle,
 			strange
 		};
-		Oni() = default;
+		Oni() {
+			_objclass = "oni";
+		}
 		~Oni() = default;
 		void init(OniName tp, int step, int moveTime);
 		void SetPos(int x, int y);
@@ -26,7 +28,7 @@ namespace game_framework {
 		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map);	// every time oni move, will track first
-		void OnShow(GameMap& map);
+		void OnShow();
 		// every time oni appear, default time is 10 sec
 		// 10 -> 0 sec, if is 0 sec, 
 		// change stage will make Oni disappear

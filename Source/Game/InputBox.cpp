@@ -58,7 +58,7 @@ namespace game_framework {
 	{
 		_box.LoadBitmapByString({ box }, color1);
 	}
-	void InputBox::Show()
+	void InputBox::OnShow()
 	{	
 		_box.ShowBitmap();
 		CDC *pDC = CDDraw::GetBackCDC();
