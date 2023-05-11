@@ -45,5 +45,6 @@ namespace game_framework{
 		bool _isMapChanged;
 		bool _switchMapCheck;
 
+
 	};
 }

@@ -19,14 +19,17 @@ namespace game_framework {
 	void MapRouter::init()
 	{
 		memset(_record, 0, sizeof(_record));
+		SetAllPathTrue();
+	}
+	void MapRouter::copypath() {
 		for (int i = 0;i < 65;i++) {
 			for (int j = 0;j < 6;j++) {
-				_pathblocked[i][j] = true;
 				_pathblockedcopy[i][j] = _pathblocked[i][j];
 			}
 		}
 	}
-	void MapRouter::SetAllPathGaming() {
+	void MapRouter::Restore() {
+
 		for (int i = 0;i < 65;i++) {
 			for (int j = 0;j < 6;j++) {
 				_pathblocked[i][j] = _pathblockedcopy[i][j];
@@ -34,9 +37,18 @@ namespace game_framework {
 		}
 	}
 	void MapRouter::SetAllPathFalse() {
+
 		for (int i = 0;i < 65;i++) {
 			for (int j = 0;j < 6;j++) {
 				_pathblocked[i][j] = false;
+			}
+		}
+	}
+	void MapRouter::SetAllPathTrue() {
+
+		for (int i = 0;i < 65;i++) {
+			for (int j = 0;j < 6;j++) {
+				_pathblocked[i][j] = true;
 			}
 		}
 	}
@@ -107,7 +119,7 @@ namespace game_framework {
 	{
 		for (int i = 0;i < _record[x];i++) {
 			if (_data[x][i].GetID() == y) {
-				_pathblockedcopy[x][i] = _pathblocked[x][i] = true;
+				_pathblocked[x][i] = true;
 				break;
 			}
 		}
@@ -116,13 +128,13 @@ namespace game_framework {
 	{
 		for (int i = 0;i < _record[x];i++) {
 			if (_data[x][i].GetID() == y) {
-				_pathblockedcopy[x][i] = _pathblocked[x][i] = false;
+				_pathblocked[x][i] = false;
 				break;
 			}
 		}
 		for (int i = 0;i < _record[y];i++) {
 			if (_data[y][i].GetID() == x) {
-				_pathblockedcopy[y][i] = _pathblocked[y][i] = false;
+				_pathblocked[y][i] = false;
 				break;
 			}
 		}
