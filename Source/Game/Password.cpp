@@ -70,7 +70,7 @@ namespace game_framework {
 		_nowChoose = 0;
 	}
 	void Password::OnKeyDown(UINT nChar) {
-		if (nChar == VK_RETURN) {
+		if (nChar == VK_SPACE) {
 			if (IsCorrect()) {
 				_open = true;
 				SetShow(false);

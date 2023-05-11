@@ -111,7 +111,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(36);
+		items.resize(39);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -148,6 +148,9 @@ namespace game_framework {
 		items.at(DOOR_OPEN).SetParam(100, 0, TILE, Item::door_open);
 		items.at(DOOR_DIE).SetParam(100, 0, TILE, Item::door_die);
 		items.at(DOOR_HALF).SetParam(-1, 0, TILE, Item::door_half);
+		items.at(PIANO_PWD_NOTOPEN).SetParam(-1, 0, 0, Item::password_not_open);
+		items.at(PIANO_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
+		items.at(PIANO_KEY).SetParam(100, 0, 0, Item::key_2F_TL);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,12},{5,13} }, 0,2 );
@@ -166,8 +169,10 @@ namespace game_framework {
 		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
 		events.at(LIB_KEY_CHASE).SetParam({}, -1, -1);
 		events.at(DUMB_TAKESHI_REPEAT_E).SetParam({}, 18, 1);
+		events.at(KEY_2F_TL_E).SetParam({}, 33, 1); // piano pwd
+		
 		//dialogs
-		dialogs.resize(34);
+		dialogs.resize(37);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -237,6 +242,17 @@ namespace game_framework {
 		dialogs.at(31).SetParam({ "ok." }, false);
 		dialogs.at(32).SetFigure("mika");
 		dialogs.at(32).SetParam({ "takuro................" }, false);
+
+		dialogs.at(33).SetFigure("hirosi");
+		dialogs.at(33).SetParam({ "Gain the babyroom key" }, false);
+		dialogs.at(34).SetFigure("hirosi");
+		dialogs.at(34).SetParam({ "Gain the basement key" }, false);
+		dialogs.at(35).SetFigure("hirosi");
+		dialogs.at(35).SetParam({ "Gain the jail key" }, false);
+		dialogs.at(36).SetFigure("hirosi");
+		dialogs.at(36).SetParam({ "Gain the ??? key" }, false); // will trigger mika oni with closet
+
+
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -247,10 +263,10 @@ namespace game_framework {
 			8, 4, 0, TILE / 2, 9 * TILE, 14 * TILE); // 9 14
 		// password
 		pwds.resize(2);
-		pwds.at(piano).SetParam("1234"); // should change
-		pwds.at(piano).SetShow(true);
-		pwds.at(basement).SetParam("1234"); // should change
-		pwds.at(basement).SetShow(true);
+		pwds.at(piano).SetParam("9761"); // piano 0
+		pwds.at(piano).SetShow(false);
+		pwds.at(basement).SetParam("5376");
+		pwds.at(basement).SetShow(false);
 		// interface
 		game_interface.init();
 		game_interface.StartCount();
@@ -274,6 +290,7 @@ namespace game_framework {
 		isteleportblock = false;
 		isedit = false;
 		isgrid = false;
+		_pwd = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -336,6 +353,9 @@ namespace game_framework {
 		items.at(DOOR_OPEN).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_DIE).SetXY(10 * TILE, 10 * TILE);
 		items.at(DOOR_HALF).SetXY(10 * TILE, 10 * TILE);
+		items.at(PIANO_PWD_NOTOPEN).SetXY(16 * TILE, 7 * TILE);
+		items.at(PIANO_PWD_TAKE).SetXY(16 * TILE, 7 * TILE);
+		items.at(PIANO_KEY).SetXY(16 * TILE, 7 * TILE);
 		
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
@@ -588,6 +608,16 @@ namespace game_framework {
 		case 17:
 			items.at(WHITE_BOOKCASE).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(WHITE_BOOKCASE).OnMove();
+			if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && items.at(WHITE_BOOKCASE).IsFixed()) {
+				items.at(PIANO_PWD_NOTOPEN).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(PIANO_PWD_NOTOPEN).SetDirection(player.GetDirection());
+				items.at(PIANO_PWD_NOTOPEN).OnMove();
+			}
+			if (!items.at(PIANO_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+				items.at(PIANO_KEY).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(PIANO_KEY).SetDirection(player.GetDirection());
+				items.at(PIANO_KEY).OnMove();
+			}
 			break;
 		case 18:
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
@@ -679,10 +709,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		// test pwd
-		/*if (pwds.at(piano).IsShow()) {
-			pwds.at(piano).OnKeyDown(nChar);
-		}*/
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -759,8 +785,6 @@ namespace game_framework {
 			if (nChar == KEY_Q) {
 				GotoGameState(GAME_STATE_OVER);
 			}
-
-			player.OnKeyDown(nChar);
 			switch (_nowID) {
 			case 0:
 				items.at(KEY_JAIL).OnKeyDown(nChar);
@@ -836,7 +860,27 @@ namespace game_framework {
 				items.at(BED).OnKeyDown(nChar);
 				break;
 			case 17:
+				if (!items.at(PIANO_KEY).IsPick() && pwds.at(piano).IsOpen()) {
+					items.at(PIANO_KEY).SetDirection(player.GetDirection());
+					items.at(PIANO_KEY).OnKeyDown(nChar);
+				}
+				if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && pwds.at(piano).IsShow()) {
+					_pwd = true;
+					pwds.at(piano).OnKeyDown(nChar);
+					if (pwds.at(piano).IsOpen()) {
+						items.at(PIANO_PWD_NOTOPEN).SetIsPick(true);
+					}
+				}
+				else {
+					_pwd = false;
+				}
 				items.at(WHITE_BOOKCASE).OnKeyDown(nChar);
+				if (nChar != VK_SPACE) {
+					items.at(PIANO_PWD_NOTOPEN).OnKeyDown(nChar);
+				}
+				if (items.at(WHITE_BOOKCASE).IsFixed() && !items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+					items.at(PIANO_PWD_NOTOPEN).OnKeyDown(nChar);
+				}
 				break;
 			case 18:
 				if (!items.at(TUB_ONCE).IsFixed()) {
@@ -868,6 +912,9 @@ namespace game_framework {
 				items.at(KEY_BASEMENT).OnKeyDown(nChar);
 				items.at(GATE).OnKeyDown(nChar);
 				break;
+			}
+			if (!_pwd) {
+				player.OnKeyDown(nChar);
 			}
 		}
 		else if (_substate == OnDialogs) {
@@ -1488,9 +1535,27 @@ namespace game_framework {
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
+					if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && !pwds.at(piano).IsOpen()) {
+						items.at(PIANO_PWD_NOTOPEN).OnShow();
+					}
+					else if(!items.at(PIANO_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+						//TRACE("\n\nkeyyyyyyyyyyyyyy\n\n");
+						items.at(PIANO_KEY).OnShow();
+					}
+					else {
+						//TRACE("\nn\n\naaaaa\n\n");
+						items.at(PIANO_PWD_TAKE).OnShow();
+					}
+					
 					items.at(WHITE_BOOKCASE).OnShow();
 					ShowOniAndPlayer();
 				}
+			}
+			if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && !pwds.at(piano).IsOpen()) {
+				if (!pwds.at(piano).IsShow()) {
+					pwds.at(piano).SetShow(true);
+				}
+				pwds.at(piano).ShowTotal();
 			}
 		}
 		else if( _nowID == 18) {
