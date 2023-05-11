@@ -25,9 +25,16 @@ namespace game_framework {
 		if (_name == lib_book) {
 			bitmapName.push_back("img/item_animation/lib_book/lib_book.bmp");
 		}
-		else if (_name == key_lib || _name == key_3F_L || _name == key_2F_TL || _name == key_basement) {
+		else if (_name == key_lib || _name == key_3F_L || _name == key_basement) {
 			for (int i = 0; i < 4; i++) {
 				bitmapName.push_back("img/item_animation/star/star" + to_string(i) + ".bmp");
+			}
+			SetTrigger();
+			Animation(3, 0);
+		}
+		else if (_name == key_2F_TL) {
+			for (int i = 0; i < 4; i++) {
+				bitmapName.push_back("img/item_animation/password/pwd_key" + to_string(i) + ".bmp");
 			}
 			SetTrigger();
 			Animation(3, 0);
@@ -173,6 +180,24 @@ namespace game_framework {
 		else if (_name == door_half) {
 			bitmapName.push_back("img/item_animation/door_wash/door_half.bmp");
 		}
+		else if (_name == password_not_open) {
+			bitmapName.push_back("img/item_animation/password/pwd_default.bmp");
+		}
+		else if (_name == password_get_key) {
+			bitmapName.push_back("img/item_animation/password/pwd_get_key.bmp");
+		}
+		else if (_name == map) {
+			bitmapName.push_back("img/map_house1.bmp");
+		}
+		else if (_name == piano_blood) {
+			bitmapName.push_back("img/password/password_piano/piano_blood.bmp");
+		}
+		else if (_name == piano_pwd) {
+			bitmapName.push_back("img/password/password_piano/piano_0.bmp");
+		}
+		else if (_name == piano_hint) {
+			bitmapName.push_back("img/password/password_piano/piano_hint.bmp");
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -302,6 +327,14 @@ namespace game_framework {
 						Animation(1, 3); // close
 						utiltriggers[close] = true;
 					}
+				}
+			}
+			else if (_name == password_not_open && !utiltriggers[pick]) {
+				if (utiltriggers[close]) {
+					utiltriggers[close] = false;
+				}
+				else {
+					utiltriggers[close] = true;
 				}
 			}
 			// door_no_knob only need to show, no interact
@@ -436,7 +469,10 @@ namespace game_framework {
 				utiltriggers[fixed] = true;
 			}
 			// door_half only 1 frame, need event to control to show
-		
+			// piano
+			else if (_name == password_not_open && !utiltriggers[pick]) {
+				utiltriggers[close] = !utiltriggers[close];
+			}
 		}
 
 		if (_name == bed || _name == white_bookcase) {
@@ -525,6 +561,23 @@ namespace game_framework {
 		utiltriggers[press] = false;
 		return _pressing != none;;
 	}
+	void Item::SetDirection(int d) {
+		if (d == up) {
+			_pressing = up;
+		}
+		else if (d == left) {
+			_pressing = left;
+		}
+		else if (d == right) {
+			_pressing = right;
+		}
+		else if (d == down) {
+			_pressing = down;
+		}
+		else {
+			_pressing = none;
+		}
+	}
 	void Item::Animation(int n, int frame) {
 		if (utiltriggers[triggered]) {
 			_aniType = n;
@@ -573,10 +626,8 @@ namespace game_framework {
 		for (int i = 0;i < 8;i++) {
 			utiltriggers[i] = false;
 		}
-		utiltriggers[close] = true; 
-		/*SetTrigger();
-		Animation(2, 0);*/
-		TRACE("\n\n bitmap index %d\n\n", bitmap.GetFrameSizeOfBitmap());
+		utiltriggers[close] = true;
+
 		if (bitmap.GetFrameSizeOfBitmap() != 0) {
 			bitmap.SetFrameIndexOfBitmap(0);
 			if (_name == key_lib || _name == key_3F_L || _name == key_2F_TL || _name == key_basement || _name == key_jail || _name == key_annexe || _name == phillips || _name == closet_takesi_1) {
@@ -587,6 +638,9 @@ namespace game_framework {
 	}
 	void Item::SetIsPick(bool p) {
 		utiltriggers[pick] = p;
+	}
+	void Item::SetClose(bool c) {
+		utiltriggers[close] = c;
 	}
 	bool Item::IsPick() {
 		return utiltriggers[pick];
