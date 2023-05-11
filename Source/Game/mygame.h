@@ -211,7 +211,6 @@ namespace game_framework {
 		vector<int> twowayvec;
 		vector<int> pointvec;
 		std::vector<int> values;
-		std::vector<void (Entity::*)()> entityFuncs;
 		std::vector<Entity*> entities;
 		ObjMove* obj;
 	};
