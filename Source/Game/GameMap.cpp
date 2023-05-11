@@ -46,10 +46,10 @@ namespace game_framework {
 			if (i == overlayindex) {
 				if (oniobj.GetPosD() > humanobj.GetD()) {
 					humanobj.OnShow();
-					oniobj.OnShow(*this);
+					oniobj.OnShow();
 				}
 				else {
-					oniobj.OnShow(*this);
+					oniobj.OnShow();
 					humanobj.OnShow();
 				}
 			}

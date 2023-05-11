@@ -23,6 +23,7 @@
 #include <bitset>
 #include <mmsystem.h>
 #include <string>
+#include <array>
 #include "config.h"
 #include "Entity.h"
 #include "Human.h"
@@ -107,7 +108,8 @@ namespace game_framework {
 		MIKA_OK_E,
 		MIKA_NOTOK_E,
 		MIKA_REPEAT_E,
-		LIB_KEY_CHASE
+		LIB_KEY_CHASE,
+		DUMB_TAKESHI_REPEAT_E
 	};
 	enum item_name {
 		TOILET,
@@ -161,6 +163,7 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();								
 	private:
+		void map0func1(int chairy, int humany, int oniy);
 		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
@@ -205,6 +208,10 @@ namespace game_framework {
 		bool isdebugmode;
 		vector<int> twowayvec;
 		vector<int> pointvec;
+		std::vector<int> values;
+		std::vector<void (Entity::*)()> entityFuncs;
+		std::vector<Entity*> entities;
+		ObjMove* obj;
 	};
 	class CGameStateOver : public CGameState {
 	public:

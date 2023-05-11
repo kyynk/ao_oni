@@ -17,7 +17,7 @@ namespace game_framework {
 		_wait = false;
 		_nowmove = none;
 		_tracking = none;
-		_overTime = 1000;
+		_overTime = 900;
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -148,51 +148,65 @@ namespace game_framework {
 		else _tracking = none;
 	}
 	void Oni::OnMove(GameMap &map) {
-		if (isCatch()) {
-			TimerStop();
-		}
-		else {
-			Track(map);
-			TimerStart();
-			if (TimerGetCount() == _moveTime) {
+		if (_wait) {
+			if (IsTimerStart() && TimerGetCount() == 30) {
+				_wait = false;
+				SetPos(_nextx + map.GetX(), _nexty + map.GetY());
+				bitmap.SetTopLeft(_pos_x, _pos_y);
 				TimerStop();
-				_walkiter = !_walkiter;
 			}
-			if (IsTimerStart()) {
-				if (TimerGetCount() % _moveTime == 0) {
-					_nowmove = _tracking;
-				}
-				if (TimerGetCount() == _moveTime) {
-					TimerReset();
-					_walkiter = !_walkiter;
-				}
-				if (TimerGetCount() < (_moveTime / 2)) {
-					_bstate = s1;
-				}
-				else {
-					_bstate = s2;
-				}
-				if (_nowmove == up) {
-					_pos_y -= _step;
-				}
-				else if (_nowmove == down) {
-					_pos_y += _step;
-				}
-				else if (_nowmove == left) {
-					_pos_x -= _step;
-				}
-				else if (_nowmove == right) {
-					_pos_x += _step;
-				}
+			else {
 				TimerUpdate();
 			}
-			if (!_changemaponceprocess) {
-				Countdown();
+		}
+		else {
+			if (isCatch()) {
+				TimerStop();
 			}
-			bitmap.SetTopLeft(_pos_x, _pos_y);
+			else {
+				Track(map);
+				TimerStart();
+				if (TimerGetCount() == _moveTime) {
+					TimerStop();
+					_walkiter = !_walkiter;
+				}
+				if (IsTimerStart()) {
+					if (TimerGetCount() % _moveTime == 0) {
+						_nowmove = _tracking;
+					}
+					if (TimerGetCount() == _moveTime) {
+						TimerReset();
+						_walkiter = !_walkiter;
+					}
+					if (TimerGetCount() < (_moveTime / 2)) {
+						_bstate = s1;
+					}
+					else {
+						_bstate = s2;
+					}
+					if (_nowmove == up) {
+						_pos_y -= _step;
+					}
+					else if (_nowmove == down) {
+						_pos_y += _step;
+					}
+					else if (_nowmove == left) {
+						_pos_x -= _step;
+					}
+					else if (_nowmove == right) {
+						_pos_x += _step;
+					}
+					TimerUpdate();
+				}
+				if (!_changemaponceprocess) {
+					Countdown();
+				}
+				bitmap.SetTopLeft(_pos_x, _pos_y);
+
+			}
 		}
 	}
-	void Oni::OnShow(GameMap& map) {
+	void Oni::OnShow() {
 		if ((_isShow && !_wait) || GonnaGiveUpSoSadUntilTheNextMap) {
 			if (_nowmove == up) {
 				if (_bstate == s1) {
@@ -230,21 +244,16 @@ namespace game_framework {
 			}
 			bitmap.ShowBitmap();
 		}
-		else if (_wait) {
+		if (_wait) {
 			if (GonnaGiveUpSoSadUntilTheNextMap) {
 				ResetOni();
 				GonnaGiveUpSoSadUntilTheNextMap = false;
 			}
 			TimerStart();
-			if (IsTimerStart() && TimerGetCount() == 30) {
-				_wait = false;
-				SetPos(_nextx + map.GetX(), _nexty + map.GetY());
-				TimerStop();
-			}
-			else {
-				TimerUpdate();
-			}
+			
 		}
+		
+		
 	}
 	void Oni::Countdown() {
 		
@@ -262,10 +271,10 @@ namespace game_framework {
 		if (_changemaponceprocess) {
 			_overTime += 100;
 			_wait = true;
-			_changemaponceprocess = false;
 			_nextx = x;
 			_nexty = y;
 			_mapID = id;
+			_changemaponceprocess = false;
 		}
 
 	}

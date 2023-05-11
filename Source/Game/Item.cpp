@@ -9,7 +9,6 @@
 #include "Item.h"
 namespace game_framework {
 	Item::Item() {
-		//SetXY(14 * TILE, 15 * TILE);
 		ResetUtil();
 	}
 	Item::~Item() = default;
@@ -428,6 +427,10 @@ namespace game_framework {
 				Animation(0, 0);
 				utiltriggers[fixed] = true;
 			}
+			else if (_name == closet_takesi_0 && utiltriggers[fixed] && !utiltriggers[pick]) {
+				utiltriggers[pick] = true;
+			}
+			
 			// house1 2F TR, takesi shake
 			// takesi shake should be use event unshow
 			// house1 2F TR
@@ -595,6 +598,9 @@ namespace game_framework {
 			utiltriggers[i] = false;
 		}
 		utiltriggers[close] = true; 
+	}
+	void Item::SetIsPick(bool p) {
+		utiltriggers[pick] = p;
 	}
 	bool Item::IsPick() {
 		return utiltriggers[pick];
