@@ -20,22 +20,22 @@
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\Library\gamecore.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\gameDoc.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\gameView.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\MainFrm.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\StdAfx.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\game.cpp">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\MapRes.cpp">
       <Filter>Maps</Filter>
@@ -109,22 +109,22 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\Library\gamecore.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\gameDoc.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\gameView.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\MainFrm.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\StdAfx.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game.h">
-      <Filter>Core</Filter>
+      <Filter>Entity\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Resource.h">
       <Filter>Resource</Filter>
@@ -185,9 +185,6 @@
     <Filter Include="Library">
       <UniqueIdentifier>{a127bfc0-b7ac-4d06-914d-44d42baed8ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{2b21ff0f-8517-4545-bc21-f7ae135191b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{eb737028-7d76-4647-ba74-3b9bcb5c622d}</UniqueIdentifier>
     </Filter>
@@ -199,6 +196,9 @@
     </Filter>
     <Filter Include="Entity">
       <UniqueIdentifier>{80e1c513-59e4-4264-b00c-cd435332f684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Core">
+      <UniqueIdentifier>{2b21ff0f-8517-4545-bc21-f7ae135191b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
