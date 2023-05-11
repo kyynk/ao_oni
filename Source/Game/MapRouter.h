@@ -10,7 +10,10 @@ namespace game_framework {
 		}
 		~MapRouter() {}
 		void init();
+		void SetAllPathGaming();
+		void SetAllPathFalse();
 		void Load(string filename);
+		void debugF();
 		void debug();
 		MapNode* GetNowMapPortal(int nowID) {
 			return _data[nowID];
@@ -21,9 +24,12 @@ namespace game_framework {
 		void BlockPath(int x,int y);
 		void UnblockPath(int x,int y);
 		bool IsPathBlocked(int x,int y);
+		bool& Gaming() { return _isgaming; }
 	private:
 		MapNode _data[65][6];
 		bool _pathblocked[65][6];
+		bool _pathblockedcopy[65][6];
 		int _record[65];
+		bool _isgaming;
 	};
 }
