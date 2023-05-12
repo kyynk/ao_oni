@@ -40,6 +40,12 @@ namespace game_framework {
 			door_open, // event
 			door_die, //open -> die
 			door_half, //first in
+			password_not_open,
+			password_get_key,
+			map,
+			piano_blood,
+			piano_pwd,
+			piano_hint,
 		};
 		enum TriggerType {
 			triggered, 
@@ -69,6 +75,7 @@ namespace game_framework {
 		void OnKeyUp(UINT nChar);
 		void OnShow();
 		bool Collide();
+		void SetDirection(int d);
 		void Animation(int n, int frame);
 		string GetName();
 		// e.g. 
@@ -76,7 +83,7 @@ namespace game_framework {
 		void ResetUtil(); // all control reset
 
 		void SetIsPick(bool p);
-		
+		void SetClose(bool c);
 		void SetTrigger();
 		bool IsClose();
 		
