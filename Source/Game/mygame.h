@@ -110,7 +110,10 @@ namespace game_framework {
 		MIKA_NOTOK_E,
 		MIKA_REPEAT_E,
 		LIB_KEY_CHASE,
-		DUMB_TAKESHI_REPEAT_E
+		DUMB_TAKESHI_REPEAT_E,
+		KEY_2F_TL_E,
+		KEY_BASEMENT_E,
+		KEY_ANNEXE_E,
 	};
 	enum item_name {
 		TOILET,
@@ -149,6 +152,12 @@ namespace game_framework {
 		DOOR_OPEN,
 		DOOR_DIE,
 		DOOR_HALF,
+		PIANO_PWD_NOTOPEN,
+		PIANO_PWD_TAKE,
+		PIANO_KEY,
+		BASEMENT_PWD,
+		BASEMENT_PWD_TAKE,
+		BASEMENT_KEY,
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -172,6 +181,7 @@ namespace game_framework {
 		bool boolpspace;
 		int _substate;
 		int _playerStep;
+		bool _pwd;
 		vector<Dialog> dialogs;
 		MainHuman player;
 		Human human_mika;
