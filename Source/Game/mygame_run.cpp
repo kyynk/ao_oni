@@ -176,7 +176,7 @@ namespace game_framework {
 		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
 		
 		//dialogs
-		dialogs.resize(37);
+		dialogs.resize(50);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -255,6 +255,8 @@ namespace game_framework {
 		dialogs.at(35).SetParam({ "Gain the jail key" }, false);
 		dialogs.at(36).SetFigure("hirosi");
 		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
+		dialogs.at(37).SetFigure("hirosi");
+		dialogs.at(37).SetParam({ "Gain the ??? key" }, false);
 
 
 		// objMove
@@ -1099,7 +1101,10 @@ namespace game_framework {
 					else {
 						items.at(BASEMENT_PWD_TAKE).OnShow();
 						//TRACE("\n\ntttttakkkkkkeeee\n\n");
-						//SetEventTriggeredDialog(KEY_ANNEXE_E);
+						if (!events.at(KEY_ANNEXE_E).IsTriggered()) {
+							SetEventTriggeredDialog(KEY_ANNEXE_E);
+							game_interface.StoreItem("get out of here", "???", Interface::Items::key_annexe);
+						}
 					}
 					if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 						if (!pwds.at(basement).IsShow()) {
@@ -1190,6 +1195,7 @@ namespace game_framework {
 			}
 			if (items.at(LIGHTER).IsPick() && !events.at(LIGHTER_E).IsTriggered()) {
 				SetEventTriggeredDialog(LIGHTER_E);
+				game_interface.StoreItem("(need oil) lighter", "lighter", Interface::Items::lighter);
 			}
 		}
 		else if( _nowID == 11) {
@@ -1225,6 +1231,7 @@ namespace game_framework {
 			}
 			if (items.at(KEY_3F_L).IsPick() && !events.at(KEY_3F_L_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_3F_L_E);
+				game_interface.StoreItem("3F left", "bedroom key", Interface::Items::key_3F_L);
 			}
 		}
 		else if( _nowID == 13) {
@@ -1300,11 +1307,13 @@ namespace game_framework {
 						items.at(KEY_LIB).OnShow();
 						if (items.at(KEY_LIB).IsPick() && !events.at(KEY_LIB_E).IsTriggered()) {
 							SetEventTriggeredDialog(KEY_LIB_E);
+							game_interface.StoreItem("library", "library key", Interface::Items::key_lib);
 						}
 					}
 					items.at(HANDKERCHIEF).OnShow();
 					if (items.at(HANDKERCHIEF).IsPick() && !events.at(HANDKERCHIEF_E).IsTriggered()) {
 						SetEventTriggeredDialog(HANDKERCHIEF_E);
+						game_interface.StoreItem("(dirty) handkerchief", "handkerchief", Interface::Items::handkerchief);
 					}
 					if ((player.GetY() - gamemaps.at(_nowID).GetY())/TILE <= 3 && (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE >= 5) {
 						items.at(CLOSET_SHAKE).EventTrigger();
@@ -1364,7 +1373,10 @@ namespace game_framework {
 					else {
 						//TRACE("\nn\n\naaaaa\n\n");
 						items.at(PIANO_PWD_TAKE).OnShow();
-						//SetEventTriggeredDialog(KEY_2F_TL_E);
+						if (!events.at(KEY_2F_TL_E).IsTriggered()) {
+							SetEventTriggeredDialog(KEY_2F_TL_E);
+							game_interface.StoreItem("2F top left", "babyroom key", Interface::Items::key_2F_TL);
+						}
 					}
 					
 					items.at(WHITE_BOOKCASE).OnShow();
@@ -1390,7 +1402,7 @@ namespace game_framework {
 			}
 			if (items.at(PHILLIPS).IsPick() && !events.at(PHILLIPS_E).IsTriggered()) {
 				SetEventTriggeredDialog(PHILLIPS_E);
-
+				game_interface.StoreItem("phillips screwdriver", "phillips scredriver", Interface::Items::phillips);
 			}
 		}
 		else if( _nowID == 19) {
@@ -1404,6 +1416,7 @@ namespace game_framework {
 			}
 			if (items.at(DETERGENT).IsPick() && !events.at(DETERGENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(DETERGENT_E);
+				game_interface.StoreItem("detergent", "detergent", Interface::Items::detergent);
 			}
 		}
 		else if( _nowID == 20) {
@@ -1450,21 +1463,19 @@ namespace game_framework {
 		}
 		else if( _nowID == 22) {
 			items.at(KEY_BASEMENT).OnShow();
-			if (items.at(KEY_BASEMENT).IsPick()) {
-				//SetEventTriggeredDialog(KEY_BASEMENT_E);
+			if (items.at(KEY_BASEMENT).IsPick() && !events.at(KEY_BASEMENT_E).IsTriggered()) {
+				SetEventTriggeredDialog(KEY_BASEMENT_E);
+				game_interface.StoreItem("basement", "basement key", Interface::Items::key_basement);
 			}
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0;i < 33;i++) {
+		for (int i = 0; i < 37; i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
 		}
 		DeBugRecursive();
-		// test pwd
-		/*if (pwds.at(piano).IsShow()) {
-			pwds.at(piano).ShowTotal();
-		}*/
+
 		if (game_interface.IsShow()) {
 			game_interface.ShowTotal();
 		}
