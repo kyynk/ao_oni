@@ -9,8 +9,8 @@ namespace game_framework{
 		~MainHuman() = default;
 		void init(int step,int offset,Direction dir);
 		void ResetToGrid();
-		void SwitchMap(GameMap& map);
-		void OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&, const vector<vector<int>>&, const vector<vector<int>>&) ;
+		void SetNextMapPos(GameMap& map);
+		void OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&, const vector<vector<int>>&) ;
 		void RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID);
 		void OnMove();
 		void OnMoveBySettings(int block);
@@ -27,10 +27,11 @@ namespace game_framework{
 		int NextX() const { return _nextmapx; }
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
-		bool IsSwitchMap() const { return _switchMapCheck; }
 		bool &IsMachineDone() { return _machine_done; }
 		bool &IsMapChanged() { return _isMapChanged; }
+		bool &IsDoorLock() { return _door_lock; }
 		void SetMachine(Direction pressing);
+		void CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN);
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(Direction m);
@@ -43,8 +44,7 @@ namespace game_framework{
 		int _nextmapy;
 		int _nextMapID;
 		bool _isMapChanged;
-		bool _switchMapCheck;
-
+		bool _door_lock;
 
 	};
 }
