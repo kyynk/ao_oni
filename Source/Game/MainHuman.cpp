@@ -29,7 +29,7 @@ namespace game_framework{
 		_isleft = false;
 		_isright = false;
 		_isMapChanged = false;
-		_switchMapCheck = false;
+		//_switchMapCheck = false;
 		_machine_done = true;
 		_nextmapx = 0;
 		_nextmapy = 0;
@@ -49,7 +49,7 @@ namespace game_framework{
 			bitmap.SetTopLeft(_pos_x, _pos_y);
 		}
 	}
-	void MainHuman::SwitchMap(GameMap& map) {
+	void MainHuman::SetNextMapPos(GameMap& map) {
 		if (_nowmove == up) {
 			SetPos(map.GetX() + _nextmapx, map.GetY() + _nextmapy - TILE);
 		}
@@ -67,121 +67,104 @@ namespace game_framework{
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 		_isMapChanged = false;
-		_switchMapCheck = false;
 	}
-	void MainHuman::OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&VL,const vector<vector<int>>&VR, const vector<vector<int>>&TN) {
-		if (_isMapChanged && _switchMapCheck) {
-			SwitchMap(map);
+	void MainHuman::OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&VL,const vector<vector<int>>&VR) {
+		
+		bool upmovable = true;
+		bool downmovable = true;
+		bool leftmovable = true;
+		bool rightmovable = true;
+		if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
+			(this->GetX() - map.GetX()) % TILE == 0 &&
+			(this->GetU() - map.GetY()) % TILE == 0) {
+			upmovable = false;
 		}
-		else{
-			bool upmovable = true;
-			bool downmovable = true;
-			bool leftmovable = true;
-			bool rightmovable = true;
-			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetU() - map.GetY()) / TILE) == -87) &&
+		if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
+			(this->GetX() - map.GetX()) % TILE == 0 &&
+			(this->GetD() - map.GetY()) % TILE == 0) {
+			downmovable = false;
+		}
+		for (auto &f : VL) {
+			if ((this->GetX() - map.GetX()) / TILE == f[0] &&
 				(this->GetX() - map.GetX()) % TILE == 0 &&
-				(this->GetU() - map.GetY()) % TILE == 0) {
-				upmovable = false;
-			}
-			if ((map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetX() - map.GetX()) / TILE, (this->GetD() - map.GetY()) / TILE) == -87) &&
-				(this->GetX() - map.GetX()) % TILE == 0 &&
-				(this->GetD() - map.GetY()) % TILE == 0) {
-				downmovable = false;
-			}
-			for (auto &f : VL) {
-				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
-					(this->GetX() - map.GetX()) % TILE == 0 &&
-					(this->GetY() - map.GetY()) / TILE == f[1] &&
-					(this->GetY() - map.GetY()) % TILE == 0 &&
-					nowID == f[2]) {
-					leftmovable = false;
-					break;
-				}
-			}
-			if (leftmovable && 
-				(this->GetL() - map.GetX()) % TILE == 0&&
-				(this->GetY() - map.GetY()) % TILE == 0&&
-				(map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
-				{
+				(this->GetY() - map.GetY()) / TILE == f[1] &&
+				(this->GetY() - map.GetY()) % TILE == 0 &&
+				nowID == f[2]) {
 				leftmovable = false;
+				break;
 			}
+		}
+		if (leftmovable && 
+			(this->GetL() - map.GetX()) % TILE == 0&&
+			(this->GetY() - map.GetY()) % TILE == 0&&
+			(map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetL() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
+			{
+			leftmovable = false;
+		}
 
-			for (auto &f : VR) {
-				if ((this->GetX() - map.GetX()) / TILE == f[0] &&
-					(this->GetX() - map.GetX()) % TILE == 0 &&
-					(this->GetY() - map.GetY()) / TILE == f[1] &&
-					(this->GetY() - map.GetY()) % TILE == 0 &&
-					nowID == f[2]) {
-					rightmovable = false;
-					break;
-				}
-			}
-			if (rightmovable&&
-				(this->GetR() - map.GetX()) % TILE == 0&&
-				(this->GetY() - map.GetY()) % TILE == 0&&
-				(map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
-				map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
-				 {
+		for (auto &f : VR) {
+			if ((this->GetX() - map.GetX()) / TILE == f[0] &&
+				(this->GetX() - map.GetX()) % TILE == 0 &&
+				(this->GetY() - map.GetY()) / TILE == f[1] &&
+				(this->GetY() - map.GetY()) % TILE == 0 &&
+				nowID == f[2]) {
 				rightmovable = false;
+				break;
 			}
-			if (_isup || _isdown || _isleft || _isright) {
-				TimerStart();
+		}
+		if (rightmovable&&
+			(this->GetR() - map.GetX()) % TILE == 0&&
+			(this->GetY() - map.GetY()) % TILE == 0&&
+			(map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == 0 ||
+			map.GetMapData(0, (this->GetR() - map.GetX()) / TILE, (this->GetY() - map.GetY()) / TILE) == -87))
+				{
+			rightmovable = false;
+		}
+		if (_isup || _isdown || _isleft || _isright) {
+			TimerStart();
+		}
+		else {
+			if (TimerGetCount() == 8) {
+				TimerStop();
+				ResetToGrid();
+				_walkiter = !_walkiter;
+			}
+		}
+		if (IsTimerStart()) {
+			if (TimerGetCount() % 8 == 0) {
+				_nowmove = _pressing;
+				ResetToGrid();
+
+			}
+			if (TimerGetCount() == 8) {
+				TimerReset();
+				_walkiter = !_walkiter;
+			}
+			if (TimerGetCount() < 4) {
+				_bstate = s1;
 			}
 			else {
-				if (TimerGetCount() == 8) {
-					TimerStop();
-					ResetToGrid();
-					_walkiter = !_walkiter;
-				}
+				_bstate = s2;
 			}
-			if (IsTimerStart()) {
-				if (TimerGetCount() % 8 == 0) {
-					_nowmove = _pressing;
-					ResetToGrid();
-
-				}
-				if (TimerGetCount() == 8) {
-					TimerReset();
-					_walkiter = !_walkiter;
-				}
-				if (TimerGetCount() < 4) {
-					_bstate = s1;
-				}
-				else {
-					_bstate = s2;
-				}
-				if (_nowmove == up && upmovable) {
-					_pos_y -= _step;
+			if (_nowmove == up && upmovable) {
+				_pos_y -= _step;
 					
-				}
-				else if (_nowmove == down && downmovable) {
-					_pos_y += _step;
-				}
-				else if (_nowmove == left && leftmovable) {
-					_pos_x -= _step;
-				}
-				else if (_nowmove == right && rightmovable) {
-					_pos_x += _step;
-				}
-				TimerUpdate();
-
 			}
-			bool _canchangemap = true;
-
-			for (auto &f : TN) {
-				if ((this->GetX() - map.GetX()) / TILE == f[0] && (this->GetY() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
-					_canchangemap = false;
-					break;
-				}
+			else if (_nowmove == down && downmovable) {
+				_pos_y += _step;
 			}
-			if (_canchangemap) {
-				RouterCheckChangeMap(map, router, nowID);
+			else if (_nowmove == left && leftmovable) {
+				_pos_x -= _step;
 			}
-			bitmap.SetTopLeft(_pos_x, _pos_y);
+			else if (_nowmove == right && rightmovable) {
+				_pos_x += _step;
+			}
+			TimerUpdate();
 		}
+		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}
 	void MainHuman::RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID) {
 		for (int i = 0; i < router.GetRecord(nowID); i++) {
@@ -189,40 +172,23 @@ namespace game_framework{
 				continue;
 			}
 			for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
-				if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+				if ((router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 					_direction == left &&
-					_nowmove == left) {
-					_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-					_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-					_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-					_isMapChanged = true;
-					break;
-				}
-				else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+					_nowmove == left) ||
+				
+				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetR() - map.GetX(), this->GetY() - map.GetY()) &&
 					_direction == right &&
-					_nowmove == right) {
-					_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-					_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-					_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-					_isMapChanged = true;
-					break;
-				}
-				else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+					_nowmove == right) ||
+				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetX() - map.GetX(), this->GetU() - map.GetY()) &&
 					_direction == up &&
-					_nowmove == up) {
-					_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-					_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-					_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-					_isMapChanged = true;
-					break;
-				}
-				else if (router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+					_nowmove == up) ||
+				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetX() - map.GetX(), this->GetD() - map.GetY()) &&
 					_direction == down &&
-					_nowmove == down) {
+					_nowmove == down) ){
 					_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 					_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 					_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -302,8 +268,6 @@ namespace game_framework{
 		_isright = false;
 		_nowmove = none;
 		_pressing = none;
-		
-		TRACE("set all false\n");
 	}
 	void MainHuman::SetNowmove(Direction m) {
 		_nowmove = m;
@@ -329,9 +293,7 @@ namespace game_framework{
 			_pressing = down;
 			_isdown = true;
 		}
-		if (_isMapChanged) {
-			_switchMapCheck = true;
-		}
+		
 	}
 	
 
@@ -348,16 +310,28 @@ namespace game_framework{
 		else if (nChar == VK_DOWN) {
 			_isdown = false;
 		}
-		if (_isMapChanged) {
-			_switchMapCheck = true;
+	
+	}
+	void MainHuman::CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN) {
+		bool _canchangemap = true;
+
+		for (auto& f : TN) {
+			if ((this->GetX() - map.GetX()) / TILE == f[0] && (this->GetY() - map.GetY()) / TILE == f[1] && nowID == f[2]) {
+				_canchangemap = false;
+				break;
+			}
 		}
+		if (_canchangemap) {
+			RouterCheckChangeMap(map, router, nowID);
+		}
+
 	}
 	void MainHuman::SetNextMap(int x,int y,int NextID) {
 		_nextmapx = x*TILE;
 		_nextmapy = y*TILE;
 		_nextMapID = NextID;
 		_isMapChanged = true;
-		_switchMapCheck = true;
+		//_switchMapCheck = true;
 
 	}
 	
