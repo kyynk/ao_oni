@@ -174,6 +174,7 @@ namespace game_framework {
 		events.at(KEY_2F_TL_E).SetParam({}, 33, 1); // piano pwd
 		events.at(KEY_BASEMENT_E).SetParam({}, 34, 1);
 		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
+		events.at(DOOR_LOCKED_E).SetParam({}, 37, 1);
 		
 		//dialogs
 		dialogs.resize(50);
@@ -256,7 +257,7 @@ namespace game_framework {
 		dialogs.at(36).SetFigure("hirosi");
 		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
 		dialogs.at(37).SetFigure("hirosi");
-		dialogs.at(37).SetParam({ "Gain the ??? key" }, false);
+		dialogs.at(37).SetParam({ "the door is locked" }, false);
 
 
 		// objMove
@@ -383,15 +384,9 @@ namespace game_framework {
 			_nowID = player.NextMapID();
 			events.at(START_EVENT_E).IsTransMap() = false;
 		}
-		if ((player.IsMapChanged() && player.IsSwitchMap())) {
-			_nowID = player.NextMapID();
-			if (normal_oni.IsShow()) {
-				normal_oni.Once() = true;
-				normal_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
-			}
-		}
+		
 		if (_substate != OnDialogs) {
-			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor, blockTeleportCor);
+			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor);
 		}
 		switch (_nowID) {
 		case 0:
@@ -1002,6 +997,16 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		player.OnKeyUp(nChar);
+		player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor);
+		if ((player.IsMapChanged())) {
+			_nowID = player.NextMapID();
+			player.SetNextMapPos(gamemaps.at(_nowID));
+
+			if (normal_oni.IsShow()) {
+				normal_oni.Once() = true;
+				normal_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
+			}
+		}
 		if (_nowID == 0) {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 				objs.at(obj_move::house1_basement2_chair).OnKeyUp(nChar);
@@ -1222,7 +1227,6 @@ namespace game_framework {
 						entities[j]->OnShow();
 						bishow[j] = false;
 					}
-
 				}
 			}
 			items.at(LIB_BOOK).OnShow();
@@ -1251,7 +1255,6 @@ namespace game_framework {
 				player.SetMachine(Entity::right);
 			}
 			else if (_dialogID == 9) {
-				//player.SetAllMoveFalse();
 				player.SetNowmove(Entity::machinetransmap);
 			}
 			else if (_dialogID == 10) {
@@ -1337,7 +1340,7 @@ namespace game_framework {
 							items.at(CLOSET_TAKESI_1).OnShow();
 						}
 					}
-					player.OnShow();
+					ShowOniAndPlayer();
 				}
 			}
 		}
@@ -1352,7 +1355,6 @@ namespace game_framework {
 						items.at(DOOR_NO_KNOB).OnShow();
 					}
 					ShowOniAndPlayer();
-					
 				}
 			}
 		}
@@ -1469,7 +1471,7 @@ namespace game_framework {
 			}
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0; i < 37; i++) {
+		for (int i = 0; i < 38; i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
@@ -1625,6 +1627,8 @@ namespace game_framework {
 			//player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
 			router.Gaming() ? CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Unlock all");
 			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()));
+			player.IsMapChanged() ? CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): T") : CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): F");
+			//player.IsSwitchMap() ? CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Unlock all");
 			//CTextDraw::Print(pDC, 0, TILE * 12, to_string(objs.at(obj_move::house1_basement2_chair).GetPosY()/TILE));
 			
 			
