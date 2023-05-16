@@ -723,6 +723,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -743,6 +744,7 @@ namespace game_framework {
 			game_interface.OnKeyDown(nChar);
 		}
 		else if (_substate == OnWalking) {
+			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
 					isteleportblock = !isteleportblock;
@@ -998,6 +1000,10 @@ namespace game_framework {
 	{
 		player.OnKeyUp(nChar);
 		player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor);
+		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered()) {
+			player.IsDoorLock() = false;
+			events.at(DOOR_LOCKED_E).SetTriggered(false);
+		}
 		if ((player.IsMapChanged())) {
 			_nowID = player.NextMapID();
 			player.SetNextMapPos(gamemaps.at(_nowID));
@@ -1082,6 +1088,10 @@ namespace game_framework {
 	{
 		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 21) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
+		}
+		
+		if (player.IsDoorLock() && !events.at(DOOR_LOCKED_E).IsTriggered()) {
+			SetEventTriggeredDialog(DOOR_LOCKED_E);
 		}
 		if (_nowID == 0) {
 			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) ;
