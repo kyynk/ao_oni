@@ -17,7 +17,7 @@ namespace game_framework {
 		_wait = false;
 		_nowmove = none;
 		_tracking = none;
-		_overTime = 900;
+		_overTime = EXIST_TIME;
 		_type = tp;
 		_step = step;
 		_moveTime = moveTime;
@@ -199,11 +199,11 @@ namespace game_framework {
 					}
 					TimerUpdate();
 				}
-				if (!_changemaponceprocess) {
-					Countdown();
-				}
 				bitmap.SetTopLeft(_pos_x, _pos_y);
 
+			}
+			if (!_changemaponceprocess) {
+				Countdown();
 			}
 		}
 	}
@@ -263,14 +263,12 @@ namespace game_framework {
 		}
 		else _overTime--;
 	}
-	void Oni::AddTime() {
-		_overTime+=10;
-	}
+
 
 	void Oni::SetChangeMap(int x,int y,int id)
 	{
 		if (_changemaponceprocess) {
-			_overTime += 100;
+			_overTime += 50;
 			_wait = true;
 			_nextx = x;
 			_nexty = y;
@@ -287,7 +285,7 @@ namespace game_framework {
 	
 	void Oni::ResetOni() {
 		_isShow = false;
-		_overTime = 900;
+		_overTime = EXIST_TIME;
 		TimerStop();
 	}
 	
