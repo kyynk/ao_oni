@@ -34,7 +34,6 @@ namespace game_framework {
 		// 10 -> 0 sec, if is 0 sec, 
 		// change stage will make Oni disappear
 		void Countdown();
-		void AddTime();
 		void SetChangeMap(int x, int y, int id);
 		bool &IsWait() { return _wait; };
 		bool &IsShow() { return _isShow; };
@@ -59,5 +58,6 @@ namespace game_framework {
 		bstate _bstate;
 		Direction _nowmove;
 		Direction _tracking;
+		const int EXIST_TIME = 500;
 	};
 }

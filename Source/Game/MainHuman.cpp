@@ -37,6 +37,7 @@ namespace game_framework{
 		_nextMapID = 0;
 		_door_lock = false;
 		_door_open = false;
+		_piano_open = false;
 	}
 	void MainHuman::ResetToGrid() {
 		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
@@ -197,6 +198,21 @@ namespace game_framework{
 							gif.DeleteItem("library key");
 							_door_open = true;
 						}
+						else if (nowID == 8 && gif.FindItem("bedroom key")) {
+							router.UnblockPath(8, 16);
+							gif.DeleteItem("bedroom key");
+							_door_open = true;
+						}
+						else if (nowID == 17 && !_piano_open) {
+							router.UnblockPath(17, 7);
+							_piano_open = true;
+							_door_open = true;
+						}
+						else if (nowID == 7 && gif.FindItem("babyroom key")) {
+							router.UnblockPath(7, 20);
+							gif.DeleteItem("babyroom key");
+							_door_open = true;
+						}
 						else {
 							_door_lock = true;
 
@@ -346,8 +362,6 @@ namespace game_framework{
 		_nextmapy = y*TILE;
 		_nextMapID = NextID;
 		_isMapChanged = true;
-		//_switchMapCheck = true;
-
 	}
 	
 

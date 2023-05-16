@@ -115,7 +115,8 @@ namespace game_framework {
 		KEY_BASEMENT_E,
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
-		DOOR_UNLOCKED_E
+		DOOR_UNLOCKED_E,
+		OPEN_FUCKING_HOLE_E
 	};
 	enum item_name {
 		TOILET,
@@ -156,7 +157,7 @@ namespace game_framework {
 		DOOR_HALF,
 		PIANO_PWD_NOTOPEN,
 		PIANO_PWD_TAKE,
-		PIANO_KEY,
+		BB_KEY,
 		BASEMENT_PWD,
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,

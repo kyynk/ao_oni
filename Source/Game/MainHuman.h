@@ -49,5 +49,6 @@ namespace game_framework{
 		bool _isMapChanged;
 		bool _door_lock;
 		bool _door_open;
+		bool _piano_open;
 	};
 }

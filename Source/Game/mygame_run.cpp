@@ -149,7 +149,7 @@ namespace game_framework {
 		items.at(DOOR_HALF).SetParam(-1, 0, TILE, Item::door_half);
 		items.at(PIANO_PWD_NOTOPEN).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(PIANO_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
-		items.at(PIANO_KEY).SetParam(100, 0, 0, Item::key_2F_TL);
+		items.at(BB_KEY).SetParam(100, 0, 0, Item::key_2F_TL);
 		items.at(BASEMENT_PWD).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
@@ -364,7 +364,7 @@ namespace game_framework {
 		items.at(DOOR_HALF).SetXY(10 * TILE, 10 * TILE);
 		items.at(PIANO_PWD_NOTOPEN).SetXY(16 * TILE, 7 * TILE);
 		items.at(PIANO_PWD_TAKE).SetXY(16 * TILE, 7 * TILE);
-		items.at(PIANO_KEY).SetXY(16 * TILE, 7 * TILE);
+		items.at(BB_KEY).SetXY(16 * TILE, 7 * TILE);
 		items.at(BASEMENT_PWD).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_PWD_TAKE).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
@@ -629,10 +629,10 @@ namespace game_framework {
 				items.at(PIANO_PWD_NOTOPEN).SetDirection(player.GetDirection());
 				items.at(PIANO_PWD_NOTOPEN).OnMove();
 			}
-			if (!items.at(PIANO_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
-				items.at(PIANO_KEY).StorePlayerPos(player.GetX(), player.GetY());
-				items.at(PIANO_KEY).SetDirection(player.GetDirection());
-				items.at(PIANO_KEY).OnMove();
+			if (!items.at(BB_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+				items.at(BB_KEY).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(BB_KEY).SetDirection(player.GetDirection());
+				items.at(BB_KEY).OnMove();
 			}
 			break;
 		case 18:
@@ -661,6 +661,7 @@ namespace game_framework {
 			items.at(OIL).OnMove();
 			human_mika.SetPos(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
+			gamemaps.at(_nowID).SetMapData(0, (human_mika.GetY() - gamemaps.at(_nowID).GetY())/TILE, (human_mika.GetX() - gamemaps.at(_nowID).GetX())/TILE, 0);
 			objs.at(house1_2F_TL_chair).StorePlayerPos(player.GetX(), player.GetY());
 			objs.at(house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
 
@@ -908,9 +909,9 @@ namespace game_framework {
 				items.at(BED).OnKeyDown(nChar);
 				break;
 			case 17:
-				if (!items.at(PIANO_KEY).IsPick() && pwds.at(piano).IsOpen()) {
-					items.at(PIANO_KEY).SetDirection(player.GetDirection());
-					items.at(PIANO_KEY).OnKeyDown(nChar);
+				if (!items.at(BB_KEY).IsPick() && pwds.at(piano).IsOpen()) {
+					items.at(BB_KEY).SetDirection(player.GetDirection());
+					items.at(BB_KEY).OnKeyDown(nChar);
 				}
 				if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && pwds.at(piano).IsShow()) {
 					_pwd = true;
@@ -1380,6 +1381,9 @@ namespace game_framework {
 		}
 		else if( _nowID == 16) {
 			items.at(BED).OnShow();
+			if (items.at(BED).IsOnCorPos() && !events.at(OPEN_FUCKING_HOLE_E).IsTriggered()) {
+				router.UnblockPath(16, 17);
+			}
 		}
 		else if( _nowID == 17) {
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
@@ -1388,12 +1392,10 @@ namespace game_framework {
 					if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && !pwds.at(piano).IsOpen()) {
 						items.at(PIANO_PWD_NOTOPEN).OnShow();
 					}
-					else if(!items.at(PIANO_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
-						//TRACE("\n\nkeyyyyyyyyyyyyyy\n\n");
-						items.at(PIANO_KEY).OnShow();
+					else if(!items.at(BB_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+						items.at(BB_KEY).OnShow();
 					}
 					else {
-						//TRACE("\nn\n\naaaaa\n\n");
 						items.at(PIANO_PWD_TAKE).OnShow();
 						if (!events.at(KEY_2F_TL_E).IsTriggered()) {
 							SetEventTriggeredDialog(KEY_2F_TL_E);
@@ -1649,7 +1651,8 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()));
 			player.IsMapChanged() ? CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): T") : CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): F");
 			//player.IsSwitchMap() ? CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Unlock all");
-			//CTextDraw::Print(pDC, 0, TILE * 12, to_string(objs.at(obj_move::house1_basement2_chair).GetPosY()/TILE));
+			CTextDraw::Print(pDC, 0, TILE * 13, to_string(human_mika.GetY()));
+			CTextDraw::Print(pDC, 0, TILE * 14, to_string(human_mika.GetX()));
 			
 			
 			//(human_mika.Trigger()) ? CTextDraw::Print(pDC, 0, TILE * 12, "mkia ahhhh") : CTextDraw::Print(pDC, 0, TILE * 12, "mika nnnnnnahhh");
