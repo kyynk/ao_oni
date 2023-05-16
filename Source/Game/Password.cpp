@@ -15,15 +15,15 @@ namespace game_framework {
 		int _posX, _posY;
 		_posX = 144;
 		_posY = 480;
-		_cursorX = _posX + 17; // 544 = width of box2 
+		_cursorX = _posX + 26; // 544 = width of box2 
 		_cursorY = _posY + 9; // 192 = height of box2
 		
 		_boxX = _posX; // box and box2 is different
 		_boxY = _posY;
 
-		_txtX = _posX + 16;
+		_txtX = _posX + 20;
 		_txtY = _posY + 10;
-		_lineSpacing = 21;
+		_lineSpacing = 28;
 
 		_nowChoose = 0;
 		_guess.resize(4);
@@ -54,7 +54,7 @@ namespace game_framework {
 		for (int i = 0; i < 4; i++) {
 			_store += " " + to_string(_guess[i]);
 		}
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+		CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(255, 255, 255));
 		CTextDraw::Print(pDC, _txtX, _txtY, _store);
 	}
 	void Password::ShowTotal() {
