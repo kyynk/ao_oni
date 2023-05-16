@@ -7,6 +7,8 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <vector>
+#include <algorithm>
 #include "InterfaceData.h"
 #include "Interface.h"
 namespace game_framework {
@@ -150,6 +152,15 @@ namespace game_framework {
 			_itemsIntro.erase(_itemsIntro.begin() + del_index);
 			_itemsName.erase(_itemsName.begin() + del_index);
 			_itemsImgShowIndex.erase(_itemsImgShowIndex.begin() + del_index);
+		}
+	}
+	bool Interface::FindItem(string name) {
+		auto find_it = std::find(_itemsName.begin(), _itemsName.end(), name);
+		if (find_it != _itemsName.end()) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	void Interface::ShowCursorStatus() {

@@ -43,6 +43,7 @@ namespace game_framework {
 		InterfaceData UseItem();
 		void ChangeItemStatus(string originalName, string intro, string name, int frame_index);
 		void DeleteItem(string name);
+		bool FindItem(string name);
 		void ShowCursorStatus();
 		void ShowCursorItem();
 		void ShowCursorSave();
