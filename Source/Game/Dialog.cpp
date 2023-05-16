@@ -77,16 +77,16 @@ namespace game_framework {
 		_cursor.ShowBitmap();
 	}
 	void Dialog::ShowText(CDC *pDC) {
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+		CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(255, 255, 255));
 		for (int i = 0; i < int(_store.size()); i++) {
 			CTextDraw::Print(pDC, _txtX, _txtY + i * _lineSpacing, _store.at(i));
 		}
 		if (_figurename != "") {
-			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(152, 245, 255));
+			CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(152, 245, 255));
 			CTextDraw::Print(pDC, _nameX, _nameY, _figurename);
 		}
 		if (_isChoose) {
-			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(255, 255, 255));
 			_choicemenu.ShowText(pDC);
 		}
 	}
