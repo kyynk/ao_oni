@@ -1618,7 +1618,7 @@ namespace game_framework {
 		CDC* pDC = CDDraw::GetBackCDC();
 		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
 		if (!isdebugmode) {
-			CTextDraw::Print(pDC, 0, 0, "use KEY_Y to activate debug mode");
+			CTextDraw::Print(pDC, 0, 0, "use KEY_Y to activate GOD mode");
 		}
 		else {
 			CTextDraw::Print(pDC, 0, 0, "map index:" + to_string(_nowID) + "  " + gamemaps.at(_nowID).GetName());
