@@ -3,6 +3,8 @@ namespace game_framework{
 	class GameMap;
 	class MapRouter;
 	class Human;
+	class Interfacedata;
+	class Interface;
 	class MainHuman : public Human {
 	public:
 		MainHuman();
@@ -11,7 +13,7 @@ namespace game_framework{
 		void ResetToGrid();
 		void SetNextMapPos(GameMap& map);
 		void OnMove(GameMap &map, MapRouter &router, const int nowID, const vector<vector<int>>&, const vector<vector<int>>&) ;
-		void RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID);
+		void RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID,Interface& gif);
 		void OnMove();
 		void OnMoveBySettings(int block);
 		void OnKeyDown(UINT nChar);
@@ -30,8 +32,9 @@ namespace game_framework{
 		bool &IsMachineDone() { return _machine_done; }
 		bool &IsMapChanged() { return _isMapChanged; }
 		bool &IsDoorLock() { return _door_lock; }
+		bool &IsDoorOpen() { return _door_open; }
 		void SetMachine(Direction pressing);
-		void CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN);
+		void CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN,Interface& gif);
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(Direction m);
@@ -45,6 +48,6 @@ namespace game_framework{
 		int _nextMapID;
 		bool _isMapChanged;
 		bool _door_lock;
-
+		bool _door_open;
 	};
 }
