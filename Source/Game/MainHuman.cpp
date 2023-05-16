@@ -34,6 +34,7 @@ namespace game_framework{
 		_nextmapx = 0;
 		_nextmapy = 0;
 		_nextMapID = 0;
+		_door_lock = false;
 	}
 	void MainHuman::ResetToGrid() {
 		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
@@ -168,9 +169,7 @@ namespace game_framework{
 	}
 	void MainHuman::RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID) {
 		for (int i = 0; i < router.GetRecord(nowID); i++) {
-			if (router.IsPathBlocked(nowID, router.GetNowMapPortal(nowID)[i].GetID())) {
-				continue;
-			}
+			
 			for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
 				if ((router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
@@ -189,10 +188,16 @@ namespace game_framework{
 					NodeData(this->GetX() - map.GetX(), this->GetD() - map.GetY()) &&
 					_direction == down &&
 					_nowmove == down) ){
-					_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
-					_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
-					_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
-					_isMapChanged = true;
+					if (router.IsPathBlocked(nowID, router.GetNowMapPortal(nowID)[i].GetID())) {
+						_door_lock = true;
+					}
+					else {
+
+						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
+						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
+						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
+						_isMapChanged = true;
+					}
 					break;
 				}
 			}
