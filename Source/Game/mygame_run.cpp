@@ -175,9 +175,10 @@ namespace game_framework {
 		events.at(KEY_BASEMENT_E).SetParam({}, 34, 1);
 		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
 		events.at(DOOR_LOCKED_E).SetParam({}, 37, 1);
+		events.at(DOOR_UNLOCKED_E).SetParam({}, 38, 1);
 		
 		//dialogs
-		dialogs.resize(50);
+		dialogs.resize(40);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -257,8 +258,9 @@ namespace game_framework {
 		dialogs.at(36).SetFigure("hirosi");
 		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
 		dialogs.at(37).SetFigure("hirosi");
-		dialogs.at(37).SetParam({ "the door is locked" }, false);
-
+		dialogs.at(37).SetParam({ "The door is locked" }, false);
+		dialogs.at(38).SetFigure("hirosi");
+		dialogs.at(38).SetParam({ "The door is unlocked" }, false);
 
 		// objMove
 		objs.resize(3);
@@ -723,6 +725,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
+		
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -743,6 +746,7 @@ namespace game_framework {
 			game_interface.OnKeyDown(nChar);
 		}
 		else if (_substate == OnWalking) {
+			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
 					isteleportblock = !isteleportblock;
@@ -997,7 +1001,15 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		player.OnKeyUp(nChar);
-		player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor);
+		player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor, game_interface);
+		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered() && nChar == VK_SPACE) {
+			player.IsDoorLock() = false;
+			events.at(DOOR_LOCKED_E).SetTriggered(false);
+		}
+		if (player.IsDoorOpen() && events.at(DOOR_UNLOCKED_E).IsTriggered() && nChar == VK_SPACE) {
+			player.IsDoorOpen() = false;
+			events.at(DOOR_UNLOCKED_E).SetTriggered(false);
+		}
 		if ((player.IsMapChanged())) {
 			_nowID = player.NextMapID();
 			player.SetNextMapPos(gamemaps.at(_nowID));
@@ -1083,6 +1095,14 @@ namespace game_framework {
 		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 21) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
+		
+		if (player.IsDoorLock() && !events.at(DOOR_LOCKED_E).IsTriggered()) {
+			SetEventTriggeredDialog(DOOR_LOCKED_E);
+		}
+		if (player.IsDoorOpen() && !events.at(DOOR_UNLOCKED_E).IsTriggered()) {
+			SetEventTriggeredDialog(DOOR_UNLOCKED_E);
+		}
+	
 		if (_nowID == 0) {
 			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) ;
 			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY() ;
@@ -1471,7 +1491,7 @@ namespace game_framework {
 			}
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0; i < 38; i++) {
+		for (int i = 0; i < 39; i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
