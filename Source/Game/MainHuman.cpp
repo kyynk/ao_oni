@@ -9,7 +9,8 @@
 #include "Entity.h"
 #include "Human.h"
 #include "MainHuman.h"
-
+#include "InterfaceData.h"
+#include "Interface.h"
 namespace game_framework{
 
 	MainHuman::MainHuman() :Human() {
@@ -35,6 +36,7 @@ namespace game_framework{
 		_nextmapy = 0;
 		_nextMapID = 0;
 		_door_lock = false;
+		_door_open = false;
 	}
 	void MainHuman::ResetToGrid() {
 		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
@@ -167,15 +169,15 @@ namespace game_framework{
 		}
 		bitmap.SetTopLeft(_pos_x, _pos_y);
 	}
-	void MainHuman::RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID) {
+	void MainHuman::RouterCheckChangeMap(GameMap& map, MapRouter& router, int nowID,Interface& gif) {
 		for (int i = 0; i < router.GetRecord(nowID); i++) {
 			
 			for (int j = 0; j < router.GetNowMapPortal(nowID)[i].GetSize(); j++) {
-				if ((router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
+				if (
+				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetL() - map.GetX(), this->GetY() - map.GetY()) &&
 					_direction == left &&
 					_nowmove == left) ||
-				
 				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetR() - map.GetX(), this->GetY() - map.GetY()) &&
 					_direction == right &&
@@ -187,12 +189,20 @@ namespace game_framework{
 				(router.GetNowMapPortal(nowID)[i].GetPointByIndex(j) ==
 					NodeData(this->GetX() - map.GetX(), this->GetD() - map.GetY()) &&
 					_direction == down &&
-					_nowmove == down) ){
+					_nowmove == down) 
+				){
 					if (router.IsPathBlocked(nowID, router.GetNowMapPortal(nowID)[i].GetID())) {
-						_door_lock = true;
+						if (nowID == 5 && gif.FindItem("library key")) {
+							router.UnblockPath(5, 12);
+							gif.DeleteItem("library key");
+							_door_open = true;
+						}
+						else {
+							_door_lock = true;
+
+						}
 					}
 					else {
-
 						_nextmapx = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetY();
 						_nextmapy = router.GetNowMapPortal(nowID)[i].GetPointByIndex(j).GetZ();
 						_nextMapID = router.GetNowMapPortal(nowID)[i].GetID();
@@ -317,7 +327,7 @@ namespace game_framework{
 		}
 	
 	}
-	void MainHuman::CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN) {
+	void MainHuman::CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN, Interface& gif) {
 		bool _canchangemap = true;
 
 		for (auto& f : TN) {
@@ -327,7 +337,7 @@ namespace game_framework{
 			}
 		}
 		if (_canchangemap) {
-			RouterCheckChangeMap(map, router, nowID);
+			RouterCheckChangeMap(map, router, nowID,gif);
 		}
 
 	}
