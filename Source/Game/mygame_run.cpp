@@ -1000,7 +1000,7 @@ namespace game_framework {
 	{
 		player.OnKeyUp(nChar);
 		player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor);
-		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered()) {
+		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered() && nChar == VK_SPACE) {
 			player.IsDoorLock() = false;
 			events.at(DOOR_LOCKED_E).SetTriggered(false);
 		}
