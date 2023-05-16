@@ -188,9 +188,9 @@ namespace game_framework {
 		dialogs.at(3).SetFigure("mika");
 		dialogs.at(3).SetParam({ "I feel a bit cold. " }, false);
 		dialogs.at(4).SetFigure("takesi");
-		dialogs.at(4).SetParam({ "h..","hey","I think we should go home. "}, false);
+		dialogs.at(4).SetParam({ "h...","hey","I think we should go home. "}, false);
 		dialogs.at(5).SetFigure("takurou");
-		dialogs.at(5).SetParam({ "What is  wrong with you takesi,"," are you afraid ? "}, false);
+		dialogs.at(5).SetParam({ "What is wrong with you takesi,"," are you afraid ? "}, false);
 		dialogs.at(6).SetFigure("takesi");
 		dialogs.at(6).SetParam({ "!!!!!" }, false);
 		dialogs.at(7).SetFigure("takesi");
@@ -1626,7 +1626,7 @@ namespace game_framework {
 			tileplaceholder.ShowBitmap();
 		}
 		CDC* pDC = CDDraw::GetBackCDC();
-		CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+		CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(255, 255, 255));
 		if (!isdebugmode) {
 			CTextDraw::Print(pDC, 0, 0, "use KEY_Y to activate GOD mode");
 		}
