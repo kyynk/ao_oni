@@ -115,7 +115,8 @@ namespace game_framework {
 		KEY_BASEMENT_E,
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
-		DOOR_UNLOCKED_E
+		DOOR_UNLOCKED_E,
+		TATAMI_E,
 	};
 	enum item_name {
 		TOILET,
