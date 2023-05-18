@@ -42,10 +42,10 @@ namespace game_framework {
 			door_half, //first in
 			password_not_open,
 			password_get_key,
-			map,
 			piano_blood,
 			piano_pwd,
 			piano_hint,
+			diff_door,
 		};
 		enum TriggerType {
 			triggered, 
