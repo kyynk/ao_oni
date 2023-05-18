@@ -176,6 +176,7 @@ namespace game_framework {
 		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
 		events.at(DOOR_LOCKED_E).SetParam({}, 37, 1);
 		events.at(DOOR_UNLOCKED_E).SetParam({}, 38, 1);
+		events.at(TATAMI_E).SetParam({}, -1, -1);
 		
 		//dialogs
 		dialogs.resize(40);
@@ -1255,6 +1256,14 @@ namespace game_framework {
 					items.at(TATAMI_R).OnShow();
 					if (items.at(LIGHTER).IsPick()) {
 						items.at(TATAMI_L).OnShow();
+					}
+					
+					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
+						normal_oni.SetPos(11 * TILE, 8 * TILE);
+						items.at(TATAMI_R).EventTrigger();
+						events.at(TATAMI_E).SetTriggered(true);
+						normal_oni.IsShow() = true;
+						normal_oni.Once() = false;
 					}
 					ShowOniAndPlayer();
 				}

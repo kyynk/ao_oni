@@ -674,5 +674,10 @@ namespace game_framework {
 			Animation(0, 0);
 			utiltriggers[fixed] = true;
 		}
+		else if (_name == tatami_r && utiltriggers[close]) {
+			SetTrigger();
+			Animation(0, 0); // open
+			utiltriggers[close] = false;
+		}
 	}
 }
