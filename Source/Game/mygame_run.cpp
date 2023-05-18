@@ -110,7 +110,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(42);
+		items.resize(43);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -153,6 +153,7 @@ namespace game_framework {
 		items.at(BASEMENT_PWD).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
+		items.at(DOOR_DIFF).SetParam(-1, 0, 0, Item::diff_door);
 		//events
 		events.resize(30);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -378,6 +379,7 @@ namespace game_framework {
 		items.at(BASEMENT_PWD).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_PWD_TAKE).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
+		items.at(DOOR_DIFF).SetXY(17 * TILE, 15 * TILE);
 		
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
@@ -1257,7 +1259,11 @@ namespace game_framework {
 					if (items.at(LIGHTER).IsPick()) {
 						items.at(TATAMI_L).OnShow();
 					}
-					
+					items.at(DOOR_DIFF).OnShow();
+					/* use dish
+					if (!items.at(TATAMI_L).IsClose()) {
+						items.at(DOOR_DIFF).EventTrigger();
+					}*/
 					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
 						normal_oni.SetPos(11 * TILE, 8 * TILE);
 						items.at(TATAMI_R).EventTrigger();

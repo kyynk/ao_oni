@@ -161,6 +161,7 @@ namespace game_framework {
 		BASEMENT_PWD,
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
+		DOOR_DIFF,
 	};
 	public:
 		CGameStateRun(CGame *g);

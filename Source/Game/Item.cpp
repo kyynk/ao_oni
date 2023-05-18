@@ -679,5 +679,12 @@ namespace game_framework {
 			Animation(0, 0); // open
 			utiltriggers[close] = false;
 		}
+		else if (_name == diff_door && _aniFrame < 2) {
+			if (_aniFrame == -1) {
+				_aniFrame = 0;
+			}
+			SetTrigger();
+			Animation(2, _aniFrame + 1);
+		}
 	}
 }
