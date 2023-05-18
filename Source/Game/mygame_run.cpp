@@ -279,6 +279,8 @@ namespace game_framework {
 		// interface
 		game_interface.init();
 		game_interface.StartCount();
+		// house1 map
+		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, RGB(0, 0, 0));
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -300,6 +302,7 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		_pwd = false;
+		_map_show = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -372,6 +375,8 @@ namespace game_framework {
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
 		}
+		// house1 map
+		house1_map.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 	}
 
 	void CGameStateRun::OnMove()
@@ -856,6 +861,11 @@ namespace game_framework {
 			case 3:
 				items.at(GATE2).OnKeyDown(nChar);
 				break;
+			case 7:
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
+					_map_show = !_map_show;
+				}
+				break;
 			case 10:
 				items.at(LIGHTER).OnKeyDown(nChar);
 				if (nChar != VK_SPACE) {
@@ -961,7 +971,7 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!_pwd) {
+			if (!_pwd && !_map_show) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1200,6 +1210,9 @@ namespace game_framework {
 		else if( _nowID == 7) {
 			objs.at(obj_move::house1_2F_TR_chair).ChangeMap();
 			objs.at(obj_move::house1_2F_TL_chair).ChangeMap();
+			if (_map_show) {
+				house1_map.ShowBitmap();
+			}
 		}
 		else if( _nowID == 9) {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {

@@ -195,6 +195,8 @@ namespace game_framework {
 		vector<Event> events;
 		vector<Item> items;
 		vector<Password> pwds;
+		// sth in gamerun
+		bool _map_show;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		//map related
