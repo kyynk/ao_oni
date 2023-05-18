@@ -281,6 +281,11 @@ namespace game_framework {
 		game_interface.StartCount();
 		// house1 map
 		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, RGB(0, 0, 0));
+		// blue paint
+		blue_paint.LoadBitmapByString({ "img/password/password_jail/jail_password_L.bmp", 
+			"img/password/password_jail/jail_password_R.bmp", 
+			"img/password/password_jail/password_L.bmp", 
+			"img/password/password_jail/password_R.bmp" }, RGB(0, 0, 0));
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -303,6 +308,7 @@ namespace game_framework {
 		isgrid = false;
 		_pwd = false;
 		_map_show = false;
+		_blue_paint_show = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -375,8 +381,9 @@ namespace game_framework {
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
 		}
-		// house1 map
+		// house1 map blue paint
 		house1_map.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		blue_paint.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 	}
 
 	void CGameStateRun::OnMove()
@@ -860,6 +867,24 @@ namespace game_framework {
 				break;
 			case 3:
 				items.at(GATE2).OnKeyDown(nChar);
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up) {
+					_blue_paint_show = !_blue_paint_show;
+					if (player.GetX() == 9 * TILE && player.GetY() == 13 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(0);
+					}
+					else if (player.GetX() == 10 * TILE && player.GetY() == 13 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(1);
+					}
+					else if (player.GetX() == 9 * TILE && player.GetY() == 9 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(2);
+					}
+					else if (player.GetX() == 10 * TILE && player.GetY() == 9 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(3);
+					}
+					else {
+						_blue_paint_show = !_blue_paint_show;
+					}
+				}
 				break;
 			case 7:
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
@@ -971,7 +996,7 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!_pwd && !_map_show) {
+			if (!_pwd && !_map_show && !_blue_paint_show) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1195,6 +1220,9 @@ namespace game_framework {
 		}
 		else if( _nowID == 3) {
 			items.at(GATE2).OnShow();
+			if (_blue_paint_show) {
+				blue_paint.ShowBitmap();
+			}
 		}
 		else if( _nowID == 6) {
 			items.at(DOOR_ONI).EventTrigger();
