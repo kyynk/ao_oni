@@ -197,6 +197,7 @@ namespace game_framework {
 		vector<Password> pwds;
 		// sth in gamerun
 		bool _map_show;
+		bool _blue_paint_show;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		//map related
