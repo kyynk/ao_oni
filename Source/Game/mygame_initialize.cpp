@@ -89,7 +89,7 @@ namespace game_framework {
 		else if (startmenustate == _substate) {
 			startmenu.ShowCursor();
 			CDC* pDC = CDDraw::GetBackCDC();
-			CTextDraw::ChangeFontLog(pDC, 20, "Noto Sans TC", RGB(255, 255, 255));
+			CTextDraw::ChangeFontLog(pDC, 20, "Consolas", RGB(255, 255, 255));
 			startmenu.ShowText(pDC);
 			CDDraw::ReleaseBackCDC();
 		}
