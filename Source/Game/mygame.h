@@ -115,7 +115,8 @@ namespace game_framework {
 		KEY_BASEMENT_E,
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
-		DOOR_UNLOCKED_E
+		DOOR_UNLOCKED_E,
+		TATAMI_E,
 	};
 	enum item_name {
 		TOILET,
@@ -160,6 +161,7 @@ namespace game_framework {
 		BASEMENT_PWD,
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
+		DOOR_DIFF,
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -195,6 +197,11 @@ namespace game_framework {
 		vector<Event> events;
 		vector<Item> items;
 		vector<Password> pwds;
+		// sth in gamerun
+		bool _map_show;
+		bool _blue_paint_show;
+		CMovingBitmap house1_map;
+		CMovingBitmap blue_paint;
 		//map related
 		CMovingBitmap mapmask;
 		vector<GameMap> gamemaps;
