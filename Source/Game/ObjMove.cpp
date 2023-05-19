@@ -17,6 +17,7 @@ namespace game_framework {
 	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
 		int offsetX, int offsetY, int resetX, int resetY) {
 		_isFixedPos = false;
+		_isFixedPos2 = false;
 		_press = false;
 		_isCrossMap = false;
 		_notShow = false;
@@ -211,9 +212,10 @@ namespace game_framework {
 			bitmap.ShowBitmap();
 		}
 	}
-	void ObjMove::OnShowConditional()
+	void ObjMove::OnShowConditional(bool flip)
 	{
-		if (isChangeMap()) {
+		bool changemap = (flip ? isChangeMap() : !isChangeMap());
+		if (changemap) {
 			OnShow();
 		}
 		else {
@@ -258,6 +260,8 @@ namespace game_framework {
 			}
 			else { // 9 11
 				if (GetPosX() == 9 * TILE && GetPosY() == 11 * TILE) {
+					_isFixedPos2 = true;
+					
 					_resetX = 9 * TILE;
 					_resetY = 11 * TILE;
 				}
@@ -277,6 +281,9 @@ namespace game_framework {
 	}
 	bool ObjMove::IsFixed() {
 		return _isFixedPos;
+	}
+	bool ObjMove::IsFixed2() {
+		return _isFixedPos2;
 	}
 	void ObjMove::ChangeMap() {
 		// house1_2F_TR_chair not change map

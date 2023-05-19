@@ -30,12 +30,12 @@ namespace game_framework{
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
 		bool IsOnChair() const { return _on_chair; }
-		void SetOnChair() {
-			_pos_y = _pos_y - TILE - 16;
+		void SetOnChair(int offset) {
+			_pos_y = _pos_y - offset;
 			_on_chair = true;
 		}
-		void SetOffChair() {
-			_pos_y = _pos_y + TILE + 16;
+		void SetOffChair(int offset) {
+			_pos_y = _pos_y + offset;
 			_on_chair = false;
 		}
 		bool &IsMachineDone() { return _machine_done; }

@@ -117,7 +117,9 @@ namespace game_framework {
 		DOOR_LOCKED_E,
 		DOOR_UNLOCKED_E,
 		OPEN_FUCKING_HOLE_E,
-		OIL_E
+		OIL_E,
+		FLATHEAD_E,
+		KEY_JAIL_E
 	};
 	enum item_name {
 		TOILET,
@@ -177,7 +179,6 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();								
 	private:
-		void map0func1(int chairy, int humany, int oniy);
 		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
