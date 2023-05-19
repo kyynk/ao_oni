@@ -18,7 +18,6 @@ namespace game_framework {
 		int offsetX, int offsetY, int resetX, int resetY) {
 		_isFixedPos = false;
 		_press = false;
-		_collide = false;
 		_isCrossMap = false;
 		_notShow = false;
 		_1stCross = false;
@@ -51,16 +50,16 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int ObjMove::GetPosY() {
-		if (_type == house1_2F_TL_chair ||
-			_type == house1_basement2_chair) return _pos_y + _offsetY;
+		if (_type == house1_2F_TL_chair||_type == house1_basement2_chair) 
+			return _pos_y + _offsetY;
 		return _pos_y;
 	}
 	int ObjMove::GetPosL() {
 		return _pos_x - TILE;
 	}
 	int ObjMove::GetPosU() {
-		if (_type == house1_2F_TL_chair || 
-			_type == house1_basement2_chair) return _pos_y + _offsetY - TILE;
+		if (_type == house1_2F_TL_chair || _type == house1_basement2_chair)
+			return _pos_y + _offsetY - TILE;
 		return _pos_y - TILE;
 	}
 	int ObjMove::GetPosR() {
@@ -272,11 +271,9 @@ namespace game_framework {
 			|| (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
 			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
 			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY - TILE == y) && _pressing == up)
-			_collide = true;
-		else
-			_collide = false;
+			return true;
+		return false;
 
-		return _collide;
 	}
 	bool ObjMove::IsFixed() {
 		return _isFixedPos;

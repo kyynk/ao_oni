@@ -116,7 +116,8 @@ namespace game_framework {
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
 		DOOR_UNLOCKED_E,
-		OPEN_FUCKING_HOLE_E
+		OPEN_FUCKING_HOLE_E,
+		OIL_E
 	};
 	enum item_name {
 		TOILET,
@@ -223,7 +224,6 @@ namespace game_framework {
 		bool isdebugmode;
 		vector<int> twowayvec;
 		vector<int> pointvec;
-		std::vector<int> values;
 		std::vector<Entity*> entities;
 		ObjMove* obj;
 	};

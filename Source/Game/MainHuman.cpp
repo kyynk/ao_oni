@@ -30,11 +30,11 @@ namespace game_framework{
 		_isleft = false;
 		_isright = false;
 		_isMapChanged = false;
-		//_switchMapCheck = false;
 		_machine_done = true;
 		_nextmapx = 0;
 		_nextmapy = 0;
 		_nextMapID = 0;
+		_on_chair = false;
 		_door_lock = false;
 		_door_open = false;
 		_piano_open = false;
@@ -155,7 +155,6 @@ namespace game_framework{
 			}
 			if (_nowmove == up && upmovable) {
 				_pos_y -= _step;
-					
 			}
 			else if (_nowmove == down && downmovable) {
 				_pos_y += _step;

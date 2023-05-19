@@ -29,6 +29,15 @@ namespace game_framework{
 		int NextX() const { return _nextmapx; }
 		int NextY() const { return _nextmapy; }
 		int NextMapID() const { return _nextMapID; }
+		bool IsOnChair() const { return _on_chair; }
+		void SetOnChair() {
+			_pos_y = _pos_y - TILE - 16;
+			_on_chair = true;
+		}
+		void SetOffChair() {
+			_pos_y = _pos_y + TILE + 16;
+			_on_chair = false;
+		}
 		bool &IsMachineDone() { return _machine_done; }
 		bool &IsMapChanged() { return _isMapChanged; }
 		bool &IsDoorLock() { return _door_lock; }
@@ -50,5 +59,6 @@ namespace game_framework{
 		bool _door_lock;
 		bool _door_open;
 		bool _piano_open;
+		bool _on_chair;
 	};
 }

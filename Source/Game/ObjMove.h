@@ -54,7 +54,6 @@ namespace game_framework {
 			_preX, _preY;
 		bool _isFixedPos;
 		bool _press;
-		bool _collide;
 		bool _isCrossMap;
 		bool _1stCross;
 		bool _notShow;
