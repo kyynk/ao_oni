@@ -200,8 +200,11 @@ namespace game_framework {
 		// sth in gamerun
 		bool _map_show;
 		bool _blue_paint_show;
+		bool _piano_hint_show;
+		bool _use_handkerchief;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
+		CMovingBitmap piano_hint;
 		//map related
 		CMovingBitmap mapmask;
 		vector<GameMap> gamemaps;
