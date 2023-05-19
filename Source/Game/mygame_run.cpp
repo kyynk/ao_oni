@@ -16,7 +16,6 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
-		values.reserve(3); // reserve memory to avoid frequent reallocation
 		entities.reserve(3);
 		ShowInitProgress(33, "loading game mid");
 		// player map x, player map y, map ID bulk of craps
@@ -176,9 +175,9 @@ namespace game_framework {
 		events.at(KEY_ANNEXE_E).SetParam({}, 36, 1);
 		events.at(DOOR_LOCKED_E).SetParam({}, 37, 1);
 		events.at(DOOR_UNLOCKED_E).SetParam({}, 38, 1);
-		
+		events.at(OIL_E).SetParam({}, 39, 1);
 		//dialogs
-		dialogs.resize(40);
+		dialogs.resize(41);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -261,7 +260,8 @@ namespace game_framework {
 		dialogs.at(37).SetParam({ "The door is locked" }, false);
 		dialogs.at(38).SetFigure("hirosi");
 		dialogs.at(38).SetParam({ "The door is unlocked" }, false);
-
+		dialogs.at(39).SetFigure("hirosi");
+		dialogs.at(39).SetParam({ "Gain the oil" }, false);
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -387,7 +387,7 @@ namespace game_framework {
 			events.at(START_EVENT_E).IsTransMap() = false;
 		}
 		
-		if (_substate != OnDialogs) {
+		if (_substate != OnDialogs && !player.IsOnChair()) {
 			player.OnMove(gamemaps.at(_nowID), router, _nowID, blockLeftCor, blockRightCor);
 		}
 		switch (_nowID) {
@@ -727,6 +727,7 @@ namespace game_framework {
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		
+		game_interface.OnKeyDown(nChar);
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -738,13 +739,6 @@ namespace game_framework {
 				}
 				_substate = OnWalking;
 			}
-		}
-		else if (nChar == VK_ESCAPE) {
-			//TRACE("\n\n%s\n\n", game_interface.GetRealTime().c_str());
-			game_interface.OnKeyDown(nChar);
-		}
-		else if (game_interface.IsShow()) {
-			game_interface.OnKeyDown(nChar);
 		}
 		else if (_substate == OnWalking) {
 			
@@ -949,11 +943,26 @@ namespace game_framework {
 				items.at(DETERGENT).OnKeyDown(nChar);
 				break;
 			case 20:
+			{
 				items.at(OIL).OnKeyDown(nChar);
 				objs.at(obj_move::house1_2F_TL_chair).OnKeyDown(nChar);
 				human_mika.StorePlayerPos(player.GetX(), player.GetY());
 				human_mika.OnKeyDown(nChar);
+				if (objs.at(obj_move::house1_2F_TL_chair).IsFixed() && objs.at(obj_move::house1_2F_TL_chair).isCollide() && player.GetDirection() == Entity::up && nChar == VK_SPACE) {
+					player.SetOnChair();
+					player.OnMove();
+				}
+				else if (objs.at(obj_move::house1_2F_TL_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE && !items.at(OIL).IsPick()) {
+					items.at(OIL).SetIsPick(true);
+				}
+				else if(objs.at(obj_move::house1_2F_TL_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE){
+					player.SetOffChair();
+					player.OnMove();
+
+				}
+
 				break;
+			}
 			case 21:
 				items.at(BOOKCASE_MAP21).OnKeyDown(nChar);
 				break;
@@ -1093,7 +1102,7 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 21) {
+		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 20 && _nowID != 21) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		
@@ -1147,17 +1156,16 @@ namespace game_framework {
 					if (((i == 2 && entities[j]->CMPY() < 8 * TILE) || (i == 3 && entities[j]->CMPY() < 14*TILE) || i == 4) && trishow[j]) {
 						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
 							obj->OnShowConditional();
-							TRACE("%s\n",obj->ObjClass().c_str());
+							//TRACE("%s\n",obj->ObjClass().c_str());
 						}
 						else {
 							entities[j]->OnShow();
-							TRACE("%s\n", entities[j]->ObjClass().c_str());
+							//TRACE("%s\n", entities[j]->ObjClass().c_str());
 						}
 						trishow[j] = false;
 					}
 				}
 			}
-			values.clear();
 			entities.clear();
 			items.at(KEY_JAIL).OnShow();			
 			gamemaps.at(_nowID).ShowMapTile();
@@ -1250,6 +1258,7 @@ namespace game_framework {
 					}
 				}
 			}
+			entities.clear();
 			items.at(LIB_BOOK).OnShow();
 			if (items.at(LIB_BOOK).IsFixed()) {
 				items.at(KEY_3F_L).OnShow();
@@ -1444,6 +1453,40 @@ namespace game_framework {
 			}
 		}
 		else if( _nowID == 20) {
+			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
+			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
+			objs.at(obj_move::house1_2F_TL_chair).CMPY() = (objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			entities = { &player, &objs.at(obj_move::house1_2F_TL_chair), &normal_oni };
+			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
+				return a->CMPY() < b->CMPY();
+				});
+			if (player.IsOnChair()) {
+				int a = 0;
+				int b = 0;
+				ObjMove* en1;
+				MainHuman* en2;
+				for (int i = 0;i < 3;i++) {
+					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
+
+						a = i;
+					}
+					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
+						b = i;
+					}
+				}
+				entities[a] = en2;
+				entities[b] = en1;
+
+			}
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(i)) {
+					for (int j = 0;j < 3;j++) {
+						entities.at(j)->OnShow();
+					}
+				}
+			}
+			entities.clear();
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
 			if (_dialogID>=25 && _dialogID<=32) {
@@ -1453,7 +1496,10 @@ namespace game_framework {
 				human_mika.SetDirection(Entity::down);
 
 			}
-			objs.at(obj_move::house1_2F_TL_chair).OnShow();
+			if (items.at(OIL).IsPick() && player.IsOnChair() && !events.at(OIL_E).IsTriggered()) {
+				SetEventTriggeredDialog(OIL_E);
+				game_interface.StoreItem("oil", "oil", Interface::Items::oil);
+			}
 			if (human_mika.Trigger()&&!events.at(MIKA_SCARE_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
 				human_mika.SetDirection(Entity::up);
@@ -1475,6 +1521,7 @@ namespace game_framework {
 				human_mika.Trigger() = false;
 				events.at(MIKA_REPEAT_E).SetTriggered(false);
 			}
+			
 		}
 		else if( _nowID == 21) {
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
@@ -1493,7 +1540,7 @@ namespace game_framework {
 			}
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0; i < 39; i++) {
+		for (int i = 0; i < 40; i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
@@ -1651,8 +1698,8 @@ namespace game_framework {
 			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()));
 			player.IsMapChanged() ? CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): T") : CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): F");
 			//player.IsSwitchMap() ? CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Unlock all");
-			CTextDraw::Print(pDC, 0, TILE * 13, to_string(human_mika.GetY()));
-			CTextDraw::Print(pDC, 0, TILE * 14, to_string(human_mika.GetX()));
+			CTextDraw::Print(pDC, 0, TILE * 13, to_string(gamemaps.at(_nowID).GetX()));
+			CTextDraw::Print(pDC, 0, TILE * 14, to_string(gamemaps.at(_nowID).GetY()));
 			
 			
 			//(human_mika.Trigger()) ? CTextDraw::Print(pDC, 0, TILE * 12, "mkia ahhhh") : CTextDraw::Print(pDC, 0, TILE * 12, "mika nnnnnnahhh");
