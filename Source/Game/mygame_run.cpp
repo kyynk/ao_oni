@@ -595,7 +595,7 @@ namespace game_framework {
 			items.at(CLOSET_SHAKE).OnMove();
 			items.at(CLOSET_TAKESI_0).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
-			// CLOSET_TAKESI_1 not have on move*/
+			// CLOSET_TAKESI_1 not have on move
 			items.at(CLOSET_HIROSI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_HIROSI_R).OnMove();
 			break;
