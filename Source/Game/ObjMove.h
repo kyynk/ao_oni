@@ -32,11 +32,12 @@ namespace game_framework {
 		void OnKeyDown(UINT nChar);
 		void OnKeyUp(UINT nChar);
 		void OnShow();
-		void OnShowConditional();
+		void OnShowConditional(bool flip);
 		void Reset();
 		void Fixed();
 		bool isCollide();
 		bool IsFixed();
+		bool IsFixed2();
 		// if change map, obj should be disappear
 		// and obj will check if fixed or need to teleport or reset
 		void ChangeMap();
@@ -53,6 +54,8 @@ namespace game_framework {
 			_resetX, _resetY,
 			_preX, _preY;
 		bool _isFixedPos;
+		bool _isFixedPos2;
+
 		bool _press;
 		bool _isCrossMap;
 		bool _1stCross;

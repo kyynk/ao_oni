@@ -153,7 +153,7 @@ namespace game_framework {
 		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
 		//events
-		events.resize(30);
+		events.resize(31);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -176,8 +176,10 @@ namespace game_framework {
 		events.at(DOOR_LOCKED_E).SetParam({}, 37, 1);
 		events.at(DOOR_UNLOCKED_E).SetParam({}, 38, 1);
 		events.at(OIL_E).SetParam({}, 39, 1);
+		events.at(FLATHEAD_E).SetParam({}, 40, 1);
+		events.at(KEY_JAIL_E).SetParam({}, 41, 1);
 		//dialogs
-		dialogs.resize(41);
+		dialogs.resize(43);
 		dialogs.at(0).SetFigure("hirosi");
 		dialogs.at(0).SetParam({ "A broken plate... " }, false);
 		dialogs.at(1).SetFigure("hirosi");
@@ -262,6 +264,11 @@ namespace game_framework {
 		dialogs.at(38).SetParam({ "The door is unlocked" }, false);
 		dialogs.at(39).SetFigure("hirosi");
 		dialogs.at(39).SetParam({ "Gain the oil" }, false);
+		dialogs.at(40).SetFigure("hirosi");
+		dialogs.at(40).SetParam({ "Gain the flathead" }, false);
+		dialogs.at(41).SetFigure("hirosi");
+		dialogs.at(41).SetParam({ "Gain the jail key" }, false);
+
 		// objMove
 		objs.resize(3);
 		objs.at(obj_move::house1_2F_TR_chair).SetParam(ObjMove::house1_2F_TR_chair,
@@ -836,7 +843,17 @@ namespace game_framework {
 				if (items.at(BOOKCASE_R).IsFixed() && !items.at(BASEMENT_PWD).IsPick()) {
 					items.at(BASEMENT_PWD).OnKeyDown(nChar);
 				}
-
+				if (objs.at(obj_move::house1_basement2_chair).IsFixed() && objs.at(obj_move::house1_basement2_chair).isCollide() && player.GetDirection() == Entity::down && nChar == VK_SPACE) {
+					player.SetOnChair(-TILE/2);
+					player.OnMove();
+				}
+				else if (objs.at(obj_move::house1_basement2_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE && !items.at(KEY_JAIL).IsPick()) {
+					items.at(KEY_JAIL).SetIsPick(true);
+				}
+				else if (objs.at(obj_move::house1_basement2_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE) {
+					player.SetOffChair(-TILE / 2);
+					player.OnMove();
+				}
 				if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 					objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
 				
@@ -844,6 +861,17 @@ namespace game_framework {
 			case 1:
 				items.at(FLATHEAD).OnKeyDown(nChar);
 				objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
+				if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && objs.at(obj_move::house1_basement2_chair).isCollide() && player.GetDirection() == Entity::up && nChar == VK_SPACE) {
+					player.SetOnChair(3*TILE/2);
+					player.OnMove();
+				}
+				else if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && player.IsOnChair() && nChar == VK_SPACE && !items.at(FLATHEAD).IsPick()) {
+					items.at(FLATHEAD).SetIsPick(true);
+				}
+				else if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && player.IsOnChair() && nChar == VK_SPACE) {
+					player.SetOffChair(3 * TILE / 2);
+					player.OnMove();
+				}
 				break;
 			case 2:
 				items.at(CLOSET_HIROSI_L).OnKeyDown(nChar);
@@ -949,16 +977,15 @@ namespace game_framework {
 				human_mika.StorePlayerPos(player.GetX(), player.GetY());
 				human_mika.OnKeyDown(nChar);
 				if (objs.at(obj_move::house1_2F_TL_chair).IsFixed() && objs.at(obj_move::house1_2F_TL_chair).isCollide() && player.GetDirection() == Entity::up && nChar == VK_SPACE) {
-					player.SetOnChair();
+					player.SetOnChair(3 * TILE / 2);
 					player.OnMove();
 				}
 				else if (objs.at(obj_move::house1_2F_TL_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE && !items.at(OIL).IsPick()) {
 					items.at(OIL).SetIsPick(true);
 				}
 				else if(objs.at(obj_move::house1_2F_TL_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE){
-					player.SetOffChair();
+					player.SetOffChair(3 * TILE / 2);
 					player.OnMove();
-
 				}
 
 				break;
@@ -1102,7 +1129,8 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnShow()
 	{
-		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID!=0 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 20 && _nowID != 21) {
+
+		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID != 0 && _nowID != 1 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 20 && _nowID != 21) {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 		}
 		
@@ -1121,21 +1149,35 @@ namespace game_framework {
 			std::sort(entities.begin(), entities.end(), [&](Entity * a, Entity * b) {
 				return a->CMPY() < b->CMPY();
 			});
+			if (player.IsOnChair()) {
+				int a = 0;
+				int b = 0;
+				ObjMove* en1;
+				MainHuman* en2;
+				for (int i = 0;i < 3;i++) {
+					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
+						a = i;
+					}
+					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
+						b = i;
+					}
+				}
+				entities[a] = en2;
+				entities[b] = en1;
+
+			}
 			bool trishow[3] = { true,true,true };
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == 2) {
 					if (!items.at(BASEMENT_PWD).IsPick() && !pwds.at(basement).IsOpen()) {
 						items.at(BASEMENT_PWD).OnShow();
-						//TRACE("\n\nppppppassssssswordddddd\n\n");
 					}
 					else if (!items.at(BASEMENT_KEY).IsPick() && items.at(BASEMENT_PWD).IsPick()) {
 						items.at(BASEMENT_KEY).OnShow();
-						//TRACE("\n\nkeyyyyyyyyyyyyy\n\n");
 					}
 					else {
 						items.at(BASEMENT_PWD_TAKE).OnShow();
-						//TRACE("\n\ntttttakkkkkkeeee\n\n");
 						if (!events.at(KEY_ANNEXE_E).IsTriggered()) {
 							SetEventTriggeredDialog(KEY_ANNEXE_E);
 							game_interface.StoreItem("get out of here", "???", Interface::Items::key_annexe);
@@ -1150,17 +1192,13 @@ namespace game_framework {
 					items.at(BOOKCASE_L).OnShow();
 					items.at(BOOKCASE_R).OnShow();
 				}
-				//TRACE("name : %s %s %s\n",entities[0]->ObjClass().c_str(), entities[1]->ObjClass().c_str(), entities[2]->ObjClass().c_str());
-				//TRACE("CMPY : %d %d %d\n", entities[0]->CMPY(), entities[1]->CMPY(), entities[2]->CMPY());
 				for (int j = 0; j < 3; j++) {
 					if (((i == 2 && entities[j]->CMPY() < 8 * TILE) || (i == 3 && entities[j]->CMPY() < 14*TILE) || i == 4) && trishow[j]) {
 						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
-							obj->OnShowConditional();
-							//TRACE("%s\n",obj->ObjClass().c_str());
+							obj->OnShowConditional(true);
 						}
 						else {
 							entities[j]->OnShow();
-							//TRACE("%s\n", entities[j]->ObjClass().c_str());
 						}
 						trishow[j] = false;
 					}
@@ -1169,6 +1207,10 @@ namespace game_framework {
 			entities.clear();
 			items.at(KEY_JAIL).OnShow();			
 			gamemaps.at(_nowID).ShowMapTile();
+			if (items.at(KEY_JAIL).IsPick() && player.IsOnChair() && !events.at(KEY_JAIL_E).IsTriggered()) {
+				SetEventTriggeredDialog(KEY_JAIL_E);
+				game_interface.StoreItem("jail key", "jail key", Interface::Items::key_jail);
+			}
 			if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 				if (!pwds.at(basement).IsShow()) {
 					pwds.at(basement).SetShow(true);
@@ -1177,12 +1219,52 @@ namespace game_framework {
 			}
 		}
 		else if( _nowID == 1) {
-			items.at(FLATHEAD).OnShow();
-			if (!objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
-				objs.at(obj_move::house1_basement2_chair).OnShow();
+			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
+			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
+			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			entities = { &player, &objs.at(obj_move::house1_basement2_chair), &normal_oni };
+			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
+				return a->CMPY() < b->CMPY();
+				});
+			if (player.IsOnChair()) {
+				int a = 0;
+				int b = 0;
+				ObjMove* en1;
+				MainHuman* en2;
+				for (int i = 0;i < 3;i++) {
+					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
+						a = i;
+					}
+					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
+						b = i;
+					}
+				}
+				entities[a] = en2;
+				entities[b] = en1;
+
 			}
-			else {
-				objs.at(obj_move::house1_basement2_chair).ChangeMap();
+			bool trishow[3] = { true,true,true };
+
+			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					items.at(FLATHEAD).OnShow();
+					for (int j = 0;j < 3;j++) {
+						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
+							obj->OnShowConditional(false);
+						}
+						else {
+							entities[j]->OnShow();
+						}
+						trishow[j] = false;
+					}
+					
+				}
+			}
+			entities.clear();
+			if (items.at(FLATHEAD).IsPick() && player.IsOnChair() && !events.at(FLATHEAD_E).IsTriggered()) {
+				SetEventTriggeredDialog(FLATHEAD_E);
+				game_interface.StoreItem("flathead", "flathead", Interface::Items::flathead);
 			}
 
 		}
@@ -1435,7 +1517,7 @@ namespace game_framework {
 			}
 			if (items.at(PHILLIPS).IsPick() && !events.at(PHILLIPS_E).IsTriggered()) {
 				SetEventTriggeredDialog(PHILLIPS_E);
-				game_interface.StoreItem("phillips screwdriver", "phillips scredriver", Interface::Items::phillips);
+				game_interface.StoreItem("phillips screwdriver", "phillips screwdriver", Interface::Items::phillips);
 			}
 		}
 		else if( _nowID == 19) {
@@ -1540,7 +1622,7 @@ namespace game_framework {
 			}
 			items.at(GATE).OnShow();
 		}
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < int(dialogs.size())-1; i++) {
 			if (dialogs.at(i).isShow()) {
 				dialogs.at(i).ShowTotal();
 			}
@@ -1551,39 +1633,7 @@ namespace game_framework {
 			game_interface.ShowTotal();
 		}
 	}
-	void CGameStateRun::map0func1(int chairy, int humany, int oniy)
-	{
-		if (chairy < humany && humany < oniy) {
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-			player.OnShow();
-			normal_oni.OnShow();
-		}
-		else if (humany < chairy && chairy < oniy) {
-			player.OnShow();
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-			normal_oni.OnShow();
-		}
-		else if (humany < oniy && oniy < chairy) {
-			player.OnShow();
-			normal_oni.OnShow();
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-		}
-		else if (chairy < oniy && oniy < humany) {
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-			normal_oni.OnShow();
-			player.OnShow();
-		}
-		else if (oniy < chairy && chairy < humany) {
-			normal_oni.OnShow();
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-			player.OnShow();
-		}
-		else if (oniy < humany && humany < chairy) {
-			normal_oni.OnShow();
-			player.OnShow();
-			objs.at(obj_move::house1_basement2_chair).OnShowConditional();
-		}
-	}
+	
 	void CGameStateRun::ShowOniAndPlayer() {
 		if (normal_oni.GetPosD() > player.GetD()) {
 			player.OnShow();
