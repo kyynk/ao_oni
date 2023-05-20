@@ -109,7 +109,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(42);
+		items.resize(43);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -152,6 +152,7 @@ namespace game_framework {
 		items.at(BASEMENT_PWD).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
+		items.at(DOOR_DIFF).SetParam(-1, 0, 0, Item::diff_door);
 		//events
 		events.resize(31);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -178,6 +179,7 @@ namespace game_framework {
 		events.at(OIL_E).SetParam({}, 39, 1);
 		events.at(FLATHEAD_E).SetParam({}, 40, 1);
 		events.at(KEY_JAIL_E).SetParam({}, 41, 1);
+		events.at(TATAMI_E).SetParam({}, -1, -1);
 		//dialogs
 		dialogs.resize(43);
 		dialogs.at(0).SetFigure("hirosi");
@@ -286,6 +288,17 @@ namespace game_framework {
 		// interface
 		game_interface.init();
 		game_interface.StartCount();
+		// house1 map
+		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, RGB(0, 0, 0));
+		// blue paint
+		blue_paint.LoadBitmapByString({ "img/password/password_jail/jail_password_L.bmp", 
+			"img/password/password_jail/jail_password_R.bmp", 
+			"img/password/password_jail/password_L.bmp", 
+			"img/password/password_jail/password_R.bmp" }, RGB(0, 0, 0));
+		// piano hint
+		piano_hint.LoadBitmapByString({ "img/password/password_piano/piano_blood.bmp", 
+			"img/password/password_piano/piano_0.bmp",
+			"img/password/password_piano/piano_hint.bmp" }, RGB(204, 255, 0));
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -307,6 +320,10 @@ namespace game_framework {
 		isedit = false;
 		isgrid = false;
 		_pwd = false;
+		_map_show = false;
+		_use_handkerchief = false;
+		_blue_paint_show = false;
+		_piano_hint_show = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -375,10 +392,15 @@ namespace game_framework {
 		items.at(BASEMENT_PWD).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_PWD_TAKE).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
+		items.at(DOOR_DIFF).SetXY(17 * TILE, 15 * TILE);
 		
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
 		}
+		// house1 map blue paint
+		house1_map.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		blue_paint.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		piano_hint.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 	}
 
 	void CGameStateRun::OnMove()
@@ -587,7 +609,7 @@ namespace game_framework {
 			items.at(CLOSET_SHAKE).OnMove();
 			items.at(CLOSET_TAKESI_0).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
-			// CLOSET_TAKESI_1 not have on move*/
+			// CLOSET_TAKESI_1 not have on move
 			items.at(CLOSET_HIROSI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_HIROSI_R).OnMove();
 			break;
@@ -878,6 +900,29 @@ namespace game_framework {
 				break;
 			case 3:
 				items.at(GATE2).OnKeyDown(nChar);
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up) {
+					_blue_paint_show = !_blue_paint_show;
+					if (player.GetX() == 9 * TILE && player.GetY() == 13 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(0);
+					}
+					else if (player.GetX() == 10 * TILE && player.GetY() == 13 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(1);
+					}
+					else if (player.GetX() == 9 * TILE && player.GetY() == 9 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(2);
+					}
+					else if (player.GetX() == 10 * TILE && player.GetY() == 9 * TILE) {
+						blue_paint.SetFrameIndexOfBitmap(3);
+					}
+					else {
+						_blue_paint_show = !_blue_paint_show;
+					}
+				}
+				break;
+			case 7:
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
+					_map_show = !_map_show;
+				}
 				break;
 			case 10:
 				items.at(LIGHTER).OnKeyDown(nChar);
@@ -934,6 +979,23 @@ namespace game_framework {
 				if (!items.at(BB_KEY).IsPick() && pwds.at(piano).IsOpen()) {
 					items.at(BB_KEY).SetDirection(player.GetDirection());
 					items.at(BB_KEY).OnKeyDown(nChar);
+				}
+				if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && nChar == VK_SPACE) {
+					_piano_hint_show = !_piano_hint_show;
+					if (player.GetX() == 11 * TILE && player.GetY() == 12 * TILE && player.GetDirection() == Entity::right) {
+						if (_use_handkerchief) {
+							piano_hint.SetFrameIndexOfBitmap(1);
+						}
+						else {
+							piano_hint.SetFrameIndexOfBitmap(0);
+						}
+					}
+					else if (items.at(WHITE_BOOKCASE).IsFixed() && player.GetX() == 16 * TILE && player.GetY() == 8 * TILE && player.GetDirection() == Entity::up) {
+						piano_hint.SetFrameIndexOfBitmap(2);
+					}
+					else {
+						_piano_hint_show = !_piano_hint_show;
+					}
 				}
 				if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && pwds.at(piano).IsShow()) {
 					_pwd = true;
@@ -998,7 +1060,7 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!_pwd) {
+			if (!_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1259,6 +1321,9 @@ namespace game_framework {
 		}
 		else if( _nowID == 3) {
 			items.at(GATE2).OnShow();
+			if (_blue_paint_show) {
+				blue_paint.ShowBitmap();
+			}
 		}
 		else if( _nowID == 6) {
 			items.at(DOOR_ONI).EventTrigger();
@@ -1274,6 +1339,9 @@ namespace game_framework {
 		else if( _nowID == 7) {
 			objs.at(obj_move::house1_2F_TR_chair).ChangeMap();
 			objs.at(obj_move::house1_2F_TL_chair).ChangeMap();
+			if (_map_show) {
+				house1_map.ShowBitmap();
+			}
 		}
 		else if( _nowID == 9) {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
@@ -1288,6 +1356,18 @@ namespace game_framework {
 					items.at(TATAMI_R).OnShow();
 					if (items.at(LIGHTER).IsPick()) {
 						items.at(TATAMI_L).OnShow();
+					}
+					items.at(DOOR_DIFF).OnShow();
+					/* use dish
+					if (!items.at(TATAMI_L).IsClose()) {
+						items.at(DOOR_DIFF).EventTrigger();
+					}*/
+					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
+						normal_oni.SetPos(11 * TILE, 8 * TILE);
+						items.at(TATAMI_R).EventTrigger();
+						events.at(TATAMI_E).SetTriggered(true);
+						normal_oni.IsShow() = true;
+						normal_oni.Once() = false;
 					}
 					ShowOniAndPlayer();
 				}
@@ -1481,10 +1561,14 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
+			if (_piano_hint_show) {
+				piano_hint.ShowBitmap();
+			}
 			if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && !pwds.at(piano).IsOpen()) {
 				if (!pwds.at(piano).IsShow()) {
 					pwds.at(piano).SetShow(true);
 				}
+				
 				pwds.at(piano).ShowTotal();
 			}
 		}

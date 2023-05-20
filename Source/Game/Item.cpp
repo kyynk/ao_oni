@@ -179,9 +179,6 @@ namespace game_framework {
 		else if (_name == password_get_key) {
 			bitmapName.push_back("img/item_animation/password/pwd_get_key.bmp");
 		}
-		else if (_name == map) {
-			bitmapName.push_back("img/map_house1.bmp");
-		}
 		else if (_name == piano_blood) {
 			bitmapName.push_back("img/password/password_piano/piano_blood.bmp");
 		}
@@ -190,6 +187,11 @@ namespace game_framework {
 		}
 		else if (_name == piano_hint) {
 			bitmapName.push_back("img/password/password_piano/piano_hint.bmp");
+		}
+		else if (_name == diff_door) {
+			for (int i = 0; i < 3; i++) {
+				bitmapName.push_back("img/door_need_knob/door_knob" + to_string(i) + ".bmp");
+			}
 		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
@@ -648,6 +650,18 @@ namespace game_framework {
 			SetTrigger();
 			Animation(0, 0);
 			utiltriggers[fixed] = true;
+		}
+		else if (_name == tatami_r && utiltriggers[close]) {
+			SetTrigger();
+			Animation(0, 0); // open
+			utiltriggers[close] = false;
+		}
+		else if (_name == diff_door && _aniFrame < 2) {
+			if (_aniFrame == -1) {
+				_aniFrame = 0;
+			}
+			SetTrigger();
+			Animation(2, _aniFrame + 1);
 		}
 	}
 }

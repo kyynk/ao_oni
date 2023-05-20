@@ -1,4 +1,6 @@
 #pragma once
+#include "ChoiceMenu.h"
+#include "Dialog.h"
 namespace game_framework {
 	class Interface {
 	public:
@@ -7,7 +9,8 @@ namespace game_framework {
 			status, 
 			item, 
 			save, 
-			end
+			end,
+			use_item
 		};
 		enum Items {
 			key_lib,
@@ -60,6 +63,7 @@ namespace game_framework {
 		bool IsShow() const;
 		bool IsTitle() const;
 		bool IsEnd() const;
+		bool IsChangeStatus();
 
 	private:
 		int _cursorX, _cursorY,
@@ -85,5 +89,6 @@ namespace game_framework {
 		CMovingBitmap _item;
 		CMovingBitmap _save;
 		CMovingBitmap _end;
+		Dialog _useItemDialog;
 	};
 }
