@@ -119,7 +119,8 @@ namespace game_framework {
 		OPEN_FUCKING_HOLE_E,
 		OIL_E,
 		FLATHEAD_E,
-		KEY_JAIL_E
+		KEY_JAIL_E,
+		TATAMI_E
 	};
 	enum item_name {
 		TOILET,
@@ -164,6 +165,7 @@ namespace game_framework {
 		BASEMENT_PWD,
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
+		DOOR_DIFF,
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -198,6 +200,14 @@ namespace game_framework {
 		vector<Event> events;
 		vector<Item> items;
 		vector<Password> pwds;
+		// sth in gamerun
+		bool _map_show;
+		bool _blue_paint_show;
+		bool _piano_hint_show;
+		bool _use_handkerchief;
+		CMovingBitmap house1_map;
+		CMovingBitmap blue_paint;
+		CMovingBitmap piano_hint;
 		//map related
 		CMovingBitmap mapmask;
 		vector<GameMap> gamemaps;

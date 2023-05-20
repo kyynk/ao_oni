@@ -104,7 +104,7 @@ namespace game_framework {
 			ShowCursor();
 		}
 		else {
-		_choicemenu.ShowCursor();
+			_choicemenu.ShowCursor();
 		}
 		CDC *pDC = CDDraw::GetBackCDC();
 		ShowText(pDC);
