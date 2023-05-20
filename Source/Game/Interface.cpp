@@ -7,6 +7,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 #include <algorithm>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
@@ -48,7 +49,7 @@ namespace game_framework {
 		_item.LoadBitmapByString({ "img/interface/item.bmp" }, RGB(204, 255, 0));
 		_save.LoadBitmapByString({ "img/interface/save.bmp" }, RGB(204, 255, 0));
 		_end.LoadBitmapByString({ "img/interface/end.bmp" }, RGB(204, 255, 0));
-		_useItemDialog.SetFigure("hirosi");
+		_useItem.SetFigure("hirosi");
 	}
 	// game time counter
 	bool Interface::IsPause() const {
@@ -284,12 +285,12 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 		}
 		else if (_show == use_item) {
-			_useItemDialog.ShowTotal();
+			_useItem.ShowTotal();
 		}
 	}
 	void Interface::OnKeyDown(UINT nChar) {
 		if (_show == use_item) {
-			_useItemDialog.GetSelect(nChar);
+			_useItem.GetSelect(nChar);
 		}
 		if (nChar == VK_ESCAPE) {
 			if (!IsShow()) {
@@ -335,8 +336,8 @@ namespace game_framework {
 					_useItemIndex = _itemChoose;
 					if (IsChangeStatus()) {
 						_show = use_item;
-						_useItemDialog.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
-						_useItemDialog.SetOption("Yes", "No");
+						_useItem.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
+						_useItem.SetOption("Yes", "No");
 					}
 					else {
 						SetShow(false);
@@ -359,13 +360,12 @@ namespace game_framework {
 				}
 				else if (_endChoose == 2) {
 					_show = status;
-					_useItemDialog.SetShow(false);
 					SetShow(false);
 					ResetChoose();
 				}
 			}
 			else if (_show == use_item) {
-				if (_useItemDialog.Choice() == Dialog::option::yes) {
+				if (_useItem.Choice() == Dialog::option::yes) {
 					if (_itemsName.at(_useItemIndex) == "phillips scredriver core") {
 						ChangeItemStatus("flathead screwdriver", "This is screwdriver core", "flathead screwdriver core", 0);
 						ChangeItemStatus("phillips screwdriver core", "This is screwdriver", "phillips screwdriver", 0);
