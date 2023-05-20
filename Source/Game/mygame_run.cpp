@@ -168,7 +168,7 @@ namespace game_framework {
 		events.at(MIKA_NOTOK_E).SetParam({}, 29, 2);
 		events.at(MIKA_OK_E).SetParam({}, 31, 1);
 		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
-		events.at(LIB_KEY_CHASE).SetParam({ {9, 13 }, {6, 18 }, {6,19} }, -1, -1);
+		events.at(LIB_KEY_CHASE).SetParam({ {9, 13 }, {6, 18 }, {6,19},{9, 10} }, -1, -1);
 		events.at(DUMB_TAKESHI_REPEAT_E).SetParam({}, 18, 1);
 		events.at(KEY_2F_TL_E).SetParam({}, 33, 1); // piano pwd
 		events.at(KEY_BASEMENT_E).SetParam({}, 34, 1);
