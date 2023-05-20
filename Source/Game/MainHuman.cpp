@@ -213,7 +213,7 @@ namespace game_framework{
 							gif.DeleteItem("babyroom key");
 							_door_open = true;
 						}
-						else if ((nowID == 5 ||nowID == 16)&& _direction == left ) {
+						else if (((nowID == 5 ||nowID == 16)&& _direction == left) || nowID == 10 && _direction == up) {
 
 						}
 						else {
