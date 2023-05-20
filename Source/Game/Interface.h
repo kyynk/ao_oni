@@ -87,6 +87,6 @@ namespace game_framework {
 		CMovingBitmap _item;
 		CMovingBitmap _save;
 		CMovingBitmap _end;
-		Dialog _useItemDialog;
+		Dialog _useItem;
 	};
 }
