@@ -393,7 +393,9 @@ namespace game_framework {
 		items.at(BASEMENT_PWD_TAKE).SetXY(16 * TILE, 5 * TILE);
 		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
 		items.at(DOOR_DIFF).SetXY(17 * TILE, 15 * TILE);
-		
+		for (int i = 0;i< int(events.size());i++) {
+			events.at(i).SetTriggered(false);
+		}
 		for (int i = 0; i < int(items.size()); i++) {
 			items.at(i).ResetUtil();
 		}
@@ -1203,11 +1205,11 @@ namespace game_framework {
 		if (player.IsDoorOpen() && !events.at(DOOR_UNLOCKED_E).IsTriggered()) {
 			SetEventTriggeredDialog(DOOR_UNLOCKED_E);
 		}
-	
-		if (_nowID == 0) {
+		switch (_nowID) {
+		case 0: {
 			if (player.IsOnChair()) {
 				player.SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
-				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY()) ;
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 				objs.at(obj_move::house1_basement2_chair).SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
 			}
 			else {
@@ -1216,10 +1218,10 @@ namespace game_framework {
 				objs.at(obj_move::house1_basement2_chair).SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
 			}
 			entities = { &player, &objs.at(obj_move::house1_basement2_chair), &normal_oni };
-			std::sort(entities.begin(), entities.end(), [&](Entity * a, Entity * b) {
+			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
-			});
-			
+				});
+
 			bool trishow[3] = { true,true,true };
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
@@ -1247,7 +1249,7 @@ namespace game_framework {
 					items.at(BOOKCASE_R).OnShow();
 				}
 				for (int j = 0; j < 3; j++) {
-					if (((i == 2 && entities[j]->CMPY() < 8 * TILE) || (i == 3 && entities[j]->CMPY() < 14*TILE) || i == 4) && trishow[j]) {
+					if (((i == 2 && entities[j]->CMPY() < 8 * TILE) || (i == 3 && entities[j]->CMPY() < 14 * TILE) || i == 4) && trishow[j]) {
 						if (obj = dynamic_cast<ObjMove*>(entities[j])) {
 							obj->OnShowConditional(true);
 						}
@@ -1259,7 +1261,7 @@ namespace game_framework {
 				}
 			}
 			entities.clear();
-			items.at(KEY_JAIL).OnShow();			
+			items.at(KEY_JAIL).OnShow();
 			gamemaps.at(_nowID).ShowMapTile();
 			if (items.at(KEY_JAIL).IsPick() && player.IsOnChair() && !events.at(KEY_JAIL_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_JAIL_E);
@@ -1271,8 +1273,10 @@ namespace game_framework {
 				}
 				pwds.at(basement).ShowTotal();
 			}
+			break;
 		}
-		else if( _nowID == 1) {
+		case 1:
+		{
 			if (player.IsOnChair()) {
 				player.SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
 				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
@@ -1303,7 +1307,7 @@ namespace game_framework {
 						}
 						trishow[j] = false;
 					}
-					
+
 				}
 			}
 			entities.clear();
@@ -1312,20 +1316,21 @@ namespace game_framework {
 				game_interface.StoreItem("flathead", "flathead", Interface::Items::flathead);
 			}
 
+			break;
 		}
-		else if( _nowID == 2) {
+		case 2:
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
 			items.at(CLOSET_HIROSI_L).OnShow();
-		}
-		else if( _nowID == 3) {
+			break;
+		case 3:
 			items.at(GATE2).OnShow();
 			if (_blue_paint_show) {
 				blue_paint.ShowBitmap();
 			}
-		}
-		else if( _nowID == 6) {
+			break;
+		case 6:
 			items.at(DOOR_ONI).EventTrigger();
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
@@ -1334,21 +1339,20 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
-
-		}
-		else if( _nowID == 7) {
+			break;
+		case 7:
 			objs.at(obj_move::house1_2F_TR_chair).ChangeMap();
 			objs.at(obj_move::house1_2F_TL_chair).ChangeMap();
 			if (_map_show) {
 				house1_map.ShowBitmap();
 			}
-		}
-		else if( _nowID == 9) {
+			break;
+		case 9:
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
-		}
-		else if( _nowID == 10) {
+			break;
+		case 10:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1376,28 +1380,29 @@ namespace game_framework {
 				SetEventTriggeredDialog(LIGHTER_E);
 				game_interface.StoreItem("(need oil) lighter", "lighter", Interface::Items::lighter);
 			}
-		}
-		else if( _nowID == 11) {
+			break;
+		case 11:
 			items.at(BROKEN_DISH).OnShow();
 			if (items.at(BROKEN_DISH).IsTake() && !events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(BROKEN_DISH_E);
-				
+
 				game_interface.StoreItem("broken dish", "plate shards", Interface::Items::broken_dish);
 			}
-		}
-		else if( _nowID == 12) {
+			break;
+		case 12:
+		{
 			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
 			normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 			entities = { &player, &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
 				});
-			bool bishow[2] = { true,true};
+			bool bishow[2] = { true,true };
 
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				for (int j = 0;j < 2; j++) {
-					if (((i == 4 && entities[j]->CMPY() < 4*TILE) || (i == 5 && entities[j]->CMPY() < 8 * TILE) || (i == 6 && entities[j]->CMPY() < 12 * TILE) || (i == 7 && entities[j]->CMPY() < 15 * TILE) || i == 8) && bishow[j]) {
+					if (((i == 4 && entities[j]->CMPY() < 4 * TILE) || (i == 5 && entities[j]->CMPY() < 8 * TILE) || (i == 6 && entities[j]->CMPY() < 12 * TILE) || (i == 7 && entities[j]->CMPY() < 15 * TILE) || i == 8) && bishow[j]) {
 						entities[j]->OnShow();
 						bishow[j] = false;
 					}
@@ -1412,8 +1417,9 @@ namespace game_framework {
 				SetEventTriggeredDialog(KEY_3F_L_E);
 				game_interface.StoreItem("3F left", "bedroom key", Interface::Items::key_3F_L);
 			}
+			break;
 		}
-		else if( _nowID == 13) {
+		case 13:
 
 			if (!events.at(START_EVENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT_E);
@@ -1421,6 +1427,7 @@ namespace game_framework {
 			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT2_E);
 			}
+			
 			if (_dialogID == 6) {
 				player.SetDirection(Entity::right);
 				human_takeshi.SetDirection(Entity::right);
@@ -1475,8 +1482,8 @@ namespace game_framework {
 				gamemaps.at(_nowID).ShowMapAll();
 				player.OnShow();
 			}
-		}
-		else if( _nowID == 14) {
+			break;
+		case 14:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1493,7 +1500,7 @@ namespace game_framework {
 						SetEventTriggeredDialog(HANDKERCHIEF_E);
 						game_interface.StoreItem("(dirty) handkerchief", "handkerchief", Interface::Items::handkerchief);
 					}
-					if ((player.GetY() - gamemaps.at(_nowID).GetY())/TILE <= 3 && (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE >= 5) {
+					if ((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE <= 3 && (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE >= 5) {
 						items.at(CLOSET_SHAKE).EventTrigger();
 					}
 					if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
@@ -1518,8 +1525,8 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
-		}
-		else if( _nowID == 15) {
+			break;
+		case 15:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1532,21 +1539,21 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
-		}
-		else if( _nowID == 16) {
+			break;
+		case 16:
 			items.at(BED).OnShow();
 			if (items.at(BED).IsOnCorPos() && !events.at(OPEN_FUCKING_HOLE_E).IsTriggered()) {
 				router.UnblockPath(16, 17);
 			}
-		}
-		else if( _nowID == 17) {
+			break;
+		case 17:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && !pwds.at(piano).IsOpen()) {
 						items.at(PIANO_PWD_NOTOPEN).OnShow();
 					}
-					else if(!items.at(BB_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
+					else if (!items.at(BB_KEY).IsPick() && items.at(PIANO_PWD_NOTOPEN).IsPick()) {
 						items.at(BB_KEY).OnShow();
 					}
 					else {
@@ -1556,7 +1563,7 @@ namespace game_framework {
 							game_interface.StoreItem("2F top left", "babyroom key", Interface::Items::key_2F_TL);
 						}
 					}
-					
+
 					items.at(WHITE_BOOKCASE).OnShow();
 					ShowOniAndPlayer();
 				}
@@ -1568,11 +1575,11 @@ namespace game_framework {
 				if (!pwds.at(piano).IsShow()) {
 					pwds.at(piano).SetShow(true);
 				}
-				
+
 				pwds.at(piano).ShowTotal();
 			}
-		}
-		else if( _nowID == 18) {
+			break;
+		case 18:
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
 				items.at(TUB_ONCE).OnShow();
 			}
@@ -1586,8 +1593,8 @@ namespace game_framework {
 				SetEventTriggeredDialog(PHILLIPS_E);
 				game_interface.StoreItem("phillips screwdriver", "phillips screwdriver", Interface::Items::phillips);
 			}
-		}
-		else if( _nowID == 19) {
+			break;
+		case 19:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1600,17 +1607,17 @@ namespace game_framework {
 				SetEventTriggeredDialog(DETERGENT_E);
 				game_interface.StoreItem("detergent", "detergent", Interface::Items::detergent);
 			}
-		}
-		else if( _nowID == 20) {
-			
+			break;
+		case 20:
+
 			if (player.IsOnChair()) {
 				player.SetCMPY(objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
-				normal_oni.SetCMPY (normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 				objs.at(obj_move::house1_2F_TL_chair).SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
 			}
 			else {
 				player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
-				normal_oni.SetCMPY (normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 				objs.at(obj_move::house1_2F_TL_chair).SetCMPY(objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
 			}
 			entities = { &player, &objs.at(obj_move::house1_2F_TL_chair), &normal_oni };
@@ -1628,7 +1635,7 @@ namespace game_framework {
 			entities.clear();
 			items.at(OIL).OnShow();
 			human_mika.OnShow();
-			if (_dialogID>=25 && _dialogID<=32) {
+			if (_dialogID >= 25 && _dialogID <= 32) {
 				human_mika.SetDirection(Entity::up);
 			}
 			else {
@@ -1639,7 +1646,7 @@ namespace game_framework {
 				SetEventTriggeredDialog(OIL_E);
 				game_interface.StoreItem("oil", "oil", Interface::Items::oil);
 			}
-			if (human_mika.Trigger()&&!events.at(MIKA_SCARE_E).IsTriggered()) {
+			if (human_mika.Trigger() && !events.at(MIKA_SCARE_E).IsTriggered()) {
 				SetEventTriggeredDialog(MIKA_SCARE_E);
 				human_mika.SetDirection(Entity::up);
 				human_mika.Trigger() = false;
@@ -1654,15 +1661,14 @@ namespace game_framework {
 					human_mika.Trigger() = false;
 				}
 			}
-			if ((events.at(MIKA_NOTOK_E).IsTriggered()|| events.at(MIKA_OK_E).IsTriggered()) && 
+			if ((events.at(MIKA_NOTOK_E).IsTriggered() || events.at(MIKA_OK_E).IsTriggered()) &&
 				!events.at(MIKA_REPEAT_E).IsTriggered() && human_mika.Trigger()) {
 				SetEventTriggeredDialog(MIKA_REPEAT_E);
 				human_mika.Trigger() = false;
 				events.at(MIKA_REPEAT_E).SetTriggered(false);
 			}
-			
-		}
-		else if( _nowID == 21) {
+			break;
+		case 21:
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1670,14 +1676,18 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
-		}
-		else if( _nowID == 22) {
+			break;
+		case 22:
 			items.at(KEY_BASEMENT).OnShow();
 			if (items.at(KEY_BASEMENT).IsPick() && !events.at(KEY_BASEMENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_BASEMENT_E);
 				game_interface.StoreItem("basement", "basement key", Interface::Items::key_basement);
 			}
 			items.at(GATE).OnShow();
+			break;
+		default:
+			{
+			}
 		}
 		for (int i = 0; i < int(dialogs.size())-1; i++) {
 			if (dialogs.at(i).isShow()) {
