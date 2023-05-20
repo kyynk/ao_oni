@@ -168,7 +168,7 @@ namespace game_framework {
 		events.at(MIKA_NOTOK_E).SetParam({}, 29, 2);
 		events.at(MIKA_OK_E).SetParam({}, 31, 1);
 		events.at(MIKA_REPEAT_E).SetParam({}, 32, 1);
-		events.at(LIB_KEY_CHASE).SetParam({}, -1, -1);
+		events.at(LIB_KEY_CHASE).SetParam({ {9, 13 }, {6, 18 }, {6,19} }, -1, -1);
 		events.at(DUMB_TAKESHI_REPEAT_E).SetParam({}, 18, 1);
 		events.at(KEY_2F_TL_E).SetParam({}, 33, 1); // piano pwd
 		events.at(KEY_BASEMENT_E).SetParam({}, 34, 1);
@@ -861,8 +861,8 @@ namespace game_framework {
 			case 1:
 				items.at(FLATHEAD).OnKeyDown(nChar);
 				objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
-				if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && objs.at(obj_move::house1_basement2_chair).isCollide() && player.GetDirection() == Entity::up && nChar == VK_SPACE) {
-					player.SetOnChair(3*TILE/2);
+				if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && objs.at(obj_move::house1_basement2_chair).isCollide() && player.GetDirection() == Entity::up && nChar == VK_SPACE && !items.at(FLATHEAD).IsPick()) {
+					player.SetOnChair(3 * TILE / 2);
 					player.OnMove();
 				}
 				else if (objs.at(obj_move::house1_basement2_chair).IsFixed2() && player.IsOnChair() && nChar == VK_SPACE && !items.at(FLATHEAD).IsPick()) {
@@ -1021,7 +1021,8 @@ namespace game_framework {
 							player.SetNextMap(0, 3, 5);
 						}
 						if (_dialogID == 17) {
-							events.at(LIB_KEY_CHASE).SetTriggered(true);
+							SetEventTriggeredDialog(LIB_KEY_CHASE);
+							//events.at(LIB_KEY_CHASE).SetTriggered(true);
 							normal_oni.SetPos(11 * TILE, 10 * TILE);
 							normal_oni.IsShow() = true;
 						}
@@ -1142,30 +1143,21 @@ namespace game_framework {
 		}
 	
 		if (_nowID == 0) {
-			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY()) ;
-			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY() ;
-			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY()) ;
+			if (player.IsOnChair()) {
+				player.SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY()) ;
+				objs.at(obj_move::house1_basement2_chair).SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+			}
+			else {
+				player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				objs.at(obj_move::house1_basement2_chair).SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			}
 			entities = { &player, &objs.at(obj_move::house1_basement2_chair), &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity * a, Entity * b) {
 				return a->CMPY() < b->CMPY();
 			});
-			if (player.IsOnChair()) {
-				int a = 0;
-				int b = 0;
-				ObjMove* en1;
-				MainHuman* en2;
-				for (int i = 0;i < 3;i++) {
-					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
-						a = i;
-					}
-					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
-						b = i;
-					}
-				}
-				entities[a] = en2;
-				entities[b] = en1;
-
-			}
+			
 			bool trishow[3] = { true,true,true };
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
@@ -1219,30 +1211,21 @@ namespace game_framework {
 			}
 		}
 		else if( _nowID == 1) {
-			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
-			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
-			objs.at(obj_move::house1_basement2_chair).CMPY() = (objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			if (player.IsOnChair()) {
+				player.SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				objs.at(obj_move::house1_basement2_chair).SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+			}
+			else {
+				player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				objs.at(obj_move::house1_basement2_chair).SetCMPY(objs.at(obj_move::house1_basement2_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+
+			}
 			entities = { &player, &objs.at(obj_move::house1_basement2_chair), &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
 				});
-			if (player.IsOnChair()) {
-				int a = 0;
-				int b = 0;
-				ObjMove* en1;
-				MainHuman* en2;
-				for (int i = 0;i < 3;i++) {
-					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
-						a = i;
-					}
-					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
-						b = i;
-					}
-				}
-				entities[a] = en2;
-				entities[b] = en1;
-
-			}
 			bool trishow[3] = { true,true,true };
 
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
@@ -1323,8 +1306,8 @@ namespace game_framework {
 			}
 		}
 		else if( _nowID == 12) {
-			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
-			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
+			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+			normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 			entities = { &player, &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
@@ -1535,31 +1518,21 @@ namespace game_framework {
 			}
 		}
 		else if( _nowID == 20) {
-			player.CMPY() = (player.GetY() - gamemaps.at(_nowID).GetY());
-			normal_oni.CMPY() = normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY();
-			objs.at(obj_move::house1_2F_TL_chair).CMPY() = (objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			
+			if (player.IsOnChair()) {
+				player.SetCMPY(objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY (normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				objs.at(obj_move::house1_2F_TL_chair).SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+			}
+			else {
+				player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
+				normal_oni.SetCMPY (normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
+				objs.at(obj_move::house1_2F_TL_chair).SetCMPY(objs.at(obj_move::house1_2F_TL_chair).GetPosY() - gamemaps.at(_nowID).GetY());
+			}
 			entities = { &player, &objs.at(obj_move::house1_2F_TL_chair), &normal_oni };
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
 				});
-			if (player.IsOnChair()) {
-				int a = 0;
-				int b = 0;
-				ObjMove* en1;
-				MainHuman* en2;
-				for (int i = 0;i < 3;i++) {
-					if (en1 = dynamic_cast<ObjMove*>(entities[i])) {
-
-						a = i;
-					}
-					else if (en2 = dynamic_cast<MainHuman*>(entities[i])) {
-						b = i;
-					}
-				}
-				entities[a] = en2;
-				entities[b] = en1;
-
-			}
 			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
@@ -1648,9 +1621,11 @@ namespace game_framework {
 	{
 		_eventID = eventid;
 		events.at(_eventID).SetTriggered(true);
-		_dialogID = events.at(_eventID).GetDialogIndex();
-		dialogs.at(_dialogID).SetShow(true);
-		_substate = OnDialogs;
+		if (events.at(_eventID).GetDialogIndex() != -1) {
+			_dialogID = events.at(_eventID).GetDialogIndex();
+			dialogs.at(_dialogID).SetShow(true);
+			_substate = OnDialogs;
+		}
 		for (auto& f : events.at(_eventID).GetBlockPath()) {
 			router.UnblockPath(f.at(0), f.at(1));
 		}
