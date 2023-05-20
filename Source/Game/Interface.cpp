@@ -7,7 +7,6 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
-#include <vector>
 #include <algorithm>
 #include "ChoiceMenu.h"
 #include "Dialog.h"
