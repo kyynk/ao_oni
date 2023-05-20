@@ -1,4 +1,6 @@
 #pragma once
+#include "ChoiceMenu.h"
+#include "Dialog.h"
 namespace game_framework {
 	class Interface {
 	public:
@@ -87,6 +89,6 @@ namespace game_framework {
 		CMovingBitmap _item;
 		CMovingBitmap _save;
 		CMovingBitmap _end;
-		Dialog _useItem;
+		Dialog _useItemDialog;
 	};
 }

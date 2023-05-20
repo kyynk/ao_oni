@@ -49,7 +49,7 @@ namespace game_framework {
 		_item.LoadBitmapByString({ "img/interface/item.bmp" }, RGB(204, 255, 0));
 		_save.LoadBitmapByString({ "img/interface/save.bmp" }, RGB(204, 255, 0));
 		_end.LoadBitmapByString({ "img/interface/end.bmp" }, RGB(204, 255, 0));
-		_useItem.SetFigure("hirosi");
+		_useItemDialog.SetFigure("hirosi");
 	}
 	// game time counter
 	bool Interface::IsPause() const {
@@ -285,12 +285,12 @@ namespace game_framework {
 			CDDraw::ReleaseBackCDC();
 		}
 		else if (_show == use_item) {
-			_useItem.ShowTotal();
+			_useItemDialog.ShowTotal();
 		}
 	}
 	void Interface::OnKeyDown(UINT nChar) {
 		if (_show == use_item) {
-			_useItem.GetSelect(nChar);
+			_useItemDialog.GetSelect(nChar);
 		}
 		if (nChar == VK_ESCAPE) {
 			if (!IsShow()) {
@@ -336,8 +336,8 @@ namespace game_framework {
 					_useItemIndex = _itemChoose;
 					if (IsChangeStatus()) {
 						_show = use_item;
-						_useItem.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
-						_useItem.SetOption("Yes", "No");
+						_useItemDialog.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
+						_useItemDialog.SetOption("Yes", "No");
 					}
 					else {
 						SetShow(false);
@@ -365,7 +365,7 @@ namespace game_framework {
 				}
 			}
 			else if (_show == use_item) {
-				if (_useItem.Choice() == Dialog::option::yes) {
+				if (_useItemDialog.Choice() == Dialog::option::yes) {
 					if (_itemsName.at(_useItemIndex) == "phillips scredriver core") {
 						ChangeItemStatus("flathead screwdriver", "This is screwdriver core", "flathead screwdriver core", 0);
 						ChangeItemStatus("phillips screwdriver core", "This is screwdriver", "phillips screwdriver", 0);
