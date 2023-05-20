@@ -60,7 +60,8 @@ namespace game_framework {
 		bool IsTimerStart() {
 			return _istimerstart;
 		}
-		int& CMPY() { return _cmp_y; }
+		int CMPY() { return _cmp_y; }
+		void SetCMPY(int a) { _cmp_y = a; }
 		string &ObjClass() { return _objclass; }
 		virtual void OnShow() = 0;
 		CMovingBitmap bitmap;

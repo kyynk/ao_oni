@@ -191,6 +191,7 @@ namespace game_framework{
 					_direction == down &&
 					_nowmove == down) 
 				){
+
 					if (router.IsPathBlocked(nowID, router.GetNowMapPortal(nowID)[i].GetID())) {
 						if (nowID == 5 && gif.FindItem("library key")) {
 							router.UnblockPath(5, 12);
@@ -211,6 +212,9 @@ namespace game_framework{
 							router.UnblockPath(7, 20);
 							gif.DeleteItem("babyroom key");
 							_door_open = true;
+						}
+						else if ((nowID == 5 ||nowID == 16)&& _direction == left ) {
+
 						}
 						else {
 							_door_lock = true;

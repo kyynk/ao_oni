@@ -202,9 +202,7 @@ namespace game_framework {
 				bitmap.SetTopLeft(_pos_x, _pos_y);
 
 			}
-			if (!_changemaponceprocess) {
-				Countdown();
-			}
+			Countdown();
 		}
 	}
 	void Oni::OnShow() {
