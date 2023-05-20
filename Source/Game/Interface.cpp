@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include "ChoiceMenu.h"
+#include "Dialog.h"
 #include "InterfaceData.h"
 #include "Interface.h"
 namespace game_framework {
@@ -47,6 +49,7 @@ namespace game_framework {
 		_item.LoadBitmapByString({ "img/interface/item.bmp" }, RGB(204, 255, 0));
 		_save.LoadBitmapByString({ "img/interface/save.bmp" }, RGB(204, 255, 0));
 		_end.LoadBitmapByString({ "img/interface/end.bmp" }, RGB(204, 255, 0));
+		_useItemDialog.SetFigure("hirosi");
 	}
 	// game time counter
 	bool Interface::IsPause() const {
@@ -281,8 +284,14 @@ namespace game_framework {
 			ShowTextEnd(pDC);
 			CDDraw::ReleaseBackCDC();
 		}
+		else if (_show == use_item) {
+			_useItemDialog.ShowTotal();
+		}
 	}
 	void Interface::OnKeyDown(UINT nChar) {
+		if (_show == use_item) {
+			_useItemDialog.GetSelect(nChar);
+		}
 		if (nChar == VK_ESCAPE) {
 			if (!IsShow()) {
 				SetShow(true);
@@ -307,7 +316,7 @@ namespace game_framework {
 				ResetChoose();
 			}
 		}
-		else if (nChar == VK_RETURN) {
+		else if (nChar == VK_SPACE) {
 			if (_show == status) {
 				if (_statusChoose == 0) {
 					_show = item;
@@ -325,8 +334,15 @@ namespace game_framework {
 			else if (_show == item) {
 				if (_itemsIntro.size() != 0) {
 					_useItemIndex = _itemChoose;
-					SetShow(false);
-					ResetChoose();
+					if (IsChangeStatus()) {
+						_show = use_item;
+						_useItemDialog.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
+						_useItemDialog.SetOption("Yes", "No");
+					}
+					else {
+						SetShow(false);
+						ResetChoose();
+					}
 				}
 			}
 			else if (_show == end) {
@@ -344,8 +360,32 @@ namespace game_framework {
 				}
 				else if (_endChoose == 2) {
 					_show = status;
+					SetShow(false);
 					ResetChoose();
 				}
+			}
+			else if (_show == use_item) {
+				if (_useItemDialog.Choice() == Dialog::option::yes) {
+					if (_itemsName.at(_useItemIndex) == "phillips scredriver core") {
+						ChangeItemStatus("flathead screwdriver", "This is screwdriver core", "flathead screwdriver core", 0);
+						ChangeItemStatus("phillips screwdriver core", "This is screwdriver", "phillips screwdriver", 0);
+					}
+					else if (_itemsName.at(_useItemIndex) == "flathead scredriver core") {
+						ChangeItemStatus("phillips screwdriver", "This is screwdriver core", "phillips screwdriver core", 1);
+						ChangeItemStatus("flathead screwdriver core", "This is screwdriver", "flathead screwdriver", 1);
+					}
+					else if (_itemsName.at(_useItemIndex) == "detergent") {
+						ChangeItemStatus("handkerchief", "handkerchief (clean)", "handkerchief", 1);
+						DeleteItem("detergent");
+					}
+					else if (_itemsName.at(_useItemIndex) == "oil") {
+						ChangeItemStatus("lighter", "lighter (full of oil)", "lighter", 0);
+						DeleteItem("oil");
+					}
+				}
+				_show = none;
+				SetShow(false);
+				ResetChoose();
 			}
 		}
 		else if (nChar == VK_UP) {
@@ -421,5 +461,11 @@ namespace game_framework {
 	}
 	bool Interface::IsEnd() const {
 		return _IsEndGame;
+	}
+	bool Interface::IsChangeStatus() {
+		return (_itemsName.at(_useItemIndex) == "phillips scredriver core" && FindItem("flathead screwdriver"))
+			|| (_itemsName.at(_useItemIndex) == "flathead scredriver core" && FindItem("phillips screwdriver"))
+			|| (_itemsName.at(_useItemIndex) == "detergent" && FindItem("handkerchief"))
+			|| (_itemsName.at(_useItemIndex) == "oil" && FindItem("lighter"));
 	}
 }
