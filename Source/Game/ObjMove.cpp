@@ -17,8 +17,8 @@ namespace game_framework {
 	void ObjMove::SetParam(ObjName tp, int step, int moveTime, 
 		int offsetX, int offsetY, int resetX, int resetY) {
 		_isFixedPos = false;
+		_isFixedPos2 = false;
 		_press = false;
-		_collide = false;
 		_isCrossMap = false;
 		_notShow = false;
 		_1stCross = false;
@@ -51,16 +51,16 @@ namespace game_framework {
 		return _pos_x;
 	}
 	int ObjMove::GetPosY() {
-		if (_type == house1_2F_TL_chair ||
-			_type == house1_basement2_chair) return _pos_y + _offsetY;
+		if (_type == house1_2F_TL_chair||_type == house1_basement2_chair) 
+			return _pos_y + _offsetY;
 		return _pos_y;
 	}
 	int ObjMove::GetPosL() {
 		return _pos_x - TILE;
 	}
 	int ObjMove::GetPosU() {
-		if (_type == house1_2F_TL_chair || 
-			_type == house1_basement2_chair) return _pos_y + _offsetY - TILE;
+		if (_type == house1_2F_TL_chair || _type == house1_basement2_chair)
+			return _pos_y + _offsetY - TILE;
 		return _pos_y - TILE;
 	}
 	int ObjMove::GetPosR() {
@@ -212,9 +212,10 @@ namespace game_framework {
 			bitmap.ShowBitmap();
 		}
 	}
-	void ObjMove::OnShowConditional()
+	void ObjMove::OnShowConditional(bool flip)
 	{
-		if (isChangeMap()) {
+		bool changemap = (flip ? isChangeMap() : !isChangeMap());
+		if (changemap) {
 			OnShow();
 		}
 		else {
@@ -259,6 +260,8 @@ namespace game_framework {
 			}
 			else { // 9 11
 				if (GetPosX() == 9 * TILE && GetPosY() == 11 * TILE) {
+					_isFixedPos2 = true;
+					
 					_resetX = 9 * TILE;
 					_resetY = 11 * TILE;
 				}
@@ -272,14 +275,15 @@ namespace game_framework {
 			|| (_playerX - TILE == x && (_playerY >= GetPosY() && _playerY <= y) && _pressing == left)
 			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY + TILE == GetPosY() && _pressing == down)
 			|| ((_playerX >= GetPosX() && _playerX <= x) && _playerY - TILE == y) && _pressing == up)
-			_collide = true;
-		else
-			_collide = false;
+			return true;
+		return false;
 
-		return _collide;
 	}
 	bool ObjMove::IsFixed() {
 		return _isFixedPos;
+	}
+	bool ObjMove::IsFixed2() {
+		return _isFixedPos2;
 	}
 	void ObjMove::ChangeMap() {
 		// house1_2F_TR_chair not change map

@@ -116,7 +116,11 @@ namespace game_framework {
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
 		DOOR_UNLOCKED_E,
-		TATAMI_E,
+		OPEN_FUCKING_HOLE_E,
+		OIL_E,
+		FLATHEAD_E,
+		KEY_JAIL_E,
+		TATAMI_E
 	};
 	enum item_name {
 		TOILET,
@@ -157,7 +161,7 @@ namespace game_framework {
 		DOOR_HALF,
 		PIANO_PWD_NOTOPEN,
 		PIANO_PWD_TAKE,
-		PIANO_KEY,
+		BB_KEY,
 		BASEMENT_PWD,
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
@@ -177,7 +181,6 @@ namespace game_framework {
 		void OnMove();
 		void OnShow();								
 	private:
-		void map0func1(int chairy, int humany, int oniy);
 		void ShowOniAndPlayer();
 		void SetEventTriggeredDialog(int eventid);
 		void DeBugRecursive();
@@ -232,7 +235,6 @@ namespace game_framework {
 		bool isdebugmode;
 		vector<int> twowayvec;
 		vector<int> pointvec;
-		std::vector<int> values;
 		std::vector<Entity*> entities;
 		ObjMove* obj;
 	};

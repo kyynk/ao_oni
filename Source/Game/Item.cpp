@@ -594,9 +594,7 @@ namespace game_framework {
 			utiltriggers[triggered] = false;
 		}
 	}
-	void Item::SetTrigger() {
-		utiltriggers[triggered] = true;
-	}
+	
 	string Item::GetName() {
 		if (_name == key_lib) return "library key";
 		else if (_name == key_3F_L) return "3F bedroom key";
@@ -614,9 +612,6 @@ namespace game_framework {
 		else if (_name == door_knob) return "door knob";
 		return "";
 	}
-	void Item::SetOnTriPos(bool ontri) {
-		utiltriggers[onCorrectPos] = ontri;
-	}
 	void Item::ResetUtil() {
 		for (int i = 0;i < 8;i++) {
 			utiltriggers[i] = false;
@@ -631,26 +626,8 @@ namespace game_framework {
 			}
 		}
 	}
-	void Item::SetIsPick(bool p) {
-		utiltriggers[pick] = p;
-	}
-	void Item::SetClose(bool c) {
-		utiltriggers[close] = c;
-	}
-	bool Item::IsPick() {
-		return utiltriggers[pick];
-	}
-	bool Item::IsFixed() {
-		return utiltriggers[fixed];
-	}
-	bool Item::IsTake() {
-		return utiltriggers[take];
-	}
 	bool Item::IsAnimationDone() {
 		return bitmap.IsAnimationDone();
-	}
-	bool Item::IsClose() {
-		return utiltriggers[close];
 	}
 	int Item::GetBitMapIndex() {
 		return bitmap.GetFrameIndexOfBitmap();

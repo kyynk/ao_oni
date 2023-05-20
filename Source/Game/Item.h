@@ -48,18 +48,18 @@ namespace game_framework {
 			diff_door,
 		};
 		enum TriggerType {
-			triggered, 
-			close, 
-			press, 
-			pick, 
-			fixed, 
-			take, 
-			onCorrectPos, 
+			triggered,
+			close,
+			press,
+			pick,
+			fixed,
+			take,
+			onCorrectPos,
 			useItem
 		};
 		Item();
 		~Item();
-		void SetParam(int delay, int boxX, int boxY, 
+		void SetParam(int delay, int boxX, int boxY,
 			ItemName name);
 		void Load(vector<string> filename, COLORREF color);
 		int GetPosX();
@@ -82,16 +82,18 @@ namespace game_framework {
 		// if player on chair a = true, else a = false
 		void ResetUtil(); // all control reset
 
-		void SetIsPick(bool p);
-		void SetClose(bool c);
-		void SetTrigger();
-		bool IsClose();
-		
-		bool IsPick();
-		bool IsFixed();
-		bool IsTake();
-		void SetOnTriPos(bool ontri);
+		void SetIsPick(bool p){	utiltriggers[pick] = p;}
+		void SetClose(bool c) { utiltriggers[close] = c; }
+		void SetTrigger(){ utiltriggers[triggered] = true; }
+		bool IsClose(){ return utiltriggers[close]; }
 
+		bool IsPick(){return utiltriggers[pick]; }
+		bool IsFixed(){return utiltriggers[fixed]; }
+		bool IsTake(){return utiltriggers[take];}
+		void SetOnCorPos(bool ontri) {
+			utiltriggers[onCorrectPos] = ontri;
+		}
+		bool IsOnCorPos(){return utiltriggers[onCorrectPos];}
 
 		bool IsAnimationDone();
 		int GetBitMapIndex();
