@@ -1,6 +1,6 @@
 #define GAME_TITLE           "Game"
-#define SIZE_X				 816	
-#define SIZE_Y				 820
+#define SIZE_X				 816 //21	offset16
+#define SIZE_Y				 820 //15   offset20
 #define OPEN_AS_FULLSCREEN	 false		
 #define SHOW_LOAD_PROGRESS   true		
 #define DEFAULT_BG_COLOR	 RGB(0, 0, 0)	
