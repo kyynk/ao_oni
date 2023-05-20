@@ -13,7 +13,7 @@ namespace game_framework {
 	void Password::SetParam(string pwd) {
 		_pwd = pwd;
 		int _posX, _posY;
-		_posX = 144;
+		_posX = 128;
 		_posY = 480;
 		_cursorX = _posX + 26; // 544 = width of box2 
 		_cursorY = _posY + 9; // 192 = height of box2
