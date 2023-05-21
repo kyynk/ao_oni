@@ -1312,7 +1312,7 @@ namespace game_framework {
 			entities.clear();
 			if (items.at(FLATHEAD).IsPick() && player.IsOnChair() && !events.at(FLATHEAD_E).IsTriggered()) {
 				SetEventTriggeredDialog(FLATHEAD_E);
-				game_interface.StoreItem("flathead screwdriver core", "flathead screwdriver core", Interface::Items::flathead);
+				game_interface.StoreItem("flathead screwdriver core", "- screwdriver core", Interface::Items::flathead);
 			}
 
 			break;
@@ -1590,7 +1590,7 @@ namespace game_framework {
 			}
 			if (items.at(PHILLIPS).IsPick() && !events.at(PHILLIPS_E).IsTriggered()) {
 				SetEventTriggeredDialog(PHILLIPS_E);
-				game_interface.StoreItem("phillips screwdriver", "phillips screwdriver", Interface::Items::phillips);
+				game_interface.StoreItem("phillips screwdriver", "+ screwdriver", Interface::Items::phillips);
 			}
 			break;
 		case 19:
