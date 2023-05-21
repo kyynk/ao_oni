@@ -365,11 +365,11 @@ namespace game_framework {
 			}
 			else if (_show == use_item) {
 				if (_useItemDialog.Choice() == Dialog::option::yes) {
-					if (_itemsName.at(_useItemIndex) == "phillips scredriver core") {
+					if (_itemsName.at(_useItemIndex) == "phillips screwdriver core") {
 						ChangeItemStatus("flathead screwdriver", "This is screwdriver core", "flathead screwdriver core", 0);
 						ChangeItemStatus("phillips screwdriver core", "This is screwdriver", "phillips screwdriver", 0);
 					}
-					else if (_itemsName.at(_useItemIndex) == "flathead scredriver core") {
+					else if (_itemsName.at(_useItemIndex) == "flathead screwdriver core") {
 						ChangeItemStatus("phillips screwdriver", "This is screwdriver core", "phillips screwdriver core", 1);
 						ChangeItemStatus("flathead screwdriver core", "This is screwdriver", "flathead screwdriver", 1);
 					}

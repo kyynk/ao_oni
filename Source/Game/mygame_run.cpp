@@ -119,7 +119,7 @@ namespace game_framework {
 		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::key_3F_L);
 		items.at(KEY_LIB).SetParam(100, 0, 0, Item::key_lib);
 		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::door_knob);
-		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::door_no_knob);
+		items.at(DOOR_NO_KNOB).SetParam(-1, 0, TILE, Item::door_no_knob);
 		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::lighter);
 		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::tatami_l);
 		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::tatami_r);
@@ -244,7 +244,7 @@ namespace game_framework {
 		dialogs.at(28).SetOption("come with me ", "stay here for now");
 		
 		dialogs.at(29).SetFigure("mika");
-		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering in this house." }, false);
+		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering","in this house." }, false);
 		dialogs.at(30).SetFigure("hirosi");
 		dialogs.at(30).SetParam({ "Alright..."}, false);
 		dialogs.at(31).SetFigure("mika");
@@ -757,7 +757,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		
 		game_interface.OnKeyDown(nChar);
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
@@ -771,7 +770,7 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-		else if (_substate == OnWalking) {
+		else if (_substate == OnWalking && !game_interface.IsShow()) {
 			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
