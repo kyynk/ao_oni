@@ -45,7 +45,7 @@ namespace game_framework {
 		{
 		case startmenustate:
 			startmenu.OnMovingCursor(nChar);		
-			if (nChar == VK_RETURN) {
+			if (nChar == VK_SPACE) {
 				switch (startmenu.GetSelection()) {
 				case 0:
 					_substate = animationstate;

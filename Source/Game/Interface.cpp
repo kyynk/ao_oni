@@ -335,6 +335,7 @@ namespace game_framework {
 				if (_itemsIntro.size() != 0) {
 					_useItemIndex = _itemChoose;
 					if (IsChangeStatus()) {
+						TRACE("\n\n useeeeeeeeeeeee itemmmmmmmmmmmmmmm\n\n");
 						_show = use_item;
 						_useItemDialog.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
 						_useItemDialog.SetOption("Yes", "No");
@@ -360,19 +361,18 @@ namespace game_framework {
 				}
 				else if (_endChoose == 2) {
 					_show = status;
-					SetShow(false);
 					ResetChoose();
 				}
 			}
 			else if (_show == use_item) {
 				if (_useItemDialog.Choice() == Dialog::option::yes) {
-					if (_itemsName.at(_useItemIndex) == "phillips scredriver core") {
-						ChangeItemStatus("flathead screwdriver", "This is screwdriver core", "flathead screwdriver core", 0);
-						ChangeItemStatus("phillips screwdriver core", "This is screwdriver", "phillips screwdriver", 0);
+					if (_itemsName.at(_useItemIndex) == "+ screwdriver core") {
+						ChangeItemStatus("- screwdriver", "This is flathead screwdriver core", "- screwdriver core", 0);
+						ChangeItemStatus("+ screwdriver core", "This is phillips screwdriver", "+ screwdriver", 0);
 					}
-					else if (_itemsName.at(_useItemIndex) == "flathead scredriver core") {
-						ChangeItemStatus("phillips screwdriver", "This is screwdriver core", "phillips screwdriver core", 1);
-						ChangeItemStatus("flathead screwdriver core", "This is screwdriver", "flathead screwdriver", 1);
+					else if (_itemsName.at(_useItemIndex) == "- screwdriver core") {
+						ChangeItemStatus("+ screwdriver", "This is phillips screwdriver core", "+ screwdriver core", 1);
+						ChangeItemStatus("- screwdriver core", "This is flathead screwdriver", "- screwdriver", 1);
 					}
 					else if (_itemsName.at(_useItemIndex) == "detergent") {
 						ChangeItemStatus("handkerchief", "handkerchief (clean)", "handkerchief", 1);
@@ -463,8 +463,8 @@ namespace game_framework {
 		return _IsEndGame;
 	}
 	bool Interface::IsChangeStatus() {
-		return (_itemsName.at(_useItemIndex) == "phillips scredriver core" && FindItem("flathead screwdriver"))
-			|| (_itemsName.at(_useItemIndex) == "flathead scredriver core" && FindItem("phillips screwdriver"))
+		return (_itemsName.at(_useItemIndex) == "+ screwdriver core" && FindItem("- screwdriver"))
+			|| (_itemsName.at(_useItemIndex) == "- screwdriver core" && FindItem("+ screwdriver"))
 			|| (_itemsName.at(_useItemIndex) == "detergent" && FindItem("handkerchief"))
 			|| (_itemsName.at(_useItemIndex) == "oil" && FindItem("lighter"));
 	}
