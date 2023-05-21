@@ -229,7 +229,7 @@ namespace game_framework {
 		dialogs.at(22).SetFigure("takesi");
 		dialogs.at(22).SetParam({ "Trembling........................." }, false);
 		dialogs.at(23).SetFigure("hirosi");
-		dialogs.at(23).SetParam({ "......................................................." }, false);
+		dialogs.at(23).SetParam({ "......................................" }, false);
 		dialogs.at(24).SetFigure("hirosi");
 		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
 		
@@ -267,7 +267,7 @@ namespace game_framework {
 		dialogs.at(39).SetFigure("hirosi");
 		dialogs.at(39).SetParam({ "Gain the oil" }, false);
 		dialogs.at(40).SetFigure("hirosi");
-		dialogs.at(40).SetParam({ "Gain the flathead" }, false);
+		dialogs.at(40).SetParam({ "Gain the flathead screwdriver core" }, false);
 		dialogs.at(41).SetFigure("hirosi");
 		dialogs.at(41).SetParam({ "Gain the jail key" }, false);
 
@@ -1062,7 +1062,7 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show) {
+			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1265,7 +1265,7 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapTile();
 			if (items.at(KEY_JAIL).IsPick() && player.IsOnChair() && !events.at(KEY_JAIL_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_JAIL_E);
-				game_interface.StoreItem("jail key", "jail key", Interface::Items::key_jail);
+				game_interface.StoreItem("basement jail", "jail key", Interface::Items::key_jail);
 			}
 			if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 				if (!pwds.at(basement).IsShow()) {
@@ -1313,7 +1313,7 @@ namespace game_framework {
 			entities.clear();
 			if (items.at(FLATHEAD).IsPick() && player.IsOnChair() && !events.at(FLATHEAD_E).IsTriggered()) {
 				SetEventTriggeredDialog(FLATHEAD_E);
-				game_interface.StoreItem("flathead", "flathead", Interface::Items::flathead);
+				game_interface.StoreItem("flathead screwdriver core", "flathead screwdriver core", Interface::Items::flathead);
 			}
 
 			break;
