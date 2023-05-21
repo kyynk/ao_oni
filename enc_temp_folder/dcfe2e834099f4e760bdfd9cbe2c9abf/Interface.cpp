@@ -462,8 +462,8 @@ namespace game_framework {
 		return _IsEndGame;
 	}
 	bool Interface::IsChangeStatus() {
-		return (_itemsName.at(_useItemIndex) == "phillips screwdriver core" && FindItem("flathead screwdriver"))
-			|| (_itemsName.at(_useItemIndex) == "flathead screwdriver core" && FindItem("phillips screwdriver"))
+		return (_itemsName.at(_useItemIndex) == "phillips scredriver core" && FindItem("flathead screwdriver"))
+			|| (_itemsName.at(_useItemIndex) == "flathead scredriver core" && FindItem("phillips screwdriver"))
 			|| (_itemsName.at(_useItemIndex) == "detergent" && FindItem("handkerchief"))
 			|| (_itemsName.at(_useItemIndex) == "oil" && FindItem("lighter"));
 	}
