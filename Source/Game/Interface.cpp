@@ -360,7 +360,6 @@ namespace game_framework {
 				}
 				else if (_endChoose == 2) {
 					_show = status;
-					SetShow(false);
 					ResetChoose();
 				}
 			}
