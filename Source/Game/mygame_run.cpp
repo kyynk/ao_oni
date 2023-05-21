@@ -119,7 +119,7 @@ namespace game_framework {
 		items.at(KEY_3F_L).SetParam(100, 0, 0, Item::key_3F_L);
 		items.at(KEY_LIB).SetParam(100, 0, 0, Item::key_lib);
 		items.at(DOOR_KNOB).SetParam(100, 0, TILE, Item::door_knob);
-		items.at(DOOR_NO_KNOB).SetParam(100, 0, TILE, Item::door_no_knob);
+		items.at(DOOR_NO_KNOB).SetParam(-1, 0, TILE, Item::door_no_knob);
 		items.at(LIGHTER).SetParam(100, 2 * TILE, TILE, Item::lighter);
 		items.at(TATAMI_L).SetParam(100, 2 * TILE, TILE, Item::tatami_l);
 		items.at(TATAMI_R).SetParam(100, 2 * TILE, TILE, Item::tatami_r);
@@ -229,7 +229,7 @@ namespace game_framework {
 		dialogs.at(22).SetFigure("takesi");
 		dialogs.at(22).SetParam({ "Trembling........................." }, false);
 		dialogs.at(23).SetFigure("hirosi");
-		dialogs.at(23).SetParam({ "......................................................." }, false);
+		dialogs.at(23).SetParam({ "......................................" }, false);
 		dialogs.at(24).SetFigure("hirosi");
 		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
 		
@@ -244,7 +244,7 @@ namespace game_framework {
 		dialogs.at(28).SetOption("come with me ", "stay here for now");
 		
 		dialogs.at(29).SetFigure("mika");
-		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering in this house." }, false);
+		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering","in this house." }, false);
 		dialogs.at(30).SetFigure("hirosi");
 		dialogs.at(30).SetParam({ "Alright..."}, false);
 		dialogs.at(31).SetFigure("mika");
@@ -267,7 +267,7 @@ namespace game_framework {
 		dialogs.at(39).SetFigure("hirosi");
 		dialogs.at(39).SetParam({ "Gain the oil" }, false);
 		dialogs.at(40).SetFigure("hirosi");
-		dialogs.at(40).SetParam({ "Gain the flathead" }, false);
+		dialogs.at(40).SetParam({ "Gain the flathead screwdriver core" }, false);
 		dialogs.at(41).SetFigure("hirosi");
 		dialogs.at(41).SetParam({ "Gain the jail key" }, false);
 
@@ -757,7 +757,6 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		
 		game_interface.OnKeyDown(nChar);
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
@@ -771,7 +770,7 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-		else if (_substate == OnWalking) {
+		else if (_substate == OnWalking && !game_interface.IsShow()) {
 			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
@@ -1062,7 +1061,7 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show) {
+			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1265,7 +1264,7 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapTile();
 			if (items.at(KEY_JAIL).IsPick() && player.IsOnChair() && !events.at(KEY_JAIL_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_JAIL_E);
-				game_interface.StoreItem("jail key", "jail key", Interface::Items::key_jail);
+				game_interface.StoreItem("basement jail", "jail key", Interface::Items::key_jail);
 			}
 			if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 				if (!pwds.at(basement).IsShow()) {
@@ -1313,7 +1312,7 @@ namespace game_framework {
 			entities.clear();
 			if (items.at(FLATHEAD).IsPick() && player.IsOnChair() && !events.at(FLATHEAD_E).IsTriggered()) {
 				SetEventTriggeredDialog(FLATHEAD_E);
-				game_interface.StoreItem("flathead", "flathead", Interface::Items::flathead);
+				game_interface.StoreItem("flathead screwdriver core", "- screwdriver core", Interface::Items::flathead);
 			}
 
 			break;
@@ -1591,7 +1590,7 @@ namespace game_framework {
 			}
 			if (items.at(PHILLIPS).IsPick() && !events.at(PHILLIPS_E).IsTriggered()) {
 				SetEventTriggeredDialog(PHILLIPS_E);
-				game_interface.StoreItem("phillips screwdriver", "phillips screwdriver", Interface::Items::phillips);
+				game_interface.StoreItem("phillips screwdriver", "+ screwdriver", Interface::Items::phillips);
 			}
 			break;
 		case 19:
