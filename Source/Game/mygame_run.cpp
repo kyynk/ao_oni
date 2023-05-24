@@ -324,6 +324,7 @@ namespace game_framework {
 		_use_handkerchief = false;
 		_blue_paint_show = false;
 		_piano_hint_show = false;
+		_in_interface = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -758,7 +759,10 @@ namespace game_framework {
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		game_interface.OnKeyDown(nChar);
-		if (game_interface.IsUseItem()) {
+		if (game_interface.IsShow() && !_in_interface) {
+			_in_interface = true;
+		}
+		if (game_interface.IsShow() && game_interface.IsUseItem()) {
 			InterfaceData nowItem = game_interface.UseItem();
 			if (_nowID == 15 && !items.at(DOOR_KNOB).IsPick() && items.at(DOOR_KNOB).IsClose()
 				&& nowItem.GetName() == "+ screwdriver" && player.GetDirection() == Entity::up
@@ -780,7 +784,7 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-		else if (_substate == OnWalking && !game_interface.IsShow()) {
+		else if (_substate == OnWalking && !_in_interface) {
 			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
@@ -1106,6 +1110,13 @@ namespace game_framework {
 					}
 				}
 			}
+		}
+		if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
+			TRACE("\n\nno interface\n\n");
+			_in_interface = false;
+		}
+		else {
+			TRACE("\n\nyes interface\n\n");
 		}
 	}
 
