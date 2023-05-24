@@ -201,6 +201,7 @@ namespace game_framework {
 		vector<Item> items;
 		vector<Password> pwds;
 		// sth in gamerun
+		bool _in_interface;
 		bool _map_show;
 		bool _blue_paint_show;
 		bool _piano_hint_show;
