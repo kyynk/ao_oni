@@ -758,6 +758,16 @@ namespace game_framework {
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		game_interface.OnKeyDown(nChar);
+		if (game_interface.IsUseItem()) {
+			InterfaceData nowItem = game_interface.UseItem();
+			if (_nowID == 15 && !items.at(DOOR_KNOB).IsPick() && items.at(DOOR_KNOB).IsClose()
+				&& nowItem.GetName() == "+ screwdriver" && player.GetDirection() == Entity::up
+				&& player.GetX() == 12 * TILE && player.GetY() == 8 * TILE) {
+				//game_interface.DeleteItem(nowItem.GetName());
+				items.at(DOOR_KNOB).SetIsPick(true);
+				game_interface.StoreItem("door knob", "door knob", Interface::Items::door_knob);
+			}
+		}
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
