@@ -1,0 +1,222 @@
+hirosi
+1
+A broken plate...
+0
+
+hirosi
+1
+Gain the broken plate
+0
+
+takurou
+1
+beautiful interiors!!!
+0
+
+mika
+1
+I feel a bit cold.
+0
+
+takesi
+3
+h...
+hey
+I think we should go home.
+0
+
+takurou
+2
+What is wrong with you takesi,
+are you afraid ?
+0
+
+takesi
+1
+!!!!!
+0
+
+takesi
+3
+h...
+hey
+we should go home.
+0
+
+hirosi
+2
+what a fool!
+there are no ghosts in this world.
+0
+
+takesi
+2
+hey
+careful Hirosi
+0
+
+hirosi
+1
+!
+0
+
+hirosi
+1
+!
+0
+
+hirosi
+1
+where is everyone
+0
+
+hirosi
+1
+Gain the library key
+0
+
+hirosi
+1
+Gain the detergent
+0
+
+hirosi
+1
+Gain the phillips screwdriver
+0
+
+hirosi
+1
+Gain the bedroom key
+0
+
+hirosi
+1
+Gain the lighter
+0
+
+takesi
+1
+Trembling.....................
+0
+
+hirosi
+1
+Takashi?
+0
+
+takesi
+1
+Trembling.....................
+0
+
+hirosi
+1
+where is everyone?
+0
+
+takesi
+1
+Trembling.....................
+0
+
+hirosi
+1
+......................................
+0
+
+hirosi
+1
+Gain the handkerchief
+0
+
+mika
+1
+Hiroshi you...
+0
+
+hirosi
+2
+Are you ok?
+where are the others ?
+0
+
+mika
+2
+i don't know.
+mabye hinding somewhere
+0
+
+hirosi
+1
+Okay.
+2
+come with me
+stay here for now
+
+mika
+3
+WhAt?
+there's a MONSTER wondering
+in this house.
+0
+
+hirosi
+1
+Alright...
+0
+
+mika
+1
+ok.
+0
+
+mika
+1
+takuro................
+0
+
+hirosi
+1
+Gain the babyroom key
+0
+
+hirosi
+1
+Gain the basement key
+0
+
+hirosi
+1
+Gain the jail key
+0
+
+hirosi
+1
+Gain the ??? key
+0
+
+hirosi
+1
+The door is locked
+0
+
+hirosi
+1
+The door is unlocked
+0
+
+hirosi
+1
+Gain the oil
+0
+
+hirosi
+1
+Gain the flathead screwdriver core
+0
+
+hirosi
+1
+Gain the jail key
+0
