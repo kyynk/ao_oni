@@ -16,79 +16,65 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	{
+		
 		entities.reserve(3);
 		ShowInitProgress(33, "loading game mid");
 		// player map x, player map y, map ID bulk of craps
-		blockLeftCor.push_back({ 8,5,13 });
-		blockLeftCor.push_back({ 5,4,7 });
-		blockLeftCor.push_back({ 8,11,7 });
-		blockLeftCor.push_back({ 6,10,33 });
-		blockLeftCor.push_back({ 2,3,34 });
-		blockLeftCor.push_back({ 10,4,42 });
-		blockLeftCor.push_back({ 10,6,23 });
-		blockLeftCor.push_back({ 2,13,54 });
-		blockLeftCor.push_back({ 2,5,56 });
-
-		blockRightCor.push_back({ 4,4,7 });
-		blockRightCor.push_back({ 7,11,7 });
-		blockRightCor.push_back({ 7,5,13 });
-		blockRightCor.push_back({ 5,10,33 });
-		blockRightCor.push_back({ 1,3 ,34});
-		blockRightCor.push_back({ 9,4,42 });
-		blockRightCor.push_back({ 9,6,23 });
-		blockRightCor.push_back({ 1,13,54 });
-		blockRightCor.push_back({ 1,5,56 });
-
-		blockTeleportCor.push_back({ 4,5,7 });
-		blockTeleportCor.push_back({ 6,9,33 });
-		blockTeleportCor.push_back({ 2,4,34 });
-		blockTeleportCor.push_back({ 9,5,42 });
-		blockTeleportCor.push_back({ 9,5,23 });
-		blockTeleportCor.push_back({ 2,12,54 });
-		blockTeleportCor.push_back({ 2,6,56 });
-		blockTeleportCor.push_back({ 18,15,54 });
-		blockTeleportCor.push_back({ 19,16,54 });
-		blockTeleportCor.push_back({ 4,4,55 });
-		blockTeleportCor.push_back({ 4,3,46 });
-		blockTeleportCor.push_back({ 3,2,46 });
+		vector<string> ahh = { "blc","brc","btc" };
+		for (auto& f : ahh) {
+			ifstream in("map_data/"+ f +".txt");
+			int value;
+			if (in) {
+				while (in >> value) {
+					std::vector<int> innerVec;
+					innerVec.push_back(value);
+					for (int i = 0; i < 2; ++i) {
+						in >> value;
+						innerVec.push_back(value);
+					}
+					if (f == "blc") {
+						blockLeftCor.push_back(innerVec);
+					}
+					else if (f == "brc") {
+						blockRightCor.push_back(innerVec);
+					}
+					else if (f == "btc") {
+						blockTeleportCor.push_back(innerVec);
+					}
+				}
+				in.close();
+			}
+			else {
+				TRACE("I hate my life\n");
+			}
+		}
 		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, RGB(204, 255, 0));
+		mapmask.SetFrameIndexOfBitmap(1);
 		// main character
+		vector<string> humans = { "hiroshi_move/Hiroshi_","mika_move/Mika_","takeshi_move/Takeshi_","takuro_move/Takuro_" };
 		vector<string> playervec;
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/hiroshi_move/Hiroshi_" + to_string(i) + to_string(j) + ".bmp");
+		for (int k = 0;k < 4;k++) {
+			for (int i = 0; i < 12; i++) {
+				playervec.push_back("img/" + humans.at(k) + to_string(i) + ".bmp");
 			}
+			if (k == 0) 
+				player.Load(playervec, default_C);
+			else if (k == 1) 
+				human_mika.Load(playervec, default_C);
+			else if (k == 2) 
+				human_takeshi.Load(playervec, default_C);
+			else if (k == 3) 
+				human_takuro.Load(playervec, default_C);
+			// other players
+			playervec.clear();
 		}
-		player.Load(playervec, RGB(204, 255, 0));
-		// other players
-		playervec.clear();
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/mika_move/Mika_" + to_string(i) + to_string(j) + ".bmp");
-			}
-		}
-		human_mika.Load(playervec, RGB(204, 255, 0));
-		playervec.clear();
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/takeshi_move/Takeshi_" + to_string(i) + to_string(j) + ".bmp");
-			}
-		}
-		human_takeshi.Load(playervec, RGB(204, 255, 0));
-		playervec.clear();
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 3; j++) {
-				playervec.push_back("img/takuro_move/Takuro_" + to_string(i) + to_string(j) + ".bmp");
-			}
-		}
-		human_takuro.Load(playervec, RGB(204, 255, 0));
 		// map resources
 		std::ifstream mapres_in("map_bmp/mapsize.txt");
 		string name;
 		int count;
 		for (int i = 0; i < 10; i++) {
 			mapres_in >> name >> count;
-			ShowInitProgress(33 + 5*i, name);
+			ShowInitProgress(33 + 5 * i, name);
 			MapRes::GetInstance()->Load(name, count);
 		}
 		// map data
@@ -154,7 +140,7 @@ namespace game_framework {
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
 		items.at(DOOR_DIFF).SetParam(-1, 0, TILE, Item::diff_door);
 		//events
-		events.resize(31);
+		events.resize(26);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -180,96 +166,41 @@ namespace game_framework {
 		events.at(FLATHEAD_E).SetParam({}, 40, 1);
 		events.at(KEY_JAIL_E).SetParam({}, 41, 1);
 		events.at(TATAMI_E).SetParam({}, -1, -1);
-		//dialogs
-		dialogs.resize(43);
-		dialogs.at(0).SetFigure("hirosi");
-		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetFigure("hirosi");
-		dialogs.at(1).SetParam({"Gain the broken plate"},false);
-		dialogs.at(2).SetFigure("takurou");
-		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
-		dialogs.at(3).SetFigure("mika");
-		dialogs.at(3).SetParam({ "I feel a bit cold. " }, false);
-		dialogs.at(4).SetFigure("takesi");
-		dialogs.at(4).SetParam({ "h...","hey","I think we should go home. "}, false);
-		dialogs.at(5).SetFigure("takurou");
-		dialogs.at(5).SetParam({ "What is wrong with you takesi,"," are you afraid ? "}, false);
-		dialogs.at(6).SetFigure("takesi");
-		dialogs.at(6).SetParam({ "!!!!!" }, false);
-		dialogs.at(7).SetFigure("takesi");
-		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
-		dialogs.at(8).SetFigure("hirosi");
-		dialogs.at(8).SetParam({ "what a fool!","there are no ghosts in this world."}, false);
-		dialogs.at(9).SetFigure("takesi");
-		dialogs.at(9).SetParam({ "hey","careful Hirosi" }, false);
-		dialogs.at(10).SetFigure("hirosi");
-		dialogs.at(10).SetParam({ "!" },false);
-		dialogs.at(11).SetFigure("hirosi");
-		dialogs.at(11).SetParam({ "!" },false);
-		dialogs.at(12).SetFigure("hirosi");
-		dialogs.at(12).SetParam({ "where is everyone" }, false);
-		dialogs.at(13).SetFigure("hirosi");
-		dialogs.at(13).SetParam({ "Gain the library key " }, false);
-		dialogs.at(14).SetFigure("hirosi");
-		dialogs.at(14).SetParam({ "Gain the detergent " }, false);
-		dialogs.at(15).SetFigure("hirosi");
-		dialogs.at(15).SetParam({ "Gain the phillips screwdriver " }, false);
-		dialogs.at(16).SetFigure("hirosi");
-		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
-		dialogs.at(17).SetFigure("hirosi");
-		dialogs.at(17).SetParam({ "Gain the lighter " }, false);
-		dialogs.at(18).SetFigure("takesi");
-		dialogs.at(18).SetParam({ "Trembling........................." }, false);
-		dialogs.at(19).SetFigure("hirosi");
-		dialogs.at(19).SetParam({ "Takashi?" }, false);
-		dialogs.at(20).SetFigure("takesi");
-		dialogs.at(20).SetParam({ "Trembling........................." }, false);
-		dialogs.at(21).SetFigure("hirosi");
-		dialogs.at(21).SetParam({ "where is everyone?" }, false);
-		dialogs.at(22).SetFigure("takesi");
-		dialogs.at(22).SetParam({ "Trembling........................." }, false);
-		dialogs.at(23).SetFigure("hirosi");
-		dialogs.at(23).SetParam({ "......................................" }, false);
-		dialogs.at(24).SetFigure("hirosi");
-		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
-		
-		dialogs.at(25).SetFigure("mika");
-		dialogs.at(25).SetParam({ "Hiroshi you..." }, false);
-		dialogs.at(26).SetFigure("hirosi");
-		dialogs.at(26).SetParam({ "Are you ok?","where are the others ?" }, false);
-		dialogs.at(27).SetFigure("mika");
-		dialogs.at(27).SetParam({ "i don't know. ","mabye hinding somewhere" }, false);
-		dialogs.at(28).SetFigure("hirosi");
-		dialogs.at(28).SetParam({ "Okay." }, true);
-		dialogs.at(28).SetOption("come with me ", "stay here for now");
-		
-		dialogs.at(29).SetFigure("mika");
-		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering","in this house." }, false);
-		dialogs.at(30).SetFigure("hirosi");
-		dialogs.at(30).SetParam({ "Alright..."}, false);
-		dialogs.at(31).SetFigure("mika");
-		dialogs.at(31).SetParam({ "ok." }, false);
-		dialogs.at(32).SetFigure("mika");
-		dialogs.at(32).SetParam({ "takuro................" }, false);
+		events.at(OPEN_FUCKING_HOLE_E).SetParam({}, -1, -1);
 
-		dialogs.at(33).SetFigure("hirosi");
-		dialogs.at(33).SetParam({ "Gain the babyroom key" }, false);
-		dialogs.at(34).SetFigure("hirosi");
-		dialogs.at(34).SetParam({ "Gain the basement key" }, false);
-		dialogs.at(35).SetFigure("hirosi");
-		dialogs.at(35).SetParam({ "Gain the jail key" }, false);
-		dialogs.at(36).SetFigure("hirosi");
-		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
-		dialogs.at(37).SetFigure("hirosi");
-		dialogs.at(37).SetParam({ "The door is locked" }, false);
-		dialogs.at(38).SetFigure("hirosi");
-		dialogs.at(38).SetParam({ "The door is unlocked" }, false);
-		dialogs.at(39).SetFigure("hirosi");
-		dialogs.at(39).SetParam({ "Gain the oil" }, false);
-		dialogs.at(40).SetFigure("hirosi");
-		dialogs.at(40).SetParam({ "Gain the flathead screwdriver core" }, false);
-		dialogs.at(41).SetFigure("hirosi");
-		dialogs.at(41).SetParam({ "Gain the jail key" }, false);
+		std::ifstream file("dialog/dialogs.txt");
+		if (!file) {
+			TRACE("dissapointment\n");
+		}
+		std::string line;
+		while (std::getline(file, line)) {
+			if (line.empty()) {
+				continue; 
+			}
+			Dialog dialog;
+			dialog.SetFigure(line);
+			std::getline(file, line);
+			int numStrings = std::stoi(line);
+			vector<string> disappointed;
+			for (int i = 0; i < numStrings; i++) {
+				std::getline(file, line);
+				disappointed.push_back(line);
+			}
+			std::getline(file, line);
+			int ischo = std::stoi(line);
+			(ischo == 0) ? dialog.SetParam(disappointed, false) : dialog.SetParam(disappointed, true);
+			disappointed.clear();
+			for (int i = 0;i < ischo;i++) {
+				std::getline(file, line);
+				disappointed.push_back(line);
+			}
+			if (ischo != 0) {
+				dialog.SetOption(disappointed.at(0), disappointed.at(1));
+			}
+			dialogs.push_back(dialog);
+
+		}
+		file.close();
 
 		// objMove
 		objs.resize(3);
@@ -289,18 +220,18 @@ namespace game_framework {
 		game_interface.init();
 		game_interface.StartCount();
 		// house1 map
-		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, RGB(0, 0, 0));
+		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, black_C);
 		// blue paint
 		blue_paint.LoadBitmapByString({ "img/password/password_jail/jail_password_L.bmp", 
 			"img/password/password_jail/jail_password_R.bmp", 
 			"img/password/password_jail/password_L.bmp", 
-			"img/password/password_jail/password_R.bmp" }, RGB(0, 0, 0));
+			"img/password/password_jail/password_R.bmp" }, black_C);
 		// piano hint
 		piano_hint.LoadBitmapByString({ "img/password/password_piano/piano_blood.bmp", 
 			"img/password/password_piano/piano_0.bmp",
-			"img/password/password_piano/piano_hint.bmp" }, RGB(204, 255, 0));
+			"img/password/password_piano/piano_hint.bmp" }, default_C);
 		// debug
-		grid.LoadBitmapByString({ "img/grid.bmp" }, RGB(0, 0, 0));
+		grid.LoadBitmapByString({ "img/grid.bmp" }, black_C);
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
 		inputbox.Load("img/cursor/input_box.bmp");
 		inputbox.init(20 * TILE, 0, 0, 10);
@@ -341,7 +272,7 @@ namespace game_framework {
 		normal_oni.init(Oni::normal, 4, 8);
 		//redChair.Reset();
 		//normal_oni.SetPos(11 * TILE, 10 * TILE);
-		objs.at(house1_2F_TR_chair).Reset();
+   		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
 		objs.at(house1_2F_TL_chair).Reset();
@@ -545,11 +476,11 @@ namespace game_framework {
 				items.at(TATAMI_L).OnMove();
 			}
 			items.at(DOOR_DIFF).StorePlayerPos(player.GetX(), player.GetY());
+
 			break;
 		case 11:
 			items.at(BROKEN_DISH).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(BROKEN_DISH).OnMove();
-
 			break;
 		case 12:
 			items.at(LIB_BOOK).StorePlayerPos(player.GetX(), player.GetY());
@@ -785,24 +716,8 @@ namespace game_framework {
 			}
 		}
 		else if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
-			/*if (!game_interface.IsShow()) {
-				TRACE("\n\n 1111111111111\n\n");
-			}
-			if (!game_interface.IsUseItem()) {
-				TRACE("\n\n 2222222222222\n\n");
-			}
-			TRACE("\n\nno interface\n\n");*/
 			_in_interface = false;
 		}
-		/*else {
-			TRACE("\n\nyes interface\n\n");
-			if (game_interface.IsShow()) {
-				TRACE("\n\n 3333333333333\n\n");
-			}
-			if (game_interface.IsUseItem()) {
-				TRACE("\n\n 4444444444444\n\n");
-			}
-		}*/
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -924,7 +839,6 @@ namespace game_framework {
 				}
 				if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 					objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
-				
 				break;
 			case 1:
 				items.at(FLATHEAD).OnKeyDown(nChar);
@@ -1115,7 +1029,6 @@ namespace game_framework {
 					player.SetOffChair(3 * TILE / 2);
 					player.OnMove();
 				}
-
 				break;
 			}
 			case 21:
@@ -1258,11 +1171,6 @@ namespace game_framework {
 	}
 	void CGameStateRun::OnShow()
 	{
-
-		if (!(_dialogID >= 2 && _dialogID <= 11) && _nowID != 0 && _nowID != 1 && _nowID != 6 && _nowID != 10 && _nowID != 12 && _nowID != 14 && _nowID != 15 && _nowID !=17 && _nowID != 19 && _nowID != 20 && _nowID != 21) {
-			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
-		}
-		
 		if (player.IsDoorLock() && !events.at(DOOR_LOCKED_E).IsTriggered()) {
 			SetEventTriggeredDialog(DOOR_LOCKED_E);
 		}
@@ -1358,7 +1266,7 @@ namespace game_framework {
 				});
 			bool trishow[3] = { true,true,true };
 
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(FLATHEAD).OnShow();
@@ -1386,17 +1294,45 @@ namespace game_framework {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
-			items.at(CLOSET_HIROSI_L).OnShow();
+			for (int i = 1 ;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if( i == mapoverlayindex.at(_nowID)){
+					items.at(CLOSET_HIROSI_L).OnShow();
+					ShowOniAndPlayer();
+				}
+			}
+			
 			break;
-		case 3:
-			items.at(GATE2).OnShow();
+		case 3: 
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
+				gamemaps.at(_nowID).ShowMap(i);
+				if (i == mapoverlayindex.at(_nowID)) {
+					TRACE("%d\n", i);
+					if (player.GetY() / TILE > 12) {
+						items.at(GATE2).OnShow();
+						player.OnShow();
+					}
+					else {
+						player.OnShow();
+						items.at(GATE2).OnShow();
+					}
+					normal_oni.OnShow();
+				}
+			}
 			if (_blue_paint_show) {
 				blue_paint.ShowBitmap();
 			}
+			gamemaps.at(_nowID).ShowMapTile();
+			break;
+		case 4:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
+			break;
+		case 5:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			break;
 		case 6:
 			items.at(DOOR_ONI).EventTrigger();
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(DOOR_ONI).OnShow();
@@ -1411,13 +1347,16 @@ namespace game_framework {
 				house1_map.ShowBitmap();
 			}
 			break;
+		case 8:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
+			break;
 		case 9:
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
 			break;
 		case 10:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(LIGHTER).OnShow();
@@ -1426,6 +1365,7 @@ namespace game_framework {
 						items.at(TATAMI_L).OnShow();
 					}
 					items.at(DOOR_DIFF).OnShow();
+
 					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
 						normal_oni.SetPos(11 * TILE, 8 * TILE);
 						items.at(TATAMI_R).EventTrigger();
@@ -1442,10 +1382,10 @@ namespace game_framework {
 			}
 			break;
 		case 11:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			items.at(BROKEN_DISH).OnShow();
 			if (items.at(BROKEN_DISH).IsTake() && !events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(BROKEN_DISH_E);
-
 				game_interface.StoreItem("broken dish", "plate shards", Interface::Items::broken_dish);
 			}
 			break;
@@ -1458,7 +1398,6 @@ namespace game_framework {
 				return a->CMPY() < b->CMPY();
 				});
 			bool bishow[2] = { true,true };
-
 			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				for (int j = 0;j < 2; j++) {
@@ -1480,14 +1419,15 @@ namespace game_framework {
 			break;
 		}
 		case 13:
-
+			if (!(_dialogID >= 2 && _dialogID <= 11)) {
+				gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
+			}
 			if (!events.at(START_EVENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT_E);
 			}
 			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT2_E);
 			}
-			
 			if (_dialogID == 6) {
 				player.SetDirection(Entity::right);
 				human_takeshi.SetDirection(Entity::right);
@@ -1527,7 +1467,6 @@ namespace game_framework {
 					player.IsMachineDone() = true;
 				}
 			}
-
 			// in event situation show function is different from normal situation
 			if (_dialogID >= 2 && _dialogID <= 9) {
 				gamemaps.at(_nowID).ShowMapAll();
@@ -1543,8 +1482,8 @@ namespace game_framework {
 				player.OnShow();
 			}
 			break;
-		case 14:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+		case 14: 
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					objs.at(obj_move::house1_2F_TR_chair).OnShow();
@@ -1587,7 +1526,7 @@ namespace game_framework {
 			}
 			break;
 		case 15:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					if (!items.at(DOOR_KNOB).IsPick()) {
@@ -1601,13 +1540,14 @@ namespace game_framework {
 			}
 			break;
 		case 16:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			items.at(BED).OnShow();
 			if (items.at(BED).IsOnCorPos() && !events.at(OPEN_FUCKING_HOLE_E).IsTriggered()) {
 				router.UnblockPath(16, 17);
 			}
 			break;
 		case 17:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					if (!items.at(PIANO_PWD_NOTOPEN).IsPick() && !pwds.at(piano).IsOpen()) {
@@ -1640,6 +1580,7 @@ namespace game_framework {
 			}
 			break;
 		case 18:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
 				items.at(TUB_ONCE).OnShow();
 			}
@@ -1655,7 +1596,7 @@ namespace game_framework {
 			}
 			break;
 		case 19:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(DETERGENT).OnShow();
@@ -1684,7 +1625,7 @@ namespace game_framework {
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
 				});
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
 					for (int j = 0;j < 3;j++) {
@@ -1729,15 +1670,18 @@ namespace game_framework {
 			}
 			break;
 		case 21:
-			for (int i = 0;i < gamemaps.at(_nowID).GetLayer();i++) {
+			for (int i = 1;i < gamemaps.at(_nowID).GetLayer();i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
 					items.at(BOOKCASE_MAP21).OnShow();
 					ShowOniAndPlayer();
 				}
 			}
+			mapmask.ShowBitmap();
+
 			break;
 		case 22:
+			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			items.at(KEY_BASEMENT).OnShow();
 			if (items.at(KEY_BASEMENT).IsPick() && !events.at(KEY_BASEMENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_BASEMENT_E);
@@ -1746,8 +1690,10 @@ namespace game_framework {
 			items.at(GATE).OnShow();
 			break;
 		default:
-			{
+			if (_nowID > 22) {
+				gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			}
+			break;
 		}
 		for (int i = 0; i < int(dialogs.size())-1; i++) {
 			if (dialogs.at(i).isShow()) {
@@ -1783,9 +1729,7 @@ namespace game_framework {
 		for (auto& f : events.at(_eventID).GetBlockPath()) {
 			router.UnblockPath(f.at(0), f.at(1));
 		}
-
 	}
-
 	void CGameStateRun::DeBugRecursive() {
 		string maplink = "map_bmp/maplink.txt";
 		if (isedit && !ofs.is_open()) {

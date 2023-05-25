@@ -116,11 +116,11 @@ namespace game_framework {
 		KEY_ANNEXE_E,
 		DOOR_LOCKED_E,
 		DOOR_UNLOCKED_E,
-		OPEN_FUCKING_HOLE_E,
 		OIL_E,
 		FLATHEAD_E,
 		KEY_JAIL_E,
-		TATAMI_E
+		TATAMI_E,
+		OPEN_FUCKING_HOLE_E
 	};
 	enum item_name {
 		TOILET,
@@ -238,6 +238,8 @@ namespace game_framework {
 		vector<int> pointvec;
 		std::vector<Entity*> entities;
 		ObjMove* obj;
+		const COLORREF default_C = RGB(204, 255, 0);
+		const COLORREF black_C = RGB(0, 0, 0);
 	};
 	class CGameStateOver : public CGameState {
 	public:

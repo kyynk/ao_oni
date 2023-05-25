@@ -9,7 +9,7 @@
 namespace game_framework {
 	Dialog::Dialog() = default;
 	Dialog::~Dialog() = default;
-	void Dialog::SetFigure(string&& name) {
+	void Dialog::SetFigure(const string& name) {
 		_figurename = name;
 		_head.LoadBitmapByString({ "dialog/"+name+".bmp" }, RGB(204, 255, 0));
 		
