@@ -772,6 +772,16 @@ namespace game_framework {
 				items.at(DOOR_KNOB).SetIsPick(true);
 				game_interface.StoreItem("door knob", "door knob", Interface::Items::door_knob);
 			}
+			else if (_nowID == 10 && items.at(DOOR_DIFF).GetBitMapIndex() == 0
+				&& nowItem.GetName() == "plate shards" && player.GetDirection() == Entity::up
+				&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
+				items.at(DOOR_DIFF).EventTrigger();
+			}
+			else if (_nowID == 10 && items.at(DOOR_DIFF).GetBitMapIndex() == 1
+				&& nowItem.GetName() == "door knob" && player.GetDirection() == Entity::up
+				&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
+				items.at(DOOR_DIFF).EventTrigger();
+			}
 		}
 		else if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
 			/*if (!game_interface.IsShow()) {
