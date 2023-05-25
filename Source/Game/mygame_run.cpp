@@ -152,7 +152,7 @@ namespace game_framework {
 		items.at(BASEMENT_PWD).SetParam(-1, 0, 0, Item::password_not_open);
 		items.at(BASEMENT_PWD_TAKE).SetParam(-1, 0, 0, Item::password_get_key);
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
-		items.at(DOOR_DIFF).SetParam(-1, 0, 0, Item::diff_door);
+		items.at(DOOR_DIFF).SetParam(-1, 0, TILE, Item::diff_door);
 		//events
 		events.resize(31);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -544,7 +544,7 @@ namespace game_framework {
 				items.at(TATAMI_L).StorePlayerPos(player.GetX(), player.GetY());
 				items.at(TATAMI_L).OnMove();
 			}
-
+			items.at(DOOR_DIFF).StorePlayerPos(player.GetX(), player.GetY());
 			break;
 		case 11:
 			items.at(BROKEN_DISH).StorePlayerPos(player.GetX(), player.GetY());
@@ -781,6 +781,7 @@ namespace game_framework {
 				&& nowItem.GetName() == "door knob" && player.GetDirection() == Entity::up
 				&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
 				items.at(DOOR_DIFF).EventTrigger();
+				game_interface.DeleteItem("door knob");
 			}
 		}
 		else if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
@@ -978,7 +979,27 @@ namespace game_framework {
 					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
 				items.at(TATAMI_R).OnKeyDown(nChar);
-
+				items.at(DOOR_DIFF).OnKeyDown(nChar);
+				if (nChar == VK_SPACE && items.at(DOOR_DIFF).GetBitMapIndex() == 0 
+					&& player.GetDirection() == Entity::up
+					&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
+					TRACE("\n\n collide \n\n");
+					TRACE("\n\n need broken dish\n\n");
+				}
+				else if (nChar == VK_SPACE && items.at(DOOR_DIFF).GetBitMapIndex() == 1
+					&& player.GetDirection() == Entity::up
+					&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
+					TRACE("\n\n need doorknob\n\n");
+				}
+				else if (nChar == VK_SPACE && items.at(DOOR_DIFF).GetBitMapIndex() == 2
+					&& player.GetDirection() == Entity::up
+					&& player.GetX() == 17 * TILE && player.GetY() == 17 * TILE) {
+					// trigger once
+					TRACE("\n\n trigger once\n\n");
+				}
+				else {
+					TRACE("\n\n not collide \n\n");
+				}
 				break;
 			case 11:
 				items.at(BROKEN_DISH).OnKeyDown(nChar);
@@ -1405,10 +1426,6 @@ namespace game_framework {
 						items.at(TATAMI_L).OnShow();
 					}
 					items.at(DOOR_DIFF).OnShow();
-					/* use dish
-					if (!items.at(TATAMI_L).IsClose()) {
-						items.at(DOOR_DIFF).EventTrigger();
-					}*/
 					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
 						normal_oni.SetPos(11 * TILE, 8 * TILE);
 						items.at(TATAMI_R).EventTrigger();
