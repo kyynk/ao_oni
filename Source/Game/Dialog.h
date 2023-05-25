@@ -9,7 +9,7 @@ namespace game_framework {
 		};
 		Dialog();
 		~Dialog();
-		void SetFigure(string &&name);
+		void SetFigure(const string &name);
 		void SetParam(vector<string>  st, bool ch);
 		void SetOption(string str1, string str2);
 		void ShowTotal();

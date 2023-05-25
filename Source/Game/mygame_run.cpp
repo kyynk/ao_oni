@@ -181,95 +181,44 @@ namespace game_framework {
 		events.at(KEY_JAIL_E).SetParam({}, 41, 1);
 		events.at(TATAMI_E).SetParam({}, -1, -1);
 		//dialogs
-		dialogs.resize(43);
-		dialogs.at(0).SetFigure("hirosi");
-		dialogs.at(0).SetParam({ "A broken plate... " }, false);
-		dialogs.at(1).SetFigure("hirosi");
-		dialogs.at(1).SetParam({"Gain the broken plate"},false);
-		dialogs.at(2).SetFigure("takurou");
-		dialogs.at(2).SetParam({ "beautiful interiors!!! " }, false);
-		dialogs.at(3).SetFigure("mika");
-		dialogs.at(3).SetParam({ "I feel a bit cold. " }, false);
-		dialogs.at(4).SetFigure("takesi");
-		dialogs.at(4).SetParam({ "h...","hey","I think we should go home. "}, false);
-		dialogs.at(5).SetFigure("takurou");
-		dialogs.at(5).SetParam({ "What is wrong with you takesi,"," are you afraid ? "}, false);
-		dialogs.at(6).SetFigure("takesi");
-		dialogs.at(6).SetParam({ "!!!!!" }, false);
-		dialogs.at(7).SetFigure("takesi");
-		dialogs.at(7).SetParam({ "h...","hey","we should go home. "}, false);
-		dialogs.at(8).SetFigure("hirosi");
-		dialogs.at(8).SetParam({ "what a fool!","there are no ghosts in this world."}, false);
-		dialogs.at(9).SetFigure("takesi");
-		dialogs.at(9).SetParam({ "hey","careful Hirosi" }, false);
-		dialogs.at(10).SetFigure("hirosi");
-		dialogs.at(10).SetParam({ "!" },false);
-		dialogs.at(11).SetFigure("hirosi");
-		dialogs.at(11).SetParam({ "!" },false);
-		dialogs.at(12).SetFigure("hirosi");
-		dialogs.at(12).SetParam({ "where is everyone" }, false);
-		dialogs.at(13).SetFigure("hirosi");
-		dialogs.at(13).SetParam({ "Gain the library key " }, false);
-		dialogs.at(14).SetFigure("hirosi");
-		dialogs.at(14).SetParam({ "Gain the detergent " }, false);
-		dialogs.at(15).SetFigure("hirosi");
-		dialogs.at(15).SetParam({ "Gain the phillips screwdriver " }, false);
-		dialogs.at(16).SetFigure("hirosi");
-		dialogs.at(16).SetParam({ "Gain the bedroom key" }, false);
-		dialogs.at(17).SetFigure("hirosi");
-		dialogs.at(17).SetParam({ "Gain the lighter " }, false);
-		dialogs.at(18).SetFigure("takesi");
-		dialogs.at(18).SetParam({ "Trembling........................." }, false);
-		dialogs.at(19).SetFigure("hirosi");
-		dialogs.at(19).SetParam({ "Takashi?" }, false);
-		dialogs.at(20).SetFigure("takesi");
-		dialogs.at(20).SetParam({ "Trembling........................." }, false);
-		dialogs.at(21).SetFigure("hirosi");
-		dialogs.at(21).SetParam({ "where is everyone?" }, false);
-		dialogs.at(22).SetFigure("takesi");
-		dialogs.at(22).SetParam({ "Trembling........................." }, false);
-		dialogs.at(23).SetFigure("hirosi");
-		dialogs.at(23).SetParam({ "......................................" }, false);
-		dialogs.at(24).SetFigure("hirosi");
-		dialogs.at(24).SetParam({ "Gain the handkerchief" }, false);
-		
-		dialogs.at(25).SetFigure("mika");
-		dialogs.at(25).SetParam({ "Hiroshi you..." }, false);
-		dialogs.at(26).SetFigure("hirosi");
-		dialogs.at(26).SetParam({ "Are you ok?","where are the others ?" }, false);
-		dialogs.at(27).SetFigure("mika");
-		dialogs.at(27).SetParam({ "i don't know. ","mabye hinding somewhere" }, false);
-		dialogs.at(28).SetFigure("hirosi");
-		dialogs.at(28).SetParam({ "Okay." }, true);
-		dialogs.at(28).SetOption("come with me ", "stay here for now");
-		
-		dialogs.at(29).SetFigure("mika");
-		dialogs.at(29).SetParam({ "WhAt?","there's a MONSTER wondering","in this house." }, false);
-		dialogs.at(30).SetFigure("hirosi");
-		dialogs.at(30).SetParam({ "Alright..."}, false);
-		dialogs.at(31).SetFigure("mika");
-		dialogs.at(31).SetParam({ "ok." }, false);
-		dialogs.at(32).SetFigure("mika");
-		dialogs.at(32).SetParam({ "takuro................" }, false);
+		//dialogs.resize(43);
 
-		dialogs.at(33).SetFigure("hirosi");
-		dialogs.at(33).SetParam({ "Gain the babyroom key" }, false);
-		dialogs.at(34).SetFigure("hirosi");
-		dialogs.at(34).SetParam({ "Gain the basement key" }, false);
-		dialogs.at(35).SetFigure("hirosi");
-		dialogs.at(35).SetParam({ "Gain the jail key" }, false);
-		dialogs.at(36).SetFigure("hirosi");
-		dialogs.at(36).SetParam({ "Gain the ??? key" }, false);
-		dialogs.at(37).SetFigure("hirosi");
-		dialogs.at(37).SetParam({ "The door is locked" }, false);
-		dialogs.at(38).SetFigure("hirosi");
-		dialogs.at(38).SetParam({ "The door is unlocked" }, false);
-		dialogs.at(39).SetFigure("hirosi");
-		dialogs.at(39).SetParam({ "Gain the oil" }, false);
-		dialogs.at(40).SetFigure("hirosi");
-		dialogs.at(40).SetParam({ "Gain the flathead screwdriver core" }, false);
-		dialogs.at(41).SetFigure("hirosi");
-		dialogs.at(41).SetParam({ "Gain the jail key" }, false);
+		std::ifstream file("dialog/fuck.txt");
+		if (!file) {
+			TRACE("dissapointment\n");
+		}
+		std::string line;
+		while (std::getline(file, line)) {
+			if (line.empty()) {
+				continue; 
+			}
+			Dialog dialog;
+			dialog.SetFigure(line);
+			TRACE("%s\n", line.c_str());
+
+			std::getline(file, line);
+			TRACE("%s\n", line.c_str());
+			int numStrings = std::stoi(line);
+			vector<string> disappointed;
+			for (int i = 0; i < numStrings; i++) {
+				std::getline(file, line);
+				disappointed.push_back(line);
+			}
+			std::getline(file, line);
+			int ischo = std::stoi(line);
+			(ischo == 0) ? dialog.SetParam(disappointed, false) : dialog.SetParam(disappointed, true);
+			disappointed.clear();
+			for (int i = 0;i < ischo;i++) {
+				std::getline(file, line);
+				disappointed.push_back(line);
+			}
+			if (ischo != 0) {
+				dialog.SetOption(disappointed.at(0), disappointed.at(1));
+			}
+			dialogs.push_back(dialog);
+
+		}
+		file.close();
 
 		// objMove
 		objs.resize(3);
@@ -923,7 +872,6 @@ namespace game_framework {
 				}
 				if (objs.at(obj_move::house1_basement2_chair).isChangeMap())
 					objs.at(obj_move::house1_basement2_chair).OnKeyDown(nChar);
-				
 				break;
 			case 1:
 				items.at(FLATHEAD).OnKeyDown(nChar);
@@ -978,7 +926,6 @@ namespace game_framework {
 					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
 				items.at(TATAMI_R).OnKeyDown(nChar);
-
 				break;
 			case 11:
 				items.at(BROKEN_DISH).OnKeyDown(nChar);
@@ -1094,7 +1041,6 @@ namespace game_framework {
 					player.SetOffChair(3 * TILE / 2);
 					player.OnMove();
 				}
-
 				break;
 			}
 			case 21:
