@@ -127,6 +127,10 @@ namespace game_framework {
 		_itemsImgShowIndex.push_back(item);
 	}
 	InterfaceData Interface::UseItem() {
+		_IsUseItem = false;
+		if (!_IsUseItem) {
+			TRACE("\n\n use item");
+		}
 		return InterfaceData(_itemsIntro.at(_useItemIndex), _itemsName.at(_useItemIndex));
 	}
 	void Interface::ChangeItemStatus(string originalName, string intro, string name, int frame_index) {
@@ -341,6 +345,8 @@ namespace game_framework {
 						_useItemDialog.SetOption("Yes", "No");
 					}
 					else {
+						_IsUseItem = true;
+						_show = none;
 						SetShow(false);
 						ResetChoose();
 					}
@@ -467,5 +473,8 @@ namespace game_framework {
 			|| (_itemsName.at(_useItemIndex) == "- screwdriver core" && FindItem("+ screwdriver"))
 			|| (_itemsName.at(_useItemIndex) == "detergent" && FindItem("handkerchief"))
 			|| (_itemsName.at(_useItemIndex) == "oil" && FindItem("lighter"));
+	}
+	bool Interface::IsUseItem() const{
+		return _IsUseItem;
 	}
 }

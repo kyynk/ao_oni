@@ -64,6 +64,7 @@ namespace game_framework {
 		bool IsTitle() const;
 		bool IsEnd() const;
 		bool IsChangeStatus();
+		bool IsUseItem() const;
 
 	private:
 		int _cursorX, _cursorY,
