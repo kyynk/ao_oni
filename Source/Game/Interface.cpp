@@ -128,6 +128,9 @@ namespace game_framework {
 	}
 	InterfaceData Interface::UseItem() {
 		_IsUseItem = false;
+		if (!_IsUseItem) {
+			TRACE("\n\n use item");
+		}
 		return InterfaceData(_itemsIntro.at(_useItemIndex), _itemsName.at(_useItemIndex));
 	}
 	void Interface::ChangeItemStatus(string originalName, string intro, string name, int frame_index) {
@@ -343,6 +346,7 @@ namespace game_framework {
 					}
 					else {
 						_IsUseItem = true;
+						_show = none;
 						SetShow(false);
 						ResetChoose();
 					}
