@@ -324,6 +324,7 @@ namespace game_framework {
 		_use_handkerchief = false;
 		_blue_paint_show = false;
 		_piano_hint_show = false;
+		_in_interface = false;
 		_nowID = 13;
 		_dialogID = -1;
 		_dialogcount = 0;
@@ -758,6 +759,39 @@ namespace game_framework {
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		game_interface.OnKeyDown(nChar);
+		if (game_interface.IsShow() && !_in_interface) {
+			_in_interface = true;
+		}
+		if (game_interface.IsUseItem()) {
+			InterfaceData nowItem = game_interface.UseItem();
+			//TRACE("\n\nasdfasfsadfsafsadf\n\n");
+			if (_nowID == 15 && !items.at(DOOR_KNOB).IsPick() && items.at(DOOR_KNOB).IsClose()
+				&& nowItem.GetName() == "+ screwdriver" && player.GetDirection() == Entity::up
+				&& player.GetX() == 12 * TILE && player.GetY() == 8 * TILE) {
+				//game_interface.DeleteItem(nowItem.GetName());
+				items.at(DOOR_KNOB).SetIsPick(true);
+				game_interface.StoreItem("door knob", "door knob", Interface::Items::door_knob);
+			}
+		}
+		else if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
+			/*if (!game_interface.IsShow()) {
+				TRACE("\n\n 1111111111111\n\n");
+			}
+			if (!game_interface.IsUseItem()) {
+				TRACE("\n\n 2222222222222\n\n");
+			}
+			TRACE("\n\nno interface\n\n");*/
+			_in_interface = false;
+		}
+		/*else {
+			TRACE("\n\nyes interface\n\n");
+			if (game_interface.IsShow()) {
+				TRACE("\n\n 3333333333333\n\n");
+			}
+			if (game_interface.IsUseItem()) {
+				TRACE("\n\n 4444444444444\n\n");
+			}
+		}*/
 		if (_substate == OnInputBox) {
 			inputbox.BoxOn(nChar);
 			if (nChar == VK_SPACE) { // press "space" close dialog
@@ -770,7 +804,7 @@ namespace game_framework {
 				_substate = OnWalking;
 			}
 		}
-		else if (_substate == OnWalking && !game_interface.IsShow()) {
+		else if (_substate == OnWalking && !_in_interface) {
 			
 			if (isdebugmode) {
 				if (nChar == KEY_A) {
