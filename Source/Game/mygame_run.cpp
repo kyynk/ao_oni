@@ -978,6 +978,7 @@ namespace game_framework {
 					items.at(TATAMI_L).OnKeyDown(nChar);
 				}
 				items.at(TATAMI_R).OnKeyDown(nChar);
+				items.at(DOOR_DIFF).OnKeyDown(nChar);
 
 				break;
 			case 11:
@@ -1405,10 +1406,6 @@ namespace game_framework {
 						items.at(TATAMI_L).OnShow();
 					}
 					items.at(DOOR_DIFF).OnShow();
-					/* use dish
-					if (!items.at(TATAMI_L).IsClose()) {
-						items.at(DOOR_DIFF).EventTrigger();
-					}*/
 					if (!events.at(TATAMI_E).IsTriggered() && player.GetY() <= 11 * TILE) {
 						normal_oni.SetPos(11 * TILE, 8 * TILE);
 						items.at(TATAMI_R).EventTrigger();
@@ -1422,6 +1419,9 @@ namespace game_framework {
 			if (items.at(LIGHTER).IsPick() && !events.at(LIGHTER_E).IsTriggered()) {
 				SetEventTriggeredDialog(LIGHTER_E);
 				game_interface.StoreItem("(need oil) lighter", "lighter", Interface::Items::lighter);
+			}
+			if (items.at(DOOR_DIFF).Collide()) {
+				// event
 			}
 			break;
 		case 11:
