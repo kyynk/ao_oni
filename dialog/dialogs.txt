@@ -1,142 +1,222 @@
 hirosi
-0
 1
-A broken plate... 
-hirosi
+A broken plate...
 0
+
+hirosi
 1
 Gain the broken plate
-takurou
 0
+
+takurou
 1
-beautiful interiors!!! 
+beautiful interiors!!!
+0
+
 mika
-0
 1
-I feel a bit cold. 
+I feel a bit cold.
+0
+
 takesi
-0
-3
-h..
-hey
-I think we should go home. 
-takurou
-0
-2
-What is  wrong with you takesi,
-are you afraid ? 
-takesi
-0
-1
-!!!!!
-takesi
-0
 3
 h...
 hey
-we should go home. 
-hirosi
+I think we should go home.
 0
+
+takurou
+2
+What is wrong with you takesi,
+are you afraid ?
+0
+
+takesi
+1
+!!!!!
+0
+
+takesi
+3
+h...
+hey
+we should go home.
+0
+
+hirosi
 2
 what a fool!
 there are no ghosts in this world.
-takesi
 0
+
+takesi
 2
 hey
 careful Hirosi
-hirosi
 0
+
+hirosi
 1
 !
-hirosi
 0
+
+hirosi
 1
 !
-hirosi
 0
+
+hirosi
 1
 where is everyone
-hirosi
 0
+
+hirosi
 1
-Gain the library key 
-hirosi
+Gain the library key
 0
+
+hirosi
 1
-Gain the detergent 
-hirosi
+Gain the detergent
 0
+
+hirosi
 1
-Gain the phillips screwdriver 
-hirosi
+Gain the phillips screwdriver
 0
+
+hirosi
 1
 Gain the bedroom key
-hirosi
 0
+
+hirosi
 1
-Gain the lighter 
+Gain the lighter
+0
+
 takesi
-0
 1
-Trembling.........................
-hirosi
+Trembling.....................
 0
+
+hirosi
 1
 Takashi?
+0
+
 takesi
-0
 1
-Trembling.........................
-hirosi
+Trembling.....................
 0
+
+hirosi
 1
 where is everyone?
+0
+
 takesi
-0
 1
-Trembling.........................
-hirosi
+Trembling.....................
 0
+
+hirosi
 1
-.......................................................
-hirosi
+......................................
 0
+
+hirosi
 1
 Gain the handkerchief
-mika
 0
+
+mika
 1
 Hiroshi you...
-hirosi
 0
+
+hirosi
 2
 Are you ok?
 where are the others ?
-mika
 0
+
+mika
 2
-i don't know. 
- mabye hinding somewhere
+i don't know.
+mabye hinding somewhere
+0
+
 hirosi
-1
 1
 Okay.
-mika
-0
 2
+came with me
+stay here for now
+
+mika
+3
 WhAt?
-there's a MONSTER wondering in this house.
-hirosi
+there's a MONSTER wondering
+in this house.
 0
+
+hirosi
 1
 Alright...
-mika
 0
+
+mika
 1
 ok.
-mika
 0
+
+mika
 1
 takuro................
+0
+
+hirosi
+1
+Gain the babyroom key
+0
+
+hirosi
+1
+Gain the basement key
+0
+
+hirosi
+1
+Gain the jail key
+0
+
+hirosi
+1
+Gain the ??? key
+0
+
+hirosi
+1
+The door is locked
+0
+
+hirosi
+1
+The door is unlocked
+0
+
+hirosi
+1
+Gain the oil
+0
+
+hirosi
+1
+Gain the flathead screwdriver core
+0
+
+hirosi
+1
+Gain the jail key
+0
