@@ -554,7 +554,7 @@ namespace game_framework {
 			_pressing = none;
 
 		utiltriggers[press] = false;
-		return _pressing != none;;
+		return _pressing != none;
 	}
 	void Item::SetDirection(int d) {
 		if (d == up) {
