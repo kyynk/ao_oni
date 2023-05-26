@@ -30,6 +30,7 @@ namespace game_framework {
 		_isPause = false;
 		_isStop = true;
 		_IsUseItem = false;
+		_IsShowMapAndDialog = false;
 		_itemsImg.resize(14);
 		for (int i = 0; i < 6; i++) { //key
 			_itemsImg.at(i).LoadBitmapByString({ "img/interface/item/key.bmp" }, RGB(204, 255, 0));
@@ -357,6 +358,7 @@ namespace game_framework {
 						_show = use_item;
 						_useItemDialog.SetParam({ "Do u want to use the " + _itemsName.at(_useItemIndex) + "?" }, true);
 						_useItemDialog.SetOption("Yes", "No");
+						_IsShowMapAndDialog = true;
 					}
 					else {
 						_IsUseItem = true;
@@ -406,6 +408,7 @@ namespace game_framework {
 				_show = none;
 				SetShow(false);
 				ResetChoose();
+				_IsShowMapAndDialog = false;
 			}
 		}
 		else if (nChar == VK_UP) {
@@ -489,5 +492,8 @@ namespace game_framework {
 	}
 	bool Interface::IsUseItem() const{
 		return _IsUseItem;
+	}
+	bool Interface::IsShowMapAndDialog() const{
+		return _IsShowMapAndDialog;
 	}
 }

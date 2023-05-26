@@ -54,8 +54,6 @@ namespace game_framework {
 				}
 			}
 		}
-		ShowMapTile();
-		
 	}
 	void GameMap::ShowMapTile() {
 		if (isshowtileindex) {

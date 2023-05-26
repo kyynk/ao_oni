@@ -43,6 +43,7 @@
 #include "MapRes.h"
 #include "InterfaceData.h"
 #include "Interface.h"
+#include "DarkRoomEffect.h"
 namespace game_framework {
 	
 	enum AUDIO_ID {
@@ -119,8 +120,14 @@ namespace game_framework {
 		OIL_E,
 		FLATHEAD_E,
 		KEY_JAIL_E,
+		DOOR_WIRED_E,
+		DOOR_WHERE_KNOB_E,
+		DOOR_DIFF_OPEN_E,
+		LIGHTUP_ROOM21,
+		LIGHTUP_ROOM3,
 		TATAMI_E,
-		OPEN_FUCKING_HOLE_E
+		OPEN_FUCKING_HOLE_E,
+		OPEN_FUCKING_ROOM_E
 	};
 	enum item_name {
 		TOILET,
@@ -214,7 +221,7 @@ namespace game_framework {
 		CMovingBitmap piano_hint;
 		CMovingBitmap base0_kabe;
 		//map related
-		CMovingBitmap mapmask;
+		DarkRoomEffect darkmask[2];
 		vector<GameMap> gamemaps;
 		int _nowID;
 		int _dialogID;
