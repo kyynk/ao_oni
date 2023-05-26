@@ -44,7 +44,8 @@ namespace game_framework {
 		void StorePlayerStep(int step);
 		void StoreItem(string intro, string name, Items item);
 		InterfaceData UseItem();
-		void ChangeItemStatus(string originalName, string intro, string name, int frame_index);
+		void ChangeItemStatusByName(string originalName, string intro, string name, int frame_index);
+		void ChangeItemStatusByIntro(string originalIntro, string intro, string name, int frame_index);
 		void DeleteItem(string name);
 		bool FindItem(string name);
 		void ShowCursorStatus();
@@ -65,6 +66,7 @@ namespace game_framework {
 		bool IsEnd() const;
 		bool IsChangeStatus();
 		bool IsUseItem() const;
+		bool IsShowMapAndDialog() const;
 
 	private:
 		int _cursorX, _cursorY,
@@ -83,6 +85,7 @@ namespace game_framework {
 		bool _IsGoTitle;
 		bool _IsEndGame;
 		bool _IsUseItem;
+		bool _IsShowMapAndDialog;
 		vector<int> _itemsImgShowIndex;
 		vector<CMovingBitmap> _itemsImg;
 		CMovingBitmap _cursor;

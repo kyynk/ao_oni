@@ -46,6 +46,7 @@ namespace game_framework {
 			piano_pwd,
 			piano_hint,
 			diff_door,
+			kabe_pwd,
 		};
 		enum TriggerType {
 			triggered,
