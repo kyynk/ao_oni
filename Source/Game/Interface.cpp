@@ -133,10 +133,24 @@ namespace game_framework {
 		}
 		return InterfaceData(_itemsIntro.at(_useItemIndex), _itemsName.at(_useItemIndex));
 	}
-	void Interface::ChangeItemStatus(string originalName, string intro, string name, int frame_index) {
+	void Interface::ChangeItemStatusByName(string originalName, string intro, string name, int frame_index) {
 		int change_index = -1;
 		for (int i = 0; i < int(_itemsName.size()); i++) {
 			if (_itemsName.at(i) == originalName) {
+				change_index = i;
+				break;
+			}
+		}
+		if (change_index != -1) {
+			_itemsIntro.at(change_index) = intro;
+			_itemsName.at(change_index) = name;
+			_itemsImg.at(_itemsImgShowIndex.at(change_index)).SetFrameIndexOfBitmap(frame_index);
+		}
+	}
+	void Interface::ChangeItemStatusByIntro(string originalIntro, string intro, string name, int frame_index) {
+		int change_index = -1;
+		for (int i = 0; i < int(_itemsIntro.size()); i++) {
+			if (_itemsIntro.at(i) == originalIntro) {
 				change_index = i;
 				break;
 			}
@@ -341,7 +355,7 @@ namespace game_framework {
 					if (IsChangeStatus()) {
 						TRACE("\n\n useeeeeeeeeeeee itemmmmmmmmmmmmmmm\n\n");
 						_show = use_item;
-						_useItemDialog.SetParam({ "Do you want to use the " + _itemsName.at(_useItemIndex) + " ?" }, true);
+						_useItemDialog.SetParam({ "Do u want to use the " + _itemsName.at(_useItemIndex) + "?" }, true);
 						_useItemDialog.SetOption("Yes", "No");
 					}
 					else {
@@ -372,20 +386,20 @@ namespace game_framework {
 			}
 			else if (_show == use_item) {
 				if (_useItemDialog.Choice() == Dialog::option::yes) {
-					if (_itemsName.at(_useItemIndex) == "+ screwdriver core") {
-						ChangeItemStatus("- screwdriver", "This is flathead screwdriver core", "- screwdriver core", 0);
-						ChangeItemStatus("+ screwdriver core", "This is phillips screwdriver", "+ screwdriver", 0);
+					if (_itemsIntro.at(_useItemIndex) == "phillips screwdriver core") {
+						ChangeItemStatusByIntro("flathead screwdriver", "flathead screwdriver core", "screwdriver core", 0);
+						ChangeItemStatusByIntro("phillips screwdriver core", "phillips screwdriver", "screwdriver", 0);
 					}
-					else if (_itemsName.at(_useItemIndex) == "- screwdriver core") {
-						ChangeItemStatus("+ screwdriver", "This is phillips screwdriver core", "+ screwdriver core", 1);
-						ChangeItemStatus("- screwdriver core", "This is flathead screwdriver", "- screwdriver", 1);
+					else if (_itemsIntro.at(_useItemIndex) == "flathead screwdriver core") {
+						ChangeItemStatusByIntro("phillips screwdriver", "phillips screwdriver core", "screwdriver core", 1);
+						ChangeItemStatusByIntro("flathead screwdriver core", "flathead screwdriver", "screwdriver", 1);
 					}
 					else if (_itemsName.at(_useItemIndex) == "detergent") {
-						ChangeItemStatus("handkerchief", "handkerchief (clean)", "handkerchief", 1);
+						ChangeItemStatusByName("handkerchief", "handkerchief (clean)", "handkerchief", 1);
 						DeleteItem("detergent");
 					}
 					else if (_itemsName.at(_useItemIndex) == "oil") {
-						ChangeItemStatus("lighter", "lighter (full of oil)", "lighter", 0);
+						ChangeItemStatusByName("lighter", "lighter (full of oil)", "lighter", 0);
 						DeleteItem("oil");
 					}
 				}
@@ -469,8 +483,7 @@ namespace game_framework {
 		return _IsEndGame;
 	}
 	bool Interface::IsChangeStatus() {
-		return (_itemsName.at(_useItemIndex) == "+ screwdriver core" && FindItem("- screwdriver"))
-			|| (_itemsName.at(_useItemIndex) == "- screwdriver core" && FindItem("+ screwdriver"))
+		return (_itemsName.at(_useItemIndex) == "screwdriver core" && FindItem("screwdriver"))
 			|| (_itemsName.at(_useItemIndex) == "detergent" && FindItem("handkerchief"))
 			|| (_itemsName.at(_useItemIndex) == "oil" && FindItem("lighter"));
 	}
