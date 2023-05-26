@@ -173,6 +173,7 @@ namespace game_framework {
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
 		DOOR_DIFF,
+		KABE_PWD
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -212,14 +213,18 @@ namespace game_framework {
 		bool _map_show;
 		bool _blue_paint_show;
 		bool _piano_hint_show;
+		bool _base0_kabe_show;
+		bool _use_f_screwdriver;
 		bool _use_handkerchief;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		CMovingBitmap piano_hint;
+		CMovingBitmap base0_kabe;
 		//map related
 		DarkRoomEffect darkmask[2];
 		vector<GameMap> gamemaps;
 		int _nowID;
+		int _tempMapID;
 		int _dialogID;
 		int _dialogcount;
 		int _eventID;
