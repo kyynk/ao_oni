@@ -193,6 +193,9 @@ namespace game_framework {
 				bitmapName.push_back("img/door_need_knob/door_knob" + to_string(i) + ".bmp");
 			}
 		}
+		else if (_name == kabe_pwd) {
+			bitmapName.push_back("img/item_animation/password/kabe_pwd.bmp");
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -662,6 +665,9 @@ namespace game_framework {
 			}
 			SetTrigger();
 			Animation(2, _aniFrame + 1);
+		}
+		else if (_name == kabe_pwd && !utiltriggers[pick]) {
+			utiltriggers[pick] = true;
 		}
 	}
 }

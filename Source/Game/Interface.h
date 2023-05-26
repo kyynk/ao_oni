@@ -44,7 +44,8 @@ namespace game_framework {
 		void StorePlayerStep(int step);
 		void StoreItem(string intro, string name, Items item);
 		InterfaceData UseItem();
-		void ChangeItemStatus(string originalName, string intro, string name, int frame_index);
+		void ChangeItemStatusByName(string originalName, string intro, string name, int frame_index);
+		void ChangeItemStatusByIntro(string originalIntro, string intro, string name, int frame_index);
 		void DeleteItem(string name);
 		bool FindItem(string name);
 		void ShowCursorStatus();
