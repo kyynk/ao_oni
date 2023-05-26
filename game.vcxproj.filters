@@ -10,9 +10,6 @@
     <ClCompile Include="Source\Game\Event.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\InputBox.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Library\gameutil.cpp">
       <Filter>Library</Filter>
     </ClCompile>
@@ -20,22 +17,22 @@
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\Library\gamecore.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\gameDoc.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\gameView.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\MainFrm.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\StdAfx.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\game.cpp">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\MapRes.cpp">
       <Filter>Maps</Filter>
@@ -88,6 +85,12 @@
     <ClCompile Include="Source\Game\InterfaceData.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\InputBox.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\DarkRoomEffect.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game\ChoiceMenu.h">
@@ -99,9 +102,6 @@
     <ClInclude Include="Source\Game\Event.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\InputBox.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Library\gameutil.h">
       <Filter>Library</Filter>
     </ClInclude>
@@ -109,22 +109,22 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\Library\gamecore.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\gameDoc.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\gameView.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\MainFrm.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\StdAfx.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game.h">
-      <Filter>Entity\Core</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Resource.h">
       <Filter>Resource</Filter>
@@ -177,6 +177,12 @@
     <ClInclude Include="Source\Game\InterfaceData.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\InputBox.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\DarkRoomEffect.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Game">
@@ -197,7 +203,7 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{80e1c513-59e4-4264-b00c-cd435332f684}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entity\Core">
+    <Filter Include="Core">
       <UniqueIdentifier>{2b21ff0f-8517-4545-bc21-f7ae135191b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
