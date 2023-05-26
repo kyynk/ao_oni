@@ -48,8 +48,11 @@ namespace game_framework {
 				TRACE("I hate my life\n");
 			}
 		}
-		mapmask.LoadBitmapByString({ "img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
-		mapmask.SetFrameIndexOfBitmap(1);
+		for (int i = 0;i < 2;i++) {
+			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
+			darkmask[i].SetState(DarkRoomEffect::dark);
+
+		}
 		// main character
 		vector<string> humans = { "hiroshi_move/Hiroshi_","mika_move/Mika_","takeshi_move/Takeshi_","takuro_move/Takuro_" };
 		vector<string> playervec;
@@ -168,7 +171,7 @@ namespace game_framework {
 		events.at(DOOR_WIRED_E).SetParam({}, 42, 1);
 		events.at(DOOR_WHERE_KNOB_E).SetParam({}, 43, 1);
 		events.at(DOOR_DIFF_OPEN_E).SetParam({ {10,21} }, -1, -1);
-		events.at(LIGHTUP_ROOM).SetParam({}, -1, -1);
+		events.at(LIGHTUP_ROOM21).SetParam({}, -1, -1);
 		events.at(TATAMI_E).SetParam({}, -1, -1);
 		events.at(OPEN_FUCKING_HOLE_E).SetParam({ {16,17} }, -1, -1);
 		events.at(OPEN_FUCKING_ROOM_E).SetParam({ {21,22} }, -1, -1);
@@ -344,7 +347,10 @@ namespace game_framework {
 
 	void CGameStateRun::OnMove()
 	{
-		mapmask.SetTopLeft(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
+		// update mapmask
+		for (int i = 0;i < 2;i++) {
+			darkmask[i].SetXY(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
+		}
 		if ((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE == 16 || (player.GetY() - gamemaps.at(_nowID).GetY()) % TILE == 16) {
 			_playerStep++;
 			game_interface.StorePlayerStep(_playerStep);
@@ -717,10 +723,13 @@ namespace game_framework {
 				items.at(DOOR_DIFF).EventTrigger();
 				game_interface.DeleteItem("door knob");
 			}
-			else if (_nowID == 21 && nowItem.GetIntro() == "lighter (full of oil)" && !events.at(LIGHTUP_ROOM).IsTriggered()){
-				events.at(LIGHTUP_ROOM).SetTriggered(true);
-				mapmask.SetFrameIndexOfBitmap(0);
-
+			else if (_nowID == 21 && nowItem.GetIntro() == "lighter (full of oil)" && !events.at(LIGHTUP_ROOM21).IsTriggered()){
+				events.at(LIGHTUP_ROOM21).SetTriggered(true);
+				darkmask[1].SetState(DarkRoomEffect::dim);
+			}
+			else if (_nowID == 3 && nowItem.GetIntro() == "lighter (full of oil)" && !events.at(LIGHTUP_ROOM3).IsTriggered()) {
+				events.at(LIGHTUP_ROOM3).SetTriggered(true);
+				darkmask[0].SetState(DarkRoomEffect::dim);
 			}
 		}
 		else if (!game_interface.IsShow() && !game_interface.IsUseItem()) {
@@ -1331,7 +1340,7 @@ namespace game_framework {
 			if (_blue_paint_show) {
 				blue_paint.ShowBitmap();
 			}
-			//gamemaps.at(_nowID).ShowMapTile();
+			darkmask[0].OnShow();
 			break;
 		}
 		case 4:
@@ -1687,9 +1696,7 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
-			
-			mapmask.ShowBitmap();
-
+			darkmask[1].OnShow();
 			break;
 		case 22: {
 			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
