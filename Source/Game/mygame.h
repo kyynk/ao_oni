@@ -224,6 +224,7 @@ namespace game_framework {
 		DarkRoomEffect darkmask[2];
 		vector<GameMap> gamemaps;
 		int _nowID;
+		int _tempMapID;
 		int _dialogID;
 		int _dialogcount;
 		int _eventID;
