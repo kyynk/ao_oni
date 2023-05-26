@@ -220,3 +220,18 @@ hirosi
 1
 Gain the jail key
 0
+
+hirosi
+1
+This wall looks wired
+0
+
+hirosi
+1
+MMM.. I need a knob
+0
+
+None
+1
+0
+0
