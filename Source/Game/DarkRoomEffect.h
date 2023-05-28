@@ -10,7 +10,7 @@ namespace game_framework {
 			bright
 		};
 		DarkRoomEffect() = default;
-		 void load(const vector<string> &str,COLORREF color);
+		void load(const vector<string> &str,COLORREF color);
 		void OnShow();
 		void SetXY(int x,int y);
 		void SetShow(bool isshow) { _isshow = isshow; }
