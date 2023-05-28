@@ -98,7 +98,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(44);
+		items.resize(46);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -143,6 +143,8 @@ namespace game_framework {
 		items.at(BASEMENT_KEY).SetParam(100, 0, 0, Item::key_annexe);
 		items.at(DOOR_DIFF).SetParam(-1, 0, TILE, Item::diff_door);
 		items.at(KABE_PWD).SetParam(-1, 0, 0, Item::kabe_pwd);
+		items.at(CANDLE1).SetParam(-1, 0, TILE / 2, Item::candle);
+		items.at(CANDLE2).SetParam(-1, 0, TILE / 2, Item::candle);
 		//events
 		events.resize(32);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -342,6 +344,8 @@ namespace game_framework {
 		items.at(BASEMENT_KEY).SetXY(16 * TILE, 5 * TILE);
 		items.at(DOOR_DIFF).SetXY(17 * TILE, 15 * TILE);
 		items.at(KABE_PWD).SetXY(16 * TILE, 5 * TILE);
+		items.at(CANDLE1).SetXY(12 * TILE, 13 * TILE - TILE / 2);
+		items.at(CANDLE2).SetXY(13 * TILE, 10 * TILE - TILE / 2);
 		for (int i = 0;i< int(events.size());i++) {
 			events.at(i).SetTriggered(false);
 		}
@@ -940,6 +944,15 @@ namespace game_framework {
 						_blue_paint_show = !_blue_paint_show;
 					}
 				}
+				if (nChar == VK_SPACE && events.at(LIGHTUP_ROOM3).IsTriggered() && items.at(CANDLE2).GetBitMapIndex() == 0
+					&& ((player.GetDirection() == Entity::up && player.GetX() == 13 * TILE && player.GetY() == 11 * TILE)
+						|| (player.GetDirection() == Entity::right && player.GetX() == 12 * TILE && player.GetY() == 10 * TILE)
+						|| (player.GetDirection() == Entity::down && player.GetX() == 13 * TILE && player.GetY() == 9 * TILE)
+						|| (player.GetDirection() == Entity::left && player.GetX() == 14 * TILE && player.GetY() == 10 * TILE))) {
+					// trigger dialog
+					items.at(CANDLE2).EventTrigger();
+					darkmask[0].SetState(DarkRoomEffect::bright);
+				}
 				break;
 			case 7:
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
@@ -1095,6 +1108,15 @@ namespace game_framework {
 				if(items.at(BOOKCASE_MAP21).IsOnCorPos() && !events.at(OPEN_FUCKING_ROOM_E).IsTriggered()) {
 					SetEventTriggeredDialog(OPEN_FUCKING_ROOM_E);
 				}
+				if (nChar == VK_SPACE && events.at(LIGHTUP_ROOM21).IsTriggered() && items.at(CANDLE1).GetBitMapIndex() == 0
+					&& ((player.GetDirection() == Entity::up && player.GetX() == 12 * TILE && player.GetY() == 14 * TILE)
+						|| (player.GetDirection() == Entity::right && player.GetX() == 11 * TILE && player.GetY() == 13 * TILE)
+						|| (player.GetDirection() == Entity::down && player.GetX() == 12 * TILE && player.GetY() == 12 * TILE)
+						|| (player.GetDirection() == Entity::left && player.GetX() == 13 * TILE && player.GetY() == 13 * TILE))) {
+					// trigger dialog
+					items.at(CANDLE1).EventTrigger();
+					darkmask[1].SetState(DarkRoomEffect::bright);
+				}
 				break;
 			case 22:
 				items.at(KEY_BASEMENT).OnKeyDown(nChar);
@@ -1248,6 +1270,15 @@ namespace game_framework {
 			_tempMapID = _nowID;
 			_nowID = -1;
 		}
+
+		if (_nowID != 3 && _nowID != -1 && events.at(LIGHTUP_ROOM3).IsTriggered() && darkmask[0].IsShow()) {
+			events.at(LIGHTUP_ROOM3).SetTriggered(false);
+			darkmask[0].SetState(DarkRoomEffect::dark);
+		}
+		if (_nowID != 21 && _nowID != -1 && events.at(LIGHTUP_ROOM21).IsTriggered() && darkmask[1].IsShow()) {
+			events.at(LIGHTUP_ROOM21).SetTriggered(false);
+			darkmask[1].SetState(DarkRoomEffect::dark);
+		}
 		switch (_nowID) {
 		case -1:
 			break;
@@ -1385,7 +1416,7 @@ namespace game_framework {
 			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
 			normal_oni.SetCMPY(normal_oni.GetPosY() + normal_oni.GetOffsetY() - gamemaps.at(_nowID).GetY());
 			items.at(GATE2).SetCMPY(items.at(GATE2).GetPosY() - gamemaps.at(_nowID).GetY());
-			entities = { &player,&normal_oni ,&items.at(GATE2) };
+			entities = { &player, &normal_oni, &items.at(GATE2) };
 			std::sort(entities.begin(), entities.end(), [&](Entity* a, Entity* b) {
 				return a->CMPY() < b->CMPY();
 				});
@@ -1398,6 +1429,7 @@ namespace game_framework {
 					}
 				}
 			}
+			items.at(CANDLE2).OnShow();
 			if (_blue_paint_show) {
 				blue_paint.ShowBitmap();
 			}
@@ -1756,6 +1788,7 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
+			items.at(CANDLE1).OnShow();
 			darkmask[1].OnShow();
 			break;
 		case 22:{
