@@ -173,7 +173,9 @@ namespace game_framework {
 		BASEMENT_PWD_TAKE,
 		BASEMENT_KEY,
 		DOOR_DIFF,
-		KABE_PWD
+		KABE_PWD,
+		CANDLE1,
+		CANDLE2,
 	};
 	public:
 		CGameStateRun(CGame *g);
