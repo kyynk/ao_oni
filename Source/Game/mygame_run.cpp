@@ -98,7 +98,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(46);
+		items.resize(47);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -145,6 +145,7 @@ namespace game_framework {
 		items.at(KABE_PWD).SetParam(-1, 0, 0, Item::kabe_pwd);
 		items.at(CANDLE1).SetParam(-1, 0, TILE / 2, Item::candle);
 		items.at(CANDLE2).SetParam(-1, 0, TILE / 2, Item::candle);
+		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		//events
 		events.resize(32);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
@@ -253,6 +254,8 @@ namespace game_framework {
 		// map link data
 		router.init();
 		router.Load("map_bmp/maplink.txt");
+		// audio
+
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -273,6 +276,7 @@ namespace game_framework {
 		_piano_hint_show = false;
 		_base0_kabe_show = false;
 		_in_interface = false;
+		_in_closet = false;
 		_nowID = 13;
 		_tempMapID = -1;
 		_dialogID = -1;
@@ -346,6 +350,7 @@ namespace game_framework {
 		items.at(KABE_PWD).SetXY(16 * TILE, 5 * TILE);
 		items.at(CANDLE1).SetXY(12 * TILE, 13 * TILE - TILE / 2);
 		items.at(CANDLE2).SetXY(13 * TILE, 10 * TILE - TILE / 2);
+		items.at(CLOSET_HIROSI_MAP15).SetXY(8 * TILE, 6 * TILE + TILE / 2);
 		for (int i = 0;i< int(events.size());i++) {
 			events.at(i).SetTriggered(false);
 		}
@@ -471,8 +476,8 @@ namespace game_framework {
 			}
 			break;
 		case 2:
-			items.at(CLOSET_HIROSI_L).StorePlayerPos(player.GetX(), player.GetY());
-			items.at(CLOSET_HIROSI_L).OnMove();
+			/*items.at(CLOSET_HIROSI_L).StorePlayerPos(player.GetX(), player.GetY());
+			items.at(CLOSET_HIROSI_L).OnMove();*/
 			break;
 
 		case 3:
@@ -554,23 +559,24 @@ namespace game_framework {
 						(items.at(KEY_LIB).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 				}
 			}
-			items.at(HANDKERCHIEF).StorePlayerPos(player.GetX(), player.GetY());
-			items.at(HANDKERCHIEF).OnMove();
-			if (!items.at(HANDKERCHIEF).IsPick()) {
+			if (events.at(KEY_3F_L_E).IsTriggered()) {
+				items.at(HANDKERCHIEF).StorePlayerPos(player.GetX(), player.GetY());
+				items.at(HANDKERCHIEF).OnMove();
+			}
+			if (items.at(HANDKERCHIEF).IsPick() || !events.at(KEY_3F_L_E).IsTriggered()) {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
 			}
 			else {
 				gamemaps.at(_nowID).SetMapData(0, (items.at(HANDKERCHIEF).GetPosY() - gamemaps.at(_nowID).GetY()) / TILE,
-					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+					(items.at(HANDKERCHIEF).GetPosX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
 			}
 			items.at(CLOSET_SHAKE).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_SHAKE).OnMove();
 			items.at(CLOSET_TAKESI_0).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(CLOSET_TAKESI_0).OnMove();
 			// CLOSET_TAKESI_1 not have on move
-			items.at(CLOSET_HIROSI_R).StorePlayerPos(player.GetX(), player.GetY());
-			items.at(CLOSET_HIROSI_R).OnMove();
+			
 			break;
 		case 15:
 			if (!items.at(DOOR_KNOB).IsPick()) {
@@ -714,7 +720,7 @@ namespace game_framework {
 
 	void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
-		if (_substate == OnWalking) {
+		if (_substate == OnWalking && !_in_closet) {
 			game_interface.OnKeyDown(nChar);
 		}
 		if (game_interface.IsShow() && !_in_interface) {
@@ -744,6 +750,9 @@ namespace game_framework {
 				&& player.GetX() == 11 * TILE && player.GetY() == 12 * TILE) {
 				_use_handkerchief = true;
 				game_interface.DeleteItem("handkerchief");
+				normal_oni.SetPos(9 * TILE, 9 * TILE);
+				normal_oni.IsShow() = true;
+				normal_oni.Once() = false;
 			}
 			else if (_nowID == 0 && !_base0_kabe_show && base0_kabe.GetFrameIndexOfBitmap() == 0
 				&& nowItem.GetIntro() == "flathead screwdriver" && player.GetDirection() == Entity::up
@@ -922,7 +931,12 @@ namespace game_framework {
 				}
 				break;
 			case 2:
-				items.at(CLOSET_HIROSI_L).OnKeyDown(nChar);
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up
+					&& (items.at(CLOSET_HIROSI_L).GetBitMapIndex() == 0
+						|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() == 5)
+					&& player.GetX() == 16 * TILE && player.GetY() == 9 * TILE) {
+					items.at(CLOSET_HIROSI_L).EventTrigger();
+				}
 				break;
 			case 3:
 				items.at(GATE2).OnKeyDown(nChar);
@@ -1010,9 +1024,21 @@ namespace game_framework {
 					TRACE("14 CLOSET_SHAKE IsFixed false\n");
 				}
 				//CLOSET_TAKESI_1 not have on key down*/
-				//items.at(CLOSET_HIROSI_R).OnKeyDown(nChar);
+				if (events.at(KEY_3F_L_E).IsTriggered() && nChar == VK_SPACE
+					&& (items.at(CLOSET_HIROSI_R).GetBitMapIndex() == 0
+						|| items.at(CLOSET_HIROSI_R).GetBitMapIndex() == 5)
+					&& player.GetDirection() == Entity::up
+					&& player.GetX() == 8 * TILE && player.GetY() == 9 * TILE) {
+					items.at(CLOSET_HIROSI_R).EventTrigger();
+				}
 				break;
 			case 15:
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up
+					&& (items.at(CLOSET_HIROSI_MAP15).GetBitMapIndex() == 0
+						|| items.at(CLOSET_HIROSI_MAP15).GetBitMapIndex() == 5)
+					&& player.GetX() == 8 * TILE && player.GetY() == 8 * TILE) {
+					items.at(CLOSET_HIROSI_MAP15).EventTrigger();
+				}
 				if (!items.at(DOOR_KNOB).IsPick()) {
 					items.at(DOOR_KNOB).OnKeyDown(nChar);
 					if (nChar != VK_SPACE)
@@ -1123,7 +1149,14 @@ namespace game_framework {
 				items.at(GATE).OnKeyDown(nChar);
 				break;
 			}
-			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show) {
+			if (!items.at(CLOSET_HIROSI_R).IsClose() || !items.at(CLOSET_HIROSI_MAP15).IsClose() || !items.at(CLOSET_HIROSI_L).IsClose()) {
+				_in_closet = true;
+			}
+			else if (items.at(CLOSET_HIROSI_R).IsClose() && items.at(CLOSET_HIROSI_MAP15).IsClose() && items.at(CLOSET_HIROSI_L).IsClose()) {
+				_in_closet = false;
+			}
+			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
+				&& !_in_closet) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1608,18 +1641,20 @@ namespace game_framework {
 							game_interface.StoreItem("library", "library key", Interface::Items::key_lib);
 						}
 					}
-					items.at(HANDKERCHIEF).OnShow();
-					if (items.at(HANDKERCHIEF).IsPick() && !events.at(HANDKERCHIEF_E).IsTriggered()) {
+					if (events.at(KEY_3F_L_E).IsTriggered()) {
+						items.at(HANDKERCHIEF).OnShow();
+					}
+					if (events.at(KEY_3F_L_E).IsTriggered() && items.at(HANDKERCHIEF).IsPick() && !events.at(HANDKERCHIEF_E).IsTriggered()) {
 						SetEventTriggeredDialog(HANDKERCHIEF_E);
 						game_interface.StoreItem("(dirty) handkerchief", "handkerchief", Interface::Items::handkerchief);
 					}
 					if ((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE <= 3 && (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE >= 5) {
 						items.at(CLOSET_SHAKE).EventTrigger();
 					}
-					if (!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) {
+					if ((!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) && !events.at(KEY_3F_L_E).IsTriggered()) {
 						items.at(CLOSET_SHAKE).OnShow();
 					}
-					if (items.at(CLOSET_SHAKE).IsFixed() && items.at(CLOSET_SHAKE).IsAnimationDone()) {
+					if (items.at(CLOSET_SHAKE).IsFixed() && items.at(CLOSET_SHAKE).IsAnimationDone() && !events.at(KEY_3F_L_E).IsTriggered()) {
 						if (!items.at(CLOSET_TAKESI_0).IsFixed() || !items.at(CLOSET_TAKESI_0).IsAnimationDone()) {
 							items.at(CLOSET_TAKESI_0).OnShow();
 						}
@@ -1635,6 +1670,10 @@ namespace game_framework {
 							items.at(CLOSET_TAKESI_1).OnShow();
 						}
 					}
+					if (events.at(KEY_3F_L_E).IsTriggered()) {
+						items.at(CLOSET_HIROSI_R).OnShow();
+					}
+					
 					ShowOniAndPlayer();
 				}
 			}
@@ -1649,6 +1688,7 @@ namespace game_framework {
 					if (items.at(DOOR_KNOB).IsPick()) {
 						items.at(DOOR_NO_KNOB).OnShow();
 					}
+					items.at(CLOSET_HIROSI_MAP15).OnShow();
 					ShowOniAndPlayer();
 				}
 			}
@@ -1840,7 +1880,12 @@ namespace game_framework {
 	}
 	
 	void CGameStateRun::ShowOniAndPlayer() {
-		if (normal_oni.GetPosD() > player.GetD()) {
+		if (items.at(CLOSET_HIROSI_R).GetBitMapIndex() >= 3
+			|| items.at(CLOSET_HIROSI_MAP15).GetBitMapIndex() >= 3
+			|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() >= 3) {
+			normal_oni.OnShow();
+		}
+		else if (normal_oni.GetPosD() > player.GetD()) {
 			player.OnShow();
 			normal_oni.OnShow();
 		}

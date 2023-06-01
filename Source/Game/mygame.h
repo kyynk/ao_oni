@@ -176,6 +176,7 @@ namespace game_framework {
 		KABE_PWD,
 		CANDLE1,
 		CANDLE2,
+		CLOSET_HIROSI_MAP15,
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -212,6 +213,7 @@ namespace game_framework {
 		vector<Password> pwds;
 		// sth in gamerun
 		bool _in_interface;
+		bool _in_closet;
 		bool _map_show;
 		bool _blue_paint_show;
 		bool _piano_hint_show;
