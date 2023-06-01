@@ -127,7 +127,9 @@ namespace game_framework {
 		LIGHTUP_ROOM3,
 		TATAMI_E,
 		OPEN_FUCKING_HOLE_E,
-		OPEN_FUCKING_ROOM_E
+		OPEN_FUCKING_ROOM_E,
+		SHOWER_KILL_E,
+		SHOWER_OPEN_E
 	};
 	enum item_name {
 		TOILET,
@@ -212,6 +214,7 @@ namespace game_framework {
 		vector<Item> items;
 		vector<Password> pwds;
 		// sth in gamerun
+		int _killtimes;
 		bool _in_interface;
 		bool _in_closet;
 		bool _map_show;
