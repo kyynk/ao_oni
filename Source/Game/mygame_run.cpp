@@ -132,7 +132,7 @@ namespace game_framework {
 		items.at(FLATHEAD).SetParam(-1, 0, 0, Item::flathead);
 		items.at(OIL).SetParam(-1, 0, 0, Item::oil);
 		items.at(DOOR_ONI).SetParam(100, 0, TILE, Item::door_oni);
-		items.at(DOOR_OPEN).SetParam(100, 0, TILE, Item::door_open);
+		items.at(DOOR_OPEN).SetParam(300, 0, TILE, Item::door_open);
 		items.at(DOOR_DIE).SetParam(100, 0, TILE, Item::door_die);
 		items.at(DOOR_HALF).SetParam(-1, 0, TILE, Item::door_half);
 		items.at(PIANO_PWD_NOTOPEN).SetParam(-1, 0, 0, Item::password_not_open);
@@ -277,6 +277,7 @@ namespace game_framework {
 		_base0_kabe_show = false;
 		_in_interface = false;
 		_in_closet = false;
+		_killtimes = 0;
 		_nowID = 13;
 		_tempMapID = -1;
 		_dialogID = -1;
@@ -292,6 +293,8 @@ namespace game_framework {
 		human_takuro.init(-1, 16, Entity::down);
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		normal_oni.init(Oni::normal, 4, 8);
+		// interface
+		game_interface.ResetItem();
 		//redChair.Reset();
 		//normal_oni.SetPos(11 * TILE, 10 * TILE);
    		objs.at(house1_2F_TR_chair).Reset();
@@ -476,10 +479,7 @@ namespace game_framework {
 			}
 			break;
 		case 2:
-			/*items.at(CLOSET_HIROSI_L).StorePlayerPos(player.GetX(), player.GetY());
-			items.at(CLOSET_HIROSI_L).OnMove();*/
 			break;
-
 		case 3:
 			items.at(GATE2).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(GATE2).OnMove();
@@ -968,6 +968,20 @@ namespace game_framework {
 					darkmask[0].SetState(DarkRoomEffect::bright);
 				}
 				break;
+			case 6:
+				if (nChar == VK_SPACE && _killtimes == 7) {
+					_killtimes++;
+				}
+				else if (nChar == VK_SPACE && _killtimes == 8 && items.at(DOOR_OPEN).IsAnimationDone()) {
+					_killtimes++;
+				}
+				else if (nChar == VK_SPACE && _killtimes == 9 && items.at(DOOR_DIE).IsAnimationDone()) {
+					_killtimes++;
+				}
+				if (_killtimes == 10) {
+					GotoGameState(GAME_STATE_OVER);
+				}
+				break;
 			case 7:
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
 					_map_show = !_map_show;
@@ -1156,7 +1170,7 @@ namespace game_framework {
 				_in_closet = false;
 			}
 			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
-				&& !_in_closet) {
+				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()) {
 				player.OnKeyDown(nChar);
 			}
 		}
@@ -1200,10 +1214,13 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		player.OnKeyUp(nChar);
-		if (!_in_interface && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
+		if (!_in_interface && _killtimes < 7 && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
 			player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor, game_interface);
 		}
 		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered() && nChar == VK_SPACE) {
+			if (_nowID == 6 && player.GetX() == 10 * TILE && player.GetY() == 12 * TILE && !events.at(KEY_3F_L_E).IsTriggered()) {
+				_killtimes++;
+			}
 			player.IsDoorLock() = false;
 			events.at(DOOR_LOCKED_E).SetTriggered(false);
 		}
@@ -1476,11 +1493,25 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			break;
 		case 6:
-			items.at(DOOR_ONI).EventTrigger();
+			TRACE("\n\n ktime %d \n\n", _killtimes);
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
-					items.at(DOOR_ONI).OnShow();
+					if (!events.at(KEY_3F_L_E).IsTriggered()) {
+						items.at(DOOR_ONI).EventTrigger();
+						items.at(DOOR_ONI).OnShow();
+						if (items.at(DOOR_ONI).IsAnimationDone() && items.at(DOOR_ONI).IsFixed()
+							&& _killtimes == 8) {
+							items.at(DOOR_OPEN).EventTrigger();
+							items.at(DOOR_OPEN).OnShow();
+						}
+						else if (items.at(DOOR_OPEN).IsAnimationDone() && items.at(DOOR_OPEN).IsFixed()
+							&& _killtimes == 9) {
+							items.at(DOOR_DIE).EventTrigger();
+							items.at(DOOR_DIE).OnShow();
+						}
+					}
+					
 					ShowOniAndPlayer();
 				}
 			}
@@ -1882,7 +1913,8 @@ namespace game_framework {
 	void CGameStateRun::ShowOniAndPlayer() {
 		if (items.at(CLOSET_HIROSI_R).GetBitMapIndex() >= 3
 			|| items.at(CLOSET_HIROSI_MAP15).GetBitMapIndex() >= 3
-			|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() >= 3) {
+			|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() >= 3
+			|| items.at(DOOR_OPEN).GetBitMapIndex() >= 1) {
 			normal_oni.OnShow();
 		}
 		else if (normal_oni.GetPosD() > player.GetD()) {
