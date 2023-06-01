@@ -147,7 +147,7 @@ namespace game_framework {
 		items.at(CANDLE2).SetParam(-1, 0, TILE / 2, Item::candle);
 		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		//events
-		events.resize(32);
+		events.resize(35);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -179,6 +179,9 @@ namespace game_framework {
 		events.at(TATAMI_E).SetParam({}, -1, -1);
 		events.at(OPEN_FUCKING_HOLE_E).SetParam({ {16,17} }, -1, -1);
 		events.at(OPEN_FUCKING_ROOM_E).SetParam({ {21,22} }, -1, -1);
+		events.at(ONI_KILL_MIKA_E).SetParam({}, 44, 2);
+		events.at(MIKA_TO_ONI_E).SetParam({}, -1, -1);
+		events.at(MIKA_IN_CLOSET_E).SetParam({}, -1, -1);
 
 		std::ifstream file("dialog/dialogs.txt");
 		if (!file) {

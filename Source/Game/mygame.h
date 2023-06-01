@@ -128,8 +128,9 @@ namespace game_framework {
 		TATAMI_E,
 		OPEN_FUCKING_HOLE_E,
 		OPEN_FUCKING_ROOM_E,
-		SHOWER_KILL_E,
-		SHOWER_OPEN_E
+		ONI_KILL_MIKA_E,
+		MIKA_TO_ONI_E,
+		MIKA_IN_CLOSET_E,
 	};
 	enum item_name {
 		TOILET,
