@@ -1229,6 +1229,11 @@ namespace game_framework {
 			events.at(DOOR_UNLOCKED_E).SetTriggered(false);
 		}
 		if ((player.IsMapChanged())) {
+			if (_nowID == 6 && player.GetDirection() == Entity::up
+				&& player.GetX() == 10 * TILE && player.GetY() == 12 * TILE
+				&& !items.at(DOOR_HALF).IsPick()) {
+				items.at(DOOR_HALF).SetIsPick(true);
+			}
 			_nowID = player.NextMapID();
 			player.SetNextMapPos(gamemaps.at(_nowID));
 
@@ -1509,6 +1514,12 @@ namespace game_framework {
 							&& _killtimes == 9) {
 							items.at(DOOR_DIE).EventTrigger();
 							items.at(DOOR_DIE).OnShow();
+						}
+					}
+					else {
+						items.at(DOOR_ONI).OnShow(); // just show
+						if (!items.at(DOOR_HALF).IsPick()) {
+							items.at(DOOR_HALF).OnShow();
 						}
 					}
 					
