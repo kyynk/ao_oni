@@ -679,5 +679,17 @@ namespace game_framework {
 			SetTrigger();
 			Animation(2, 1);
 		}
+		else if (_name == closet_hirosi_R || _name == closet_hirosi_L) {
+			if (utiltriggers[close]) {
+				SetTrigger();
+				Animation(0, 0); // in
+				utiltriggers[close] = false;
+			}
+			else {
+				SetTrigger();
+				Animation(1, 5); // out
+				utiltriggers[close] = true;
+			}
+		}
 	}
 }
