@@ -48,6 +48,7 @@ namespace game_framework {
 		void ChangeItemStatusByIntro(string originalIntro, string intro, string name, int frame_index);
 		void DeleteItem(string name);
 		bool FindItem(string name);
+		void ResetItem();
 		void ShowCursorStatus();
 		void ShowCursorItem();
 		void ShowCursorSave();

@@ -28,7 +28,7 @@ namespace game_framework {
 		void Load(string filename, COLORREF color);
 		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
-		void OnMove(GameMap &map);	// every time oni move, will track first
+		void OnMove(GameMap &map, int _nowID);	// every time oni move, will track first
 		void OnShow();
 		// every time oni appear, default time is 10 sec
 		// 10 -> 0 sec, if is 0 sec, 
