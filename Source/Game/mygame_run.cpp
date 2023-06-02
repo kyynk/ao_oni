@@ -148,7 +148,7 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		items.at(MIKA_TO_ONI).SetParam(100, 0, 0, Item::mika_to_oni);
 		//events
-		events.resize(36);
+		events.resize(38);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -175,6 +175,7 @@ namespace game_framework {
 		events.at(KEY_JAIL_E).SetParam({}, 41, 1);
 		events.at(DOOR_WIRED_E).SetParam({}, 42, 1);
 		events.at(DOOR_WHERE_KNOB_E).SetParam({}, 43, 1);
+		events.at(OPEN_BASEMENT_E).SetParam({}, 44, 1);
 		events.at(DOOR_DIFF_OPEN_E).SetParam({ {10,21} }, -1, -1);
 		events.at(LIGHTUP_ROOM21).SetParam({}, -1, -1);
 		events.at(TATAMI_E).SetParam({}, -1, -1);
@@ -185,6 +186,7 @@ namespace game_framework {
 		events.at(MIKA_IN_CLOSET_E).SetParam({}, -1, -1);
 		events.at(USE_JAIL_KEY_E).SetParam({}, -1, -1);
 
+		events.at(MIKA_DEAD_E).SetParam({}, -1, -1);
 		std::ifstream file("dialog/dialogs.txt");
 		if (!file) {
 			TRACE("dissapointment\n");
@@ -238,6 +240,13 @@ namespace game_framework {
 		game_interface.StartCount();
 		// house1 map
 		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, black_C);
+		deadbody.LoadBitmapByString({ "img/oni_eat/deadbody.bmp" }, default_C);
+		vector<string> tmp;
+		for (int i = 0;i < 8;i++) {
+			 tmp.push_back("img/oni_eat/oni_eat" + std::to_string(i) + ".bmp");
+		}
+		oni_eat.LoadBitmapByString(tmp, default_C);
+		
 		// blue paint
 		blue_paint.LoadBitmapByString({ "img/password/password_jail/jail_password_L.bmp", 
 			"img/password/password_jail/jail_password_R.bmp", 
@@ -284,6 +293,7 @@ namespace game_framework {
 		_in_closet = false;
 		_is_danger = false;
 		_killtimes = 0;
+		once = true;
 		_nowID = 13;
 		_tempMapID = -1;
 		_dialogID = -1;
@@ -308,6 +318,10 @@ namespace game_framework {
 		}
 		darkmask[2].SetShow(false);
 		//redChair.Reset();
+		
+		oni_eat.SetAnimation(100, true);
+		oni_eat.ToggleAnimation();
+		
    		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
@@ -508,6 +522,9 @@ namespace game_framework {
 					(items.at(GATE2).GetPosX() + TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
 			}
 			break;
+		case 9:
+			deadbody.SetTopLeft(TILE * 9, TILE * 10);
+			oni_eat.SetTopLeft(TILE * 9, TILE * 10);
 		case 10:
 			items.at(TATAMI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(TATAMI_R).OnMove();
@@ -1033,6 +1050,9 @@ namespace game_framework {
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && player.GetX() == 11 * TILE && player.GetY() == 7 * TILE) {
 					_map_show = !_map_show;
 				}
+				break;
+			case 9:
+				
 				break;
 			case 10:
 				items.at(LIGHTER).OnKeyDown(nChar);
@@ -1639,6 +1659,9 @@ namespace game_framework {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
+			if (player.IsBasementTrigger() && !events.at(OPEN_BASEMENT_E).IsTriggered()) {
+				SetEventTriggeredDialog(OPEN_BASEMENT_E);
+			}
 			break;
 		case 10:
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
@@ -1926,7 +1949,21 @@ namespace game_framework {
 			}
 			entities.clear();
 			items.at(OIL).OnShow();
-			human_mika.OnShow();
+
+			if (!events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
+				deadbody.ShowBitmap();
+				if (!oni_eat.IsAnimationDone()) {
+					oni_eat.ShowBitmap();
+					normal_oni.SetPos(9 * TILE, 11 * TILE);
+				}
+				else if (once){
+					normal_oni.IsShow() = true;
+					once = false;
+				}
+			}
+			else {
+				human_mika.OnShow();
+			}
 			if (_dialogID >= 25 && _dialogID <= 32) {
 				human_mika.SetDirection(Entity::up);
 			}
@@ -1959,6 +1996,7 @@ namespace game_framework {
 				human_mika.Trigger() = false;
 				events.at(MIKA_REPEAT_E).SetTriggered(false);
 			}
+
 			break;
 		case 21:
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
