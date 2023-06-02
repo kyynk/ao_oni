@@ -131,6 +131,7 @@ namespace game_framework {
 		ONI_KILL_MIKA_E,
 		MIKA_TO_ONI_E,
 		MIKA_IN_CLOSET_E,
+		USE_JAIL_KEY_E,
 	};
 	enum item_name {
 		TOILET,
@@ -180,6 +181,7 @@ namespace game_framework {
 		CANDLE1,
 		CANDLE2,
 		CLOSET_HIROSI_MAP15,
+		MIKA_TO_ONI,
 	};
 	public:
 		CGameStateRun(CGame *g);
@@ -210,12 +212,14 @@ namespace game_framework {
 		Human human_takuro;
 		Interface game_interface;
 		Oni normal_oni;
+		Oni mika_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
 		vector<Password> pwds;
 		// sth in gamerun
 		int _killtimes;
+		bool _is_danger;
 		bool _in_interface;
 		bool _in_closet;
 		bool _map_show;
@@ -229,7 +233,7 @@ namespace game_framework {
 		CMovingBitmap piano_hint;
 		CMovingBitmap base0_kabe;
 		//map related
-		DarkRoomEffect darkmask[2];
+		DarkRoomEffect darkmask[3];
 		vector<GameMap> gamemaps;
 		int _nowID;
 		int _tempMapID;
