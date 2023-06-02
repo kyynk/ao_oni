@@ -48,7 +48,7 @@ namespace game_framework {
 				TRACE("I hate my life\n");
 			}
 		}
-		for (int i = 0;i < 2;i++) {
+		for (int i = 0;i < 3;i++) {
 			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
 			darkmask[i].SetState(DarkRoomEffect::dark);
 
@@ -98,7 +98,7 @@ namespace game_framework {
 			mapoverlayindex.push_back(i2);
 		}
 		// item
-		items.resize(47);
+		items.resize(48);
 		items.at(TOILET).SetParam(-1, 0, 0, Item::toilet);
 		items.at(TUB_ONCE).SetParam(100, 0, TILE, Item::tub_once);
 		items.at(PHILLIPS).SetParam(100, 0, TILE, Item::phillips);
@@ -146,8 +146,9 @@ namespace game_framework {
 		items.at(CANDLE1).SetParam(-1, 0, TILE / 2, Item::candle);
 		items.at(CANDLE2).SetParam(-1, 0, TILE / 2, Item::candle);
 		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
+		items.at(MIKA_TO_ONI).SetParam(100, 0, 0, Item::mika_to_oni);
 		//events
-		events.resize(35);
+		events.resize(36);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -182,6 +183,7 @@ namespace game_framework {
 		events.at(ONI_KILL_MIKA_E).SetParam({}, 44, 2);
 		events.at(MIKA_TO_ONI_E).SetParam({}, -1, -1);
 		events.at(MIKA_IN_CLOSET_E).SetParam({}, -1, -1);
+		events.at(USE_JAIL_KEY_E).SetParam({}, -1, -1);
 
 		std::ifstream file("dialog/dialogs.txt");
 		if (!file) {
@@ -280,6 +282,7 @@ namespace game_framework {
 		_base0_kabe_show = false;
 		_in_interface = false;
 		_in_closet = false;
+		_is_danger = false;
 		_killtimes = 0;
 		_nowID = 13;
 		_tempMapID = -1;
@@ -296,10 +299,15 @@ namespace game_framework {
 		human_takuro.init(-1, 16, Entity::down);
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		normal_oni.init(Oni::normal, 4, 8);
+		mika_oni.init(Oni::mika, 4, 8);
 		// interface
 		game_interface.ResetItem();
+		// darkmask
+		for (int i = 0; i < 3; i++) {
+			darkmask[i].SetShow(true);
+		}
+		darkmask[2].SetShow(false);
 		//redChair.Reset();
-		//normal_oni.SetPos(11 * TILE, 10 * TILE);
    		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
@@ -357,6 +365,7 @@ namespace game_framework {
 		items.at(CANDLE1).SetXY(12 * TILE, 13 * TILE - TILE / 2);
 		items.at(CANDLE2).SetXY(13 * TILE, 10 * TILE - TILE / 2);
 		items.at(CLOSET_HIROSI_MAP15).SetXY(8 * TILE, 6 * TILE + TILE / 2);
+		items.at(MIKA_TO_ONI).SetXY(7 * TILE + TILE / 2, 7 * TILE + TILE / 2);
 		for (int i = 0;i< int(events.size());i++) {
 			events.at(i).SetTriggered(false);
 		}
@@ -373,7 +382,7 @@ namespace game_framework {
 	void CGameStateRun::OnMove()
 	{
 		// update mapmask
-		for (int i = 0;i < 2;i++) {
+		for (int i = 0;i < 3;i++) {
 			darkmask[i].SetXY(player.GetX() - TILE * 15, player.GetY() - TILE * 16);
 		}
 		if ((player.GetX() - gamemaps.at(_nowID).GetX()) % TILE == 16 || (player.GetY() - gamemaps.at(_nowID).GetY()) % TILE == 16) {
@@ -711,12 +720,24 @@ namespace game_framework {
 				GotoGameState(GAME_STATE_OVER);
 			}
 			else {
-				normal_oni.OnMove(gamemaps.at(_nowID));
+				normal_oni.OnMove(gamemaps.at(_nowID), _nowID);
 			}
 		}
 		if (normal_oni.IsWait()) {
-			normal_oni.OnMove(gamemaps.at(_nowID));
-
+			normal_oni.OnMove(gamemaps.at(_nowID), _nowID);
+		}
+		if (mika_oni.IsShow() && !mika_oni.IsWait()) {
+			mika_oni.SetPlayerPos(player.GetX(), player.GetY());
+			if (mika_oni.isCatch() && !isdebugmode) {
+				mika_oni.ResetOni();
+				GotoGameState(GAME_STATE_OVER);
+			}
+			else {
+				mika_oni.OnMove(gamemaps.at(_nowID), _nowID);
+			}
+		}
+		if (mika_oni.IsWait()) {
+			mika_oni.OnMove(gamemaps.at(_nowID), _nowID);
 		}
 
 	}
@@ -884,7 +905,7 @@ namespace game_framework {
 					items.at(BASEMENT_PWD).OnKeyDown(nChar);
 				}
 				if (objs.at(obj_move::house1_basement2_chair).IsFixed() && objs.at(obj_move::house1_basement2_chair).isCollide() && player.GetDirection() == Entity::down && nChar == VK_SPACE) {
-					player.SetOnChair(-TILE/2);
+					player.SetOnChair(-TILE / 2);
 					player.OnMove();
 				}
 				else if (objs.at(obj_move::house1_basement2_chair).IsFixed() && player.IsOnChair() && nChar == VK_SPACE && !items.at(KEY_JAIL).IsPick()) {
@@ -939,10 +960,33 @@ namespace game_framework {
 						|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() == 5)
 					&& player.GetX() == 16 * TILE && player.GetY() == 9 * TILE) {
 					items.at(CLOSET_HIROSI_L).EventTrigger();
+					if (darkmask[2].IsShow()) {
+						darkmask[2].SetShow(false);
+					}
+					if ((normal_oni.IsShow() && !normal_oni.IsWait()) || (mika_oni.IsShow() && !mika_oni.IsWait())) {
+						_is_danger = true;
+					}
+					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
+						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						darkmask[2].SetShow(true);
+						normal_oni.ResetOni();
+						mika_oni.ResetOni();
+					}
 				}
 				break;
 			case 3:
-				items.at(GATE2).OnKeyDown(nChar);
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up
+					&& player.GetX() == 14 * TILE && player.GetY() == 13 * TILE 
+					&& !events.at(USE_JAIL_KEY_E).IsTriggered() && game_interface.FindItem("jail key")) {
+					events.at(USE_JAIL_KEY_E).SetTriggered(true);
+					game_interface.DeleteItem("jail key");
+				}
+				if (events.at(USE_JAIL_KEY_E).IsTriggered()) {
+					items.at(GATE2).OnKeyDown(nChar);
+				}
+				else if (nChar != VK_SPACE) {
+					items.at(GATE2).OnKeyDown(nChar);
+				}
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up) {
 					_blue_paint_show = !_blue_paint_show;
 					if (player.GetX() == 9 * TILE && player.GetY() == 13 * TILE) {
@@ -1047,6 +1091,18 @@ namespace game_framework {
 					&& player.GetDirection() == Entity::up
 					&& player.GetX() == 8 * TILE && player.GetY() == 9 * TILE) {
 					items.at(CLOSET_HIROSI_R).EventTrigger();
+					if (darkmask[2].IsShow()) {
+						darkmask[2].SetShow(false);
+					}
+					if ((normal_oni.IsShow() && !normal_oni.IsWait()) || (mika_oni.IsShow() && !mika_oni.IsWait())) {
+						_is_danger = true;
+					}
+					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
+						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						darkmask[2].SetShow(true);
+						normal_oni.ResetOni();
+						mika_oni.ResetOni();
+					}
 				}
 				break;
 			case 15:
@@ -1055,6 +1111,18 @@ namespace game_framework {
 						|| items.at(CLOSET_HIROSI_MAP15).GetBitMapIndex() == 5)
 					&& player.GetX() == 8 * TILE && player.GetY() == 8 * TILE) {
 					items.at(CLOSET_HIROSI_MAP15).EventTrigger();
+					if (darkmask[2].IsShow()) {
+						darkmask[2].SetShow(false);
+					}
+					if ((normal_oni.IsShow() && !normal_oni.IsWait()) || (mika_oni.IsShow() && !mika_oni.IsWait())) {
+						_is_danger = true;
+					}
+					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
+						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						darkmask[2].SetShow(true);
+						normal_oni.ResetOni();
+						mika_oni.ResetOni();
+					}
 				}
 				if (!items.at(DOOR_KNOB).IsPick()) {
 					items.at(DOOR_KNOB).OnKeyDown(nChar);
@@ -1173,8 +1241,13 @@ namespace game_framework {
 				_in_closet = false;
 			}
 			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
-				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()) {
+				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()
+				&& (!items.at(MIKA_TO_ONI).IsFixed() || (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5))) {
 				player.OnKeyDown(nChar);
+			}
+			if (_is_danger) {
+				/* call oni open closet animation */
+				GotoGameState(GAME_STATE_OVER);
 			}
 		}
 		else if (_substate == OnDialogs) {
@@ -1243,6 +1316,10 @@ namespace game_framework {
 			if (normal_oni.IsShow()) {
 				normal_oni.Once() = true;
 				normal_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
+			}
+			if (mika_oni.IsShow()) {
+				mika_oni.Once() = true;
+				mika_oni.SetChangeMap(player.NextX(), player.NextY(), _nowID);
 			}
 		}
 		if (_nowID == 0) {
@@ -1405,6 +1482,20 @@ namespace game_framework {
 					SetEventTriggeredDialog(KEY_JAIL_E);
 					game_interface.StoreItem("basement jail", "jail key", Interface::Items::key_jail);
 				}
+				if (events.at(KEY_JAIL_E).IsTriggered() && !events.at(MIKA_TO_ONI_E).IsTriggered() && player.GetY() <= 15 * TILE) {
+					events.at(MIKA_TO_ONI_E).SetTriggered(true);
+					items.at(MIKA_TO_ONI).EventTrigger();
+				}
+				if (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() <= 5) {
+					items.at(MIKA_TO_ONI).OnShow();
+				}
+				if (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5) {
+					items.at(MIKA_TO_ONI).SetIsPick(true);
+					mika_oni.SetPos(8 * TILE, 10 * TILE);
+					mika_oni.IsShow() = true;
+					mika_oni.Once() = false;
+				}
+				
 				if (!items.at(BASEMENT_PWD).IsClose() && !pwds.at(basement).IsOpen()) {
 					if (!pwds.at(basement).IsShow()) {
 						pwds.at(basement).SetShow(true);
@@ -1412,6 +1503,7 @@ namespace game_framework {
 					pwds.at(basement).ShowTotal();
 				}
 			}
+			mika_oni.OnShow();
 			if (_base0_kabe_show) {
 				base0_kabe.ShowBitmap();
 			}
@@ -1469,6 +1561,7 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
+			darkmask[2].OnShow();
 			break;
 		case 3:{
 			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
@@ -1722,6 +1815,7 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
+			darkmask[2].OnShow();
 			break;
 		case 15:
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
@@ -1737,6 +1831,7 @@ namespace game_framework {
 					ShowOniAndPlayer();
 				}
 			}
+			darkmask[2].OnShow();
 			break;
 		case 16:
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
