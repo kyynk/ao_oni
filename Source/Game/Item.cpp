@@ -201,6 +201,11 @@ namespace game_framework {
 				bitmapName.push_back("img/item_animation/candle/candle" + to_string(i) + ".bmp");
 			}
 		}
+		else if (_name == mika_to_oni) {
+			for (int i = 0; i < 6; i++) {
+				bitmapName.push_back("img/mika_oni/to_oni" + to_string(i) + ".bmp");
+			}
+		}
 		Load(bitmapName, RGB(204, 255, 0));
 	}
 	void Item::Load(vector<string> filename, COLORREF color) {
@@ -678,6 +683,23 @@ namespace game_framework {
 			utiltriggers[fixed] = true;
 			SetTrigger();
 			Animation(2, 1);
+		}
+		else if (_name == closet_hirosi_R || _name == closet_hirosi_L) {
+			if (utiltriggers[close]) {
+				SetTrigger();
+				Animation(0, 0); // in
+				utiltriggers[close] = false;
+			}
+			else {
+				SetTrigger();
+				Animation(1, 5); // out
+				utiltriggers[close] = true;
+			}
+		}
+		else if (_name == mika_to_oni && !utiltriggers[fixed]) {
+			utiltriggers[fixed] = true;
+			SetTrigger();
+			Animation(0, 0);
 		}
 	}
 }

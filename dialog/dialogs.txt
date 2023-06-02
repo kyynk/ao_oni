@@ -102,7 +102,7 @@ Trembling.....................
 
 hirosi
 1
-Takashi?
+Takesi?
 0
 
 takesi
@@ -232,8 +232,9 @@ MMM.. I need a knob
 0
 
 hirosi
-1
-Mika need my help
+2
+!!!!!!!!
+It's Mika's sound ?!
 0
 
 None

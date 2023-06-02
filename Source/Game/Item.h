@@ -48,6 +48,7 @@ namespace game_framework {
 			diff_door,
 			kabe_pwd,
 			candle,
+			mika_to_oni,
 		};
 		enum TriggerType {
 			triggered,

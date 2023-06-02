@@ -148,9 +148,17 @@ namespace game_framework {
 		else if (abs(xLen) == abs(yLen) && xLen > 0 && leftmovable) _tracking = left;
 		else _tracking = none;
 	}
-	void Oni::OnMove(GameMap &map) {
+	void Oni::OnMove(GameMap &map, int _nowID) {
 		if (_wait) {
-			if (IsTimerStart() && TimerGetCount() == 30) {
+			if ((_nowID == 2 || _nowID == 14 || _nowID == 15)
+				&& IsTimerStart() && TimerGetCount() == 130) {
+				_wait = false;
+				SetPos(_nextx + map.GetX(), _nexty + map.GetY());
+				bitmap.SetTopLeft(_pos_x, _pos_y);
+				TimerStop();
+			}
+			else if (!(_nowID == 2 || _nowID == 14 || _nowID == 15)
+				&& IsTimerStart() && TimerGetCount() == 30) {
 				_wait = false;
 				SetPos(_nextx + map.GetX(), _nexty + map.GetY());
 				bitmap.SetTopLeft(_pos_x, _pos_y);
