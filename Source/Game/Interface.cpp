@@ -185,6 +185,11 @@ namespace game_framework {
 			return false;
 		}
 	}
+	void Interface::ResetItem() {
+		_itemsName.clear();
+		_itemsIntro.clear();
+		_itemsImgShowIndex.clear();
+	}
 	void Interface::ShowCursorStatus() {
 		_cursorX = _boxX + 16;
 		_cursorY = _boxY + 16;
