@@ -987,7 +987,7 @@ namespace game_framework {
 				else if (nChar != VK_SPACE) {
 					items.at(GATE2).OnKeyDown(nChar);
 				}
-				if (nChar == VK_SPACE && player.GetDirection() == Entity::up) {
+				if (nChar == VK_SPACE && player.GetDirection() == Entity::up && !darkmask[0].IsShow()) {
 					_blue_paint_show = !_blue_paint_show;
 					if (player.GetX() == 9 * TILE && player.GetY() == 13 * TILE) {
 						blue_paint.SetFrameIndexOfBitmap(0);
