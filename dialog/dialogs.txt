@@ -102,7 +102,7 @@ Trembling.....................
 
 hirosi
 1
-Takashi?
+Takesi?
 0
 
 takesi
@@ -229,6 +229,16 @@ This wall looks wired
 hirosi
 1
 MMM.. I need a knob
+0
+
+hirosi
+1
+!!!
+0
+
+hirosi
+1
+It's Mika's sound ?!
 0
 
 None
