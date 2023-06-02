@@ -122,12 +122,14 @@ namespace game_framework {
 		KEY_JAIL_E,
 		DOOR_WIRED_E,
 		DOOR_WHERE_KNOB_E,
+		OPEN_BASEMENT_E,
 		DOOR_DIFF_OPEN_E,
 		LIGHTUP_ROOM21,
 		LIGHTUP_ROOM3,
 		TATAMI_E,
 		OPEN_FUCKING_HOLE_E,
-		OPEN_FUCKING_ROOM_E
+		OPEN_FUCKING_ROOM_E,
+		MIKA_DEAD_E
 	};
 	enum item_name {
 		TOILET,
@@ -222,6 +224,8 @@ namespace game_framework {
 		CMovingBitmap blue_paint;
 		CMovingBitmap piano_hint;
 		CMovingBitmap base0_kabe;
+		CMovingBitmap deadbody;
+		CMovingBitmap oni_eat;
 		//map related
 		DarkRoomEffect darkmask[2];
 		vector<GameMap> gamemaps;
@@ -252,6 +256,7 @@ namespace game_framework {
 		vector<int> pointvec;
 		std::vector<Entity*> entities;
 		ObjMove* obj;
+		bool once;
 		const COLORREF default_C = RGB(204, 255, 0);
 		const COLORREF black_C = RGB(0, 0, 0);
 	};

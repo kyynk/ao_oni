@@ -42,6 +42,9 @@ namespace game_framework{
 		bool &IsMapChanged() { return _isMapChanged; }
 		bool &IsDoorLock() { return _door_lock; }
 		bool &IsDoorOpen() { return _door_open; }
+		bool IsBasementTrigger() const { return _basement_trigger; }
+		void SetBasementTrigger(bool b ) { _basement_trigger = b; }
+		bool IsBasementToOpen() const { return _basement_to_open; }
 		void SetMachine(Direction pressing);
 		void CheckMapChangeTN(GameMap& map, MapRouter& router, int const nowID, const vector<vector<int>>& TN,Interface& gif);
 		void SetNextMap(int x, int y, int mapID);
@@ -60,5 +63,7 @@ namespace game_framework{
 		bool _door_open;
 		bool _piano_open;
 		bool _on_chair;
+		bool _basement_to_open;
+		bool _basement_trigger;
 	};
 }

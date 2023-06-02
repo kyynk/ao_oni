@@ -38,6 +38,8 @@ namespace game_framework{
 		_door_lock = false;
 		_door_open = false;
 		_piano_open = false;
+		_basement_trigger = false;
+		_basement_to_open = false;
 	}
 	void MainHuman::ResetToGrid() {
 		if (this->GetX() % TILE != 0 || this->GetY() % TILE != 0) {
@@ -207,6 +209,10 @@ namespace game_framework{
 							router.UnblockPath(17, 7);
 							_piano_open = true;
 							_door_open = true;
+						}
+						else if (nowID == 9 && gif.FindItem("basement key")) {
+							_basement_trigger = true;
+							_basement_to_open  = true;
 						}
 						else if (nowID == 7 && gif.FindItem("babyroom key")) {
 							router.UnblockPath(7, 20);
