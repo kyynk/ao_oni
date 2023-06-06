@@ -133,7 +133,9 @@ namespace game_framework {
 		MIKA_TO_ONI_E,
 		MIKA_IN_CLOSET_E,
 		USE_JAIL_KEY_E,
-		MIKA_DEAD_E
+		MIKA_DEAD_E,
+		BASEMENT_KEY_CHASE_E,
+		BARANI_E
 	};
 	enum item_name {
 		TOILET,
@@ -230,12 +232,14 @@ namespace game_framework {
 		bool _base0_kabe_show;
 		bool _use_f_screwdriver;
 		bool _use_handkerchief;
+		CMovingBitmap bar_animation;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		CMovingBitmap piano_hint;
 		CMovingBitmap base0_kabe;
 		CMovingBitmap deadbody;
 		CMovingBitmap oni_eat;
+
 		//map related
 		DarkRoomEffect darkmask[3];
 		vector<GameMap> gamemaps;
@@ -267,6 +271,7 @@ namespace game_framework {
 		std::vector<Entity*> entities;
 		ObjMove* obj;
 		bool once;
+		int time;
 		const COLORREF default_C = RGB(204, 255, 0);
 		const COLORREF black_C = RGB(0, 0, 0);
 	};
