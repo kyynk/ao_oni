@@ -291,6 +291,7 @@ namespace game_framework {
 	
 	void Oni::ResetOni() {
 		_isShow = false;
+		GonnaGiveUpSoSadUntilTheNextMap = false;
 		_overTime = EXIST_TIME;
 		TimerStop();
 	}
