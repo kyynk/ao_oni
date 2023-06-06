@@ -464,12 +464,6 @@ namespace game_framework {
 					utiltriggers[close] = true;
 				}
 			}
-			// house1 basement3 map2 (once), event triggered
-			else if (_name == closet_mika_out) {
-				SetTrigger();
-				Animation(0, 0);
-				utiltriggers[fixed] = true;
-			}
 			// house1 shower door
 			else if ((_name == door_oni || _name == door_open || _name == door_die) && !utiltriggers[fixed]) {
 				SetTrigger();
@@ -700,6 +694,12 @@ namespace game_framework {
 			utiltriggers[fixed] = true;
 			SetTrigger();
 			Animation(0, 0);
+		}
+		// house1 basement3 map2 (once), event triggered
+		else if (_name == closet_mika_out && !utiltriggers[fixed]) {
+			SetTrigger();
+			Animation(0, 0);
+			utiltriggers[fixed] = true;
 		}
 	}
 }
