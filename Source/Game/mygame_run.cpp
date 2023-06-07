@@ -153,7 +153,7 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		items.at(MIKA_TO_ONI).SetParam(100, 0, 0, Item::mika_to_oni);
 		//events
-		events.resize(40);
+		events.resize(41);
 		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
 		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
@@ -191,8 +191,7 @@ namespace game_framework {
 		events.at(MIKA_IN_CLOSET_E).SetParam({}, -1, -1);
 		events.at(USE_JAIL_KEY_E).SetParam({}, -1, -1);
 		events.at(MIKA_DEAD_E).SetParam({}, -1, -1);
-		events.at(BASEMENT_KEY_CHASE_E).SetParam({}, -1, -1);
-		events.at(BARANI_E).SetParam({}, -1, -1);
+		events.at(GATE_ONI_APPEAR_E).SetParam({}, -1, -1);
 		std::ifstream file("dialog/dialogs.txt");
 		if (!file) {
 			TRACE("dissapointment\n");
@@ -266,6 +265,12 @@ namespace game_framework {
 		base0_kabe.LoadBitmapByString({ "img/password/password_jail/kabe_pwd0.bmp",
 			"img/password/password_jail/kabe_pwd1.bmp",
 			"img/password/password_jail/kabe_pwd2.bmp" }, default_C);
+		// bar animation
+		vector<string> bar_a;
+		for (int i = 1; i < 109; i++) {
+			bar_a.push_back("img/bar_animation/" + std::to_string(i) + ".bmp");
+		}
+		bar_animation.LoadBitmapByString(bar_a, default_C);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, black_C);
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -298,6 +303,8 @@ namespace game_framework {
 		_in_interface = false;
 		_in_closet = false;
 		_is_danger = false;
+		_in_gate_map22 = false;
+		_bar_animation_show = false;
 		_killtimes = 0;
 		once = true;
 		_nowID = 13;
@@ -1260,8 +1267,17 @@ namespace game_framework {
 				}
 				break;
 			case 22:
-				items.at(KEY_BASEMENT).OnKeyDown(nChar);
-				items.at(GATE).OnKeyDown(nChar);
+				if (!items.at(KEY_BASEMENT).IsPick()) {
+					items.at(KEY_BASEMENT).OnKeyDown(nChar);
+				}
+				if (events.at(GATE_ONI_APPEAR_E).IsTriggered() && normal_oni.IsShow()) {
+					if (nChar != VK_SPACE) {
+						items.at(GATE).OnKeyDown(nChar);
+					}
+				}
+				else {
+					items.at(GATE).OnKeyDown(nChar);
+				}
 				break;
 			}
 			if (!items.at(CLOSET_HIROSI_R).IsClose() || !items.at(CLOSET_HIROSI_MAP15).IsClose() || !items.at(CLOSET_HIROSI_L).IsClose()) {
@@ -1272,7 +1288,8 @@ namespace game_framework {
 			}
 			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
 				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()
-				&& (!items.at(MIKA_TO_ONI).IsFixed() || (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5))) {
+				&& (!items.at(MIKA_TO_ONI).IsFixed() || (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5))
+				&& !_bar_animation_show) {
 				player.OnKeyDown(nChar);
 			}
 			if (_is_danger) {
@@ -1304,11 +1321,7 @@ namespace game_framework {
 							normal_oni.SetPos(11 * TILE, 10 * TILE);
 							normal_oni.IsShow() = true;
 						}
-						if (_dialogID == 35) {
-							SetEventTriggeredDialog(BASEMENT_KEY_CHASE_E);
-							normal_oni.SetPos(10 * TILE, 16 * TILE);
-							normal_oni.IsShow() = true;
-						}
+					
 						_substate = OnWalking;
 						_dialogcount = 0;
 						_dialogID = -1;
@@ -2041,14 +2054,32 @@ namespace game_framework {
 					}
 				}
 			}
+
+			if (events.at(KEY_BASEMENT_E).IsTriggered() && !events.at(GATE_ONI_APPEAR_E).IsTriggered()) {
+				events.at(GATE_ONI_APPEAR_E).SetTriggered(true);
+				normal_oni.SetPos(10 * TILE, 16 * TILE);
+				normal_oni.IsShow() = true;
+				normal_oni.Once() = false;
+				if (items.at(GATE).IsClose()) {
+					_in_gate_map22 = true;
+				}
+			}
+
 			items.at(KEY_BASEMENT).OnShow();
 			if (items.at(KEY_BASEMENT).IsPick() && !events.at(KEY_BASEMENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_BASEMENT_E);
 				game_interface.StoreItem("basement", "basement key", Interface::Items::key_basement);
 				
 			}
-			if (events.at(BASEMENT_KEY_CHASE_E).IsTriggered() && !bar_animation.IsAnimationDone()) {
+		
+			if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && !bar_animation.IsAnimationDone()) {
 				bar_animation.ShowBitmap();
+				_bar_animation_show = true;
+			}
+			else if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && bar_animation.IsAnimationDone()) {
+				_in_gate_map22 = false;
+				normal_oni.ResetOni();
+				_bar_animation_show = false;
 			}
 			break;
 		}

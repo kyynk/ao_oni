@@ -135,7 +135,8 @@ namespace game_framework {
 		USE_JAIL_KEY_E,
 		MIKA_DEAD_E,
 		BASEMENT_KEY_CHASE_E,
-		BARANI_E
+		BARANI_E,
+		GATE_ONI_APPEAR_E
 	};
 	enum item_name {
 		TOILET,
@@ -223,6 +224,8 @@ namespace game_framework {
 		vector<Password> pwds;
 		// sth in gamerun
 		int _killtimes;
+		bool _in_gate_map22;
+		bool _bar_animation_show;
 		bool _is_danger;
 		bool _in_interface;
 		bool _in_closet;
@@ -239,7 +242,6 @@ namespace game_framework {
 		CMovingBitmap base0_kabe;
 		CMovingBitmap deadbody;
 		CMovingBitmap oni_eat;
-
 		//map related
 		DarkRoomEffect darkmask[3];
 		vector<GameMap> gamemaps;
