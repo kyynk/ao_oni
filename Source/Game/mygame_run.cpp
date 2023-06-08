@@ -300,6 +300,8 @@ namespace game_framework {
 		_is_danger = false;
 		_in_gate_map22 = false;
 		_bar_animation_show = false;
+		_final = false;
+		_oni_eat_mika = false;
 		_killtimes = 0;
 		once = true;
 		_nowID = 13;
@@ -532,8 +534,8 @@ namespace game_framework {
 			}
 			break;
 		case 9:
-			deadbody.SetTopLeft(TILE * 9, TILE * 10);
-			oni_eat.SetTopLeft(TILE * 9, TILE * 10);
+			deadbody.SetTopLeft(TILE * 11, TILE * 11);
+			oni_eat.SetTopLeft(TILE * 11, TILE * 11);
 		case 10:
 			items.at(TATAMI_R).StorePlayerPos(player.GetX(), player.GetY());
 			items.at(TATAMI_R).OnMove();
@@ -693,7 +695,18 @@ namespace game_framework {
 			items.at(OIL).OnMove();
 			human_mika.SetPos(8 * TILE, 16 * TILE);
 			human_mika.OnMove();
-			gamemaps.at(_nowID).SetMapData(0, (human_mika.GetY() - gamemaps.at(_nowID).GetY()) / TILE, (human_mika.GetX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			if (!events.at(OPEN_BASEMENT_E).IsTriggered()) {
+				gamemaps.at(_nowID).SetMapData(0, (human_mika.GetY() - gamemaps.at(_nowID).GetY()) / TILE, (human_mika.GetX() - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else if (!events.at(MIKA_TO_ONI_E).IsTriggered()) {
+				gamemaps.at(_nowID).SetMapData(0, (human_mika.GetY() - gamemaps.at(_nowID).GetY()) / TILE, (human_mika.GetX() - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				gamemaps.at(_nowID).SetMapData(0, (11 * TILE - gamemaps.at(_nowID).GetY()) / TILE, (11 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+				gamemaps.at(_nowID).SetMapData(0, (11 * TILE - gamemaps.at(_nowID).GetY()) / TILE, (12 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 0);
+			}
+			else {
+				gamemaps.at(_nowID).SetMapData(0, (11 * TILE - gamemaps.at(_nowID).GetY()) / TILE, (11 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+				gamemaps.at(_nowID).SetMapData(0, (11 * TILE - gamemaps.at(_nowID).GetY()) / TILE, (12 * TILE - gamemaps.at(_nowID).GetX()) / TILE, 312);
+			}
 			objs.at(house1_2F_TL_chair).StorePlayerPos(player.GetX(), player.GetY());
 			objs.at(house1_2F_TL_chair).OnMove(gamemaps.at(_nowID));
 
@@ -984,7 +997,8 @@ namespace game_framework {
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up
 					&& (items.at(CLOSET_HIROSI_L).GetBitMapIndex() == 0
 						|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() == 5)
-					&& player.GetX() == 16 * TILE && player.GetY() == 9 * TILE) {
+					&& player.GetX() == 16 * TILE && player.GetY() == 9 * TILE
+					&& !(game_interface.FindItem("???") && !events.at(MIKA_IN_CLOSET_E).IsTriggered())) {
 					items.at(CLOSET_HIROSI_L).EventTrigger();
 					if (darkmask[2].IsShow()) {
 						darkmask[2].SetShow(false);
@@ -1528,7 +1542,7 @@ namespace game_framework {
 				if (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() <= 5) {
 					items.at(MIKA_TO_ONI).OnShow();
 				}
-				if (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5) {
+				if (!items.at(MIKA_TO_ONI).IsPick() && items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5) {
 					items.at(MIKA_TO_ONI).SetIsPick(true);
 					mika_oni.SetPos(8 * TILE, 10 * TILE);
 					mika_oni.IsShow() = true;
@@ -1596,7 +1610,23 @@ namespace game_framework {
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
+					if (game_interface.FindItem("???")
+						&& !events.at(MIKA_IN_CLOSET_E).IsTriggered()
+						&& player.GetDirection() == Entity::up
+						&& player.GetX() == 12 * TILE && player.GetY() == 9 * TILE) {
+						events.at(MIKA_IN_CLOSET_E).SetTriggered(true);
+					}
 					items.at(CLOSET_HIROSI_L).OnShow();
+					if (events.at(MIKA_IN_CLOSET_E).IsTriggered() && !items.at(CLOSET_MIKA_OUT).IsPick()) {
+						items.at(CLOSET_MIKA_OUT).EventTrigger();
+						items.at(CLOSET_MIKA_OUT).OnShow();
+					}
+					if (!items.at(CLOSET_MIKA_OUT).IsPick() && items.at(CLOSET_MIKA_OUT).GetBitMapIndex() == 4) {
+						items.at(CLOSET_MIKA_OUT).SetIsPick(true);
+						mika_oni.SetPos(16 * TILE, 9 * TILE);
+						mika_oni.IsShow() = true;
+						mika_oni.Once() = false;
+					}
 					ShowOniAndPlayer();
 				}
 			}
@@ -1680,6 +1710,9 @@ namespace game_framework {
 			}
 			if (player.IsBasementTrigger() && !events.at(OPEN_BASEMENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(OPEN_BASEMENT_E);
+			}
+			if (_oni_eat_mika && !normal_oni.IsShow()) {
+				player.SetBasementUnlock(true);
 			}
 			break;
 		case 10:
@@ -1962,6 +1995,21 @@ namespace game_framework {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
 					for (int j = 0; j < 3; j++) {
+						if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
+							deadbody.ShowBitmap();
+							if (!oni_eat.IsAnimationDone()) {
+								oni_eat.ShowBitmap();
+								normal_oni.SetPos(12 * TILE, 13 * TILE);
+							}
+							else if (once){
+								normal_oni.IsShow() = true;
+								once = false;
+								_oni_eat_mika = true;
+							}
+						}
+						else if (!events.at(MIKA_TO_ONI_E).IsTriggered()){
+							human_mika.OnShow();
+						}
 						entities.at(j)->OnShow();
 					}
 				}
@@ -1969,20 +2017,6 @@ namespace game_framework {
 			entities.clear();
 			items.at(OIL).OnShow();
 
-			if (!events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
-				deadbody.ShowBitmap();
-				if (!oni_eat.IsAnimationDone()) {
-					oni_eat.ShowBitmap();
-					normal_oni.SetPos(9 * TILE, 11 * TILE);
-				}
-				else if (once){
-					normal_oni.IsShow() = true;
-					once = false;
-				}
-			}
-			else {
-				human_mika.OnShow();
-			}
 			if (_dialogID >= 25 && _dialogID <= 32) {
 				human_mika.SetDirection(Entity::up);
 			}
@@ -2105,12 +2139,15 @@ namespace game_framework {
 			|| items.at(CLOSET_HIROSI_L).GetBitMapIndex() >= 3
 			|| items.at(DOOR_OPEN).GetBitMapIndex() >= 1) {
 			normal_oni.OnShow();
+			mika_oni.OnShow();
 		}
 		else if (normal_oni.GetPosD() > player.GetD()) {
 			player.OnShow();
+			mika_oni.OnShow();
 			normal_oni.OnShow();
 		}
 		else {
+			mika_oni.OnShow();
 			normal_oni.OnShow();
 			player.OnShow();
 		}
@@ -2216,7 +2253,7 @@ namespace game_framework {
 			
 			//player.IsMachineDone() ? CTextDraw::Print(pDC, 0, TILE * 10, "machine done") : CTextDraw::Print(pDC, 0, TILE * 10, "machine not done");
 			router.Gaming() ? CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 10, "All path state : Unlock all");
-			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()));
+			CTextDraw::Print(pDC, 0, TILE * 11, "Oni overtime : " + to_string(normal_oni.GetOverTimer()) + "Mika Oni : " + to_string(mika_oni.GetOverTimer()));
 			player.IsMapChanged() ? CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): T") : CTextDraw::Print(pDC, 0, TILE * 12, "player.IsMapChanged(): F");
 			//player.IsSwitchMap() ? CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Gaming") : CTextDraw::Print(pDC, 0, TILE * 13, "All path state : Unlock all");
 			CTextDraw::Print(pDC, 0, TILE * 13, to_string(gamemaps.at(_nowID).GetX()));

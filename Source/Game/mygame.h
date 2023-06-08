@@ -222,6 +222,8 @@ namespace game_framework {
 		vector<Password> pwds;
 		// sth in gamerun
 		int _killtimes;
+		bool _final;
+		bool _oni_eat_mika;
 		bool _in_gate_map22;
 		bool _bar_animation_show;
 		bool _is_danger;
