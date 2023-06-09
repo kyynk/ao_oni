@@ -260,12 +260,18 @@ namespace game_framework {
 		base0_kabe.LoadBitmapByString({ "img/password/password_jail/kabe_pwd0.bmp",
 			"img/password/password_jail/kabe_pwd1.bmp",
 			"img/password/password_jail/kabe_pwd2.bmp" }, default_C);
-		// bar animation
-		vector<string> bar_a;
-		for (int i = 1; i < 109; i++) {
-			bar_a.push_back("img/bar_animation/" + std::to_string(i) + ".bmp");
+		// gate animation
+		vector<string> gate_a;
+		for (int i = 0; i < 103; i++) {
+			gate_a.push_back("img/gate_oni_animation/" + std::to_string(i) + ".bmp");
 		}
-		bar_animation.LoadBitmapByString(bar_a, default_C);
+		gate_animation.LoadBitmapByString(gate_a, default_C);
+		// closet animation
+		vector<string> closet_a;
+		for (int i = 0; i < 103; i++) {
+			closet_a.push_back("img/oni_open_closet_animation/" + std::to_string(i) + ".bmp");
+		}
+		closet_animation.LoadBitmapByString(closet_a, default_C);
 		// debug
 		grid.LoadBitmapByString({ "img/grid.bmp" }, black_C);
 		tileplaceholder.LoadBitmapByString({ "img/placeholder.bmp" });
@@ -275,7 +281,17 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		// audio
-
+		audio_control.resize(11);
+		CAudio::Instance()->Load(AUDIO_BROKEN_DISH, "Audio/USE/broken_dish.wav");
+		CAudio::Instance()->Load(AUDIO_CANDLE_LIGHT, "Audio/USE/candle_light.wav");
+		CAudio::Instance()->Load(AUDIO_DOOR_LOCK, "Audio/USE/door_lock.wav");
+		CAudio::Instance()->Load(AUDIO_GATE_ONI, "Audio/USE/gate_oni.wav");
+		CAudio::Instance()->Load(AUDIO_HOROR, "Audio/USE/horor.wav");
+		CAudio::Instance()->Load(AUDIO_LIB_FIRST, "Audio/USE/lib_first.wav");
+		CAudio::Instance()->Load(AUDIO_MIKA_SOUND, "Audio/USE/mika_sound.wav");
+		CAudio::Instance()->Load(AUDIO_ONI_OPEN_CLOSET, "Audio/USE/oni_open_closet.wav");
+		CAudio::Instance()->Load(AUDIO_TAKESI_NOICE, "Audio/USE/takesi_noice.wav");
+		CAudio::Instance()->Load(AUDIO_TUB_WATER, "Audio/USE/tub_water.wav");
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -302,6 +318,7 @@ namespace game_framework {
 		_bar_animation_show = false;
 		_final = false;
 		_oni_eat_mika = false;
+		_die = false;
 		_killtimes = 0;
 		once = true;
 		_nowID = 13;
@@ -320,6 +337,10 @@ namespace game_framework {
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		normal_oni.init(Oni::normal, 4, 8);
 		mika_oni.init(Oni::mika, 4, 8);
+		// audio
+		for (int i = 0; i < 11; i++) {
+			audio_control[i] = false;
+		}
 		// interface
 		game_interface.ResetItem();
 		// darkmask
@@ -401,7 +422,8 @@ namespace game_framework {
 		blue_paint.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 		piano_hint.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 		base0_kabe.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
-		bar_animation.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
+		gate_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		closet_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 	}
 
 	void CGameStateRun::OnMove()
@@ -755,6 +777,7 @@ namespace game_framework {
 		if (normal_oni.IsShow() && !normal_oni.IsWait()) {
 			normal_oni.SetPlayerPos(player.GetX(), player.GetY());
 			if (normal_oni.isCatch() && !isdebugmode) {
+				CAudio::Instance()->Stop(AUDIO_HOROR);
 				normal_oni.ResetOni();
 				GotoGameState(GAME_STATE_OVER);
 			}
@@ -768,6 +791,7 @@ namespace game_framework {
 		if (mika_oni.IsShow() && !mika_oni.IsWait()) {
 			mika_oni.SetPlayerPos(player.GetX(), player.GetY());
 			if (mika_oni.isCatch() && !isdebugmode) {
+				CAudio::Instance()->Stop(AUDIO_HOROR);
 				mika_oni.ResetOni();
 				GotoGameState(GAME_STATE_OVER);
 			}
@@ -1008,6 +1032,8 @@ namespace game_framework {
 					}
 					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
 						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						audio_control.at(AUDIO_HOROR) = false;
+						CAudio::Instance()->Stop(AUDIO_HOROR);
 						darkmask[2].SetShow(true);
 						normal_oni.ResetOni();
 						mika_oni.ResetOni();
@@ -1051,6 +1077,7 @@ namespace game_framework {
 						|| (player.GetDirection() == Entity::down && player.GetX() == 13 * TILE && player.GetY() == 9 * TILE)
 						|| (player.GetDirection() == Entity::left && player.GetX() == 14 * TILE && player.GetY() == 10 * TILE))) {
 					// trigger dialog
+					CAudio::Instance()->Play(AUDIO_CANDLE_LIGHT, false);
 					items.at(CANDLE2).EventTrigger();
 					darkmask[0].SetState(DarkRoomEffect::bright);
 				}
@@ -1142,6 +1169,8 @@ namespace game_framework {
 					}
 					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
 						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						audio_control.at(AUDIO_HOROR) = false;
+						CAudio::Instance()->Stop(AUDIO_HOROR);
 						darkmask[2].SetShow(true);
 						normal_oni.ResetOni();
 						mika_oni.ResetOni();
@@ -1162,6 +1191,8 @@ namespace game_framework {
 					}
 					else if ((normal_oni.IsShow() && normal_oni.IsWait() && !darkmask[2].IsShow())
 						|| (mika_oni.IsShow() && mika_oni.IsWait() && !darkmask[2].IsShow())) {
+						audio_control.at(AUDIO_HOROR) = false;
+						CAudio::Instance()->Stop(AUDIO_HOROR);
 						darkmask[2].SetShow(true);
 						normal_oni.ResetOni();
 						mika_oni.ResetOni();
@@ -1268,6 +1299,7 @@ namespace game_framework {
 						|| (player.GetDirection() == Entity::down && player.GetX() == 12 * TILE && player.GetY() == 12 * TILE)
 						|| (player.GetDirection() == Entity::left && player.GetX() == 13 * TILE && player.GetY() == 13 * TILE))) {
 					// trigger dialog
+					CAudio::Instance()->Play(AUDIO_CANDLE_LIGHT, false);
 					items.at(CANDLE1).EventTrigger();
 					darkmask[1].SetState(DarkRoomEffect::bright);
 				}
@@ -1295,12 +1327,16 @@ namespace game_framework {
 			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
 				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()
 				&& (!items.at(MIKA_TO_ONI).IsFixed() || (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5))
-				&& !_bar_animation_show) {
+				&& !_bar_animation_show && !_is_danger) {
 				player.OnKeyDown(nChar);
 			}
-			if (_is_danger) {
+			if (_is_danger && !_die && !audio_control.at(AUDIO_ONI_OPEN_CLOSET)) {
 				/* call oni open closet animation */
-				GotoGameState(GAME_STATE_OVER);
+				audio_control.at(AUDIO_ONI_OPEN_CLOSET) = true;
+				closet_animation.ToggleAnimation();
+				closet_animation.SetAnimation(10, true);
+				CAudio::Instance()->Stop(AUDIO_HOROR);
+				CAudio::Instance()->Play(AUDIO_ONI_OPEN_CLOSET, false);
 			}
 		}
 		else if (_substate == OnDialogs) {
@@ -1352,6 +1388,7 @@ namespace game_framework {
 			}
 			player.IsDoorLock() = false;
 			events.at(DOOR_LOCKED_E).SetTriggered(false);
+			CAudio::Instance()->Play(AUDIO_DOOR_LOCK, false);
 		}
 		if (player.IsDoorOpen() && events.at(DOOR_UNLOCKED_E).IsTriggered() && nChar == VK_SPACE) {
 			player.IsDoorOpen() = false;
@@ -1466,6 +1503,15 @@ namespace game_framework {
 		if (_nowID != 21 && _nowID != -1 && events.at(LIGHTUP_ROOM21).IsTriggered() && darkmask[1].IsShow()) {
 			events.at(LIGHTUP_ROOM21).SetTriggered(false);
 			darkmask[1].SetState(DarkRoomEffect::dark);
+		}
+		
+		if ((normal_oni.IsShow() || mika_oni.IsShow()) && !audio_control.at(AUDIO_HOROR)) {
+			audio_control.at(AUDIO_HOROR) = true;
+			CAudio::Instance()->Play(AUDIO_HOROR, true);
+		}
+		else if (!(normal_oni.IsShow() || mika_oni.IsShow()) && audio_control.at(AUDIO_HOROR)) {
+			audio_control.at(AUDIO_HOROR) = false;
+			CAudio::Instance()->Stop(AUDIO_HOROR);
 		}
 		switch (_nowID) {
 		case -1:
@@ -1661,9 +1707,13 @@ namespace game_framework {
 			break;
 		case 5:
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
+			audio_control.at(AUDIO_LIB_FIRST) = false;
+			if (!items.at(KEY_3F_L).IsPick()) {
+				audio_control.at(AUDIO_LIB_FIRST) = false;
+				CAudio::Instance()->Stop(AUDIO_LIB_FIRST);
+			}
 			break;
 		case 6:
-			TRACE("\n\n ktime %d \n\n", _killtimes);
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
@@ -1708,8 +1758,10 @@ namespace game_framework {
 			if (objs.at(obj_move::house1_basement2_chair).isChangeMap()) {
 				objs.at(obj_move::house1_basement2_chair).ChangeMap();
 			}
-			if (player.IsBasementTrigger() && !events.at(OPEN_BASEMENT_E).IsTriggered()) {
+			if (player.IsBasementTrigger() && !events.at(OPEN_BASEMENT_E).IsTriggered() && !audio_control.at(AUDIO_MIKA_SOUND)) {
+				audio_control.at(AUDIO_MIKA_SOUND) = true;
 				SetEventTriggeredDialog(OPEN_BASEMENT_E);
+				CAudio::Instance()->Play(AUDIO_MIKA_SOUND, false);
 			}
 			if (_oni_eat_mika && !normal_oni.IsShow()) {
 				player.SetBasementUnlock(true);
@@ -1772,9 +1824,14 @@ namespace game_framework {
 			if (items.at(LIB_BOOK).IsFixed()) {
 				items.at(KEY_3F_L).OnShow();
 			}
+			if (!items.at(KEY_3F_L).IsPick() && !audio_control.at(AUDIO_LIB_FIRST)) {
+				audio_control.at(AUDIO_LIB_FIRST) = true;
+				CAudio::Instance()->Play(AUDIO_LIB_FIRST, true);
+			}
 			if (items.at(KEY_3F_L).IsPick() && !events.at(KEY_3F_L_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_3F_L_E);
 				game_interface.StoreItem("3F left", "bedroom key", Interface::Items::key_3F_L);
+				CAudio::Instance()->Stop(AUDIO_LIB_FIRST);
 			}
 			break;
 		}
@@ -1787,6 +1844,10 @@ namespace game_framework {
 			}
 			if (!events.at(START_EVENT2_E).IsTriggered() && events.at(BROKEN_DISH_E).IsTriggered()) {
 				SetEventTriggeredDialog(START_EVENT2_E);
+			}
+			if (_dialogID == 6 && !audio_control.at(AUDIO_BROKEN_DISH)) {
+				audio_control.at(AUDIO_BROKEN_DISH) = true;
+				CAudio::Instance()->Play(AUDIO_BROKEN_DISH, false);
 			}
 			if (_dialogID == 6) {
 				player.SetDirection(Entity::right);
@@ -1864,6 +1925,10 @@ namespace game_framework {
 					if ((player.GetY() - gamemaps.at(_nowID).GetY()) / TILE <= 3 && (player.GetX() - gamemaps.at(_nowID).GetX()) / TILE >= 5) {
 						items.at(CLOSET_SHAKE).EventTrigger();
 					}
+					if (items.at(CLOSET_SHAKE).IsFixed() && !audio_control.at(AUDIO_TAKESI_NOICE)) {
+						audio_control.at(AUDIO_TAKESI_NOICE) = true;
+						CAudio::Instance()->Play(AUDIO_TAKESI_NOICE, false);
+					}	
 					if ((!items.at(CLOSET_SHAKE).IsFixed() || !items.at(CLOSET_SHAKE).IsAnimationDone()) && !events.at(KEY_3F_L_E).IsTriggered()) {
 						items.at(CLOSET_SHAKE).OnShow();
 					}
@@ -1950,6 +2015,10 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			if (!items.at(TUB_ONCE).IsFixed() || !items.at(TUB_ONCE).IsAnimationDone()) {
 				items.at(TUB_ONCE).OnShow();
+			}
+			if (items.at(TUB_ONCE).IsFixed() && !audio_control.at(AUDIO_TUB_WATER)) {
+				audio_control.at(AUDIO_TUB_WATER) = true;
+				CAudio::Instance()->Play(AUDIO_TUB_WATER, false);
 			}
 			if (items.at(TUB_ONCE).IsFixed() && items.at(TUB_ONCE).IsAnimationDone()) {
 				items.at(PHILLIPS).OnShow();
@@ -2087,7 +2156,7 @@ namespace game_framework {
 				normal_oni.Once() = false;
 				if (items.at(GATE).IsClose()) {
 					_in_gate_map22 = true;
-					bar_animation.ToggleAnimation();
+					gate_animation.ToggleAnimation();
 				}
 			}
 
@@ -2097,15 +2166,19 @@ namespace game_framework {
 				game_interface.StoreItem("basement", "basement key", Interface::Items::key_basement);
 			}
 
-			if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && !bar_animation.IsAnimationDone()) {
-				bar_animation.SetAnimation(100, true);
-				bar_animation.ShowBitmap();
+			if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && !gate_animation.IsAnimationDone() && !audio_control.at(AUDIO_GATE_ONI)) {
+				audio_control.at(AUDIO_GATE_ONI) = true;
+				CAudio::Instance()->Stop(AUDIO_HOROR);
+				CAudio::Instance()->Play(AUDIO_GATE_ONI, false);
+				gate_animation.SetAnimation(100, true);
+				gate_animation.ShowBitmap();
 				_bar_animation_show = true;
 			}
-			else if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && bar_animation.IsAnimationDone()) {
+			else if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && gate_animation.IsAnimationDone()) {
 				_in_gate_map22 = false;
 				normal_oni.ResetOni();
 				_bar_animation_show = false;
+				CAudio::Instance()->Stop(AUDIO_GATE_ONI);
 			}
 			break;
 		}
@@ -2130,6 +2203,13 @@ namespace game_framework {
 		}
 		if (game_interface.IsShow()) {
 			game_interface.ShowTotal();
+		}
+		if (_is_danger && closet_animation.IsAnimationDone() && _die) {
+			GotoGameState(GAME_STATE_OVER);
+		}
+		else if (_is_danger && !closet_animation.IsAnimationDone()) {
+			closet_animation.ShowBitmap();
+			_die = true;
 		}
 	}
 	
