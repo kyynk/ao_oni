@@ -223,7 +223,6 @@ namespace game_framework {
 		Human human_takuro;
 		Interface game_interface;
 		Oni normal_oni;
-		Oni mika_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
