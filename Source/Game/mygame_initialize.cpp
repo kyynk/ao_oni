@@ -27,7 +27,7 @@ namespace game_framework {
 		story.SetParam({ "We heard rumors about the mansion",
 			"they say on the outskirts of town...",
 			"there is a monster living here...!" }, false);
-		
+		CAudio::Instance()->Load(AUDIO_GAME_INIT, "Audio/USE/game_init.wav");
 	}
 
 	void CGameStateInit::OnBeginState()
@@ -49,7 +49,7 @@ namespace game_framework {
 				switch (startmenu.GetSelection()) {
 				case 0:
 					_substate = animationstate;
-
+					CAudio::Instance()->Play(AUDIO_GAME_INIT, false);
 					break;
 				case 1:
 
@@ -66,6 +66,7 @@ namespace game_framework {
 					story.SetShow(false);
 					_substate = jumpstate;
 				}
+				CAudio::Instance()->Stop(AUDIO_GAME_INIT);
 			}
 			
 			break;
@@ -101,8 +102,5 @@ namespace game_framework {
 		else if (jumpstate) {
 			GotoGameState(GAME_STATE_RUN);
 		}
-	
-
-	
 	}
 }

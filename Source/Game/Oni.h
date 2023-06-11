@@ -25,7 +25,9 @@ namespace game_framework {
 		int GetPosR() const;
 		int GetPosD() const;
 		int GetOffsetY() const { return _offsetY; }
-		void Load(string filename, COLORREF color);
+		vector<string> SetOniVec(string filename, vector<string> OniVec);
+		void Load(vector<string> OniVec, COLORREF color);
+		void SetType(OniName t);
 		void SetPlayerPos(int playerX, int playerY);
 		void Track(GameMap &map);
 		void OnMove(GameMap &map, int _nowID);	// every time oni move, will track first
@@ -49,6 +51,7 @@ namespace game_framework {
 		int _nextx;
 		int _nexty; 
 		int _mapID;
+		int _changeType;
 		bool _isShow;
 		bool _walkiter;
 		bool _wait;
