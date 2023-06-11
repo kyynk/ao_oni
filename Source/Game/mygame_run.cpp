@@ -352,7 +352,7 @@ namespace game_framework {
 		oni_eat.SetAnimation(100, true);
 		oni_eat.ToggleAnimation();
 		
-   		objs.at(house1_2F_TR_chair).Reset();
+   	objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
 		objs.at(house1_2F_TL_chair).Reset();
@@ -1478,7 +1478,6 @@ namespace game_framework {
 			events.at(LIGHTUP_ROOM21).SetTriggered(false);
 			darkmask[1].SetState(DarkRoomEffect::dark);
 		}
-		
 		if (normal_oni.IsShow() && !audio_control.at(AUDIO_HOROR)) {
 			audio_control.at(AUDIO_HOROR) = true;
 			CAudio::Instance()->Play(AUDIO_HOROR, true);
