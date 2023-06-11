@@ -22,13 +22,15 @@ namespace game_framework {
 		_step = step;
 		_moveTime = moveTime;
 		GonnaGiveUpSoSadUntilTheNextMap = false;
-		string name;
+		vector<string> tmp_vec;
+		_changeType = 0;
 		if (_type == normal) {
-			name = "oni_";
+			//name = "oni_";
+			tmp_vec = SetOniVec("mika_", SetOniVec("oni_", tmp_vec));
 			_offsetX = TILE / 2;
 			_offsetY = 80;
 		}
-		else if (_type == mika) {
+		/*else if (_type == mika) {
 			name = "mika_";
 			_offsetX = TILE / 2;
 			_offsetY = 80;
@@ -47,8 +49,8 @@ namespace game_framework {
 			name = "flat_";
 			_offsetX = TILE / 2;
 			_offsetY = 48;
-		}
-		Load(name, RGB(204, 255, 0));
+		}*/
+		Load(tmp_vec, RGB(204, 255, 0));
 	}
 	void Oni::SetPos(int x, int y) {
 		SetXY(x - _offsetX, y - _offsetY);
@@ -72,16 +74,25 @@ namespace game_framework {
 	int Oni::GetPosD() const {
 		return _pos_y + _offsetY + TILE;
 	}
-	void Oni::Load(string filename, COLORREF color) {
-		vector<string> oniVec;
+	vector<string> Oni::SetOniVec(string filename, vector<string> OniVec) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 3; j++) {
-				oniVec.push_back("img/ao oni_action/" + filename +
+				OniVec.push_back("img/ao oni_action/" + filename +
 					to_string(i) + to_string(j) + ".bmp");
 			}
 		}
-		
-		bitmap.LoadBitmapByString(oniVec, color);
+		return OniVec;
+	}
+	void Oni::Load(vector<string> OniVec, COLORREF color) {
+		bitmap.LoadBitmapByString(OniVec, color);
+	}
+	void Oni::SetType(OniName t) {
+		if (t == normal) {
+			_changeType = 0;
+		}
+		else if (t == mika) {
+			_changeType = 12;
+		}
 	}
 	void Oni::SetPlayerPos(int playerX, int playerY) {
 		_humanX = playerX;
@@ -217,36 +228,36 @@ namespace game_framework {
 		if ((_isShow && !_wait) || GonnaGiveUpSoSadUntilTheNextMap) {
 			if (_nowmove == up) {
 				if (_bstate == s1) {
-					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2);
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_UP_1 + _changeType) : bitmap.SetFrameIndexOfBitmap(BITMAP_UP_2 + _changeType);
 				}
 				else {
-					bitmap.SetFrameIndexOfBitmap(BITMAP_UP);
+					bitmap.SetFrameIndexOfBitmap(BITMAP_UP + _changeType);
 				}
 			}
 			else if (_nowmove == down) {
 				if (_bstate == s1) {
-					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2);
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_1 + _changeType) : bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN_2 + _changeType);
 				}
 				else {
-					bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN);
+					bitmap.SetFrameIndexOfBitmap(BITMAP_DOWN + _changeType);
 				}
 			}
 
 			else if (_nowmove == left) {
 				if (_bstate == s1) {
-					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2);
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_1 + _changeType) : bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT_2 + _changeType);
 				}
 				else {
-					bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT);
+					bitmap.SetFrameIndexOfBitmap(BITMAP_LEFT + _changeType);
 				}
 			}
 
 			else if (_nowmove == right) {
 				if (_bstate == s1) {
-					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1) : bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2);
+					_walkiter ? bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_1 + _changeType) : bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT_2 + _changeType);
 				}
 				else {
-					bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT);
+					bitmap.SetFrameIndexOfBitmap(BITMAP_RIGHT + _changeType);
 				}
 			}
 			bitmap.ShowBitmap();
