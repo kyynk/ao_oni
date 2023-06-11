@@ -47,9 +47,17 @@
 namespace game_framework {
 	
 	enum AUDIO_ID {
-		AUDIO_DING,			
-		AUDIO_LAKE,			
-		AUDIO_NTUT			
+		AUDIO_GAME_INIT,
+		AUDIO_BROKEN_DISH,
+		AUDIO_CANDLE_LIGHT,
+		AUDIO_DOOR_LOCK,
+		AUDIO_GATE_ONI,
+		AUDIO_HOROR,
+		AUDIO_LIB_FIRST,
+		AUDIO_MIKA_SOUND,
+		AUDIO_ONI_OPEN_CLOSET,
+		AUDIO_TAKESI_NOICE,
+		AUDIO_TUB_WATER,
 	};
 
 
@@ -215,13 +223,15 @@ namespace game_framework {
 		Human human_takuro;
 		Interface game_interface;
 		Oni normal_oni;
-		Oni mika_oni;
 		vector<ObjMove> objs;
 		vector<Event> events;
 		vector<Item> items;
 		vector<Password> pwds;
 		// sth in gamerun
 		int _killtimes;
+		bool _final;
+		bool _die;
+		bool _oni_eat_mika;
 		bool _in_gate_map22;
 		bool _bar_animation_show;
 		bool _is_danger;
@@ -233,13 +243,15 @@ namespace game_framework {
 		bool _base0_kabe_show;
 		bool _use_f_screwdriver;
 		bool _use_handkerchief;
+		vector<bool> audio_control;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		CMovingBitmap piano_hint;
 		CMovingBitmap base0_kabe;
 		CMovingBitmap deadbody;
 		CMovingBitmap oni_eat;
-		CMovingBitmap bar_animation;
+		CMovingBitmap gate_animation;
+		CMovingBitmap closet_animation;
 		//map related
 		DarkRoomEffect darkmask[3];
 		vector<GameMap> gamemaps;

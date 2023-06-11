@@ -50,6 +50,8 @@ namespace game_framework{
 		void SetNextMap(int x, int y, int mapID);
 		void SetAllMoveFalse();
 		void SetNowmove(Direction m);
+		void SetBasementUnlock(bool u) { _basement_unlock = u; }
+		bool IsBasementUnlock() const { return _basement_unlock; }
 	private:
 		bool _isup;
 		bool _isdown;
@@ -65,5 +67,6 @@ namespace game_framework{
 		bool _on_chair;
 		bool _basement_to_open;
 		bool _basement_trigger;
+		bool _basement_unlock;
 	};
 }
