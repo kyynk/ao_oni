@@ -244,6 +244,7 @@ namespace game_framework {
 		bool _use_f_screwdriver;
 		bool _use_handkerchief;
 		vector<bool> audio_control;
+		Dialog clear_game;
 		CMovingBitmap house1_map;
 		CMovingBitmap blue_paint;
 		CMovingBitmap piano_hint;
@@ -253,7 +254,7 @@ namespace game_framework {
 		CMovingBitmap gate_animation;
 		CMovingBitmap closet_animation;
 		//map related
-		DarkRoomEffect darkmask[3];
+		DarkRoomEffect darkmask[4];
 		vector<GameMap> gamemaps;
 		int _nowID;
 		int _tempMapID;
