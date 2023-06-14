@@ -58,6 +58,7 @@ namespace game_framework {
 		AUDIO_ONI_OPEN_CLOSET,
 		AUDIO_TAKESI_NOICE,
 		AUDIO_TUB_WATER,
+		AUDIO_THE_END,
 	};
 
 

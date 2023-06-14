@@ -281,7 +281,7 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		// audio
-		audio_control.resize(11);
+		audio_control.resize(12);
 		CAudio::Instance()->Load(AUDIO_BROKEN_DISH, "Audio/USE/broken_dish.wav");
 		CAudio::Instance()->Load(AUDIO_CANDLE_LIGHT, "Audio/USE/candle_light.wav");
 		CAudio::Instance()->Load(AUDIO_DOOR_LOCK, "Audio/USE/door_lock.wav");
@@ -292,6 +292,7 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_ONI_OPEN_CLOSET, "Audio/USE/oni_open_closet.wav");
 		CAudio::Instance()->Load(AUDIO_TAKESI_NOICE, "Audio/USE/takesi_noice.wav");
 		CAudio::Instance()->Load(AUDIO_TUB_WATER, "Audio/USE/tub_water.wav");
+		CAudio::Instance()->Load(AUDIO_THE_END, "Audio/USE/the_end.wav");
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -337,7 +338,7 @@ namespace game_framework {
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		normal_oni.init(Oni::normal, 4, 8);
 		// audio
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 12; i++) {
 			audio_control[i] = false;
 		}
 		// interface
@@ -1024,6 +1025,7 @@ namespace game_framework {
 				}
 				if (_final && nChar == VK_SPACE) {
 					clear_game.SetShow(false);
+					CAudio::Instance()->Play(AUDIO_THE_END, true);
 					GotoGameState(GAME_STATE_INIT);
 				}
 				break;
@@ -1651,8 +1653,9 @@ namespace game_framework {
 					}
 					if (player.GetDirection() == Entity::up
 						&& player.GetX() == 12 * TILE && player.GetY() == 9 * TILE
-						&& items.at(CLOSET_MIKA_OUT).IsPick() && !normal_oni.IsShow() && !_final) {
+						&& items.at(CLOSET_MIKA_OUT).IsPick() && !normal_oni.IsShow() && !_final && !audio_control.at(AUDIO_THE_END)) {
 						game_interface.DeleteItem("???");
+						audio_control.at(AUDIO_THE_END) = true;
 						clear_game.SetFigure("none");
 						clear_game.SetParam({ "finally, i get out of here",
 							"but mika was become oni...",
@@ -1662,6 +1665,7 @@ namespace game_framework {
 						darkmask[3].SetShow(true);
 						clear_game.SetShow(true);
 						_final = true;
+						CAudio::Instance()->Play(AUDIO_THE_END, true);
 					}
 					ShowOniAndPlayer();
 				}
@@ -1998,8 +2002,6 @@ namespace game_framework {
 			}
 			if (_piano_hint_show) {
 				piano_hint.ShowBitmap();
-			}
-			if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && !pwds.at(piano).IsOpen()) {
 				if (!pwds.at(piano).IsShow()) {
 					pwds.at(piano).SetShow(true);
 				}
