@@ -276,6 +276,8 @@ namespace game_framework {
 		// map link data
 		router.init();
 		router.Load("map_bmp/maplink.txt");
+		// end dialog
+		clear_game.SetFigure("none");
 		// audio
 		audio_control.resize(12);
 		CAudio::Instance()->Load(AUDIO_BROKEN_DISH, "Audio/USE/broken_dish.wav");
@@ -347,7 +349,7 @@ namespace game_framework {
 		darkmask[3].SetShow(false);
 		//redChair.Reset();
 		
-		oni_eat.SetAnimation(1, true);
+		oni_eat.SetAnimation(100, true);
 		oni_eat.ToggleAnimation();
 		
 		router.SetAllPathTrue();
@@ -422,7 +424,7 @@ namespace game_framework {
 		base0_kabe.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 		gate_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 		closet_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
-		gate_animation.SetAnimation(100, true);
+		gate_animation.SetAnimation(97, true);
 		gate_animation.ToggleAnimation();
 	}
 
@@ -1660,7 +1662,6 @@ namespace game_framework {
 						&& items.at(CLOSET_MIKA_OUT).IsPick() && !normal_oni.IsShow() && !_final && !audio_control.at(AUDIO_THE_END)) {
 						game_interface.DeleteItem("???");
 						audio_control.at(AUDIO_THE_END) = true;
-						clear_game.SetFigure("none");
 						clear_game.SetParam({ "finally, i get out of here",
 							"but mika was become oni...",
 							"i hope takesi, takuro can escape here",

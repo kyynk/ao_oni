@@ -1320,7 +1320,7 @@ namespace game_framework {
 				/* call oni open closet animation */
 				audio_control.at(AUDIO_ONI_OPEN_CLOSET) = true;
 				closet_animation.ToggleAnimation();
-				closet_animation.SetAnimation(30, true);
+				closet_animation.SetAnimation(29, true);
 				CAudio::Instance()->Stop(AUDIO_HOROR);
 				CAudio::Instance()->Play(AUDIO_ONI_OPEN_CLOSET, false);
 			}
