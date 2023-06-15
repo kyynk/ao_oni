@@ -46,7 +46,7 @@ namespace game_framework {
 			}
 			
 		}
-		for (int i = 0;i < 4;i++) {
+		for (int i = 0;i < 3;i++) {
 			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
 			darkmask[i].SetState(DarkRoomEffect::dark);
 
