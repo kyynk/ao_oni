@@ -48,7 +48,7 @@ namespace game_framework {
 				TRACE("I hate my life\n");
 			}
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			darkmask[i].load({ "img/mapmask0.bmp","img/mapmask1.bmp" }, default_C);
 			darkmask[i].SetState(DarkRoomEffect::dark);
 
@@ -281,7 +281,7 @@ namespace game_framework {
 		router.init();
 		router.Load("map_bmp/maplink.txt");
 		// audio
-		audio_control.resize(11);
+		audio_control.resize(12);
 		CAudio::Instance()->Load(AUDIO_BROKEN_DISH, "Audio/USE/broken_dish.wav");
 		CAudio::Instance()->Load(AUDIO_CANDLE_LIGHT, "Audio/USE/candle_light.wav");
 		CAudio::Instance()->Load(AUDIO_DOOR_LOCK, "Audio/USE/door_lock.wav");
@@ -292,6 +292,7 @@ namespace game_framework {
 		CAudio::Instance()->Load(AUDIO_ONI_OPEN_CLOSET, "Audio/USE/oni_open_closet.wav");
 		CAudio::Instance()->Load(AUDIO_TAKESI_NOICE, "Audio/USE/takesi_noice.wav");
 		CAudio::Instance()->Load(AUDIO_TUB_WATER, "Audio/USE/tub_water.wav");
+		CAudio::Instance()->Load(AUDIO_THE_END, "Audio/USE/the_end.wav");
 	}
 	void CGameStateRun::OnBeginState()
 	{
@@ -337,16 +338,17 @@ namespace game_framework {
 		human_takuro.SetPos(12 * TILE, 12 * TILE);
 		normal_oni.init(Oni::normal, 4, 8);
 		// audio
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 12; i++) {
 			audio_control[i] = false;
 		}
 		// interface
 		game_interface.ResetItem();
 		// darkmask
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			darkmask[i].SetShow(true);
 		}
 		darkmask[2].SetShow(false);
+		darkmask[3].SetShow(false);
 		//redChair.Reset();
 
 		oni_eat.SetAnimation(100, true);
@@ -1021,6 +1023,11 @@ namespace game_framework {
 						normal_oni.ResetOni();
 					}
 				}
+				if (_final && nChar == VK_SPACE) {
+					clear_game.SetShow(false);
+					CAudio::Instance()->Play(AUDIO_THE_END, true);
+					GotoGameState(GAME_STATE_INIT);
+				}
 				break;
 			case 3:
 				if (nChar == VK_SPACE && player.GetDirection() == Entity::up
@@ -1131,10 +1138,6 @@ namespace game_framework {
 				items.at(HANDKERCHIEF).OnKeyDown(nChar);
 				if (items.at(CLOSET_SHAKE).IsFixed()) {
 					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
-					TRACE("14 CLOSET_SHAKE IsFixed true\n");
-				}
-				else {
-					TRACE("14 CLOSET_SHAKE IsFixed false\n");
 				}
 				//CLOSET_TAKESI_1 not have on key down*/
 				if (events.at(KEY_3F_L_E).IsTriggered() && nChar == VK_SPACE
@@ -1305,7 +1308,7 @@ namespace game_framework {
 			if (!game_interface.IsShow() && !_pwd && !_map_show && !_blue_paint_show && !_piano_hint_show && !_base0_kabe_show
 				&& !_in_closet && _killtimes < 7 && items.at(DOOR_ONI).IsAnimationDone()
 				&& (!items.at(MIKA_TO_ONI).IsFixed() || (items.at(MIKA_TO_ONI).IsFixed() && items.at(MIKA_TO_ONI).GetBitMapIndex() == 5))
-				&& !_bar_animation_show && !_is_danger) {
+				&& !_bar_animation_show && !_is_danger && !_final) {
 				player.OnKeyDown(nChar);
 			}
 			if (_is_danger && !_die && !audio_control.at(AUDIO_ONI_OPEN_CLOSET)) {
@@ -1641,17 +1644,37 @@ namespace game_framework {
 						items.at(CLOSET_MIKA_OUT).EventTrigger();
 						items.at(CLOSET_MIKA_OUT).OnShow();
 					}
-					if (!items.at(CLOSET_MIKA_OUT).IsPick() && items.at(CLOSET_MIKA_OUT).GetBitMapIndex() == 4) {
+					if (!items.at(CLOSET_MIKA_OUT).IsPick() && items.at(CLOSET_MIKA_OUT).GetBitMapIndex() == 3) {
 						items.at(CLOSET_MIKA_OUT).SetIsPick(true);
 						normal_oni.SetPos(16 * TILE, 9 * TILE);
 						normal_oni.SetType(Oni::mika);
 						normal_oni.IsShow() = true;
 						normal_oni.Once() = false;
 					}
+					if (player.GetDirection() == Entity::up
+						&& player.GetX() == 12 * TILE && player.GetY() == 9 * TILE
+						&& items.at(CLOSET_MIKA_OUT).IsPick() && !normal_oni.IsShow() && !_final && !audio_control.at(AUDIO_THE_END)) {
+						game_interface.DeleteItem("???");
+						audio_control.at(AUDIO_THE_END) = true;
+						clear_game.SetFigure("none");
+						clear_game.SetParam({ "finally, i get out of here",
+							"but mika was become oni...",
+							"i hope takesi, takuro can escape here",
+							"U clear in game time : " + game_interface.GetGameTime(),
+							"Now : " + game_interface.GetRealTime() }, false);
+						darkmask[3].SetShow(true);
+						clear_game.SetShow(true);
+						_final = true;
+						CAudio::Instance()->Play(AUDIO_THE_END, true);
+					}
 					ShowOniAndPlayer();
 				}
+				darkmask[2].OnShow();
+				if (_final) {
+					darkmask[3].OnShow();
+					clear_game.ShowTotal();
+				}
 			}
-			darkmask[2].OnShow();
 			break;
 		case 3: {
 			player.SetCMPY(player.GetY() - gamemaps.at(_nowID).GetY());
@@ -1979,8 +2002,6 @@ namespace game_framework {
 			}
 			if (_piano_hint_show) {
 				piano_hint.ShowBitmap();
-			}
-			if (!items.at(PIANO_PWD_NOTOPEN).IsClose() && !pwds.at(piano).IsOpen()) {
 				if (!pwds.at(piano).IsShow()) {
 					pwds.at(piano).SetShow(true);
 				}
