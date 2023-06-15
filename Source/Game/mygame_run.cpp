@@ -1029,7 +1029,7 @@ namespace game_framework {
 				}
 				if (_final && nChar == VK_SPACE) {
 					clear_game.SetShow(false);
-					CAudio::Instance()->Play(AUDIO_THE_END, true);
+					CAudio::Instance()->Stop(AUDIO_THE_END);
 					GotoGameState(GAME_STATE_INIT);
 				}
 				break;
