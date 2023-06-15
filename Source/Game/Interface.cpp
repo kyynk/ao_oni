@@ -129,9 +129,7 @@ namespace game_framework {
 	}
 	InterfaceData Interface::UseItem() {
 		_IsUseItem = false;
-		if (!_IsUseItem) {
-			TRACE("\n\n use item");
-		}
+		
 		return InterfaceData(_itemsIntro.at(_useItemIndex), _itemsName.at(_useItemIndex));
 	}
 	void Interface::ChangeItemStatusByName(string originalName, string intro, string name, int frame_index) {
@@ -359,7 +357,6 @@ namespace game_framework {
 				if (_itemsIntro.size() != 0) {
 					_useItemIndex = _itemChoose;
 					if (IsChangeStatus()) {
-						TRACE("\n\n useeeeeeeeeeeee itemmmmmmmmmmmmmmm\n\n");
 						_show = use_item;
 						_useItemDialog.SetParam({ "Do u want to use the " + _itemsName.at(_useItemIndex) + "?" }, true);
 						_useItemDialog.SetOption("Yes", "No");

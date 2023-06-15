@@ -44,9 +44,7 @@ namespace game_framework {
 				}
 				in.close();
 			}
-			else {
-				TRACE("I hate my life\n");
-			}
+			
 		}
 		for (int i = 0;i < 3;i++) {
 			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
@@ -193,9 +191,6 @@ namespace game_framework {
 		events.at(MIKA_DEAD_E).SetParam({}, -1, -1);
 		events.at(GATE_ONI_APPEAR_E).SetParam({}, -1, -1);
 		std::ifstream file("dialog/dialogs.txt");
-		if (!file) {
-			TRACE("dissapointment\n");
-		}
 		std::string line;
 		while (std::getline(file, line)) {
 			if (line.empty()) {
@@ -337,7 +332,7 @@ namespace game_framework {
 		
 		bar_animation.SetAnimation(100, true);
 		bar_animation.ToggleAnimation();
-
+		router.SetAllPathTrue();
    		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
@@ -1116,11 +1111,8 @@ namespace game_framework {
 				items.at(HANDKERCHIEF).OnKeyDown(nChar);
 				if (items.at(CLOSET_SHAKE).IsFixed()) {
 					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
-					TRACE("14 CLOSET_SHAKE IsFixed true\n");
 				}
-				else{
-					TRACE("14 CLOSET_SHAKE IsFixed false\n");
-				}
+				
 				//CLOSET_TAKESI_1 not have on key down*/
 				if (events.at(KEY_3F_L_E).IsTriggered() && nChar == VK_SPACE
 					&& (items.at(CLOSET_HIROSI_R).GetBitMapIndex() == 0
@@ -1642,7 +1634,6 @@ namespace game_framework {
 			gamemaps.at(_nowID).ShowMapAll(player, normal_oni, mapoverlayindex.at(_nowID));
 			break;
 		case 6:
-			TRACE("\n\n ktime %d \n\n", _killtimes);
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(_nowID)) {
