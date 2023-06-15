@@ -20,9 +20,9 @@ namespace game_framework {
 		entities.reserve(3);
 		ShowInitProgress(33, "loading game mid");
 		// player map x, player map y, map ID bulk of craps
-		vector<string> ahh = { "blc","brc","btc" };
-		for (auto& f : ahh) {
-			ifstream in("map_data/" + f + ".txt");
+		vector<string> tmpvec = { "blc","brc","btc" };
+		for (auto& f : tmpvec) {
+			ifstream in("map_data/"+ f +".txt");
 			int value;
 			if (in) {
 				while (in >> value) {
@@ -44,16 +44,19 @@ namespace game_framework {
 				}
 				in.close();
 			}
-			else {
-				TRACE("I hate my life\n");
-			}
+			
 		}
-		for (int i = 0; i < 4; i++) {
-			darkmask[i].load({ "img/mapmask0.bmp","img/mapmask1.bmp" }, default_C);
+		for (int i = 0;i < 3;i++) {
+			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
 			darkmask[i].SetState(DarkRoomEffect::dark);
 
 		}
+		tmpvec.clear();
 		// main character
+		for (int i = 0;i < 103;i++) {
+			tmpvec.push_back("img/gate_oni_animation/" + to_string(i) + ".bmp");
+		}
+		bar_animation.LoadBitmapByString(tmpvec);
 		vector<string> humans = { "hiroshi_move/Hiroshi_","mika_move/Mika_","takeshi_move/Takeshi_","takuro_move/Takuro_" };
 		vector<string> playervec;
 		for (int k = 0; k < 4; k++) {
@@ -148,9 +151,9 @@ namespace game_framework {
 		items.at(CLOSET_HIROSI_MAP15).SetParam(100, 0, TILE / 2, Item::closet_hirosi_R);
 		items.at(MIKA_TO_ONI).SetParam(100, 0, 0, Item::mika_to_oni);
 		//events
-		events.resize(39);
-		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0, 2);
-		events.at(START_EVENT_E).SetParam({ {5,11 } }, 2, 8);
+		events.resize(41);
+		events.at(BROKEN_DISH_E).SetParam({ {5,13} }, 0,2 );
+		events.at(START_EVENT_E).SetParam({ {5,11 }	}, 2, 8);
 		events.at(START_EVENT2_E).SetParam({ {13,6},{13,7},{7,14},{7,8},{8,15} }, 10, 3);
 		events.at(KEY_LIB_E).SetParam({}, 13, 1);
 		events.at(DETERGENT_E).SetParam({}, 14, 1);
@@ -188,9 +191,6 @@ namespace game_framework {
 		events.at(MIKA_DEAD_E).SetParam({}, -1, -1);
 		events.at(GATE_ONI_APPEAR_E).SetParam({}, -1, -1);
 		std::ifstream file("dialog/dialogs.txt");
-		if (!file) {
-			TRACE("dissapointment\n");
-		}
 		std::string line;
 		while (std::getline(file, line)) {
 			if (line.empty()) {
@@ -241,12 +241,12 @@ namespace game_framework {
 		// house1 map
 		house1_map.LoadBitmapByString({ "img/map_house1.bmp" }, black_C);
 		deadbody.LoadBitmapByString({ "img/oni_eat/deadbody.bmp" }, default_C);
-		vector<string> tmp;
-		for (int i = 0; i < 8; i++) {
-			tmp.push_back("img/oni_eat/oni_eat" + std::to_string(i) + ".bmp");
+		tmpvec.clear();
+		for (int i = 0;i < 8;i++) {
+			tmpvec.push_back("img/oni_eat/oni_eat" + std::to_string(i) + ".bmp");
 		}
-		oni_eat.LoadBitmapByString(tmp, default_C);
-
+		oni_eat.LoadBitmapByString(tmpvec, default_C);
+		
 		// blue paint
 		blue_paint.LoadBitmapByString({ "img/password/password_jail/jail_password_L.bmp",
 			"img/password/password_jail/jail_password_R.bmp",
@@ -350,11 +350,14 @@ namespace game_framework {
 		darkmask[2].SetShow(false);
 		darkmask[3].SetShow(false);
 		//redChair.Reset();
-
-		oni_eat.SetAnimation(100, true);
+		
+		oni_eat.SetAnimation(1, true);
 		oni_eat.ToggleAnimation();
-
-		objs.at(house1_2F_TR_chair).Reset();
+		
+		bar_animation.SetAnimation(100, true);
+		bar_animation.ToggleAnimation();
+		router.SetAllPathTrue();
+   		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
 		objs.at(house1_2F_TR_chair).SetPreY(objs.at(house1_2F_TR_chair).GetPosY());
 		objs.at(house1_2F_TL_chair).Reset();
@@ -1139,6 +1142,7 @@ namespace game_framework {
 				if (items.at(CLOSET_SHAKE).IsFixed()) {
 					items.at(CLOSET_TAKESI_0).OnKeyDown(nChar);
 				}
+				
 				//CLOSET_TAKESI_1 not have on key down*/
 				if (events.at(KEY_3F_L_E).IsTriggered() && nChar == VK_SPACE
 					&& (items.at(CLOSET_HIROSI_R).GetBitMapIndex() == 0
@@ -1344,6 +1348,7 @@ namespace game_framework {
 							normal_oni.SetPos(11 * TILE, 10 * TILE);
 							normal_oni.IsShow() = true;
 						}
+					
 						_substate = OnWalking;
 						_dialogcount = 0;
 						_dialogID = -1;
@@ -2167,7 +2172,6 @@ namespace game_framework {
 				normal_oni.Once() = false;
 				if (items.at(GATE).IsClose()) {
 					_in_gate_map22 = true;
-					gate_animation.ToggleAnimation();
 				}
 			}
 
@@ -2175,6 +2179,7 @@ namespace game_framework {
 			if (items.at(KEY_BASEMENT).IsPick() && !events.at(KEY_BASEMENT_E).IsTriggered()) {
 				SetEventTriggeredDialog(KEY_BASEMENT_E);
 				game_interface.StoreItem("basement", "basement key", Interface::Items::key_basement);
+				
 			}
 
 			if (_in_gate_map22 && normal_oni.GetOverTimer() == 0 && !gate_animation.IsAnimationDone()) {
