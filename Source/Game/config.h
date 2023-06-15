@@ -1,4 +1,4 @@
-#define GAME_TITLE           "Game"
+#define GAME_TITLE           "Ao_oni"
 #define SIZE_X				 816 //21	offset16
 #define SIZE_Y				 820 //15   offset20
 #define OPEN_AS_FULLSCREEN	 false		
