@@ -1360,7 +1360,7 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		player.OnKeyUp(nChar);
-		if (!_in_interface && _killtimes < 7 && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
+		if (!_final && !_in_interface && _killtimes < 7 && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
 			player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor, game_interface);
 		}
 		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered() && nChar == VK_SPACE) {
@@ -2002,10 +2002,12 @@ namespace game_framework {
 			}
 			if (_piano_hint_show) {
 				piano_hint.ShowBitmap();
-				if (!pwds.at(piano).IsShow()) {
-					pwds.at(piano).SetShow(true);
+				if (player.GetDirection() == Entity::up) {
+					if (!pwds.at(piano).IsShow()) {
+						pwds.at(piano).SetShow(true);
+					}
+					pwds.at(piano).ShowTotal();
 				}
-				pwds.at(piano).ShowTotal();
 			}
 			break;
 		case 18:
@@ -2060,9 +2062,9 @@ namespace game_framework {
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
+					deadbody.ShowBitmap();
 					for (int j = 0; j < 3; j++) {
 						if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
-							deadbody.ShowBitmap();
 							if (!oni_eat.IsAnimationDone()) {
 								oni_eat.ShowBitmap();
 								normal_oni.SetPos(12 * TILE, 13 * TILE);
