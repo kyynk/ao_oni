@@ -422,7 +422,7 @@ namespace game_framework {
 		base0_kabe.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 		gate_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 		closet_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
-		gate_animation.SetAnimation(97, true);
+		gate_animation.SetAnimation(100, true);
 		gate_animation.ToggleAnimation();
 	}
 
