@@ -46,17 +46,13 @@ namespace game_framework {
 			}
 			
 		}
-		for (int i = 0;i < 3;i++) {
+		for (int i = 0;i < 4;i++) {
 			darkmask[i].load({"img/mapmask0.bmp","img/mapmask1.bmp"}, default_C);
 			darkmask[i].SetState(DarkRoomEffect::dark);
 
 		}
 		tmpvec.clear();
 		// main character
-		for (int i = 0;i < 103;i++) {
-			tmpvec.push_back("img/gate_oni_animation/" + to_string(i) + ".bmp");
-		}
-		bar_animation.LoadBitmapByString(tmpvec);
 		vector<string> humans = { "hiroshi_move/Hiroshi_","mika_move/Mika_","takeshi_move/Takeshi_","takuro_move/Takuro_" };
 		vector<string> playervec;
 		for (int k = 0; k < 4; k++) {
@@ -280,6 +276,8 @@ namespace game_framework {
 		// map link data
 		router.init();
 		router.Load("map_bmp/maplink.txt");
+		// end dialog
+		clear_game.SetFigure("none");
 		// audio
 		audio_control.resize(12);
 		CAudio::Instance()->Load(AUDIO_BROKEN_DISH, "Audio/USE/broken_dish.wav");
@@ -351,11 +349,9 @@ namespace game_framework {
 		darkmask[3].SetShow(false);
 		//redChair.Reset();
 		
-		oni_eat.SetAnimation(1, true);
+		oni_eat.SetAnimation(100, true);
 		oni_eat.ToggleAnimation();
 		
-		bar_animation.SetAnimation(100, true);
-		bar_animation.ToggleAnimation();
 		router.SetAllPathTrue();
    		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
@@ -428,6 +424,8 @@ namespace game_framework {
 		base0_kabe.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 		gate_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 		closet_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		gate_animation.SetAnimation(97, true);
+		gate_animation.ToggleAnimation();
 	}
 
 	void CGameStateRun::OnMove()
@@ -926,6 +924,9 @@ namespace game_framework {
 				isdebugmode = !isdebugmode;
 			}
 			if (nChar == KEY_Q) {
+				for (int i = 0; i < 12; i++) {
+					CAudio::Instance()->Stop(i);
+				}
 				GotoGameState(GAME_STATE_OVER);
 			}
 			switch (_nowID) {
@@ -1028,7 +1029,7 @@ namespace game_framework {
 				}
 				if (_final && nChar == VK_SPACE) {
 					clear_game.SetShow(false);
-					CAudio::Instance()->Play(AUDIO_THE_END, true);
+					CAudio::Instance()->Stop(AUDIO_THE_END);
 					GotoGameState(GAME_STATE_INIT);
 				}
 				break;
@@ -1319,7 +1320,7 @@ namespace game_framework {
 				/* call oni open closet animation */
 				audio_control.at(AUDIO_ONI_OPEN_CLOSET) = true;
 				closet_animation.ToggleAnimation();
-				closet_animation.SetAnimation(30, true);
+				closet_animation.SetAnimation(29, true);
 				CAudio::Instance()->Stop(AUDIO_HOROR);
 				CAudio::Instance()->Play(AUDIO_ONI_OPEN_CLOSET, false);
 			}
@@ -1365,7 +1366,7 @@ namespace game_framework {
 	void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		player.OnKeyUp(nChar);
-		if (!_in_interface && _killtimes < 7 && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
+		if (!_final && !_in_interface && _killtimes < 7 && (nChar == VK_SPACE || nChar == VK_UP || nChar == VK_RIGHT || nChar == VK_LEFT || nChar == VK_DOWN)) {
 			player.CheckMapChangeTN(gamemaps.at(_nowID), router, _nowID, blockTeleportCor, game_interface);
 		}
 		if (player.IsDoorLock() && events.at(DOOR_LOCKED_E).IsTriggered() && nChar == VK_SPACE) {
@@ -1661,7 +1662,6 @@ namespace game_framework {
 						&& items.at(CLOSET_MIKA_OUT).IsPick() && !normal_oni.IsShow() && !_final && !audio_control.at(AUDIO_THE_END)) {
 						game_interface.DeleteItem("???");
 						audio_control.at(AUDIO_THE_END) = true;
-						clear_game.SetFigure("none");
 						clear_game.SetParam({ "finally, i get out of here",
 							"but mika was become oni...",
 							"i hope takesi, takuro can escape here",
@@ -2007,10 +2007,12 @@ namespace game_framework {
 			}
 			if (_piano_hint_show) {
 				piano_hint.ShowBitmap();
-				if (!pwds.at(piano).IsShow()) {
-					pwds.at(piano).SetShow(true);
+				if (player.GetDirection() == Entity::up) {
+					if (!pwds.at(piano).IsShow()) {
+						pwds.at(piano).SetShow(true);
+					}
+					pwds.at(piano).ShowTotal();
 				}
-				pwds.at(piano).ShowTotal();
 			}
 			break;
 		case 18:
@@ -2065,9 +2067,11 @@ namespace game_framework {
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
+					if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
+						deadbody.ShowBitmap();
+					}
 					for (int j = 0; j < 3; j++) {
 						if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
-							deadbody.ShowBitmap();
 							if (!oni_eat.IsAnimationDone()) {
 								oni_eat.ShowBitmap();
 								normal_oni.SetPos(12 * TILE, 13 * TILE);
@@ -2188,7 +2192,6 @@ namespace game_framework {
 					CAudio::Instance()->Stop(AUDIO_HOROR);
 					CAudio::Instance()->Play(AUDIO_GATE_ONI, false);
 				}
-				gate_animation.SetAnimation(100, true);
 				gate_animation.ShowBitmap();
 				_bar_animation_show = true;
 			}

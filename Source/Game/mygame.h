@@ -247,7 +247,6 @@ namespace game_framework {
 		bool _use_f_screwdriver;
 		bool _use_handkerchief;
 
-		CMovingBitmap bar_animation;
 		vector<bool> audio_control;
 		Dialog clear_game;
 		CMovingBitmap house1_map;
