@@ -3,38 +3,38 @@ namespace game_framework {
 	class Item : public Entity {
 	public:
 		enum ItemName {
-			lib_book,					 //v
-			key_lib,					 //v
-			key_3F_L,					 //v
+			lib_book,
+			key_lib,
+			key_3F_L,
 			key_2F_TL, //need password
-			key_basement,				 //v
+			key_basement,
 			key_jail, //on chair
 			key_annexe, //need password
-			broken_dish,				 //v
-			tub_once,					 //v
-			phillips, //screwdriver		 //v
-			tub_fixed,					 //v
+			broken_dish,
+			tub_once,
+			phillips, //screwdriver
+			tub_fixed,
 			flathead, //screwdriver on chair
-			lighter,					 //v
+			lighter,
 			oil, //on chair
-			handkerchief,				 //v
-			detergent, //wash			 //v
-			door_knob,					 //v
+			handkerchief,
+			detergent, //wash
+			door_knob,
 			door_no_knob, //use item
-			tatami_l,					 //v
-			tatami_r,					 //v
-			gate,						 //v
-			toilet,						 //v
-			bed,						 //v
-			bookcase_l,					 //v
-			bookcase_r,					 //v
-			white_bookcase,				 //v
-			bookcase_map21,			     //v
-			closet_shake,				 //v need event
-			closet_takesi_0, // open	 //v
-			closet_takesi_1, // shaking  //v
-			closet_hirosi_R,			 //v
-			closet_hirosi_L,			 //v
+			tatami_l,
+			tatami_r,
+			gate,
+			toilet,
+			bed,
+			bookcase_l,
+			bookcase_r,
+			white_bookcase,
+			bookcase_map21,
+			closet_shake, // need event
+			closet_takesi_0, // open
+			closet_takesi_1, // shaking
+			closet_hirosi_R,
+			closet_hirosi_L,
 			closet_mika_out, // oni
 			door_oni, // event
 			door_open, // event

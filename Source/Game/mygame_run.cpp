@@ -53,10 +53,6 @@ namespace game_framework {
 		}
 		tmpvec.clear();
 		// main character
-		for (int i = 0;i < 103;i++) {
-			tmpvec.push_back("img/gate_oni_animation/" + to_string(i) + ".bmp");
-		}
-		bar_animation.LoadBitmapByString(tmpvec);
 		vector<string> humans = { "hiroshi_move/Hiroshi_","mika_move/Mika_","takeshi_move/Takeshi_","takuro_move/Takuro_" };
 		vector<string> playervec;
 		for (int k = 0; k < 4; k++) {
@@ -354,8 +350,6 @@ namespace game_framework {
 		oni_eat.SetAnimation(1, true);
 		oni_eat.ToggleAnimation();
 		
-		bar_animation.SetAnimation(100, true);
-		bar_animation.ToggleAnimation();
 		router.SetAllPathTrue();
    		objs.at(house1_2F_TR_chair).Reset();
 		objs.at(house1_2F_TR_chair).SetPreX(objs.at(house1_2F_TR_chair).GetPosX());
@@ -428,6 +422,8 @@ namespace game_framework {
 		base0_kabe.SetTopLeft(2 * TILE + TILE / 2, 6 * TILE);
 		gate_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
 		closet_animation.SetTopLeft(2 * TILE + TILE / 2, 5 * TILE);
+		gate_animation.SetAnimation(100, true);
+		gate_animation.ToggleAnimation();
 	}
 
 	void CGameStateRun::OnMove()
@@ -926,6 +922,9 @@ namespace game_framework {
 				isdebugmode = !isdebugmode;
 			}
 			if (nChar == KEY_Q) {
+				for (int i = 0; i < 12; i++) {
+					CAudio::Instance()->Stop(i);
+				}
 				GotoGameState(GAME_STATE_OVER);
 			}
 			switch (_nowID) {
@@ -2067,7 +2066,9 @@ namespace game_framework {
 			for (int i = 1; i < gamemaps.at(_nowID).GetLayer(); i++) {
 				gamemaps.at(_nowID).ShowMap(i);
 				if (i == mapoverlayindex.at(i)) {
-					deadbody.ShowBitmap();
+					if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
+						deadbody.ShowBitmap();
+					}
 					for (int j = 0; j < 3; j++) {
 						if (!events.at(MIKA_TO_ONI_E).IsTriggered() && !events.at(MIKA_DEAD_E).IsTriggered() && events.at(OPEN_BASEMENT_E).IsTriggered()) {
 							if (!oni_eat.IsAnimationDone()) {
@@ -2190,7 +2191,6 @@ namespace game_framework {
 					CAudio::Instance()->Stop(AUDIO_HOROR);
 					CAudio::Instance()->Play(AUDIO_GATE_ONI, false);
 				}
-				gate_animation.SetAnimation(100, true);
 				gate_animation.ShowBitmap();
 				_bar_animation_show = true;
 			}
